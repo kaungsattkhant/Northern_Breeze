@@ -18,28 +18,31 @@ class MemberController extends Controller
     }
     public function store(Request $request)
     {
-        $vData=Validator::make($request->all(),[
-            'name'=>'required',
-            'company'=>'required',
-            'dob'=>'required',
-            'address'=>'required',
-            'phone_number'=>'required',
-            'email'=>'required',
-            'state'=>'required',
-            'exchange_type'=>'required',
-            'member_type'=>'required',
-        ]);
+//        $vData=Validator::make($request->all(),[
+//            'name'=>'required',
+//            'company'=>'required',
+//            'dob'=>'required',
+//            'address'=>'required',
+//            'phone_number'=>'required',
+//            'email'=>'required',
+//            'state'=>'required',
+//            'exchange_type'=>'required',
+//            'member_type'=>'required',
+//        ]);
+
         $member=new Member();
         $member->name=$request->name;
         $member->company=$request->name;
-        $member->dob=$request->dob;
+        $member->date_of_birth=$request->dob;
         $member->address=$request->address;
         $member->phone_number=$request->phone_number;
         $member->email=$request->email;
-        $member->state=$request->state;
-        $member->exchange_type=$request->exchange_type;
-        $member->member_type=$request->member_type;
+        $member->exchange_type_id=$request->exchange_type;
+        $member->member_type_id=$request->member_type;
         $member->save();
+        return response()->json([
+            'success'=>true,
+        ]);
     }
     public function non_member()
     {

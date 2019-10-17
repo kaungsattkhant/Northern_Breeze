@@ -13,7 +13,7 @@
 
                 <button type="button" class="btn fontsize-mount2 text-color-mount px-4" onclick="sortTable(0)">Name</button>
             </div>
-            <button type="button" class="btn btn-nb-mount px-4 my-auto mr-5 fontsize-mount2"  data-toggle="modal" data-target="#add"> Add </button>
+            <button type="button" class="btn btn-nb-mount px-4 my-auto mr-5 fontsize-mount2"  data-toggle="modal" data-target="#create"> Add </button>
         </div>
         <div class="pt-5">
             <table class="table bg-white box-shadow-mount rounded-table-mount"  id="myTable">
@@ -51,5 +51,8 @@
     @include('Member.create')
     @include('Member.edit')
     @include('Member.destroy')
+    @endsection
+@section('script')
+    <script src="{{asset('js/member.js')}}"></script>
     @endsection
 

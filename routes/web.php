@@ -29,6 +29,7 @@ Route::group(['middleware'=>['staffCheck']],function() {
             Route::get('/','MemberController@index');
             Route::get('/non_member','MemberController@non_member');
             Route::get('/create','MemberController@create');
+            Route::post('/store','MemberController@store');
             Route::get('/edit','MemberController@edit');
         });
         Route::group(['prefix'=>'sale'],function(){

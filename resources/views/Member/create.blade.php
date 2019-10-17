@@ -1,4 +1,4 @@
-<div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="add" aria-hidden="true">
+<div class="modal fade" id="create" tabindex="-1" role="dialog" aria-labelledby="add" aria-hidden="true">
     <div class="modal-dialog " role="document" style="width: 500px;">
         <div class="modal-content ">
             <div class="modal-body mx-3">
@@ -61,7 +61,7 @@
 
                     <div class="m-button">
                         <button type="button" class="btn text-primary " data-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn text-primary pl-1 pr-0" id="member_store">Save</button>
+                        <button type="button" class="btn text-primary pl-1 pr-0" id="memberForm">Save</button>
                     </div>
                 </form>
             </div>
