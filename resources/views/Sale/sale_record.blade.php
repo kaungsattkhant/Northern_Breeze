@@ -1,6 +1,6 @@
 @extends('Layouts.master')
 @section('content')
-    <div class="container-nb-mount">
+    <<div class="container-nb-mount">
         <div class="d-flex justify-content-between top-box-mount shadow-sm">
             <div  class="my-auto btnzz ml-4">
                 <div class="d-inline">

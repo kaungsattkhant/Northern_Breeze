@@ -19,6 +19,7 @@
             <table class="table bg-white box-shadow-mount rounded-table-mount"  id="myTable">
                 <thead>
                 <tr>
+
                     <th scope="col" class="border-bottom-0 border-top-0 fontsize-mount6" >Name</th>
                     <th scope="col" class="border-bottom-0 border-top-0 fontsize-mount6">Admin Role</th>
                     <th scope="col" class="border-bottom-0 border-top-0 text-center fontsize-mount6">Action</th>
@@ -27,6 +28,7 @@
                 <tbody>
                 @foreach($admins as $admin)
                     <tr>
+                        <td class="table-row-m fontsize-mount">1</td>
                         <td scope="row" class="table-row-m fontsize-mount">{{$admin->name}}</td>
                         <td class="table-row-m fontsize-mount">{{$admin->role->name}}</td>
                         <td class="table-row-m text-center">
@@ -43,7 +45,6 @@
                 </tbody>
             </table>
         </div>
-
     </div>
     @include('Admin.create')
     @include('Admin.edit')

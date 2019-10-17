@@ -65,7 +65,10 @@ button.fontsize-mount{
     font-size: 14px !important;
     font-weight:500;
     font-family: 'Roboto',sans-serif;
-
+}
+.fontsize-mount22{
+    font-size: 14px !important;
+    font-family: 'Roboto',sans-serif;
 }
 .fontsize-mount3{
     font-size: 13px !important;
@@ -105,6 +108,7 @@ button.fontsize-mount{
   }*/
 .btn-mount:hover,.active2{
     box-shadow: 2px 2px 7px #f6477286,2px 2px 9px #aaa;
+
     background: linear-gradient( to bottom right,#f98244,#f64772);
     color: white !important;
     border-radius: 10px;
@@ -132,16 +136,19 @@ input[type="text"]:focus{
 input[type="text"]{
     color: #6c757d!important;
 }
-/*input[type="text"]:active{
-	box-shadow: none;
-	outline: none;
-	background-color: white;
+textarea[type="text"]{
+    color: #6c757d !important;
 }
-input[type="email"]:active{
-	box-shadow: none;
-	outline: none;
-	background-color: white;
-}*/
+textarea[type="text"]:focus{
+    outline: none !important;
+    box-shadow: none;
+}
+.mount-input select{
+    color: #6c757d;
+}
+.mount-input2 select{
+    color: #6c757d;
+}
 input:focus{
     outline: none;
 }
@@ -166,12 +173,26 @@ input:focus{
     height: 78px;
     width: 100%;
 }
+.bs-mount{
+    box-shadow: 2px 2px 5px #f6477286,1px 1px 3px #aaa;
+}
 .btn-nb-mount{
     background: linear-gradient( to bottom right,#f98244,#f64782);
     height: 40px;
     color: #fff !important;
     border-radius: 8px !important;
     box-shadow: 2px 2px 5px #f6477286,1px 1px 3px #aaa;
+
+}
+.text-asdf{
+    color: #f98244 !important;
+}
+.btn-nb-mount2{
+    background: linear-gradient( to bottom right,#f98244,#f64782);
+    height: 33px;
+    color: #fff !important;
+    border-radius: 8px !important;
+    /*box-shadow: 2px 2px 5px #f6477286,1px 1px 3px #aaa;*/
 
 }
 .text-color-mount123{
@@ -214,14 +235,14 @@ input:focus{
     color: #444;
     outline: none;
     text-decoration: none;
-    font-size: 18px;
+    font-size: 18;
     font-family: 'Roboto',sans-serif;
 }
 .text-a-mount:hover{
     color: #111;
     outline: none;
     text-decoration: none;
-    font-size: 18px;
+    font-size: 18;
 
 }
 .text-color-mount2{
@@ -365,6 +386,10 @@ input:focus{
 .rounded-table-mount{
     border-radius: 10px;
 }
+.btr-mount{
+    border-top-right-radius: 10px !important;
+    border-top-left-radius: 10px !important;
+}
 .table-row-m{
     vertical-align: middle !important;
     /*padding: .5rem !important;*/
@@ -384,9 +409,16 @@ input:focus{
     width: 200px;
     text-align: right;
 }
+
 .mount-input{
     display: inline !important;
     width: 300px !important;
+    position: absolute;
+    right: 0;
+}
+.mount-input2{
+    display: inline !important;
+    width: 230px !important;
     position: absolute;
     right: 0;
 }
@@ -440,4 +472,11 @@ select:focus{
     font-size: 16px;
     font-weight: 600;
     font-family: 'Roboto',sans-serif;
+}
+.modal-title-bg{
+    background: linear-gradient( to bottom right,#f98244,#f64772);
+    color: white !important;
+}
+.bd-bottom-mount{
+    border-bottom: 1px solid #ced4da;
 }

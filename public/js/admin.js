@@ -4,10 +4,11 @@ $(document).ready(function(){
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-    $('#admin_edit').hide();
-    $('#admin_create').hide();
+    // $('#admin_edit').hide();
+    // $('#admin_create').hide();
 
     $('#submitForm').click( function(event) {
+        alert('success')
         var password = $("#password").val();
         var name=$('#name').val();
         var password_confirmation= $("#password_confirmation").val();

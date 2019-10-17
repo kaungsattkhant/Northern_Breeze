@@ -35,7 +35,6 @@ class AdminController extends Controller
           'is_success'=>true,
           'message'=>'Successfully',
       ]);
-
     }
     public function destroy(Request $request)
     {
