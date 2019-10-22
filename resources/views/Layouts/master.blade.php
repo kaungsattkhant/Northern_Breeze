@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="{{asset('css/bootstrap.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('fontawesome/css/all.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('css/main.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('css/datepicker.min.css')}}">
 </head>
 <body>
 <div class="overall-container-mount">
@@ -19,6 +20,8 @@
 {{--<script src="https://code.jquery.com/jquery-3.4.1.js"></script>--}}
 <script src="{{asset('js/jquery.js')}}"></script>
 <script src="{{asset('js/bootstrap.min.js')}}"></script>
+<link rel="stylesheet" type="text/css" href="{{asset('js/datepicker.min.js')}}">
+
 
 @yield('script')
 {{--<script>--}}

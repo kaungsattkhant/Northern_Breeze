@@ -20,7 +20,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="#ex123" class="w-50">D.O.B</label>
-                        <input type="text" id="dob" name="dob" class="border-top-0 border-right-0 border-left-0 rounded-0 mount-input">
+                        <input type="text" id="dob" name="dob" class="border-top-0 border-right-0 border-left-0 rounded-0 mount-input" data-toggle="datepicker">
                     </div>
 
                     <div class="mb-3">
