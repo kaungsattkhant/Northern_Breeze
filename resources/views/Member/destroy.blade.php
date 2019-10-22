@@ -1,4 +1,4 @@
-<div class="modal fade" id="Delete" tabindex="-1" role="dialog" aria-labelledby="Delete" aria-hidden="true">
+<div class="modal fade" id="destroy" tabindex="-1" role="dialog" aria-labelledby="Delete" aria-hidden="true">
     <div class="modal-dialog modal-dialog" role="document" style="width: 350px;">
         <div class="modal-content">
 
@@ -12,7 +12,7 @@
 
                 <div class="m-button">
                     <button type="button" class="btn  text-primary " data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn  text-primary px-0">Delete</button>
+                    <button type="button" class="btn px-0 del-mount">Delete</button>
                 </div>
             </div>
         </div>

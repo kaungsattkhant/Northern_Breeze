@@ -1,15 +1,29 @@
 @extends('Layouts.master')
 @section('content')
+
     <div class="container-nb-mount">
         <div class="d-flex justify-content-between top-box-mount shadow-sm">
-            <div  class="my-auto btnzz ml-4  dropdown">
-                <button type="button" class="btn mr-5 dropdown-toggle fontsize-mount6 pl-3 text-color-mount " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Roles&nbsp;<i class="fas fa-chevron-down text-color-mount2 pl-1"></i></button>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">One</a>
-                    <a class="dropdown-item" href="#">Two</a>
-                    <a class="dropdown-item" href="#">Three</a>
+            <div  class="my-auto btnzz ml-4">
+                <div class="d-inline">
+                    <button type="button" class="btn mr-5 dropdown-toggle fontsize-mount6 pl-4 text-color-mount" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Member Roles&nbsp;<i class="fas fa-chevron-down text-color-mount2 pl-1"></i></button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">One</a>
+                        <a class="dropdown-item" href="#">Two</a>
+                        <a class="dropdown-item" href="#">Three</a>
+                    </div>
                 </div>
-                <button type="button" class="btn fontsize-mount6 text-color-mount px-4" onclick="sortTable(0)">Name</button>
+
+                <div class="d-inline">
+                    <button type="button" class="btn fontsize-mount6 text-color-mount pl-3 pr-2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Branch&nbsp;<i class="fas fa-chevron-down text-color-mount2 pl-1"></i>
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">IN</a>
+                        <a class="dropdown-item" href="#">OUT</a>
+                        <a class="dropdown-item" href="#">ALL</a>
+                    </div>
+                </div>
+                <input type="text" name="name" placeholder=" Name..." class="fontsize-mount2 border-0 ml-5" style="background-color: #eeeeee;border-radius: 8px;height: 29px;">
             </div>
             <button type="button" class="btn btn-nb-mount px-4 my-auto mr-5 fontsize-mount2"  data-toggle="modal" data-target="#create"> Add </button>
         </div>
@@ -46,6 +60,7 @@
             {{$staff->links()}}
         </div>
     </div>
+
     @include('Staff.create')
     @include('Staff.edit')
     @include('Staff.destroy')

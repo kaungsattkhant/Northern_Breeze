@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 
 class SaleController extends Controller
 {
-    public function sale_record()
+    public function index()
     {
         return view('Sale.sale_record');
     }

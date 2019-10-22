@@ -12,7 +12,7 @@
 
                 <div class="m-button">
                     <button type="button" class="btn  text-primary " data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn  text-primary px-0">Delete</button>
+                    <button type="button" class="btn  text-primary px-0 del-mount">Delete</button>
                 </div>
             </div>
         </div>
