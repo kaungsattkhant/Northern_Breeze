@@ -86,14 +86,15 @@
              </table>
          </div>
      </div>
+    <script>
+        $(function(){
+            $("#stock a").addClass("active-si");
+
+            $("#stock").addClass("active2");
+
+        });
+    </script>
 
     @include('Stock.detail_stock')
      @endsection
-<script>
-    $(function(){
-        $("#stock a").addClass("active-sr");
 
-        $("#stock").addClass("active2");
-
-    });
-</script>

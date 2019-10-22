@@ -200,7 +200,14 @@
         </div>
 
     @include('Member.save')
+        <script>
+            $(function(){
+                $("#pos .img-pos").addClass("active-pos");
 
+                $("#pos").addClass("active2");
+
+            });
+        </script>
 
 
 @endsection

@@ -177,6 +177,13 @@
 
 @include('Stock.save')
 
+        <script>
+            $(function(){
+                $("#stock a").addClass("active-si");
 
+                $("#stock").addClass("active2");
+
+            });
+        </script>
 
 @endsection

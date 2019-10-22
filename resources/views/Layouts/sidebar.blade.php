@@ -5,9 +5,9 @@
                 <div class=" mt-0 px-auto "><p class="sb-text">POS &nbsp; <i class="fas fa-chevron-down"></i></p></div>
 
             </a>
-            <div class="dropdown-menu dp-mount">
-                <a class="dropdown-item" href="{{url('non_member')}}">Non-Member</a>
-                <a class="dropdown-item" href="{{url('pos_member')}}">Member</a>
+            <div class="dropdown-menu dp-mount" id="menu">
+                <a class="dropdown-item" href="{{url('non_member')}}" >Non-Member</a>
+                <a class="dropdown-item" href="{{url('pos_member')}}" >Member</a>
 
             </div>
 

@@ -1,8 +1,11 @@
 <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document" style="width: 450px;">
-        <div class="modal-content ">
-            <div class="modal-body mx-3">
-                <h5 class="mount-modal-title text-center mb-4" id="exampleModalLongTitle">Edit Admin</h5>
+    <div class="modal-dialog modal-dialog-centered" role="document" style="width: 480px;">
+        <div class="modal-content border-0 btr-mount">
+            <div class="modal-header modal-title-bg text-center pb-1 border-0 btr-mount">
+                <h5 class="text-center mx-auto" id="exampleModalLongTitle">Edit Staff</h5>
+            </div>
+            <div class="modal-body mx-5 px-0">
+
                 <button type="button" class="close x-button-mount" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -42,9 +45,9 @@
                     <span class="text-danger">
                                     <strong id="role-error1"></strong>
                                 </span>
-                    <div class="m-button">
-                        <button type="button" class="btn text-primary " data-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn text-primary pl-1 pr-0" id="submitForm1">Save</button>
+                    <div class="m-button pt-3">
+                        <button type="button" class="btn btn-nb-mount2 px-3 pt-0 pb-0 mr-4 shadow-0 fontsize-mount22" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-nb-mount2 fontsize-mount22 px-3">Save</button>
                     </div>
                 </form>
             </div>

@@ -2,6 +2,7 @@
 @import url('https://fonts.googleapis.com/css?family=Padauk&display=swap');
 *{
     box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
 }
 
 .overall-container-mount{
@@ -568,4 +569,9 @@ select::after{
     color: red !important;
     text-decoration: none;
     outline: none;
+}
+.input-name{
+    background-color: #eeeeee;
+    border-radius: 8px;
+    height: 29px;
 }

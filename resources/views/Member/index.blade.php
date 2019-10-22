@@ -9,7 +9,7 @@
                     <option>1111</option>
                     <option>22222</option>
                 </select>
-                <input type="text" name="name" placeholder=" Name..." class="fontsize-mount2 border-0 ml-5" style="background-color: #eeeeee;border-radius: 8px;height: 29px;">
+                <input type="text" name="name" placeholder="Name..." class="fontsize-mount2 border-0 ml-5 pl-2 input-name">
             </div>
             <button type="button" class="btn btn-nb-mount px-4 my-auto mr-5 fontsize-mount2"  data-toggle="modal" data-target="#create"> Add </button>
         </div>
@@ -50,6 +50,14 @@
     @include('Member.create')
     @include('Member.edit')
     @include('Member.destroy')
+    <script>
+        $(function(){
+            $("#member a").addClass("active-m");
+
+            $("#member").addClass("active2");
+
+        });
+    </script>
     @endsection
 @section('script')
     <script src="{{asset('js/member.js')}}"></script>
