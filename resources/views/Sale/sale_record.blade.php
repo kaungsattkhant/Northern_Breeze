@@ -97,6 +97,14 @@
                 </tbody>
             </table>
         </div>
+{{--        <button id="fk">s</button>--}}
     </div>
+<script>
+    $(function(){
+        $("#sr a").addClass("active-sr");
 
+        $("#sr").addClass("active2");
+
+    });
+</script>
     @endsection
