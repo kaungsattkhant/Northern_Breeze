@@ -24,6 +24,17 @@
     background-color: #f1f1f1;
     clear: both;
 }
+@media only screen and (min-height: 600px){
+    .overall-container-mount3{
+        height: 100vh;
+    }
+}
+
+/*@media (max-height:400px) {*/
+/*    .overall-container-mount{*/
+/*        min-height: 200vh!important;*/
+/*    }*/
+/*}*/
 html,body {
 
     height:100%;
@@ -476,6 +487,19 @@ input:focus{
     width: 230px !important;
     position: absolute;
     right: 0;
+}
+.mount-input3{
+    display: inline !important;
+    width: 220px !important;
+    position: absolute;
+    right: 20px;
+}
+.mount-input4{
+    display: inline-block !important;
+    width: 220px !important;
+    position: relative;
+    /*left: 50px;*/
+    right: 0px;
 }
 .m-button{
     display: flex;

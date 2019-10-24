@@ -73,3 +73,8 @@ Route::get('/transfer_stock',function()
 {
     return view('Stock.transfer');
 });
+Route::get('/currency',function()
+{
+    return view('Currency.index');
+});
+
