@@ -8,14 +8,16 @@ $(document).ready(function(){
     $('#createMessage').hide();
 
     $('#memberForm').click( function(event) {
-        // alert('success')
         var name = $("#name").val();
         var company=$('#company').val();
         var address= $("#address").val();
-        var dob= $("#dob").val();
+        // var dob= $("#dob").val();
+        var years=$('#years').val();
+        var days=$('#days').val();
+        var months=$('#months').val();
         var phone_number=$('#phone_number').val();
         var email=$('#email').val();
-        var state=$('#state').val();
+        // var state=$('#state').val();
         var exchange_type=$('#exchange_type').val();
         var member_type=$('#member_type').val();
         // $('#company-error').html("");
@@ -36,9 +38,10 @@ $(document).ready(function(){
                 email:email,
                 company:company,
                 address:address,
-                dob:dob,
+                days:days,
+                months:months,
+                years:years,
                 phone_number:phone_number,
-                state:state,
                 exchange_type:exchange_type,
                 member_type:member_type,
             },
@@ -72,47 +75,60 @@ $(document).ready(function(){
             },
         });
     });
-    $('#submitForm1').click(function(event){
+    $('#memberForm1').click(function(event){
         var email = $("#email1").val();
         var name = $("#name1").val();
         var phone_number=$('#phone_number1').val();
+        var company=$('#company1').val();
+        var address=$('#address1').val();
+        var months=$('#Emonths').val();
+        var years=$('#Eyears').val();
+        var days=$('#Edays').val();
         var id=$('#id').val();
-        $('#phone_number-error1').html("");
-        $('#show-success').html("");
-        $('#email-error1').html("");
+        var exchange_type=$('#exchange_type1').val();
+        var member_type=$('#member_type1').val();
+        // $('#phone_number-error1').html("");
+        // $('#show-success').html("");
+        // $('#email-error1').html("");
         event.preventDefault();
         $.ajax({
-            url:'admin/update',
+            url:'member/update',
             type:'POST',
             data:{
                 id:id,
                 name:name,
                 email:email,
+                company:company,
+                address:address,
+                days:days,
+                months:months,
+                years:years,
                 phone_number:phone_number,
+                exchange_type:exchange_type,
+                member_type:member_type,
             },
             success:function(data)
             {
                 if(data.errors)
                 {
-                    if(data.errors.name){
-                        $( '#name-error1' ).html( data.errors.name[0] );
-                    }
-                    if(data.errors.email){
-                        $( '#email-error1' ).html( data.errors.email[0] );
-                    }
-                    if(data.errors.phone_number){
-                        $( '#phone_number-error1' ).html( data.errors.phone_number[0] );
-                    }
+                    // if(data.errors.name){
+                    //     $( '#name-error1' ).html( data.errors.name[0] );
+                    // }
+                    // if(data.errors.email){
+                    //     $( '#email-error1' ).html( data.errors.email[0] );
+                    // }
+                    // if(data.errors.phone_number){
+                    //     $( '#phone_number-error1' ).html( data.errors.phone_number[0] );
+                    // }
                 }
                 if(data.success==true)
                 {
                     // $('#editAdmin').delay(300).modal('toggle');
-                    $('#admin_edit').show();
+                    $('#editMessage').show();
                     $( "#success1" ).html(data.message);
                     setTimeout(function() {
-                        $('#editAdmin').modal('hide');
+                        $('#edit').modal('hide');
                         setTimeout(location.reload.bind(location));
-
                     }, 1000);
                 }
             },
@@ -159,3 +175,42 @@ $(document).ready(function(){
 
     });
 });
+function deleteMember($id)
+{
+    $('#delete_id').val($id);
+    $('#destroy').modal.show();
+
+}
+
+
+function editMember($id)
+{
+    $.ajax({
+        url:'member/'+$id+'/edit',
+        date:'get',
+        dataType:'json',
+        success:function (data) {
+            var dob=data.date_of_birth;
+            var years=dob.slice(0,4);
+            var months=parseInt(dob.slice(5,7));
+            var days=parseInt(dob.slice(8,10));
+            $('#id').val(data.id);
+            $('#name1').val(data.name);
+            $('#company1').val(data.company);
+            $('#address1').val(data.address);
+            $('#phone_number1').val(data.phone_number);
+            $('#email1').val(data.email);
+            $('#member_type1 option').prop('selected',false);
+            $('#member_type1 option[value="'+data.member_type_id+'"]').prop('selected',true);
+            $('#exchange_type1 option').prop('selected',false);
+            $('#exchange_type1 option[value="'+data.exchange_type_id+'"]').prop('selected',true);
+            $('#Eyears option').prop('selected',false);
+            $('#Eyears option[value="'+years+'"]').prop('selected',true);
+            $('#Emonths option').prop('selected',false);
+            $('#Emonths option[value="'+months+'"]').prop('selected',true);
+            $('#Edays option').prop('selected',false);
+            $('#Edays option[value="'+days+'"]').prop('selected',true);
+            $('#edit').modal('show');
+        }
+    })
+}

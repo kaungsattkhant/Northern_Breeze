@@ -6,6 +6,7 @@ use App\Model\Role;
 use App\Model\Staff;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
 
 class StaffController extends Controller
@@ -74,5 +75,27 @@ class StaffController extends Controller
             'errors'=>$vData->errors(),
         ]);
 
+    }
+    public function role_filter($id)
+    {
+//        return response()->json($id);
+        $staff=Staff::where('role_id','=',$id)->get();
+        $role_filter=view('Staff.role_filter',compact('staff'));
+        return $role_filter;
+    }
+    public function search(Request $request)
+    {
+        $name=Input::get('name');
+        if($request->has('name'))
+        {
+            $staff=Staff::with('role')->where('name','LIKE','%'.$name.'%')->paginate(10);
+            return view('Staff.index',compact('staff','roles'));
+        }
+    }
+    public function destroy(Request $request)
+    {
+        $staff=Staff::find($request->id);
+        $staff->delete();
+        return redirect('/staff');
     }
 }

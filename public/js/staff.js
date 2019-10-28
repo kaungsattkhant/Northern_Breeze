@@ -4,6 +4,8 @@ $(document).ready(function(){
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+    // $("#staff_filter").select2();
+
     $('#editMessage').hide();
     $('#createMessage').hide();
 
@@ -149,4 +151,9 @@ $(document).ready(function(){
         });
 
     });
+
 });
+function deleteStaff($id) {
+    $('#delete_id').val($id);
+    $('#delete').modal('show');
+}

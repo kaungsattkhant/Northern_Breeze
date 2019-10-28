@@ -7,7 +7,11 @@ use App\Http\Controllers\Controller;
 
 class StockController extends Controller
 {
-    public function stock_inventory()
+    public function index()
+    {
+        return view('Stock.new');
+    }
+    public function create()
     {
         return view('Stock.stock_inventory');
     }

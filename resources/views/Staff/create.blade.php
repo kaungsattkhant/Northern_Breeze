@@ -1,8 +1,11 @@
     <div class="modal fade" id="create" tabindex="-1" role="dialog" aria-labelledby="add" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document" style="width: 450px;">
-            <div class="modal-content ">
-                <div class="modal-body mx-3">
-                    <h5 class="mount-modal-title text-center mb-4" id="exampleModalLongTitle">Add New Staff</h5>
+        <div class="modal-dialog modal-dialog-centered" role="document" style="width: 490px;">
+            <div class="modal-content border-0 btr-mount">
+                <div class="modal-header modal-title-bg text-center pb-1 border-0 btr-mount">
+                    <h5 class="text-center mx-auto" id="exampleModalLongTitle">Add New Staff</h5>
+                </div>
+                <div class="modal-body mx-5 px-0">
+
                     <button type="button" class="close x-button-mount" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -32,8 +35,8 @@
                                     <strong id="password-error"></strong>
                                 </span>
                         </div>
-                        <div class="mb-3 {{$errors->has('password_confirmation') ? 'has:error':''}}">
-                            <label for="#pass123" class="w-25">Password_confirmation</label>
+                        <div class="mb-1 {{$errors->has('password_confirmation') ? 'has:error':''}}">
+                            <label for="#pass123" class="w-25">Password<br><small>(confirmation)</small></label>
                             <input type="password" id="password_confirmation" class="border-top-0 border-right-0 border-left-0 rounded-0 mount-input">
                             <span class="text-danger">
                                     <strong id="password_confirmation-error"></strong>
@@ -52,9 +55,9 @@
                         <span class="text-danger">
                                     <strong id="role-error"></strong>
                                 </span>
-                        <div class="m-button">
-                            <button type="button" class="btn text-primary " data-dismiss="modal">Cancel</button>
-                            <button type="button" class="btn text-primary pl-1 pr-0" id="staffSubmit">Save</button>
+                        <div class="m-button pt-3">
+                            <button type="button" class="btn btn-nb-mount2 px-3 pt-0 pb-0 mr-4 shadow-0 fontsize-mount22" data-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-nb-mount2 fontsize-mount22 px-3" id="staffSubmit">Save</button>
                         </div>
                     </form>
                 </div>

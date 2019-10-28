@@ -12,22 +12,13 @@ class MemberTypeTableSeeder extends Seeder
     public function run()
     {
         \App\Model\MemberType::create([
-            'name'=>'Bronze',
-        ]);
-        \App\Model\MemberType::create([
-            'name'=>'Silver',
+            'name'=>'Starter',
         ]);
         \App\Model\MemberType::create([
             'name'=>'Gold',
         ]);
         \App\Model\MemberType::create([
-            'name'=>'Platinum',
-        ]);
-        \App\Model\MemberType::create([
-            'name'=>'Diamond',
-        ]);
-        \App\Model\MemberType::create([
-            'name'=>'Crown',
+            'name'=>'Premium',
         ]);
     }
 }

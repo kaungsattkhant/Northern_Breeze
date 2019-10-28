@@ -1,6 +1,7 @@
 @extends('Layouts.master')
 @section('content')
-    <<div class="container-nb-mount">
+
+    <div class="container-nb-mount">
         <div class="d-flex justify-content-between top-box-mount shadow-sm">
             <div  class="my-auto btnzz ml-4">
                 <div class="d-inline">
@@ -12,25 +13,28 @@
                     </div>
                 </div>
 
-                <div class="d-inline">
-                    <button type="button" class="btn fontsize-mount6 text-color-mount pl-3 pr-2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        In/Out/All&nbsp;<i class="fas fa-chevron-down text-color-mount2 pl-1"></i>
-                    </button>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">IN</a>
-                        <a class="dropdown-item" href="#">OUT</a>
-                        <a class="dropdown-item" href="#">ALL</a>
-                    </div>
-                </div>
+{{--                <div class="d-inline">--}}
+{{--                    <button type="button" class="btn fontsize-mount6 text-color-mount pl-3 pr-2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">--}}
+{{--                        In/Out/All&nbsp;<i class="fas fa-chevron-down text-color-mount2 pl-1"></i>--}}
+{{--                    </button>--}}
+{{--                    <div class="dropdown-menu">--}}
+{{--                        <a class="dropdown-item" href="#">IN</a>--}}
+{{--                        <a class="dropdown-item" href="#">OUT</a>--}}
+{{--                        <a class="dropdown-item" href="#">ALL</a>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
             </div>
-            <div class="my-auto mr-5">
-                <button type="button" class="btn btn-nb-mount mr-4 px-4 fontsize-mount" data-toggle="modal" data-target="#add">Add</button>
-                <button type="button" class="btn btn-nb-mount px-3 fontsize-mount fontsize-mount" data-toggle="modal" data-target="#Transfer">Transfer</button>
-            </div>
-            <!-- <button type="button" class="btn btn-nb-mount px-4"  data-toggle="modal" data-target="#add"> Add </button> -->
+{{--            <div class="my-auto mr-5">--}}
+{{--                <button type="button" class="btn btn-nb-mount mr-4 p-0 fontsize-mount"><a class="w-100 h-100 text-white text-decoration-none px-4 py-2" href="{{url('sale_create')}}">add</a></button>--}}
+{{--                <button type="button" class="btn btn-nb-mount px-3 fontsize-mount fontsize-mount" data-toggle="modal" data-target="#Transfer">Transfer</button>--}}
+{{--            </div>--}}
         </div>
         <div class="pt-5">
-            <table class="table bg-white box-shadow-mount rounded-table-mount"  id="myTable" >
+            <div class="mb-2">
+                <p class="mb-3 fontsize-mount17 ml-1 d-inline">Total amount exchange :</p>
+                <p class="fontsize-mount17 d-inline"> 100,100,00</p>
+            </div>
+            <table class="table bg-white box-shadow-mount rounded-table-mount mt-1"  id="myTable" >
                 <thead>
                 <tr>
                     <th scope="col" class="border-bottom-0 border-top-0 fontsize-mount6" >Currency</th>
@@ -93,6 +97,14 @@
                 </tbody>
             </table>
         </div>
+{{--        <button id="fk">s</button>--}}
     </div>
-    <p class="sr-p-mount">Total Amount Exchange : 100,000,000,00</p>
+<script>
+    $(function(){
+        $("#sr a").addClass("active-sr");
+
+        $("#sr").addClass("active2");
+
+    });
+</script>
     @endsection

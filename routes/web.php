@@ -23,14 +23,21 @@ Route::group(['middleware'=>['staffCheck']],function() {
             Route::post('/store','StaffController@store');
             Route::get('{id}/edit','StaffController@edit');
             Route::post('update','StaffController@update');
-
+            Route::get('search_name','StaffController@search');
+            Route::get('{id}/role_filter','StaffController@role_filter');
+            Route::post('destroy',  'StaffController@destroy');
         });
         Route::group(['prefix'=>'member'],function(){
             Route::get('/','MemberController@index');
             Route::get('/non_member','MemberController@non_member');
             Route::get('/create','MemberController@create');
             Route::post('/store','MemberController@store');
-            Route::get('/edit','MemberController@edit');
+            Route::get('{id}/edit','MemberController@edit');
+            Route::post('update','MemberController@update');
+            Route::get('{id}/member_type_filter','MemberController@member_type_filter');
+            Route::get('search_name','MemberController@search');
+            Route::post('destroy','StaffController@destroy');
+
         });
         Route::group(['prefix'=>'sale'],function(){
             Route::get('/','SaleController@index');
@@ -47,3 +54,29 @@ Route::group(['namespace'=>'Web'],function(){
     Route::post('login','LoginController@makeLogin');
     Route::match(['get','post'],'logout',"LoginController@logout");
 });
+
+
+//Route::get('/non_member',function()
+//{
+//    return view('Member.non_member');
+//});
+//
+//Route::get('/pos_member',function()
+//{
+//    return view('Member.pos_member');
+//});
+//
+//Route::get('/stock',function()
+//{
+//    return view('Stock.stock_inventory');
+//});
+//
+//Route::get('/create_stock',function()
+//{
+//    return view('Stock.add');
+//});
+//
+//Route::get('/transfer_stock',function()
+//{
+//    return view('Stock.transfer');
+//});
