@@ -20,7 +20,10 @@
             </div>
             <button type="button" class="btn btn-nb-mount px-4 my-auto mr-5 fontsize-mount2"  data-toggle="modal" data-target="#create"> Add </button>
         </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+
         <div class="pt-5">
+
             <table class="table bg-white box-shadow-mount rounded-table-mount"  id="myTable">
                 <thead>
                 <tr>

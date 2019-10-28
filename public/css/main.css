@@ -175,6 +175,9 @@ input[type="text"]:focus{
 input[type="text"]{
     color: #6c757d!important;
 }
+input[type="email"]{
+    color: #6c757d!important;
+}
 textarea[type="text"]{
     color: #6c757d !important;
 }
@@ -463,7 +466,7 @@ input:focus{
 }
 .img-daily{
     /*<img src="https://img.icons8.com/carbon-copy/100/000000/banknotes.png">*/
-    background-image: url("https://img.icons8.com/carbon-copy/55/777777/banknotes.png") ;
+    background-image: url("https://img.icons8.com/carbon-copy/60/777777/banknotes.png") ;
     width: 100%;
     height: 80%;
     background-clip: padding-box;
@@ -473,7 +476,7 @@ input:focus{
 
 }
 .img-daily:hover,.active-daily{
-    background-image: url("https://img.icons8.com/carbon-copy/55/FFFFFF/banknotes.png") ;
+    background-image: url("https://img.icons8.com/carbon-copy/60/FFFFFF/banknotes.png") ;
     width: 100%;
     height: 80%;
     color: white;
@@ -694,6 +697,17 @@ select::after{
 }
 .col-item-mini input::placeholder{
     color: #555;
+}
+.gg{
+    animation: border-dance 4s infinite;
+}
+@keyframes border-dance {
+    0% {
+        background-position: 0px 0px, 300px 116px, 0px 150px, 216px 0px;
+    }
+    100% {
+        background-position: 300px 0px, 0px 116px, 0px 0px, 216px 150px;
+    }
 }
 
 

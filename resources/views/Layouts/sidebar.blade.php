@@ -27,15 +27,14 @@
             <a class="nav-link p-0  sidebar-box-mount img-stock-inventory text-center" href="{{url('stock')}}">
                 <div class=" mt-0 px-auto "><p class="sb-text">Stock Inventory</p></div></a>
         </li>
-        <li class="nav-item btn-mount mx-auto" id="daily">
-            <a class="nav-link p-0  sidebar-box-mount img-daily text-center " href="{{url('daily_currency')}}">
-                <div class=" mt-0 px-auto "><p class="sb-text">Daily Currency</p></div></a>
-        </li>
         <li class="nav-item btn-mount mx-auto" id="group">
             <a class="nav-link p-0  sidebar-box-mount img-group text-center " href="{{url('currency')}}">
                 <div class=" mt-0 px-auto "><p class="sb-text">Currency Group</p></div></a>
         </li>
-
+        <li class="nav-item btn-mount mx-auto" id="daily">
+            <a class="nav-link p-0  sidebar-box-mount img-daily text-center " href="{{url('daily_currency')}}">
+                <div class=" mt-0 px-auto "><p class="sb-text">Daily Currency</p></div></a>
+        </li>
         <li class="nav-item btn-mount mx-auto" id="staff">
             <a class="nav-link p-0  sidebar-box-mount img-staff text-center " href="{{url('staff')}}">
                 <div class=" mt-0 px-auto "><p class="sb-text">Staff</p></div></a>

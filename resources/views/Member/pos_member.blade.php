@@ -205,7 +205,7 @@
                 $("#pos .img-pos").addClass("active-pos");
 
                 $("#pos").addClass("active2");
-
+                $("#pos .img-pos").removeClass("img-pos");
             });
         </script>
 
