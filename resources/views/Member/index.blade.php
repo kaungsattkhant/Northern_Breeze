@@ -13,10 +13,9 @@
                         <option value="{{$mt->id}}">{{$mt->name}}</option>
                     @endforeach
                 </select>
-            </div>
-            <div  class="my-auto btn-m ml-2">
-                <form action="{{url('member/search_name')}}" method="get">
-                    <input type="text" name="name" placeholder="Search name..." class="fontsize-mount2 border-0 ml-5 pl-2 input-name">
+
+                    <form action="{{url('member/search_name')}}" method="get" class="d-inline">
+                        <input type="text" name="name" placeholder="Search name..." class="fontsize-mount2 border-0 ml-5 pl-2 input-name">
                 </form>
             </div>
             <button type="button" class="btn btn-nb-mount px-4 my-auto mr-5 fontsize-mount2"  data-toggle="modal" data-target="#create"> Add </button>

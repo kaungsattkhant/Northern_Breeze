@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
-@import url('https://fonts.googleapis.com/css?family=Padauk&display=swap');
+/*@import url('https://fonts.googleapis.com/css?family=Padauk&display=swap');*/
 *{
     box-sizing: border-box;
     font-family: 'Roboto', sans-serif;
@@ -21,9 +21,20 @@
     /*height: 132vh;*/
     min-height: 100%;
     max-height: 100%;
-    background-color: #f1f1f1;
+    background-color: #e8e8e8;
     clear: both;
 }
+@media only screen and (min-height: 100vh){
+    .overall-container-mount3{
+        height: auto;
+    }
+}
+
+/*@media (max-height:400px) {*/
+/*    .overall-container-mount{*/
+/*        min-height: 200vh!important;*/
+/*    }*/
+/*}*/
 html,body {
 
     height:100%;
@@ -75,6 +86,10 @@ button.fontsize-mount{
 }
 .fontsize-mount17{
     font-size: 17px;
+    font-family: 'Roboto',sans-serif!important;
+}
+.fontsize-mount18{
+    font-size: 18px;
     font-family: 'Roboto',sans-serif!important;
 }
 .fontsize-mount2{
@@ -425,6 +440,48 @@ input:focus{
     background-position: center;
     padding-top: 10px;
 }
+.img-group{
+    /*<img src="https://img.icons8.com/dotty/80/000000/banknotes.png">*/
+    background-image: url("https://img.icons8.com/dotty/55/777777/banknotes.png") ;
+    width: 100%;
+    height: 80%;
+    background-clip: padding-box;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding-top: 10px;
+
+}
+.img-group:hover,.active-group{
+    background-image: url("https://img.icons8.com/dotty/55/FFFFFF/banknotes.png") ;
+    width: 100%;
+    height: 80%;
+    color: white;
+    background-clip: padding-box;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding-top: 10px;
+}
+.img-daily{
+    /*<img src="https://img.icons8.com/carbon-copy/100/000000/banknotes.png">*/
+    background-image: url("https://img.icons8.com/carbon-copy/55/777777/banknotes.png") ;
+    width: 100%;
+    height: 80%;
+    background-clip: padding-box;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding-top: 10px;
+
+}
+.img-daily:hover,.active-daily{
+    background-image: url("https://img.icons8.com/carbon-copy/55/FFFFFF/banknotes.png") ;
+    width: 100%;
+    height: 80%;
+    color: white;
+    background-clip: padding-box;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding-top: 10px;
+}
 .text-color-mount{
     color: #555 !important;
 }
@@ -437,6 +494,9 @@ input:focus{
 }
 .box-shadow-mount{
     box-shadow: 2px 2px 4px  #ccc;
+}
+.box-shadow-mount2{
+    box-shadow: 3px 3px 7px  #ccc,-3px -3px 6px #ccc;
 }
 .rounded-table-mount{
     border-radius: 10px;
@@ -476,6 +536,19 @@ input:focus{
     width: 230px !important;
     position: absolute;
     right: 0;
+}
+.mount-input3{
+    display: inline !important;
+    width: 220px !important;
+    position: absolute;
+    right: 20px;
+}
+.mount-input4{
+    display: inline-block !important;
+    width: 220px !important;
+    position: relative;
+    /*left: 50px;*/
+    right: 0px;
 }
 .m-button{
     display: flex;
@@ -575,3 +648,52 @@ select::after{
     border-radius: 8px;
     height: 29px;
 }
+
+.col-item {
+
+    border: 1px solid #eeeeee;
+    /*border-width: 50px;*/
+    background-color: #fdfdfd;
+    border-radius: 25px;
+    padding: 10px;
+    margin-right: 10px;
+    margin-left: 10px;
+    text-align: center;
+    vertical-align: middle;
+
+    height: 50px;
+    box-shadow: 2px 2px 3px #cccccc;
+}
+.col-item2 {
+
+    border: 1px solid #eeeeee;
+    /*border-width: 50px;*/
+    background-color: #fdfdfd;
+    border-radius: 25px 3px 3px 25px;
+    padding: 10px;
+    /*margin-right: 10px;*/
+    margin-left: 10px;
+    text-align: center;
+    vertical-align: middle;
+    height: 50px;
+    box-shadow: -2px 2px 3px #cccccc;
+}
+.col-item-mini{
+    background-color: #FDFDFD;
+    border: 1px solid #eeeeee;
+    border-radius: 3px 25px 25px 3px;
+    padding: 13px 0px;
+    margin-right: 5px;
+    /*margin-left: 5px;*/
+    margin-bottom: 5px;
+    text-align: center;
+    vertical-align: middle;
+    height: 50px;
+    box-shadow: 2px 2px 3px #aaaaaa;
+
+}
+.col-item-mini input::placeholder{
+    color: #555;
+}
+
+

@@ -4,39 +4,20 @@
     <div class="container-nb-mount">
         <div class="d-flex justify-content-between top-box-mount shadow-sm">
             <div  class="my-auto btnzz ml-4">
-                <div class="d-inline">
-{{--                    <button type="button" class="btn mr-5 dropdown-toggle fontsize-mount6 pl-4 text-color-mount" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Member Roles&nbsp;<i class="fas fa-chevron-down text-color-mount2 pl-1"></i></button>--}}
-{{--                    <div class="dropdown-menu">--}}
-{{--                        <a class="dropdown-item" href="#">One</a>--}}
-{{--                        <a class="dropdown-item" href="#">Two</a>--}}
-{{--                        <a class="dropdown-item" href="#">Three</a>--}}
-{{--                    </div>--}}
-                    <select class="border-0 rounded-0  bg-white  text-color-mount fontsize-mount22 pl-4 btn-m" style="height: 50px;" id="staff_filter" >
-                        <option selected disabled>Roles</option>
-                        @php
-                        $roles=\App\Model\Role::all();
-                        @endphp
-                        @foreach($roles as $role)
-                            <option value="{{$role->id}}">{{$role->name}}</option>
-                        @endforeach
-                    </select>
-                </div>
 
-{{--                <div class="d-inline">--}}
-{{--                    <button type="button" class="btn fontsize-mount6 text-color-mount pl-3 pr-2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">--}}
-{{--                        Branch&nbsp;<i class="fas fa-chevron-down text-color-mount2 pl-1"></i>--}}
-{{--                    </button>--}}
-{{--                    <div class="dropdown-menu">--}}
-{{--                        <a class="dropdown-item" href="#">IN</a>--}}
-{{--                        <a class="dropdown-item" href="#">OUT</a>--}}
-{{--                        <a class="dropdown-item" href="#">ALL</a>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-                <div  class="d-inline">
-                    <form action="{{url('staff/search_name')}}" method="get">
-                        <input type="text" name="name" placeholder="Search name..." class="fontsize-mount2 border-0 ml-5 pl-2 input-name">
-                    </form>
-                </div>
+                <select class="border-0 rounded-0  bg-white  text-color-mount fontsize-mount22 pl-4 btn-m" style="height: 50px;">
+                    <option selected disabled>Roles</option>
+                    @php
+                        $roles=\App\Model\Role::all();
+                    @endphp
+                    @foreach($roles as $role)
+                        <option value="{{$role->id}}">{{$role->name}}</option>
+                    @endforeach
+                </select>
+
+                <form action="{{url('staff/search_name')}}" class="d-inline">
+                    <input type="text" name="name" placeholder="Name..." class="fontsize-mount2 border-0 ml-5 pl-2 input-name">
+                </form>
             </div>
             <button type="button" class="btn btn-nb-mount px-4 my-auto mr-5 fontsize-mount2"  data-toggle="modal" data-target="#create"> Add </button>
         </div>

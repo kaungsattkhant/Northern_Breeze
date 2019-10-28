@@ -56,27 +56,41 @@ Route::group(['namespace'=>'Web'],function(){
 });
 
 
-//Route::get('/non_member',function()
-//{
-//    return view('Member.non_member');
-//});
-//
-//Route::get('/pos_member',function()
-//{
-//    return view('Member.pos_member');
-//});
-//
-//Route::get('/stock',function()
-//{
-//    return view('Stock.stock_inventory');
-//});
-//
-//Route::get('/create_stock',function()
-//{
-//    return view('Stock.add');
-//});
-//
-//Route::get('/transfer_stock',function()
-//{
-//    return view('Stock.transfer');
-//});
+
+Route::get('/non_member',function()
+{
+    return view('Member.non_member');
+});
+
+Route::get('/pos_member',function()
+{
+    return view('Member.pos_member');
+});
+
+Route::get('/stock',function()
+{
+    return view('Stock.stock_inventory');
+});
+
+Route::get('/create_stock',function()
+{
+    return view('Stock.add');
+});
+
+Route::get('/transfer_stock',function()
+{
+    return view('Stock.transfer');
+});
+Route::get('/currency',function()
+{
+    return view('Currency.index');
+});
+Route::get('/daily_currency',function()
+{
+    return view('DailyCurrency.index');
+});
+Route::get('/daily_currency2',function()
+{
+    return view('DailyCurrency.index2');
+});
+
