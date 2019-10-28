@@ -9,7 +9,9 @@
                     <option>1111</option>
                     <option>22222</option>
                 </select>
-                <input type="text" name="name" placeholder="Name..." class="fontsize-mount2 border-0 ml-5 pl-2 input-name">
+                <form class="d-inline">
+                    <input type="text" name="name" placeholder="Name..." class="fontsize-mount2 border-0 ml-5 pl-2 input-name">
+                </form>
             </div>
             <button type="button" class="btn btn-nb-mount px-4 my-auto mr-5 fontsize-mount2"  data-toggle="modal" data-target="#create"> Add </button>
         </div>

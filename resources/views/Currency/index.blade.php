@@ -89,8 +89,8 @@
                     <tr>
                         {{--                        <td class="table-row-m fontsize-mount">1</td>--}}
 
-                        <td scope="row" class="table-row-m fontsize-mount"></td>
-                        <td class="table-row-m fontsize-mount"></td>
+                        <td scope="row" class="table-row-m fontsize-mount">a</td>
+                        <td class="table-row-m fontsize-mount">b</td>
                         <td class="table-row-m text-center">
                             <a>
                                 <i class="far fa-edit mr-3 text-info"></i>
@@ -113,9 +113,9 @@
 {{--    @include('Staff.destroy')--}}
     <script>
         $(function(){
-            $("#staff a").addClass("active-staff");
+            $("#group a").addClass("active-group");
 
-            $("#staff").addClass("active2");
+            $("#group").addClass("active2");
 
         });
     </script>

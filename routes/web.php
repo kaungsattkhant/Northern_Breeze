@@ -77,4 +77,12 @@ Route::get('/currency',function()
 {
     return view('Currency.index');
 });
+Route::get('/daily_currency',function()
+{
+    return view('DailyCurrency.index');
+});
+Route::get('/daily_currency2',function()
+{
+    return view('DailyCurrency.index2');
+});
 

@@ -4,14 +4,11 @@
     <div class="container-nb-mount">
         <div class="d-flex justify-content-between top-box-mount shadow-sm">
             <div  class="my-auto btnzz ml-4">
-                <div class="d-inline">
-                    <button type="button" class="btn mr-5 dropdown-toggle fontsize-mount6 pl-4 text-color-mount" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Branches&nbsp;<i class="fas fa-chevron-down text-color-mount2 pl-1"></i></button>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">One</a>
-                        <a class="dropdown-item" href="#">Two</a>
-                        <a class="dropdown-item" href="#">Three</a>
-                    </div>
-                </div>
+                <select class="border-0 rounded-0  bg-white  text-color-mount fontsize-mount6 pl-4 btn-m" style="height: 50px;">
+                    <option selected disabled>Member Roles</option>
+                    <option>1111</option>
+                    <option>22222</option>
+                </select>
 
 {{--                <div class="d-inline">--}}
 {{--                    <button type="button" class="btn fontsize-mount6 text-color-mount pl-3 pr-2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">--}}
