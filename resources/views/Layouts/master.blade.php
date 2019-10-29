@@ -12,9 +12,7 @@
     <link rel="stylesheet" type="text/css" href="{{asset('css/multiselect-filter.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('fontawesome/css/all.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('css/main.css')}}">
-
     <script src="{{asset('js/jquery.js')}}"></script>
-
 </head>
 <body>
 <div>
@@ -46,7 +44,7 @@
 {{--<script href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" type="text/javascript"></script>"--}}
 @yield('script')
 <script src="{{asset('js/tablefilter.js')}}"></script>
-
+<script src="{{asset('js/multi.js')}}"></script>
 
 
 <script>

@@ -47,6 +47,10 @@ Route::group(['middleware'=>['staffCheck']],function() {
             Route::get('/','StockController@index');
             Route::get('stock_inventory','StockController@stock_inventory');
         });
+        Route::group(['prefix'=>'currency_group'],function(){
+            Route::get('/','CurrencyGroupController@index');
+            Route::post('store','CurrencyGroupController@store');
+        });
     });
 });
 Route::group(['namespace'=>'Web'],function(){

@@ -1,3 +1,3 @@
 $(function(){
-    $("#staff_filter").multiselect();
+    $("#multi_select").multiselect();
 });
