@@ -5,8 +5,8 @@
     <meta charset="utf-8">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href='http://fonts.googleapis.com/css?family=Merienda+One' rel='stylesheet' type='text/css'>
-{{--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">--}}
-    <link rel="stylesheet" type="text/css" href="{{asset('css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.css">
+{{--    <link rel="stylesheet" type="text/css" href="{{asset('css/bootstrap.css')}}">--}}
     <link rel="stylesheet" type="text/css" href="{{asset('css/ui.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('css/multiselect.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('css/multiselect-filter.css')}}">
@@ -32,7 +32,7 @@
 {{--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>--}}
 
 
-<script src="{{asset('js/bootstrap.min.js')}}"></script>
+<script src="{{asset('js/bt.js')}}"></script>
 <script src="{{asset('js/jquery-ui.min.js')}}"></script>
 <script src="{{asset('js/multiselect.js')}}"></script>
 <script src="{{asset('js/multiselectfilter.js')}}"></script>

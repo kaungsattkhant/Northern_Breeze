@@ -9,7 +9,7 @@
                     <button type="button" class="close x-button-mount" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <div class="col-md-9 alert alert-success" style="width:500px"  id="createMessage">
+                    <div class="col-md-9 alert alert-success" style="width:500px;"  id="createMessage">
                         <strong id="success"></strong>
                     </div>
                     <form>
@@ -30,7 +30,7 @@
                         </div>
                         <div class="mb-3 {{$errors->has('password') ? 'has:error':''}}">
                             <label for="#pass123" class="w-25">Password</label>
-                            <input type="password" id="password" class="border-top-0 border-right-0 border-left-0 rounded-0 mount-input">
+                            <input type="password" id="password"  class="border-top-0 border-right-0 border-left-0 rounded-0 mount-input">
                             <span class="text-danger">
                                     <strong id="password-error"></strong>
                                 </span>

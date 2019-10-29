@@ -114,7 +114,7 @@
                         <div class="col mb-4">
                             <div class="row">
                                 <div class="col col-item2">
-                                    <p class="text-color-mount fontsize-mount17 pt-1">200</p>
+                                    <p class="text-color-mount fontsize-mount17 pt-1">2000</p>
                                 </div>
                                 <div class="col">
                                     <div class="col-item-mini text-color-mount fontsize-mount2">

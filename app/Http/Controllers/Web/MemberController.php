@@ -16,8 +16,8 @@ class MemberController extends Controller
 {
     public function index()
     {
-//        $member_types=MemberType::all();
-//        $exchange_types=ExchangeType::all();
+        $member_types=MemberType::all();
+        $exchange_types=ExchangeType::all();
         $members=Member::with('member_type','exchange_type')->latest()->paginate(10);
         return view('Member.index',compact('members','member_types'));
     }
