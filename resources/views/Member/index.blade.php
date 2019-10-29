@@ -4,7 +4,7 @@
     <div class="container-nb-mount">
         <div class="d-flex justify-content-between top-box-mount shadow-sm">
             <div  class="my-auto btn-m ml-2  dropdown">
-                <select class="border-0   bg-white  text-color-mount fontsize-mount22 pl-4 btn-m" style="height: 50px;" id="member_filter">
+                <select class="border-0   bg-white  text-color-mount fontsize-mount pl-4 btn-m" style="height: 50px;" id="member_filter">
                     @php
                     $member_types=\App\Model\MemberType::all();
                     @endphp

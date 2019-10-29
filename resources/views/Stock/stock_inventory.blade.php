@@ -4,13 +4,13 @@
     <div class="container-nb-mount">
         <div class="d-flex justify-content-between top-box-mount shadow-sm">
             <div  class="my-auto btnzz ml-4">
-                <select class="border-0 rounded-0  bg-white  text-color-mount fontsize-mount22 pl-4 btn-m" style="height: 50px;">
+                <select class="border-0 rounded-0  bg-white  text-color-mount fontsize-mount pl-4 btn-m" style="height: 50px;">
                     <option selected disabled>Branches</option>
                     <option>1111</option>
                     <option>22222</option>
                 </select>
 
-                <select class="border-0 rounded-0  bg-white  text-color-mount fontsize-mount22 pl-4 btn-m" style="height: 50px;">
+                <select class="border-0 rounded-0  bg-white  text-color-mount fontsize-mount pl-4 btn-m" style="height: 50px;">
                     <option selected disabled>In/Out/All</option>
                     <option>1111</option>
                     <option>22222</option>

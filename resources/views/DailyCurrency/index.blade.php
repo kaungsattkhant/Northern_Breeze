@@ -70,13 +70,16 @@
                             <label class="pl-3 text-color-mount fontsize-mount pr-4 my-auto">Selling Value</label>
                         </div>
                         <div class="col col-item ">
-                            <p class="text-color-mount fontsize-mount17 pt-1">100</p>
+{{--                            <p class="text-color-mount fontsize-mount17 pt-1">100</p>--}}
+                            <input type="text" placeholder="12000" class="text-center text-box-mount">
                         </div>
                         <div class="col col-item ">
-                            <p class="text-color-mount fontsize-mount17 pt-1">200</p>
+{{--                            <p class="text-color-mount fontsize-mount17 pt-1">200</p>--}}
+                            <input type="text" placeholder="12000" class="text-center text-box-mount">
                         </div>
                         <div class="col col-item ">
-                            <p class="text-color-mount fontsize-mount17 pt-1">15kyats</p>
+                            <input type="text" placeholder="12000" class="text-center text-box-mount">
+{{--                            <p class="text-color-mount fontsize-mount17 pt-1">15kyats</p>--}}
                         </div>
                     </div>
 {{--                                                            selling value 2nd role--}}
@@ -103,7 +106,8 @@
                         <div class="col mb-4">
                             <div class="row">
                                 <div class="col col-item2">
-                                    <p class="text-color-mount fontsize-mount17 pt-1">10000</p>
+{{--                                    <p class="text-color-mount fontsize-mount17 pt-1">10000</p>--}}
+                                    <input type="text" placeholder="65000" class="text-center text-box-mount fontsize-mount17">
                                 </div>
                                 <div class="col">
                                     <div class="col-item-mini text-color-mount fontsize-mount2">
@@ -122,17 +126,18 @@
                         <div class="col mb-4">
                             <div class="row">
                                 <div class="col col-item2">
-                                    <p class="text-color-mount fontsize-mount17 pt-1">2000</p>
+{{--                                    <p class="text-color-mount fontsize-mount17 pt-1">2000</p>--}}
+                                    <input type="text" placeholder="2000" class="text-center text-black text-box-mount">
                                 </div>
                                 <div class="col">
                                     <div class="col-item-mini text-color-mount fontsize-mount2">
-                                        <input type="text" placeholder="Class A" class="pl-3" style="width: 100%;border: none;background-color: transparent">
+                                        <input type="text" placeholder="Class A" class="pl-3 text-box-mount">
                                     </div>
                                     <div class="col-item-mini text-color-mount fontsize-mount2 ">
-                                        <input type="text" placeholder="Class B" class="pl-3" style="width: 100%;border: none;background-color: transparent">
+                                        <input type="text" placeholder="Class B" class="pl-3 text-box-mount">
                                     </div>
                                     <div class="col-item-mini text-color-mount fontsize-mount2">
-                                        <input type="text" placeholder="Class C" class="pl-3" style="width: 100%;border: none;background-color: transparent">
+                                        <input type="text" placeholder="Class C" class="pl-3 text-box-mount">
                                     </div>
 
                                 </div>
@@ -143,17 +148,18 @@
                         <div class="col mb-4">
                             <div class="row">
                                 <div class="col col-item2">
-                                    <p class="text-color-mount fontsize-mount17 py-1">15kyats</p>
+{{--                                    <p class="text-color-mount fontsize-mount17 py-1">15kyats</p>--}}
+                                    <input type="text" placeholder="12000" class="text-center text-box-mount">
                                 </div>
                                 <div class="col">
                                     <div class="col-item-mini text-color-mount fontsize-mount2">
-                                        <input type="text" placeholder="Class A" class="pl-3" style="width: 100%;border: none;background-color: transparent">
+                                        <input type="text" placeholder="Class A" class="pl-3 text-box-mount">
                                     </div>
                                     <div class="col-item-mini text-color-mount fontsize-mount2 ">
-                                        <input type="text" placeholder="Class B" class="pl-3" style="width: 100%;border: none;background-color: transparent">
+                                        <input type="text" placeholder="Class B" class="pl-3 text-box-mount">
                                     </div>
                                     <div class="col-item-mini text-color-mount fontsize-mount2">
-                                        <input type="text" placeholder="Class C" class="pl-3" style="width: 100%;border: none;background-color: transparent">
+                                        <input type="text" placeholder="Class C" class="pl-3 text-box-mount">
                                     </div>
 
                                 </div>
