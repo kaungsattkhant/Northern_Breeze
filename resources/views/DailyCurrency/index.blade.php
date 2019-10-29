@@ -12,17 +12,25 @@
         <div class="pt-5">
             <div class="bg-white rounded-table-mount box-shadow-mount2 pb-5 px-2">
                 <div class="mb-3 pt-3 pb-1  ">
-                    <select class="border-0 rounded-0  bg-white  text-color-mount fontsize-mount18 ml-4 pl-2 btn-m" style="height: 50px;">
+                    <select class="border-0 rounded-0  bg-white  text-color-mount fontsize-mount18 ml-4 pl-2 btn-m" style="height: 50px;" id="daily_currency_filter">
                         <option selected disabled style="background-color: #e8e8e8;">Currency</option>
-                        <option style="background-color: #f7f7f7;">U.S.D</option>
-                        <option style="background-color: #f7f7f7;">Chinese</option>
-                        <option style="background-color: #f7f7f7;">Thailand</option>
-                        <option style="background-color: #f7f7f7;">Singapore</option>
-                        <option style="background-color: #f7f7f7;">Japnaese</option>
+                        @php
+                           $currencies=\App\Model\Currency::all();
+                        @endphp
+                        @foreach($currencies as $currency)
+                            <option style="background-color: #f7f7f7;" value="{{$currency->id}}"
+{{--                            @if($currency->id==18)--}}
+{{--                                selected="selected"--}}
+{{--                                @endif--}}
+                            >{{$currency->name}}</option>
+                        @endforeach
                     </select>
 
                 </div>
-                <div class="container">
+                <div class="container" id="daily">
+                    <div id="group">
+
+                    </div>
 {{--                                                    groupname part1                --}}
                     <div class="row pl-1">
                         <div class="col-4">
@@ -37,13 +45,13 @@
                         </div>
                         <div class="col col-item ">
                             <p class="text-color-mount fontsize-mount17 pt-1">KNU</p>
-{{--                            <br><small>(100)</small>--}}
+                                                        <br><small>(100)</small>
                         </div>
                     </div>
-{{--                                    groupname part2--}}
+{{--                                                        groupname part2--}}
                     <div class="row mb-1 pl-1">
                         <div class="col-4">
-{{--                            emptyspace--}}
+{{--                                                        emptyspace--}}
                         </div>
                         <div class="col">
                             <p class="text-color-mount fontsize-mount2 pt-1 text-center">(100)</p>
@@ -56,7 +64,7 @@
                             <p class="text-color-mount fontsize-mount2 pt-1 text-center">(500)</p>
                         </div>
                     </div>
-{{--                                                                          selling value--}}
+{{--                                                                                              selling value--}}
                     <div class="row  pl-1">
                         <div class="col-4">
                             <label class="pl-3 text-color-mount fontsize-mount pr-4 my-auto">Selling Value</label>
@@ -71,7 +79,7 @@
                             <p class="text-color-mount fontsize-mount17 pt-1">15kyats</p>
                         </div>
                     </div>
-{{--                                        selling value 2nd role--}}
+{{--                                                            selling value 2nd role--}}
                     <div class="row mb-1 pl-1">
                         <div class="col-4">
 
@@ -87,7 +95,7 @@
                             <p class="text-color-mount fontsize-mount2 pt-1 text-center">(500)</p>
                         </div>
                     </div>
-{{--                                                        buying value--}}
+{{--                                                                            buying value--}}
                     <div class="row mb-1 pl-1">
                         <div class="col-4">
                             <label class="pl-3 text-color-mount fontsize-mount pr-4 mt-3">Buying Value</label>
@@ -151,9 +159,13 @@
                                 </div>
                             </div>
                         </div>
-                    </div>{{----}}
+
+
+
+                    </div>
 
                 </div>
+
             </div>
 
 
@@ -172,5 +184,10 @@
 
         });
     </script>
+@section('script')
+    <script src="{{asset('js/dailycurrency.js')}}"></script>
+{{--    <script src="{{asset('js/dailycurrency.js')}}"></script>--}}
 @endsection
+@endsection
+
 

@@ -51,6 +51,11 @@ Route::group(['middleware'=>['staffCheck']],function() {
             Route::get('/','CurrencyGroupController@index');
             Route::post('store','CurrencyGroupController@store');
         });
+        Route::group(['prefix'=>'daily_currency'],function(){
+            Route::get('/','DailyCurrencyController@index');
+            Route::post('store','DailyCurrencyController@store');
+            Route::get('{id}/filter','DailyCurrencyController@daily_currency_filter');
+        });
     });
 });
 Route::group(['namespace'=>'Web'],function(){

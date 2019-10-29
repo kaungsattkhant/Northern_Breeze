@@ -28,7 +28,7 @@
                 <div class=" mt-0 px-auto "><p class="sb-text">Stock Inventory</p></div></a>
         </li>
         <li class="nav-item btn-mount mx-auto" id="group">
-            <a class="nav-link p-0  sidebar-box-mount img-group text-center " href="{{url('currency')}}">
+            <a class="nav-link p-0  sidebar-box-mount img-group text-center " href="{{url('currency_group')}}">
                 <div class=" mt-0 px-auto "><p class="sb-text">Currency Group</p></div></a>
         </li>
         <li class="nav-item btn-mount mx-auto" id="daily">

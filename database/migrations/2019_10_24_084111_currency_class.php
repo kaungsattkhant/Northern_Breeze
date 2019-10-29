@@ -14,7 +14,7 @@ class CurrencyClass extends Migration
     public function up()
     {
         Schema::create('currency_class', function (Blueprint $table) {
-           $table->bigIncrements('id');
+//           $table->bigIncrements('id');
            $table->unsignedBigInteger('currency_id');
            $table->unsignedBigInteger('classification_id');
             $table->foreign('currency_id')->references('id')->on('currencies')->onUpdate('cascade')->onUpdate('cascade');

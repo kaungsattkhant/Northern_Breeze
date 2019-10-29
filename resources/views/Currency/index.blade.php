@@ -60,21 +60,24 @@
                 </tr>
              </thead>
              <tbody>
-
-                 <tr>
-                        {{--                        <td class="table-row-m fontsize-mount">1</td>--}}
-
-                     <td scope="row" class="table-row-m fontsize-mount">a</td>
-                     <td class="table-row-m fontsize-mount">b</td>
-                     <td class="table-row-m text-center">
-                         <a>
-                            <i class="far fa-edit mr-3 text-info"></i>
-                         </a>
-                         <a href="#" data-toggle="modal" data-target="#Delete">
-                             <i class="far fa-trash-alt text-danger"></i>
-                         </a>
-                     </td>
-                 </tr>
+{{--             @if($currency_groups!=null)--}}
+                 @foreach($currency_groups as $currency_group)
+                     <tr>
+                         <td scope="row" class="table-row-m fontsize-mount">{{$currency_group->name}}</td>
+                         <td class="table-row-m fontsize-mount">{{$currency_group->currency->name}}</td>
+                         <td class="table-row-m text-center">
+                             <a>
+                                 <i class="far fa-edit mr-3 text-info"></i>
+                             </a>
+                             <a href="#" data-toggle="modal" data-target="#Delete">
+                                 <i class="far fa-trash-alt text-danger"></i>
+                             </a>
+                         </td>
+                     </tr>
+                 @endforeach
+{{--                 @else--}}
+{{--                 <p>Doesn't not have</p>--}}
+{{--                 @endif--}}
 
 
              </tbody>
