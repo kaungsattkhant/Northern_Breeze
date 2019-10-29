@@ -14,10 +14,7 @@
 
         </div>
         <div class="pt-5">
-            <div class="mb-2">
-                <p class="mb-3 fontsize-mount17 ml-1 d-inline">Total amount exchange :</p>
-                <p class="fontsize-mount17 d-inline"> 100,100,00</p>
-            </div>
+
             <table class="table bg-white box-shadow-mount rounded-table-mount "  id="myTable">
                 <thead>
                 <tr>
@@ -40,30 +37,9 @@
                     <td class="table-row-m text-danger">OUt</td>
                     <td class="table-row-m "><a href="#" class="text-a-mount" data-toggle="modal" data-target="#detail">Detail</a></td>
                 </tr>
-                <tr>
-                    <td scope="row" class="table-row-m fontsize-mount2">Singapore Sing</td>
-                    <td class="table-row-m fontsize-mount2">1000000</td>
-                    <td class="table-row-m text-info">In</td>
-                    <td class="table-row-m "><a href="#" class="text-a-mount" data-toggle="modal" data-target="#detail">Detail</a></td>
-                </tr>
-                <tr>
-                    <td scope="row" class="table-row-m fontsize-mount2">Thai Baht</td>
-                    <td class="table-row-m fontsize-mount2">1000000</td>
-                    <td class="table-row-m text-info">In</td>
-                    <td class="table-row-m "><a href="#" class="text-a-mount" data-toggle="modal" data-target="#detail">Detail</a></td>
-                </tr>
-                <tr>
-                    <td scope="row" class="table-row-m fontsize-mount2">Japanese Yen</td>
-                    <td class="table-row-m fontsize-mount2">1000000</td>
-                    <td class="table-row-m text-danger">Out</td>
-                    <td class="table-row-m "><a href="#" class="text-a-mount" data-toggle="modal" data-target="#detail">Detail</a></td>
-                </tr>
-                <tr>
-                    <td scope="row" class="table-row-m fontsize-mount2">Chinese Yuan</td>
-                    <td class="table-row-m fontsize-mount2">1000000</td>
-                    <td class="table-row-m text-info">In</td>
-                    <td class="table-row-m "><a href="#" class="text-a-mount" data-toggle="modal" data-target="#detail">Detail</a></td>
-                </tr>
+
+
+
                 </tbody>
             </table>
         </div>
