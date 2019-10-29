@@ -164,7 +164,7 @@
     {{--    @include('Staff.destroy')--}}
     <script>
         $(function(){
-            $("#staff a").addClass("active-staff");
+            $("#staff a").addClass("active-daily");
 
             $("#staff").addClass("active2");
 

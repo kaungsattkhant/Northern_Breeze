@@ -713,24 +713,24 @@ select::after{
     width: 100%;
     border: none;
     background-color: transparent;
-    color: #111111!important;
+    /*color: #111111!important;*/
 }
 .col-item input[type="text"]{
-    color: #444444!important;
+    color: #6c757d!important;
 }
 .col-item input[type="text"]::placeholder{
-    color: #444444!important;
+    color: #6c757d!important;
 }
 .col-item2 input[type="text"]{
-    color: #444444!important;
+    color: #6c757d!important;
 }
 .col-item2 input[type="text"]::placeholder{
-    color: #444444!important;
+    color: #6c757d!important;
 }
 .col-item-mini input[type="text"]{
-    color: #444444!important;
+    color: #6c757d!important;
 }
 .col-item-mini input[type="text"]::placeholder{
-    color: #333333!important;
+    color: #6c757d!important;
 }
 

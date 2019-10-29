@@ -2,16 +2,16 @@
 @section('content')
 
     <div class="container-nb-mount">
-        <div class="d-flex justify-content-between top-box-mount box-shadow-mount2">
-            <div  class="my-auto btnzz ml-4">
-                <label class="text-color-mount">Daily Currency</label>
-                {{--                <input type="text" name="name" placeholder="Name..." class="fontsize-mount2 border-0 ml-5 pl-2 input-name">--}}
-            </div>
-            <button type="button" class="btn btn-nb-mount px-4 my-auto mr-5 fontsize-mount2"  data-toggle="modal" data-target="#create"> Add </button>
-        </div>
-        <div class="pt-5">
-            <div class="bg-white rounded-table-mount box-shadow-mount2 pb-5 px-2">
-                <div class="mb-3 pt-3 pb-1  ">
+{{--        <div class="d-flex justify-content-between top-box-mount box-shadow-mount2">--}}
+{{--            <div  class="my-auto btnzz ml-4">--}}
+{{--                <label class="text-color-mount">Daily Currency</label>--}}
+{{--                --}}{{--                <input type="text" name="name" placeholder="Name..." class="fontsize-mount2 border-0 ml-5 pl-2 input-name">--}}
+{{--            </div>--}}
+{{--            <button type="button" class="btn btn-nb-mount px-4 my-auto mr-5 fontsize-mount2"  data-toggle="modal" data-target="#create"> Add </button>--}}
+{{--        </div>--}}
+        <div class="">
+            <div class="bg-white border-bottom-radius-mount box-shadow-mount2 pb-5 px-2 pt-4">
+                <div class="mb-5 pt-3 pb-1 d-flex justify-content-between ">
                     <select class="border-0 rounded-0  bg-white  text-color-mount fontsize-mount18 ml-4 pl-2 btn-m" style="height: 50px;">
                         <option selected disabled style="background-color: #e8e8e8;">Currency</option>
                         <option style="background-color: #f7f7f7;">U.S.D</option>
@@ -20,7 +20,7 @@
                         <option style="background-color: #f7f7f7;">Singapore</option>
                         <option style="background-color: #f7f7f7;">Japnaese</option>
                     </select>
-
+                    <button type="button" class="btn btn-nb-mount px-4 my-auto mr-5 fontsize-mount2"  data-toggle="modal" data-target="#create"> Add </button>
                 </div>
                 <div class="container">
 {{--                                                    groupname part1                --}}
@@ -41,7 +41,7 @@
                         </div>
                     </div>
 {{--                                    groupname part2--}}
-                    <div class="row mb-1 pl-1">
+                    <div class="row mb-5 pl-1">
                         <div class="col-4">
 {{--                            emptyspace--}}
                         </div>
@@ -75,7 +75,7 @@
                         </div>
                     </div>
 {{--                                        selling value 2nd role--}}
-                    <div class="row mb-1 pl-1">
+                    <div class="row mb-5 pl-1">
                         <div class="col-4">
 
                         </div>
@@ -91,7 +91,7 @@
                         </div>
                     </div>
 {{--                                                        buying value--}}
-                    <div class="row mb-1 pl-1">
+                    <div class="row mb-5 pl-1">
                         <div class="col-4">
                             <label class="pl-3 text-color-mount fontsize-mount pr-4 mt-3">Buying Value</label>
                         </div>
@@ -115,7 +115,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col mb-4">
+                        <div class="col mb-5">
                             <div class="row">
                                 <div class="col col-item2">
 {{--                                    <p class="text-color-mount fontsize-mount17 pt-1">2000</p>--}}
@@ -137,7 +137,7 @@
 
                             </div>
                         </div>
-                        <div class="col mb-4">
+                        <div class="col pb-5 mb-5">
                             <div class="row">
                                 <div class="col col-item2">
 {{--                                    <p class="text-color-mount fontsize-mount17 py-1">15kyats</p>--}}

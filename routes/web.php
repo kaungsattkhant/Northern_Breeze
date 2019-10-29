@@ -97,4 +97,8 @@ Route::get('/daily_currency2',function()
 {
     return view('DailyCurrency.index2');
 });
+Route::get('/daily_currency3',function()
+{
+    return view('DailyCurrency.daily_currency');
+});
 
