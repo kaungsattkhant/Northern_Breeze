@@ -46,9 +46,9 @@
     </div>
     <script>
         $(function(){
-            $("#stock a").addClass("active-daily");
+            $("#daily a").addClass("active-daily");
 
-            $("#stock").addClass("active2");
+            $("#daily").addClass("active2");
 
         });
     </script>

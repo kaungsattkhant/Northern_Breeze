@@ -100,70 +100,72 @@
                 </div>
                 <div class="col">
 {{--                    <p class="row-col-p2 text-nb-mount fontsize-mount4 mb-2 ml-1">ပြန်လည်ပေးအပ်ငွေ</p>--}}
-                    <select class=" text-nb-mount row-col-p mb-2 ml-1 border-0 bg-transparent" style="font-size: 20px">
+                    <select class=" text-nb-mount row-col-p mb-0 ml-1 border-0 bg-transparent" style="font-size: 20px">
                         <option selected disabled>Currency</option>
                         <option>1</option>
                         <option>1</option>
                         <option>1</option>
                     </select>
-                    <table class="table border-0 bg-white box-shadow-mount rounded-table-mount">
-                        <tbody class="rounded-table-mount">
+                    <table class="table border-0 bg-white box-shadow-mount rounded-table-mount mt-2 pb-5">
+                        <tbody class="rounded-table-mount ">
 
                         <tr>
                             <td class="text-nb-mount border-top-0 pl-4 pt-4 fontsize-mount2">10000 </td>
-                            <td class="text-right border-top-0 pt-4">
-                                <p class="text-color-mount fontsize-mount2">100</p>
+                            <td class="text-right border-top-0 pt-4 pb-4">
+                                <input type="text" class="border rounded-table-mount w-25 text-center fontsize-mount3 pt-1" id="input1" placeholder="100">
                             </td>
                         </tr>
                         <tr class="border-0">
                             <td class="border-top-0 text-nb-mount pl-4 fontsize-mount2">5000 </td>
-                            <td class="text-right border-top-0">
-                                <p class="text-color-mount fontsize-mount2">100</p>
+                            <td class="text-right border-top-0 pb-4">
+                                <input type="text" class="border rounded-table-mount w-25 text-center fontsize-mount3 pt-1" id="input1" placeholder="100">
                             </td>
                         </tr>
                         <tr>
 
                             <td class="border-top-0 text-nb-mount pl-4 fontsize-mount2">1000 </td>
-                            <td class="text-right border-top-0">
-                                <p class="text-color-mount fontsize-mount2">100</p>
+                            <td class="text-right border-top-0 pb-4">
+                                <input type="text" class="border rounded-table-mount w-25 text-center fontsize-mount3 pt-1" id="input1" placeholder="100">
                             </td>
                         </tr>
                         <tr>
                             <td class="border-top-0 text-nb-mount pl-4 fontsize-mount2">500 </td>
-                            <td class="text-right border-top-0">
-                                <p class="text-color-mount fontsize-mount2">100</p>
+                            <td class="text-right border-top-0 pb-4">
+                                <input type="text" class="border rounded-table-mount w-25 text-center fontsize-mount3 pt-1" id="input1" placeholder="100">
                             </td>
                         </tr>
                         <tr>
                             <td class="border-top-0 text-nb-mount pl-4 fontsize-mount2">200 </td>
-                            <td class="text-right border-top-0">
-                                <p class="text-color-mount fontsize-mount2">100</p>
+                            <td class="text-right border-top-0 pb-4">
+                                <input type="text" class="border rounded-table-mount w-25 text-center fontsize-mount3 pt-1" id="input1" placeholder="100">
                             </td>
                         </tr>
                         <tr>
                             <td class="border-top-0 text-nb-mount pl-4 fontsize-mount2">100 </td>
-                            <td class="text-right border-top-0">
-                                <p class="text-color-mount fontsize-mount2">100</p>
+                            <td class="text-right border-top-0 pb-4">
+                                <input type="text" class="border rounded-table-mount w-25 text-center fontsize-mount3 pt-1" id="input1" placeholder="100">
                             </td>
                         </tr>
                         <tr>
                             <td class="border-top-0 text-nb-mount pl-4 fontsize-mount2">50 </td>
-                            <td class="text-right border-top-0">
-                                <p class="text-color-mount fontsize-mount2">100</p>
+                            <td class="text-right border-top-0 pb-3 ">
+                                <input type="text" class="border rounded-table-mount w-25 text-center fontsize-mount3 pt-1" id="input1" placeholder="100">
                             </td>
                         </tr>
                         <tr>
                             <td class="border-top-0 text-nb-mount pl-4 fontsize-mount2">10 </td>
-                            <td class="text-right border-top-0">
-                                <p class="text-color-mount fontsize-mount2">100</p>
+                            <td class="text-right border-top-0 pb-4">
+                                <input type="text" class="border rounded-table-mount w-25 text-center fontsize-mount3 pt-1" id="input1" placeholder="100">
                             </td>
                         </tr>
                         <tr >
                             <td class="border-top-0 text-nb-mount" style="padding: 30px;"></td>
-                            <td class="text-right border-top-0">
+                            <td class="text-right border-top-0 pb-3">
                                 <label for="#input1" class="text-color-mount">&nbsp;</label>
                             </td>
                         </tr>
+
+
                         </tbody>
 
                     </table>

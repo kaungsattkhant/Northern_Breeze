@@ -11,14 +11,14 @@
 {{--        </div>--}}
         <div class="">
             <div class="bg-white border-bottom-radius-mount box-shadow-mount2 pb-5 px-2 pt-4">
-                <div class="mb-5 pt-3 pb-1 d-flex justify-content-between ">
-                    <select class="border-0 rounded-0  bg-white  text-color-mount fontsize-mount18 ml-4 pl-2 btn-m" style="height: 50px;">
-                        <option selected disabled style="background-color: #e8e8e8;">Currency</option>
-                        <option style="background-color: #f7f7f7;">U.S.D</option>
-                        <option style="background-color: #f7f7f7;">Chinese</option>
-                        <option style="background-color: #f7f7f7;">Thailand</option>
-                        <option style="background-color: #f7f7f7;">Singapore</option>
-                        <option style="background-color: #f7f7f7;">Japnaese</option>
+                <div class="mb-5 pt-3 pb-1 d-flex justify-content-between fs-select">
+                    <select  class="selectpicker ml-4 pl-2" name="Branches" data-width="auto">
+                        <option selected disabled>Currency</option>
+                        <option>U.S.D</option>
+                        <option>Chinese</option>
+                        <option>Thailand</option>
+                        <option>Singapore</option>
+                        <option>Japnaese</option>
                     </select>
                     <button type="button" class="btn btn-nb-mount px-4 my-auto mr-5 fontsize-mount2"  data-toggle="modal" data-target="#create"> Add </button>
                 </div>

@@ -12,14 +12,16 @@
 {{--                    <button type="submit" class="btn btn-nb-mount px-4 my-auto mr-5 fontsize-mount2"  data-toggle="modal" data-target="#create"> Add </button>--}}
 
 {{--                </div>--}}
-                <div class="bg-white row m-0 pb-4 border-bottom-radius-mount pt-4">
-                    <div class="col ml-5">
-                        <label for="#currency" class="w-25 fontsize-mount d-block"> Currency</label>
-                        <select class="border-top-0 border-right-0 border-left-0 rounded-0 bg-white text-secondary bd-bottom-mount fontsize-mount22" id="currency" name="currency">
-                            <option selected disabled>--None--</option>
-                            @php
-                                $currencies=\App\Model\Currency::all();
-                            @endphp
+                <div class="bg-white row m-0 pb-3 border-bottom-radius-mount pt-4">
+                    <div class="col ml-4">
+                        <label for="#currency" class="w-25 fontsize-mount6 d-block pl-2 ml-1"> Currency</label>
+                        @php
+                            $currencies=\App\Model\Currency::all();
+                        @endphp
+{{--                        <select class="border-top-0 border-right-0 border-left-0 rounded-0 bg-white text-secondary bd-bottom-mount fontsize-mount22" id="currency" name="currency">--}}
+                        <select class="selectpicker show-menu-arrow"  id="currency" name="currency" title="Choose one of the following..." data-style="btn-white">
+{{--                            <option selected disabled>--None--</option>--}}
+
                             @foreach($currencies as $currency)
                                 <option value="{{$currency->id}}">{{$currency->name}}</option>
                             @endforeach
@@ -27,7 +29,7 @@
                     </div>
                     <div class="col">
                         <label for="#GN" class="fontsize-mount d-block">Group Name</label>
-                        <input type="text" id="GN" name="group_name" class="border-top-0 border-right-0 border-left-0 rounded-0 bd-bottom-mount fontsize-mount" placeholder="Entere Name...">
+                        <input type="text" id="GN" name="group_name" class="border-top-0 border-right-0 border-left-0 rounded-0 bd-bottom-mount fontsize-mount" placeholder="">
 {{----}}
                     </div>
                     <div class="col">
@@ -90,12 +92,13 @@
             </form>
 
         </div>
+
          <table class="table bg-white box-shadow-mount rounded-table-mount mt-5"  id="myTable">
              <thead>
                 <tr>
                     {{--                    <th scope="col" class="border-bottom-0 border-top-0 fontsize-mount6" >#</th>--}}
                     <th scope="col" class="border-bottom-0 border-top-0 fontsize-mount6" >Name</th>
-                    <th scope="col" class="border-bottom-0 border-top-0 fontsize-mount6"> Role</th>
+                    <th scope="col" class="border-bottom-0 border-top-0 fontsize-mount6"> Group Name</th>
                     <th scope="col" class="border-bottom-0 border-top-0 text-center fontsize-mount6">Action</th>
                 </tr>
              </thead>

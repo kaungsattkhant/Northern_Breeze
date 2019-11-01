@@ -101,4 +101,8 @@ Route::get('/daily_currency3',function()
 {
     return view('DailyCurrency.daily_currency');
 });
+Route::get('/test',function()
+{
+    return view('Currency.test');
+});
 

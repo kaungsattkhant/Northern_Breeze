@@ -3,8 +3,8 @@
 
     <div class="container-nb-mount">
         <div class="d-flex justify-content-between top-box-mount shadow-sm">
-            <div  class="my-auto btnzz ml-4">
-                <select class="border-0 rounded-0  bg-white  text-color-mount fontsize-mount pl-4 btn-m" style="height: 50px;">
+            <div  class="my-auto ml-4 pl-3">
+                <select class="selectpicker show-menu-arrow" name="Branches" data-style="btn-white" data-width="auto">
                     <option selected disabled>Member Roles</option>
                     <option>1111</option>
                     <option>22222</option>
