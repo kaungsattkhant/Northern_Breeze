@@ -14,4 +14,8 @@ class Group extends Model
     {
         return $this->belongsTo(Currency::class);
     }
+    public function classifications()
+    {
+        return $this->belongsToMany(Classification::class)->withPivot('id');
+    }
 }

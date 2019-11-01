@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Classification extends Model
 {
-  public  function currencies()
+  public  function groups()
   {
-      return $this->belongsToMany(Currency::class);
+      return $this->belongsToMany(Group::class);
   }
 }

@@ -11,41 +11,6 @@
                     <button type="submit" class="btn btn-nb-mount px-4 my-auto mr-5 fontsize-mount2"  data-toggle="modal" data-target="#create"> Add </button>
 
                 </div>
-{{--                <div class="bg-white row m-0">--}}
-{{--                    <div class="col">--}}
-{{--                        <label for="#currency" class="w-25 fontsize-mount d-block"> Currency</label>--}}
-{{--                        <select class="border-top-0 border-right-0 border-left-0 rounded-0 bg-white text-secondary bd-bottom-mount fontsize-mount22" id="currency" name="currency">--}}
-{{--                            <option selected disabled>--None--</option>--}}
-{{--                            @php--}}
-{{--                                $currencies=\App\Model\Currency::all();--}}
-{{--                            @endphp--}}
-{{--                            @foreach($currencies as $currency)--}}
-{{--                                <option value="{{$currency->id}}">{{$currency->name}}</option>--}}
-{{--                            @endforeach--}}
-{{--                        </select>--}}
-{{--                    </div>--}}
-{{--                    <div class="col">--}}
-{{--                        <label for="#GN" class="w-25 pt-2 fontsize-mount d-block">Group Name</label>--}}
-{{--                        <input type="text" id="GN" name="group_name" class="border-top-0 border-right-0 border-left-0 rounded-0 bd-bottom-mount">--}}
-
-{{--                    </div>--}}
-{{--                    <div class="col">--}}
-{{--                        <p class="w-25 pt-2 fontsize-mount d-block" style="position: absolute;left:30px">Note</p>--}}
-{{--                        <label for="" class="w-25 pt-2 fontsize-mount d-block">Group Name</label>--}}
-{{--                        <div class="d-block" style=";position: relative" >--}}
-{{--                            <select id="multi_select" multiple="multiple" name="notes[]">--}}
-{{--                                @php--}}
-{{--                                    $notes=\App\Model\Note::all();--}}
-{{--                                @endphp--}}
-{{--                                @foreach($notes as $note)--}}
-{{--                                    <option value="{{$note->id}}">{{$note->name}}</option>--}}
-{{--                                @endforeach--}}
-{{--                            </select>--}}
-
-
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
                 <div class="bg-white table border-0 bg-white box-shadow-mount rounded-table-mount col-lg-5 mt-5">
                     <div class="p-3">
                         <div class="mb-2 pr-5">
@@ -101,9 +66,12 @@
                          <td scope="row" class="table-row-m fontsize-mount">{{$currency_group->name}}</td>
                          <td class="table-row-m fontsize-mount">{{$currency_group->currency->name}}</td>
                          <td class="table-row-m text-center">
-                             <a>
-                                 <i class="far fa-edit mr-3 text-info"></i>
-                             </a>
+                             <form action="{{url('currency_group/'.$currency_group->id.'/edit')}}" method="get">
+                                 <a>
+
+                                     <button ><i class="far fa-edit mr-3 text-info"> </i></button>
+                                 </a>
+                             </form>
                              <a href="#" data-toggle="modal" data-target="#Delete">
                                  <i class="far fa-trash-alt text-danger"></i>
                              </a>

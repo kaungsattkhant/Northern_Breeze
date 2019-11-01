@@ -5,6 +5,8 @@
         <div>
             <form action="{{url('currency_group/update')}}" method="post">
                 @csrf
+                @method('patch')
+                <input type="hidden" name="id" value="{{$currency_groups->id}}">
                 <div class="d-flex justify-content-between top-box-mount shadow-sm">
                     <div  class="my-auto btnzz ml-4">
                     </div>
@@ -21,13 +23,17 @@
                                     $currencies=\App\Model\Currency::all();
                                 @endphp
                                 @foreach($currencies as $currency)
-                                    <option value="{{$currency->id}}">{{$currency->name}}</option>
+                                    <option value="{{$currency->id}}"
+                                    @if($currency->id==$currency_groups->currency->id)
+                                        selected="selected"
+                                        @endif
+                                    >{{$currency->name}}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="mb-1">
                             <label for="#GN" class="w-25 pt-2 fontsize-mount">Group Name</label>
-                            <input type="text" id="GN" name="group_name" class="border-top-0 border-right-0 border-left-0 rounded-0 mount-input3 bd-bottom-mount">
+                            <input type="text" id="GN" name="group_name" class="border-top-0 border-right-0 border-left-0 rounded-0 mount-input3 bd-bottom-mount" value="{{$currency_groups->name}}">
                         </div>
                         <div class="mb-1 ">
                             <p class="w-25 pt-2 fontsize-mount " style="position: absolute;left:30px">Note</p>
@@ -37,7 +43,9 @@
                                         $notes=\App\Model\Note::all();
                                     @endphp
                                     @foreach($notes as $note)
-                                        <option value="{{$note->id}}">{{$note->name}}</option>
+                                        <option value="{{$note->id}}"
+                                        @if($currency_groups->notes->containsStrict('id',$note->id)) selected="selected" @endif
+                                        >{{$note->name}}</option>
                                     @endforeach
                                 </select>
 
@@ -50,38 +58,37 @@
             </form>
 
         </div>
-        <table class="table bg-white box-shadow-mount rounded-table-mount mt-5"  id="myTable">
-            <thead>
-            <tr>
-                {{--                    <th scope="col" class="border-bottom-0 border-top-0 fontsize-mount6" >#</th>--}}
-                <th scope="col" class="border-bottom-0 border-top-0 fontsize-mount6" >Name</th>
-                <th scope="col" class="border-bottom-0 border-top-0 fontsize-mount6"> Role</th>
-                <th scope="col" class="border-bottom-0 border-top-0 text-center fontsize-mount6">Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            {{--             @if($currency_groups!=null)--}}
-            @foreach($currency_groups as $currency_group)
-                <tr>
-                    <td scope="row" class="table-row-m fontsize-mount">{{$currency_group->name}}</td>
-                    <td class="table-row-m fontsize-mount">{{$currency_group->currency->name}}</td>
-                    <td class="table-row-m text-center">
-                        <a>
-                            <i class="far fa-edit mr-3 text-info"></i>
-                        </a>
-                        <a href="#" data-toggle="modal" data-target="#Delete">
-                            <i class="far fa-trash-alt text-danger"></i>
-                        </a>
-                    </td>
-                </tr>
-            @endforeach
-            {{--                 @else--}}
-            {{--                 <p>Doesn't not have</p>--}}
-            {{--                 @endif--}}
 
+{{--        <table class="table bg-white box-shadow-mount rounded-table-mount mt-5"  id="myTable">--}}
+{{--            <thead>--}}
+{{--            <tr>--}}
+{{--                --}}{{--                    <th scope="col" class="border-bottom-0 border-top-0 fontsize-mount6" >#</th>--}}
+{{--                <th scope="col" class="border-bottom-0 border-top-0 fontsize-mount6" >Name</th>--}}
+{{--                <th scope="col" class="border-bottom-0 border-top-0 fontsize-mount6"> Role</th>--}}
+{{--                <th scope="col" class="border-bottom-0 border-top-0 text-center fontsize-mount6">Action</th>--}}
+{{--            </tr>--}}
+{{--            </thead>--}}
+{{--            <tbody>--}}
+{{--            --}}
+{{--            @foreach($currency_groups as $currency_group)--}}
+{{--                <tr>--}}
+{{--                    <td scope="row" class="table-row-m fontsize-mount">{{$currency_group->name}}</td>--}}
+{{--                    <td class="table-row-m fontsize-mount">{{$currency_group->currency->name}}</td>--}}
+{{--                    <td class="table-row-m text-center">--}}
+{{--                            <a>--}}
+{{--                                <i class="far fa-edit mr-3 text-info"></i>--}}
+{{--                            </a>--}}
 
-            </tbody>
-        </table>
+{{--                        <a href="#" data-toggle="modal" data-target="#Delete">--}}
+{{--                            <i class="far fa-trash-alt text-danger"></i>--}}
+{{--                        </a>--}}
+{{--                    </td>--}}
+{{--                </tr>--}}
+{{--            @endforeach--}}
+{{--     --}}
+
+{{--            </tbody>--}}
+{{--        </table>--}}
 
 
     </div>

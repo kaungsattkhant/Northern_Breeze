@@ -50,6 +50,8 @@ Route::group(['middleware'=>['staffCheck']],function() {
         Route::group(['prefix'=>'currency_group'],function(){
             Route::get('/','CurrencyGroupController@index');
             Route::post('store','CurrencyGroupController@store');
+            Route::get('{id}/edit','CurrencyGroupController@edit');
+            Route::patch('update','CurrencyGroupController@update');
         });
         Route::group(['prefix'=>'daily_currency'],function(){
             Route::get('/','DailyCurrencyController@index');
@@ -59,6 +61,7 @@ Route::group(['middleware'=>['staffCheck']],function() {
     });
 });
 Route::group(['namespace'=>'Web'],function(){
+    Route::get('/','LoginController@login');
     Route::get('login',"LoginController@login");
     Route::post('login','LoginController@makeLogin');
     Route::match(['get','post'],'logout',"LoginController@logout");
