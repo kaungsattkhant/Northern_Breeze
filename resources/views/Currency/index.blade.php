@@ -5,22 +5,23 @@
         <div>
             <form action="{{url('currency_group/store')}}" method="post">
                 @csrf
-{{--                <div class="d-flex justify-content-between top-box-mount rounded-0 border-0 shadow-sm">--}}
-{{--                    <div  class="my-auto btnzz ml-4">--}}
 
-{{--                    </div>--}}
-{{--                    <button type="submit" class="btn btn-nb-mount px-4 my-auto mr-5 fontsize-mount2"  data-toggle="modal" data-target="#create"> Add </button>--}}
-
+{{--<<<<<<< HEAD--}}
 {{--                </div>--}}
+{{--                <div class="bg-white table border-0 bg-white box-shadow-mount rounded-table-mount col-lg-5 mt-5">--}}
+{{--                    <div class="p-3">--}}
+{{--                        <div class="mb-2 pr-5">--}}
+{{--                            <label for="#currency" class="w-25 fontsize-mount"> Currency</label>--}}
+{{--                            <select class="border-top-0 border-right-0 border-left-0 rounded-0 mount-input3 bg-white text-secondary bd-bottom-mount fontsize-mount22" id="currency" name="currency">--}}
+{{--                                <option selected disabled>--None--</option>--}}
+{{--=======--}}
                 <div class="bg-white row m-0 pb-3 border-bottom-radius-mount pt-4">
                     <div class="col ml-4">
                         <label for="#currency" class="w-25 fontsize-mount6 d-block pl-2 ml-1"> Currency</label>
                         @php
                             $currencies=\App\Model\Currency::all();
                         @endphp
-{{--                        <select class="border-top-0 border-right-0 border-left-0 rounded-0 bg-white text-secondary bd-bottom-mount fontsize-mount22" id="currency" name="currency">--}}
                         <select class="selectpicker show-menu-arrow"  id="currency" name="currency" title="Choose one of the following..." data-style="btn-white">
-{{--                            <option selected disabled>--None--</option>--}}
 
                             @foreach($currencies as $currency)
                                 <option value="{{$currency->id}}">{{$currency->name}}</option>
@@ -30,10 +31,8 @@
                     <div class="col">
                         <label for="#GN" class="fontsize-mount d-block">Group Name</label>
                         <input type="text" id="GN" name="group_name" class="border-top-0 border-right-0 border-left-0 rounded-0 bd-bottom-mount fontsize-mount" placeholder="">
-{{----}}
                     </div>
                     <div class="col">
-{{--                        <p class="w-25 pt-2 fontsize-mount d-block" style="position: absolute;left:30px">Note</p>--}}
                         <label for="" class="fontsize-mount d-block">Note</label>
                         <div class="d-block" style=";position: relative" >
                             <select id="multi_select" multiple="multiple" name="notes[]" style="border: none;">
@@ -103,21 +102,27 @@
                 </tr>
              </thead>
              <tbody>
+{{--             @if($currency_groups!=null)--}}
+                 @foreach($currency_groups as $currency_group)
+                     <tr>
+                         <td scope="row" class="table-row-m fontsize-mount">{{$currency_group->name}}</td>
+                         <td class="table-row-m fontsize-mount">{{$currency_group->currency->name}}</td>
+                         <td class="table-row-m text-center">
+                             <form action="{{url('currency_group/'.$currency_group->id.'/edit')}}" method="get">
+                                 <a>
 
-                 <tr>
-                        {{--                        <td class="table-row-m fontsize-mount">1</td>--}}
-
-                     <td scope="row" class="table-row-m fontsize-mount">a</td>
-                     <td class="table-row-m fontsize-mount">b</td>
-                     <td class="table-row-m text-center">
-                         <a>
-                            <i class="far fa-edit mr-3 text-info"></i>
-                         </a>
-                         <a href="#" data-toggle="modal" data-target="#Delete">
-                             <i class="far fa-trash-alt text-danger"></i>
-                         </a>
-                     </td>
-                 </tr>
+                                     <button ><i class="far fa-edit mr-3 text-info"> </i></button>
+                                 </a>
+                             </form>
+                             <a href="#" data-toggle="modal" data-target="#Delete">
+                                 <i class="far fa-trash-alt text-danger"></i>
+                             </a>
+                         </td>
+                     </tr>
+                 @endforeach
+{{--                 @else--}}
+{{--                 <p>Doesn't not have</p>--}}
+{{--                 @endif--}}
 
 
              </tbody>

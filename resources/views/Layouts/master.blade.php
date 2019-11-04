@@ -14,10 +14,6 @@
     <link rel="stylesheet" type="text/css" href="{{asset('css/main.css')}}">
     <script src="{{asset('js/jquery.js')}}"></script>
     <link rel="stylesheet" type="text/css" href="{{asset('css/selectboot.css')}}">
-
-
-
-
     {{--    <link rel="stylesheet" type="text/css" href="{{asset('bootstrap-seleselectboot.css <script src="{{asset('js/jquery.js')}}"></script>
 
     {{--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">--}}
@@ -57,6 +53,7 @@
 @yield('script')
 <script src="{{asset('js/tablefilter.js')}}"></script>
 <script src="{{asset('js/multi.js')}}"></script>
+<script src="{{asset('js/dailycurrency.js')}}"></script>
 
 
 <script>
@@ -71,9 +68,30 @@
                 $('.img-pos').removeClass('active-pos');
             }
         );
+        $('#currency_date').datepicker({
+            // altFormat:"dd-mm-YY",
+            dateFormat:'yy-mm-dd',
+            changeYear:true,
+            changeMonth:true,
+            // showButtonPanel: true,
+            autoSize: true,
+            hideIfNoPrevNext: true,
+            yearRange: "1960:2030",
+            duration:'slow',
+            // constrainInput: false
+            // showMonthAfterYear: true
+            // buttonImage: "/images/datepicker.gif",
+            // buttonImageOnly: true
+    });
+
+        // $('#currency_datefilter').on('click',function () {
+        //     var date=$('#currency_date').val();
+        //     console.log(date);
+        // });
     });
 
 </script>
+
 
 </body>
 </html>

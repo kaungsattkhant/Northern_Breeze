@@ -78,7 +78,6 @@ class StaffController extends Controller
     }
     public function role_filter($id)
     {
-//        return response()->json($id);
         $staff=Staff::where('role_id','=',$id)->get();
         $role_filter=view('Staff.role_filter',compact('staff'));
         return $role_filter;

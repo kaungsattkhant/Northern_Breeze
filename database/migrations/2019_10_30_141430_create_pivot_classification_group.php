@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CurrencyClass extends Migration
+class CreatePivotClassificationGroup extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CurrencyClass extends Migration
      */
     public function up()
     {
-        Schema::create('currency_class', function (Blueprint $table) {
-           $table->bigIncrements('id');
-           $table->unsignedBigInteger('currency_id');
-           $table->unsignedBigInteger('classification_id');
-            $table->foreign('currency_id')->references('id')->on('currencies')->onUpdate('cascade')->onUpdate('cascade');
+        Schema::create('classification_group', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('group_id');
+            $table->unsignedBigInteger('classification_id');
+            $table->foreign('group_id')->references('id')->on('groups')->onUpdate('cascade')->onUpdate('cascade');
             $table->foreign('classification_id')->references('id')->on('classifications')->onUpdate('cascade')->onUpdate('cascade');
         });
     }
@@ -29,6 +29,6 @@ class CurrencyClass extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('currency_class');
+        Schema::dropIfExists('classification_group');
     }
 }

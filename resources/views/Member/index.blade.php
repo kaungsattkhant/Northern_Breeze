@@ -1,3 +1,4 @@
+
 @extends('Layouts.master')
 @section('content')
 
@@ -47,7 +48,7 @@
                         </a>
                         <a >
                             <i class="far fa-trash-alt text-danger" onclick="deleteMember({{$member->id}})"></i>
-                        </a>
+                        </a
                     </td>
                 </tr>
                     @endforeach

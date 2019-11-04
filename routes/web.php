@@ -49,11 +49,22 @@ Route::group(['middleware'=>['staffCheck']],function() {
         });
         Route::group(['prefix'=>'currency_group'],function(){
             Route::get('/','CurrencyGroupController@index');
+            Route::get('/create','CurrencyGroupController@create');
             Route::post('store','CurrencyGroupController@store');
+            Route::get('{id}/edit','CurrencyGroupController@edit');
+            Route::patch('update','CurrencyGroupController@update');
+        });
+        Route::group(['prefix'=>'daily_currency'],function(){
+            Route::get('/','DailyCurrencyController@index');
+            Route::get('/create','DailyCurrencyController@create');
+            Route::post('store','DailyCurrencyController@store');
+            Route::get('{id}/filter','DailyCurrencyController@daily_currency_filter');
+            Route::post('/datefilter','DailyCurrencyController@daily_currency_datefilter');
         });
     });
 });
 Route::group(['namespace'=>'Web'],function(){
+    Route::get('/','LoginController@login');
     Route::get('login',"LoginController@login");
     Route::post('login','LoginController@makeLogin');
     Route::match(['get','post'],'logout',"LoginController@logout");
@@ -61,48 +72,48 @@ Route::group(['namespace'=>'Web'],function(){
 
 
 
-Route::get('/non_member',function()
-{
-    return view('Member.non_member');
-});
-
-Route::get('/pos_member',function()
-{
-    return view('Member.pos_member');
-});
-
-Route::get('/stock',function()
-{
-    return view('Stock.stock_inventory');
-});
-
-Route::get('/create_stock',function()
-{
-    return view('Stock.add');
-});
-
-Route::get('/transfer_stock',function()
-{
-    return view('Stock.transfer');
-});
-Route::get('/currency',function()
-{
-    return view('Currency.index');
-});
-Route::get('/daily_currency',function()
-{
-    return view('DailyCurrency.index');
-});
-Route::get('/daily_currency2',function()
-{
-    return view('DailyCurrency.index2');
-});
-Route::get('/daily_currency3',function()
-{
-    return view('DailyCurrency.daily_currency');
-});
-Route::get('/test',function()
-{
-    return view('Currency.test');
-});
+//Route::get('/non_member',function()
+//{
+//    return view('Member.non_member');
+//});
+//
+//Route::get('/pos_member',function()
+//{
+//    return view('Member.pos_member');
+//});
+//
+//Route::get('/stock',function()
+//{
+//    return view('Stock.stock_inventory');
+//});
+//
+//Route::get('/create_stock',function()
+//{
+//    return view('Stock.add');
+//});
+//
+//Route::get('/transfer_stock',function()
+//{
+//    return view('Stock.transfer');
+//});
+//Route::get('/currency',function()
+//{
+//    return view('Currency.index');
+//});
+//Route::get('/daily_currency',function()
+//{
+//    return view('DailyCurrency.index');
+//});
+//Route::get('/daily_currency2',function()
+//{
+//    return view('DailyCurrency.index2');
+//});
+////Route::get('/daily_currency3',function()
+////{
+////    return view('DailyCurrency.daily_currency');
+////});
+//Route::get('/test',function()
+//{
+//    return view('Currency.test');
+//});
 
