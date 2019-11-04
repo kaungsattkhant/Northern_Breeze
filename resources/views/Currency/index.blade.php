@@ -36,7 +36,7 @@
 {{--                        <p class="w-25 pt-2 fontsize-mount d-block" style="position: absolute;left:30px">Note</p>--}}
                         <label for="" class="fontsize-mount d-block">Note</label>
                         <div class="d-block" style=";position: relative" >
-                            <select id="multi_select" multiple="multiple" name="notes[]">
+                            <select id="multi_select" multiple="multiple" name="notes[]" style="border: none;">
                                 @php
                                     $notes=\App\Model\Note::all();
                                 @endphp

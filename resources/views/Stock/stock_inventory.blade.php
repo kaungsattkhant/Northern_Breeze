@@ -4,13 +4,13 @@
     <div class="container-nb-mount">
         <div class="d-flex justify-content-between top-box-mount shadow-sm">
             <div  class="my-auto ml-4 pl-3">
-                <select class="selectpicker show-menu-arrow" name="Branches" data-style="btn-white" data-width="auto">
+                <select class="selectpicker" name="Branches" data-style="btn-white" data-width="auto">
                     <option selected disabled>Branches</option>
                     <option>1111</option>
                     <option>22222</option>
                 </select>
 
-                <select class="selectpicker show-menu-arrow" name="Branches" data-style="btn-white" data-width="auto">
+                <select class="selectpicker" name="In/Out/All" data-style="btn-white" data-width="auto">
                     <option selected disabled>In/Out/All</option>
                     <option>1111</option>
                     <option>22222</option>

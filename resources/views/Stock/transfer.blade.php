@@ -21,13 +21,20 @@
             </div>
             <div class="row pt-3">
                 <div class="col">
-                    <select class=" text-nb-mount row-col-p mb-2 ml-1 border-0 bg-transparent" style="font-size: 20px">
-                        <option selected disabled>Currency Value</option>
-                        <option>1</option>
-                        <option>1</option>
-                        <option>1</option>
-                    </select>
-                    <table class="table border-0 bg-white box-shadow-mount rounded-table-mount">
+                    <div class="mt-4 mb-0 bg-white border-top-radius-mount" style="width: 30%;">
+                        <select class="selectpicker pl-2" name="currency_value" data-style="btn-white" data-width="auto" style="font-size: 20px;">
+                            <option selected disabled>Currency Value</option>
+                            <option>asdf</option>
+                            <option>ghjkl</option>
+                        </select>
+                    </div>
+{{--                    <select class=" text-nb-mount row-col-p mb-2 ml-1 border-0 bg-transparent" style="font-size: 20px">--}}
+{{--                        <option selected disabled>Currency Value</option>--}}
+{{--                        <option>1</option>--}}
+{{--                        <option>1</option>--}}
+{{--                        <option>1</option>--}}
+{{--                    </select>--}}
+                    <table class="table border-0 bg-white box-shadow-mount border-tab-radius-mount">
 
                         <tbody class="rounded-table-mount">
 
@@ -99,7 +106,7 @@
                     </div>
                 </div>
                 <div class="col">
-{{--                    <p class="row-col-p2 text-nb-mount fontsize-mount4 mb-2 ml-1">ပြန်လည်ပေးအပ်ငွေ</p>--}}
+
                     <select class=" text-nb-mount row-col-p mb-0 ml-1 border-0 bg-transparent" style="font-size: 20px">
                         <option selected disabled>Currency</option>
                         <option>1</option>

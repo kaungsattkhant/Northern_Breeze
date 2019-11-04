@@ -3,8 +3,8 @@
 
         <div class="container-nb-mount">
             <div class="d-flex justify-content-between top-box-mount shadow-sm">
-                                <div class="my-auto btnzz">
-                                    <select class="border-0 rounded-0  bg-white text-color-mount fontsize-mount22 pl-4" style="height: 50px;">
+                                <div class="my-auto">
+                                    <select class="selectpicker ml-4" name="total_value" data-style="btn-white" data-width="auto">
                                         <option selected disabled>Total Value</option>
                                         <option>11111</option>
                                         <option>22222</option>
@@ -17,13 +17,20 @@
             </div>
             <div class="row">
                 <div class="col">
-                    <select class=" text-nb-mount row-col-p mb-0 ml-1 border-0 bg-transparent" style="font-size: 20px;">
-                        <option selected disabled>Currency value</option>
-                        <option>1</option>
-                        <option>1</option>
-                        <option>1</option>
-                    </select>
-                    <table class="table border-0 bg-white box-shadow-mount rounded-table-mount">
+                    <div class="mt-4 mb-0 bg-white border-top-radius-mount" style="width: 30%;">
+                        <select class="selectpicker pl-2" name="currency_value" data-style="btn-white" data-width="auto">
+                            <option selected disabled>Currency Value</option>
+                            <option>11111</option>
+                            <option>22222</option>
+                        </select>
+                    </div>
+{{--                    <select class=" text-nb-mount row-col-p mb-0 border-0 bg-white border-top-radius-mount " style="font-size: 20px;">--}}
+{{--                        <option selected disabled>Currency value</option>--}}
+{{--                        <option>1</option>--}}
+{{--                        <option>1</option>--}}
+{{--                        <option>1</option>--}}
+{{--                    </select>--}}
+                    <table class="table border-0 bg-white box-shadow-mount border-tab-radius-mount">
 
                         <tbody class="rounded-table-mount">
 

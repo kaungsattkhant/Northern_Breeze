@@ -235,6 +235,11 @@ input:focus{
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
 }
+.border-tab-radius-mount{
+    border-top-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
 .bs-mount{
     box-shadow: 2px 2px 5px #f6477286,1px 1px 3px #aaa;
 }
@@ -500,6 +505,9 @@ input:focus{
 .text-color-mount{
     color: #555 !important;
 }
+.text-color-mount1235{
+    color: #333333 !important;
+}
 .text-rates-mount{
     font-size: 15px;
     color: #333;
@@ -675,7 +683,7 @@ li .dropdown-menu.show{
     border: 1px solid #eeeeee;
     /*border-width: 50px;*/
     background-color: #fdfdfd;
-    border-radius: 25px 3px 3px 25px;
+    border-radius: 25px 25px 25px 25px;
     padding: 10px;
     /*margin-right: 10px;*/
     margin-left: 10px;
@@ -687,7 +695,7 @@ li .dropdown-menu.show{
 .col-item-mini{
     background-color: #FDFDFD;
     border: 1px solid #eeeeee;
-    border-radius: 3px 25px 25px 3px;
+    border-radius: 25px 25px 25px 25px;
     padding: 13px 0px;
     margin-right: 5px;
     /*margin-left: 5px;*/
@@ -752,8 +760,27 @@ li .dropdown-menu.show{
 
     font-size: 17px;
 }
+.fs-select2 .bootstrap-select > .dropdown-toggle {
+    border: none;
 
+    font-size: 14px;
+}
 .bootstrap-select .dropdown-menu li a{
     font-size: 16px;
+}
+.collap-menu-mount{
+    box-shadow: 0px 0px 18px #888888 inset;
+    background-color:#fff;
+    width: 100%;
+}
+.collap-mount:hover{
+    background-color: transparent;
+    /*box-shadow: -0px -0px 12px #777777 inset;*/
+}
+.__mm{
+    font-size: 1rem!important;
+    /*font-family: 'Roboto', sans-serif!important;*/
+    /*font-weight: 500!important;*/
+    /*color:#000000;*/
 }
 

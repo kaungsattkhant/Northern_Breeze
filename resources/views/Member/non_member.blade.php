@@ -4,14 +4,14 @@
     <div class="container-nb-mount">
         <div class="d-flex justify-content-between top-box-mount shadow-sm">
             <div class="my-auto ">
-                <select class="selectpicker show-menu-arrow ml-4" name="Branches" data-style="btn-white" data-width="auto">
+                <select class="selectpicker ml-4" name="Branches" data-style="btn-white" data-width="auto">
 
                     <option selected disabled>လဲလှယ်မည့်ငွေ</option>
                     <option>11111</option>
                     <option>22222</option>
                 </select>
 
-                <select class="selectpicker show-menu-arrow pl-4" name="Branches" data-style="btn-white" data-width="auto">
+                <select class="selectpicker pl-4" name="Branches" data-style="btn-white" data-width="auto">
                     <option selected disabled>ပြန်လည်ထုတ် ပေးမည့်ငွေ</option>
                     <option>1111</option>
                     <option>22222</option>
@@ -19,10 +19,10 @@
             </div>
             <button type="button" class="btn btn-nb-mount-save fontsize-mount"  data-toggle="modal" data-target="#save">သိမ်းမည်</button>
         </div>
-        <div class="row pt-3">
+        <div class="row">
             <div class="col">
-                <p class=" text-nb-mount row-col-p fontsize-mount4 mb-2 ml-1" style="font-family: 'MM3'">လဲလှယ်မည့်ငွေ</p>
-                <table class="table border-0 bg-white box-shadow-mount rounded-table-mount">
+                <p class="border-top-radius-mount text-nb-mount mt-3 pl-3 fontsize-mount4 bg-white mb-0 pt-1 pb-2 w-25 ">လဲလှယ်မည့်ငွေ</p>
+                <table class="table border-0 bg-white box-shadow-mount border-tab-radius-mount">
 
                     <tbody class="rounded-table-mount">
 
@@ -90,6 +90,13 @@
                             <label for="#input1" class="text-secondary">&nbsp;</label>
                         </td>
                     </tr>
+                    <tr>
+                        <td class="border-top-0 text-nb-mount" style="padding: 30px;"></td>
+                        <td class="text-right border-top-0">
+
+                            <label for="#input1" class="text-secondary">&nbsp;</label>
+                        </td>
+                    </tr>
 
                     </tbody>
 
@@ -100,8 +107,8 @@
                 </div>
             </div>
             <div class="col">
-                <p class="row-col-p2 text-nb-mount fontsize-mount4 mb-2 ml-1">ပြန်လည်ပေးအပ်ငွေ</p>
-                <table class="table border-0 bg-white box-shadow-mount rounded-table-mount">
+                <p class="border-top-radius-mount text-nb-mount mt-3 pl-3 fontsize-mount4 bg-white mb-0 pt-1 pb-2" style="width: 27%">ပြန်လည်ပေးအပ်ငွေ</p>
+                <table class="table border-0 bg-white box-shadow-mount border-tab-radius-mount">
                     <tbody class="rounded-table-mount">
 
                     <tr>
@@ -159,6 +166,12 @@
                         <td class="text-right border-top-0">
                             <input type="text" class="border rounded-table-mount w-25 text-center fontsize-mount3 pt-1" id="input1">
                             <label for="#input1" class="text-color-mount fontsize-mount3">&nbsp;တန်ဖိုး</label>
+                        </td>
+                    </tr>
+                    <tr >
+                        <td class="border-top-0 text-nb-mount" style="padding: 30px;"></td>
+                        <td class="text-right border-top-0">
+                            <label for="#input1" class="text-color-mount">&nbsp;</label>
                         </td>
                     </tr>
                     <tr >
