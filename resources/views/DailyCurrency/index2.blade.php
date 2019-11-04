@@ -11,12 +11,12 @@
         </div>
         <div class="pt-5">
             <div class="bg-white rounded-table-mount box-shadow-mount2 pb-5 px-2">
-                <div class="mb-3 pt-3 pb-1  ">
-                    <select class="border-0 rounded-0  bg-white  text-color-mount fontsize-mount ml-4 pl-2 btn-m" style="height: 50px;">
+                <div class="mb-3 pt-4 pb-1 fs-select">
+                    <select class="selectpicker show-menu-arrow ml-3 pl-2" name="Branches" data-style="btn-white" data-width="auto">
                         <option selected disabled>Currency</option>
-                        <option style="background-color: #eeeeee;width: 70px;">U.S.D</option>
-                        <option style="background-color: #eeeeee">Chinese</option>
-                        <option style="background-color: #eeeeee">Thailand</option>
+                        <option>U.S.D</option>
+                        <option>Chinese</option>
+                        <option>Thailand</option>
                     </select>
 
                 </div>
@@ -164,9 +164,9 @@
     {{--    @include('Staff.destroy')--}}
     <script>
         $(function(){
-            $("#staff a").addClass("active-staff");
+            $("#daily a").addClass("active-daily");
 
-            $("#staff").addClass("active2");
+            $("#daily").addClass("active2");
 
         });
     </script>

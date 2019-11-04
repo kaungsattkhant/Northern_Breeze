@@ -5,7 +5,7 @@
         <div class="d-flex justify-content-between top-box-mount shadow-sm">
             <div  class="my-auto btnzz ml-4">
 
-                <select class="border-0 rounded-0  bg-white  text-color-mount fontsize-mount pl-4 btn-m" style="height: 50px;">
+                <select class="border-0 rounded-0  bg-white  text-color-mount fontsize-mount pl-4 btn-m" style="height: 50px;" id="staff_filter">
                     <option selected disabled>Roles</option>
                     @php
                         $roles=\App\Model\Role::all();

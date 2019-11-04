@@ -71,7 +71,9 @@
                 <div class="row">
                     <div class="col col-item2">
                         {{--                                    <p class="text-color-mount fontsize-mount17 pt-1">10000</p>--}}
-                        <input type="text" placeholder="" name="buying_price[]" class="text-center text-box-mount fontsize-mount17">
+{{--                        <input type="text" placeholder=""  class="text-center text-box-mount fontsize-mount17">--}}
+                        <input type="text" placeholder="2000"  name="buying_price[]" class="text-center text-black text-box-mount">
+
                         <input type="hidden" name="class_group_id" value="{{$group->id}}">
                     </div>
                     @if($group->currency_id == 18)
@@ -82,6 +84,7 @@
                             @foreach($classifications as $classification)
                                 <div class="col-item-mini text-color-mount fontsize-mount2">
                                     <input type="text" placeholder="{{$classification->name}}" name="classification[]" class="pl-3" style="width: 100%;border: none;background-color: transparent">
+
                                     <input type="hidden" name="classification_id[]" value="{{$classification->id}}">
                                 </div>
                             @endforeach

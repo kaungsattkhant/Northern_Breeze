@@ -3,14 +3,14 @@
 
     <div class="container-nb-mount">
         <div class="d-flex justify-content-between top-box-mount shadow-sm">
-            <div  class="my-auto btnzz ml-4">
-                <select class="border-0 rounded-0  bg-white  text-color-mount fontsize-mount pl-4 btn-m" style="height: 50px;">
+            <div  class="my-auto ml-4 pl-3">
+                <select class="selectpicker show-menu-arrow" name="Branches" data-style="btn-white" data-width="auto">
                     <option selected disabled>Branches</option>
                     <option>1111</option>
                     <option>22222</option>
                 </select>
 
-                <select class="border-0 rounded-0  bg-white  text-color-mount fontsize-mount pl-4 btn-m" style="height: 50px;">
+                <select class="selectpicker show-menu-arrow" name="Branches" data-style="btn-white" data-width="auto">
                     <option selected disabled>In/Out/All</option>
                     <option>1111</option>
                     <option>22222</option>
@@ -23,56 +23,68 @@
              </div>
 
          </div>
-         <div class="pt-5">
-             <div class="mb-2">
+         <div class="pt-2 mt-1">
+             <div class="mb-1 pb-">
                  <p class="mb-3 fontsize-mount17 ml-1 d-inline">Total amount exchange :</p>
                  <p class="fontsize-mount17 d-inline"> 100,100,00</p>
              </div>
              <table class="table bg-white box-shadow-mount rounded-table-mount "  id="myTable">
                  <thead>
                  <tr>
-                     <th scope="col" class="border-bottom-0 border-top-0 fontsize-mount6" >Currency</th>
-                     <th scope="col" class="border-bottom-0 border-top-0 fontsize-mount6">Amount</th>
-                     <th scope="col" class="border-bottom-0 border-top-0 fontsize-mount6">In/Out</th>
-                     <th scope="col" class="border-bottom-0 border-top-0 fontsize-mount6"></th>
+                     <th scope="col" class="border-top-0 fontsize-mount6" >Currency</th>
+                     <th scope="col" class=" border-top-0 fontsize-mount6">Amount</th>
+                     <th scope="col" class="border-top-0 fontsize-mount6">In/Out</th>
+                     <th scope="col" class=" border-top-0 fontsize-mount6"></th>
                  </tr>
                  </thead>
                  <tbody>
                  <tr>
-                     <td scope="row" class="table-row-m fontsize-mount2">Myanmar Kyats</td>
-                     <td class="table-row-m fontsize-mount2">1000000</td>
-                     <td class="table-row-m text-info">In</td>
-                     <td class="table-row-m "><a href="#" class="text-a-mount" data-toggle="modal" data-target="#detail">Detail</a></td>
+                     <td scope="row" class="table-row-m fontsize-mount2 border-top-0">Myanmar Kyats</td>
+                     <td class="table-row-m fontsize-mount2 border-top-0">1000000</td>
+                     <td class="table-row-m text-info border-top-0">In</td>
+                     <td class="table-row-m border-top-0"><a href="#" class="text-a-mount" data-toggle="modal" data-target="#detail">Detail</a></td>
                  </tr>
                  <tr>
-                     <td scope="row" class="table-row-m fontsize-mount2">U.S Dollar</td>
-                     <td class="table-row-m fontsize-mount2">1000000</td>
-                     <td class="table-row-m text-danger">OUt</td>
-                     <td class="table-row-m "><a href="#" class="text-a-mount" data-toggle="modal" data-target="#detail">Detail</a></td>
+                     <td scope="row" class="table-row-m fontsize-mount2 border-top-0 ">U.S Dollar</td>
+                     <td class="table-row-m fontsize-mount2 border-top-0">1000000</td>
+                     <td class="table-row-m text-danger border-top-0">Out</td>
+                     <td class="table-row-m border-top-0"><a href="#" class="text-a-mount" data-toggle="modal" data-target="#detail">Detail</a></td>
                  </tr>
                  <tr>
-                     <td scope="row" class="table-row-m fontsize-mount2">Singapore Sing</td>
-                     <td class="table-row-m fontsize-mount2">1000000</td>
-                     <td class="table-row-m text-info">In</td>
-                     <td class="table-row-m "><a href="#" class="text-a-mount" data-toggle="modal" data-target="#detail">Detail</a></td>
+                     <td scope="row" class="table-row-m fontsize-mount2 border-top-0">Singapore Sing</td>
+                     <td class="table-row-m fontsize-mount2 border-top-0">1000000</td>
+                     <td class="table-row-m text-info border-top-0">In</td>
+                     <td class="table-row-m border-top-0"><a href="#" class="text-a-mount" data-toggle="modal" data-target="#detail">Detail</a></td>
                  </tr>
                  <tr>
-                     <td scope="row" class="table-row-m fontsize-mount2">Thai Baht</td>
-                     <td class="table-row-m fontsize-mount2">1000000</td>
-                     <td class="table-row-m text-info">In</td>
-                     <td class="table-row-m "><a href="#" class="text-a-mount" data-toggle="modal" data-target="#detail">Detail</a></td>
+                     <td scope="row" class="table-row-m fontsize-mount2 border-top-0">Thai Baht</td>
+                     <td class="table-row-m fontsize-mount2 border-top-0">1000000</td>
+                     <td class="table-row-m text-info border-top-0">In</td>
+                     <td class="table-row-m  border-top-0"><a href="#" class="text-a-mount" data-toggle="modal" data-target="#detail">Detail</a></td>
                  </tr>
                  <tr>
-                     <td scope="row" class="table-row-m fontsize-mount2">Japanese Yen</td>
-                     <td class="table-row-m fontsize-mount2">1000000</td>
-                     <td class="table-row-m text-danger">Out</td>
-                     <td class="table-row-m "><a href="#" class="text-a-mount" data-toggle="modal" data-target="#detail">Detail</a></td>
+                     <td scope="row" class="table-row-m fontsize-mount2 border-top-0">Japanese Yen</td>
+                     <td class="table-row-m fontsize-mount2 border-top-0">1000000</td>
+                     <td class="table-row-m text-danger border-top-0">Out</td>
+                     <td class="table-row-m  border-top-0"><a href="#" class="text-a-mount" data-toggle="modal" data-target="#detail">Detail</a></td>
                  </tr>
                  <tr>
-                     <td scope="row" class="table-row-m fontsize-mount2">Chinese Yuan</td>
-                     <td class="table-row-m fontsize-mount2">1000000</td>
-                     <td class="table-row-m text-info">In</td>
-                     <td class="table-row-m "><a href="#" class="text-a-mount" data-toggle="modal" data-target="#detail">Detail</a></td>
+                     <td scope="row" class="table-row-m fontsize-mount2 border-top-0">Chinese Yuan</td>
+                     <td class="table-row-m fontsize-mount2 border-top-0">1000000</td>
+                     <td class="table-row-m text-info border-top-0">In</td>
+                     <td class="table-row-m  border-top-0"><a href="#" class="text-a-mount" data-toggle="modal" data-target="#detail">Detail</a></td>
+                 </tr>
+                 <tr>
+                     <td scope="row" class="table-row-m fontsize-mount2 border-top-0"></td>
+                     <td class="table-row-m fontsize-mount2 border-top-0"></td>
+                     <td class="table-row-m text-info border-top-0"></td>
+                     <td class="table-row-m  border-top-0"><a href="#" class="text-a-mount" data-toggle="modal" data-target="#detail"></a></td>
+                 </tr>
+                 <tr>
+                     <td scope="row" class="table-row-m fontsize-mount2 border-top-0">.</td>
+                     <td class="table-row-m fontsize-mount2 border-top-0">.</td>
+                     <td class="table-row-m text-info border-top-0">.</td>
+                     <td class="table-row-m  border-top-0"><a href="#" class="text-a-mount" data-toggle="modal" data-target="#detail"></a></td>
                  </tr>
                  </tbody>
              </table>
