@@ -26,8 +26,8 @@
 {{--                <button type="button" class="btn btn-nb-mount px-3 fontsize-mount fontsize-mount" data-toggle="modal" data-target="#Transfer">Transfer</button>--}}
 {{--            </div>--}}
         </div>
-        <div class="pt-4">
-            <div class="mb-2">
+        <div class="pt-2 mt-1">
+            <div class="mb-1">
                 <p class="mb-3 fontsize-mount17 ml-1 d-inline">Total amount exchange :</p>
                 <p class="fontsize-mount17 d-inline"> 100,100,00</p>
             </div>

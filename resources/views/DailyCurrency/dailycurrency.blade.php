@@ -1,4 +1,4 @@
-    <div class="row pl-1">
+    <div class="row pl-1 pt-5">
         <div class="col-4">
             <label class="pl-3 text-color-mount fontsize-mount pr-4 my-auto">Group Name</label>
         </div>
@@ -10,7 +10,7 @@
         </div>
         @endforeach
     </div>
-    <div class="row mb-1 pl-1">
+    <div class="row mb-4 pl-1">
         <div class="col-4">
         </div>
         @foreach($groups as $group)
@@ -30,7 +30,7 @@
 
 
 {{--                                                                          selling value--}}
-    <div class="row  pl-1">
+    <div class="row pt-3  pl-1">
         <div class="col-4">
             <label class="pl-3 text-color-mount fontsize-mount pr-4 my-auto">Selling Value</label>
         </div>
@@ -45,7 +45,7 @@
     </div>
 
 {{--                                            selling value 2nd role--}}
-    <div class="row mb-1 pl-1">
+    <div class="row mb-3 pl-1">
         <div class="col-4">
 
         </div>
@@ -62,7 +62,7 @@
             @endforeach
     </div>
 {{--                                                            buying value--}}
-    <div class="row mb-1 pl-1">
+    <div class="row mb-1 pl-1 pt-3 pb-5">
         <div class="col-4">
             <label class="pl-3 text-color-mount fontsize-mount pr-4 mt-3">Buying Value</label>
         </div>

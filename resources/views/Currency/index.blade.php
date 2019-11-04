@@ -21,7 +21,7 @@
                         @php
                             $currencies=\App\Model\Currency::all();
                         @endphp
-                        <select class="selectpicker show-menu-arrow"  id="currency" name="currency" title="Choose one of the following..." data-style="btn-white">
+                        <select class="selectpicker show-menu-arrow"  id="currency" name="currency" title="Choose one..." data-style="btn-white">
 
                             @foreach($currencies as $currency)
                                 <option value="{{$currency->id}}">{{$currency->name}}</option>
@@ -108,13 +108,13 @@
                          <td scope="row" class="table-row-m fontsize-mount">{{$currency_group->name}}</td>
                          <td class="table-row-m fontsize-mount">{{$currency_group->currency->name}}</td>
                          <td class="table-row-m text-center">
-                             <form action="{{url('currency_group/'.$currency_group->id.'/edit')}}" method="get">
+                             <form action="{{url('currency_group/'.$currency_group->id.'/edit')}}" method="get" class="d-inline">
                                  <a>
 
-                                     <button ><i class="far fa-edit mr-3 text-info"> </i></button>
+                                     <button  class="border-0 bg-transparent"><i class="far fa-edit mr-3 text-info"> </i></button>
                                  </a>
                              </form>
-                             <a href="#" data-toggle="modal" data-target="#Delete">
+                             <a class="d-inline" href="#" data-toggle="modal" data-target="#Delete">
                                  <i class="far fa-trash-alt text-danger"></i>
                              </a>
                          </td>

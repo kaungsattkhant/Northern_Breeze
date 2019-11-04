@@ -14,7 +14,7 @@
                 <div class="mb-3 pt-4 pb-1 fs-select">
                     <select class="selectpicker show-menu-arrow ml-3 pl-2" name="Branches" data-style="btn-white" data-width="auto">
                         <option selected disabled>Currency</option>
-                        <option>U.S.D</option>
+                        <option>U.S.D Dollars</option>
                         <option>Chinese</option>
                         <option>Thailand</option>
                     </select>

@@ -21,11 +21,11 @@
             </div>
             <div class="row pt-3">
                 <div class="col">
-                    <div class="mt-4 mb-0 bg-white border-top-radius-mount" style="width: 30%;">
+                    <div class="mt-1 mb-0 bg-white border-top-radius-mount" style="width: 30%;">
                         <select class="selectpicker pl-2" name="currency_value" data-style="btn-white" data-width="auto" style="font-size: 20px;">
                             <option selected disabled>Currency Value</option>
-                            <option>asdf</option>
-                            <option>ghjkl</option>
+                            <option>1000</option>
+                            <option>2000</option>
                         </select>
                     </div>
 {{--                    <select class=" text-nb-mount row-col-p mb-2 ml-1 border-0 bg-transparent" style="font-size: 20px">--}}
@@ -107,13 +107,20 @@
                 </div>
                 <div class="col">
 
-                    <select class=" text-nb-mount row-col-p mb-0 ml-1 border-0 bg-transparent" style="font-size: 20px">
-                        <option selected disabled>Currency</option>
-                        <option>1</option>
-                        <option>1</option>
-                        <option>1</option>
-                    </select>
-                    <table class="table border-0 bg-white box-shadow-mount rounded-table-mount mt-2 pb-5">
+{{--                    <select class=" text-nb-mount row-col-p mb-0 ml-1 border-0 bg-transparent" style="font-size: 20px">--}}
+{{--                        <option selected disabled>Currency</option>--}}
+{{--                        <option>1</option>--}}
+{{--                        <option>1</option>--}}
+{{--                        <option>1</option>--}}
+{{--                    </select>--}}
+                    <div class="mt-1 mb-0 bg-white border-top-radius-mount" style="width: 30%;">
+                        <select class="selectpicker pl-2" name="currency" data-style="btn-white" data-width="auto">
+                            <option selected disabled>Currency</option>
+                            <option>U.S.D</option>
+                            <option>Myanmar Kyats</option>
+                        </select>
+                    </div>
+                    <table class="table border-0 bg-white box-shadow-mount border-tab-radius-mount pb-5">
                         <tbody class="rounded-table-mount ">
 
                         <tr>
