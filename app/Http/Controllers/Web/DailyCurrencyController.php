@@ -52,6 +52,18 @@ class DailyCurrencyController extends Controller
     }
     public function store(Request $request)
     {
+//        dd(now());
+        if(in_array(null,$request->buying_price))
+        {
+            return back()->with('error','Something Wrong!!');
+
+        }
+        elseif(in_array(null,$request->buying_price))
+        {
+            return back()->with('error','Something Wrong!!');
+
+        }
+//        dd($selling_price);
 //        dd($request->all());
         $vData=$request->validate([
             'buying_price'=>'required',
@@ -59,19 +71,29 @@ class DailyCurrencyController extends Controller
 //            'classification_id'=>'required',
             'group_id'=>'required',
         ]);
+
+
         for($i=0;$i<count($request->group_id);$i++)
         {
-            $buying_price = new BuyGroupValue();
-            $buying_price->value =$request->buying_price[$i];
-            $buying_price->group_id=$request->group_id[$i];
-            $buying_price->date_time=now();
-            $buying_price->save();
+            if($request->buying_price[$i]!=null)
+            {
+                $buying_price = new BuyGroupValue();
+                $buying_price->value =$request->buying_price[$i];
+                $buying_price->group_id=$request->group_id[$i];
+                $buying_price->date_time=Carbon::now()->format('Y-m-d H:i');
+                $buying_price->save();
+            }
+            if($request->selling_price[$i]!=null)
+            {
+                $selling_price=new SellGroupValue();
+                $selling_price->value=$request->selling_price[$i];
+                $selling_price->group_id=$request->group_id[$i];
+                $selling_price->date_time=now()->format('Y-m-d H:i');
+                $selling_price->save();
+            }
+            else
+                return back()->with('error','Something Wrong!!');
 
-            $selling_price=new SellGroupValue();
-            $selling_price->value=$request->selling_price[$i];
-            $selling_price->group_id=$request->group_id[$i];
-            $selling_price->date_time=now();
-            $selling_price->save();
         }
         if($request->classification_id)
         {
@@ -114,51 +136,63 @@ class DailyCurrencyController extends Controller
     {
 
         $request_date=$request->date;
-        $buy=BuyGroupValue::whereDate('date_time',$request_date)->get();
-        $result=view('DailyCurrency.dailycurrency_datefilter',compact('buy'));
+        $groups=Group::with('currency','classifications','notes')
+            ->orderBy('currency_id','asc')->get();
+
+        foreach ($groups as $group){
+            $buy_values = BuyGroupValue::where('group_id',$group->id)->whereDate('date_time',$request_date)->get();
+            $lastest_buy_value = collect($buy_values)->last();
+            $group->lastest_buy_value = $lastest_buy_value['value'];
+            $sell_values = SellGroupValue::where('group_id',$group->id)->whereDate('date_time',$request_date)->get();
+            $lastest_sell_value = collect($sell_values)->last();
+            $group->lastest_sell_value = $lastest_sell_value['value'];
+        }
+        $result=view('DailyCurrency.dailycurrency_datefilter',compact('groups'));
         return $result;
 //        return response()->json($buy);
     }
+    public function daily_detail($currency_id,$group_id)
+    {
 
+        $date = now()->format('Y-m-d');
 
+            $buy_values = BuyGroupValue::where('group_id',$group_id)->whereDate('date_time',$date)->orderBy('date_time','asc')
+                ->get();
+            foreach ($buy_values as $buy_value){
+                $buy_value->type = 'buy';
+            }
+            $sell_values = SellGroupValue::where('group_id',$group_id)->whereDate('date_time',$date)->orderBy('date_time','asc')
+                ->get();
+            foreach ($sell_values as $sell_value){
+                $sell_value->type = 'sell';
+            }
+            $buy_values = collect($buy_values);
+            $sell_values = collect($sell_values);
+            $values = $buy_values->merge($sell_values);
+            $grouped_values = $values->groupBy('date_time');
+            foreach ($grouped_values as $key=>$grouped_value){
+                $v = new \stdClass();
+                $v->date = $grouped_value[0]->date_time;
+//                dd($v->date);
+                foreach ($grouped_value as $g_value){
+                    if($g_value->type == 'buy'){
+                        $v->buy_value= $g_value->value;
+                    }
+                    else
+                        {
+                            $v->sell_value= $g_value->value;
 
-//    public function ss( Request $request)
-//    {
-//        $j=0;
-//        $gp=0;
-//        while($gp<count($request->group_id))
-//        {
-//            for($i=0;$i<count($request->classification);$i++) {
-//                if($request->classification[$i]!=null)
-//                {
-//                    if(isset($request->group_id[$gp]))
-//                    {
-//                        $group=Group::with('classifications')->whereId($request->group_id[$gp])->firstOrfail();
-//                        $group->classifications()->attach($ary[$i]);
-//
-//                        foreach($group->classifications as $key=>$classification)
-//                        {
-//                            $a[] = $class_value[$i];
-//
-//                            $class_value=new ClassValue();
-//                            $class_value->value=$class_value[$i];
-//                            $class_value->date_time=Carbon::now();
-//                            $class_value->classification_group_id=$classification->pivot->id;
-//                            $class_value->save();
-//
-//                        }
-//
-//                    }
-//
-//                }
-//
-//
-//                if($i+1==count($request->classification)/count($request->group_id) || $i+1==count($request->classification))
-//                {
-//                    $gp++;
-//                }
-//            }
-//            $j++;
-//        }
-//    }
+                        }
+
+                }
+//                dd($v);
+                $vs[] = $v;
+
+            }
+//        dd($vs);
+
+        $data=view('DailyCurrency.detail_view',compact('vs'));
+
+        return $data;
+    }
 }

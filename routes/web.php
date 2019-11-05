@@ -60,6 +60,7 @@ Route::group(['middleware'=>['staffCheck']],function() {
             Route::post('store','DailyCurrencyController@store');
             Route::get('{id}/filter','DailyCurrencyController@daily_currency_filter');
             Route::post('/datefilter','DailyCurrencyController@daily_currency_datefilter');
+            Route::get('/{currency_id}/detail/{group_id}','DailyCurrencyController@daily_detail');
         });
     });
 });

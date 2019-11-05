@@ -2,9 +2,16 @@
 @section('content')
 
     <div class="container-nb-mount">
-        <form action="{{url('daily_currency/store')}}" method="post">
-            @csrf
+        @if(session()->has('error'))
+            <div class="alert alert-danger" style="width:700px">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                {{ session()->get('error') }}
+            </div>
+        @endif
+
         <div class="">
+            <form action="{{url('daily_currency/store')}}" method="post">
+                @csrf
             <div class="bg-white border-bottom-radius-mount box-shadow-mount2 pb-5 px-2 pt-4">
                 <div class="mb-5 pt-3 pb-1 d-flex justify-content-between fs-select">
                     <select  class="selectpicker ml-4 pl-2" name="currency" data-width="auto" id="daily_currency_filter">
@@ -25,9 +32,10 @@
 
                 </div>
             </div>
-
-        </div>
         </form>
+
+
+    </div>
     </div>
     <script>
         $(function(){

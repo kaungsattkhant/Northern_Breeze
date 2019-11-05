@@ -30,8 +30,8 @@
                     <th scope="col" class="border-bottom-0 border-top-0 fontsize-mount6" >Currency</th>
                     <th scope="col" class="border-bottom-0 border-top-0 fontsize-mount6" >Group</th>
                     <th scope="col" class="border-bottom-0 border-top-0 fontsize-mount6">Note</th>
-                    <th scope="col" class="border-bottom-0 border-top-0 fontsize-mount6">Buying Value</th>
                     <th scope="col" class="border-bottom-0 border-top-0 fontsize-mount6">Selling Value</th>
+                    <th scope="col" class="border-bottom-0 border-top-0 fontsize-mount6">Buying Value</th>
 
                 </tr>
                 </thead>
@@ -47,13 +47,14 @@
                             {{$note->name}}
                             @endforeach
                     </td>
-                    <td class="table-row-m text-info">
-                       {{$group->lastest_buy_value}}
-                    </td>
+
                     <td class="table-row-m text-info">
                        {{$group->lastest_sell_value}}
                     </td>
-                    <td class="table-row-m "><a href="#" class="text-a-mount" data-toggle="modal" data-target="#detail">Detail</a></td>
+                    <td class="table-row-m text-info">
+                        {{$group->lastest_buy_value}}
+                    </td>
+                    <td class="table-row-m "><a href="#" class="text-a-mount" onclick="dailyDetail({{$group->currency->id}},{{$group->id}})" >Detail</a></td>
                 </tr>
                     @endforeach
                 </tbody>
@@ -70,6 +71,6 @@
     </script>
 
 
-    @include('Stock.detail_stock')
+    @include('DailyCurrency.detail')
 @endsection
 
