@@ -30,9 +30,9 @@
                                 </span>
                     </div>
 
-                    <div class="mb-3 {{$errors->has('role') ? 'has:error':''}}">
-                        <label for="#role" class="w-25">Roles</label>
-                        <select name="role" class="border-top-0 border-right-0 border-left-0 rounded-0 mount-input bg-white text-secondary" id="role1" style="border: 1px solid #ced4da;">
+                    <div class="mb-3 row fs-select4 {{$errors->has('role') ? 'has:error':''}}">
+                        <label for="#role1" class="w-25" style="padding-left: 16px;">Roles</label>
+                        <select name="role" class="selectpicker show-menu-arrow margin-left-mount bd-bottom-mount" data-width="300px" id="role1">
                             <option selected disabled>--None--</option>
                             @php
                             $roles=\App\Model\Role::all();

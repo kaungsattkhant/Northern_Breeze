@@ -43,9 +43,9 @@
                                 </span>
                         </div>
 
-                        <div class="mb-3 {{$errors->has('role') ? 'has:error':''}}">
-                            <label for="#role" class="w-25">Roles</label>
-                            <select name="role" class="border-top-0 border-right-0 border-left-0 rounded-0 mount-input bg-white text-secondary" id="role" style="border: 1px solid #ced4da;">
+                        <div class="mb-3 row fs-select4 {{$errors->has('role') ? 'has:error':''}}">
+                            <label for="#role" class="w-25" style="padding-left: 16px;">Roles</label>
+                            <select name="role" class="selectpicker show-menu-arrow ml-1 bd-bottom-mount" data-width="300px" id="role">
                                 <option selected disabled>--None--</option>
                                 @foreach($roles as $role)
                                 <option value="{{$role->id}}">{{$role->name}}</option>

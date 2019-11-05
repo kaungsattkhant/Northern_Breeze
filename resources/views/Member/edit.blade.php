@@ -97,10 +97,10 @@
                                     <strong id="company_error1"></strong>
                                 </span>
                     </div>
-                    <div class="mb-2">
-                        <label for="#ex123" class="w-50 fontsize-mount">Exchange Type</label>
-                        <select  id="exchange_type1" name="exchange_type"  class="border-top-0 border-right-0 border-left-0 rounded-0 mount-input2 bg-white text-secondary bd-bottom-mount fontsize-mount22" >
-                            <option selected disabled>--None--</option>
+                    <div class="mb-2 row fs-select4">
+                        <label for="exchange_type" class="fontsize-mount d-inline col-4">Exchange Type</label>
+                        <select  id="exchange_type1" name="exchange_type"  class=" selectpicker d-inline bd-bottom-mount ml-3" data-width="231px">
+                        <option selected disabled>--None--</option>
                             @php
                                 $exchange_type=\App\Model\ExchangeType::all()
                             @endphp
@@ -113,10 +113,10 @@
                                     <strong id="exchange_type_error1"></strong>
                                 </span>
                     </div>
-                    <div class="mb-0">
-                        <label for="#ex123" class="w-50 fontsize-mount">Member Type</label>
-                        <select class="border-top-0 border-right-0 border-left-0 rounded-0 mount-input2 bg-white text-secondary bd-bottom-mount fontsize-mount22" id="member_type1" name="member_type" >
-                            <option selected disabled>--None--</option>
+                    <div class="mb-0 row fs-select4">
+                        <label for="#member_type" class="col-4 col-4 fontsize-mount">Member Type</label>
+                        <select  class=" selectpicker d-inline bd-bottom-mount ml-3" data-width="231px" id="member_type1" name="member_type" >
+                        <option selected disabled>--None--</option>
                             @php
                                 $member_type=\App\Model\MemberType::all();
                             @endphp
@@ -129,9 +129,9 @@
                                     <strong id="member_type_error1"></strong>
                                 </span>
                     </div>
-                    <div class="mb-1">
+                    <div class="mb-2">
                         <label for="#bod" class="w-auto mt-3 fontsize-mount">D.O.B</label>
-                        <div class="mount-input2 ">
+                        <div class="mount-input2 pt-2">
                             <select class="form-control d-inline border-top-0 border-right-0 border-left-0 rounded-0" id="Eyears" name="years"  style="font-size: 14px;width: 33%;">
                             </select>
 
@@ -147,15 +147,15 @@
                     </div>
 
                     <div class="mb-1">
-                        <label for="#ph123" class="w-25 pt-2 fontsize-mount">Phone</label>
-                        <input type="text" id="phone_number1" name="phone_number"  class="border-top-0 border-right-0 border-left-0 rounded-0 mount-input2 bd-bottom-mount">
+                        <label for="#phone_number1" class="w-25 pt-2 fontsize-mount">Phone</label>
+                        <input type="text" id="phone_number1" name="phone_number"  class="border-top-0 border-right-0 border-left-0 pt-2 rounded-0 mount-input2 bd-bottom-mount">
                         <span class="text-danger">
                                     <strong id="phone_number-error1"></strong>
                                 </span>
                     </div>
                     <div class="mb-1">
                         <label for="#email" class="w-25 pt-2 fontsize-mount">Email</label>
-                        <input type="email" id="email1" name="email"  class="border-top-0 border-right-0 border-left-0 rounded-0 mount-input2 bd-bottom-mount">
+                        <input type="email" id="email1" name="email"  class="border-top-0 border-right-0 border-left-0 pt-2 rounded-0 mount-input2 bd-bottom-mount">
                         <span class="text-danger">
                                     <strong id="email_error1"></strong>
                                 </span>

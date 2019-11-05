@@ -16,7 +16,7 @@
 {{--                                <option selected disabled>--None--</option>--}}
 {{--=======--}}
                 <div class="bg-white row m-0 pb-3 border-bottom-radius-mount pt-4">
-                    <div class="col ml-4">
+                    <div class="col ml-4 fs-select4">
                         <label for="#currency" class="w-25 fontsize-mount6 d-block pl-2 ml-1"> Currency</label>
                         @php
                             $currencies=\App\Model\Currency::all();
@@ -33,9 +33,9 @@
                         <input type="text" id="GN" name="group_name" class="border-top-0 border-right-0 border-left-0 rounded-0 bd-bottom-mount fontsize-mount" placeholder="">
                     </div>
                     <div class="col">
-                        <label for="" class="fontsize-mount d-block">Note</label>
-                        <div class="d-block" style=";position: relative" >
-                            <select id="multi_select" multiple="multiple" name="notes[]" style="border: none;">
+                        <label for="" class="fontsize-mount d-block pl-2 ml-1">Note</label>
+                        <div class="d-block fs-select4" style=";position: relative" >
+                            <select class="selectpicker show-menu-arrow" multiple data-selected-text-format="count > 5" title="Select options" name="notes[]">
                                 @php
                                     $notes=\App\Model\Note::all();
                                 @endphp

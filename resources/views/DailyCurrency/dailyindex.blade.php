@@ -5,8 +5,8 @@
         <div class="d-flex justify-content-between top-box-mount shadow-sm">
 
 
-            <div  style="margin: 0" class="input-group h-50 mt-3 pl-5">
-                <input type="text" id="currency_date" autocomplete="off"  name="daily_datefilter" class="border-top-0 border-right-0 border-left-0 pl-5" placeholder="YY-MM-DD" style="width: 20%;background-color: #eeeeee;border-top-left-radius: 8px;border-bottom-left-radius: 8px;">
+            <div  style="margin: 20px 0 0 0" class="input-group h-25 pl-5">
+                <input type="text" id="currency_date" autocomplete="off"  name="daily_datefilter" class="border-top-0 border-right-0 border-left-0 pl-5 dtpick-input" placeholder="YY-MM-DD">
                 <div class="input-group-append">
                     <button class="btn btn-nb-mount-filter" id="currency_datefilter"><i class="fas fa-filter"></i></button>
                 </div>
