@@ -15,12 +15,11 @@ $(document).ready(function(){
         var email=$('#email').val();
         var name=$('#name').val();
         var role=$('#role').val();
-
-        $('#role-error').html("");
-        $('#name-error').html("");
-        $('#email-error').html("");
-        $('#password-error').html("");
-        $('#password_confirmation-error').html("");
+        // $('#role-error').html("");
+        // $('#name-error').html("");
+        // $('#email-error').html("");
+        // $('#password-error').html("");
+        // $('#password_confirmation-error').html("");
         event.preventDefault();
         $.ajax({
             url:'/staff/store',
@@ -34,11 +33,11 @@ $(document).ready(function(){
             },
             success:function(data)
             {
-                console.log(data);
+                console.log(data.errors);
                 if(data.errors)
                 {
                     if(data.errors.name){
-                        $( '#name-error' ).html( data.errors.name[0] );
+                        $( '#name_error' ).html( data.errors.name[0] );
                     }
                     if(data.errors.role){
                         $( '#role-error' ).html( data.errors.role[0] );
@@ -90,7 +89,7 @@ $(document).ready(function(){
                 if(data.errors)
                 {
                     if(data.errors.name){
-                        $( '#name-error1' ).html( data.errors.name[0] );
+                        $( '#name_error1' ).html( data.errors.name[0] );
                     }
                     if(data.errors.email){
                         $( '#email-error1' ).html( data.errors.email[0] );
@@ -133,6 +132,7 @@ $(document).ready(function(){
                 console.log(data);
                 if(data.errors)
                 {
+
                     if(data.errors.password){
                         $( '#password_error2' ).html( data.errors.password[0] );
                     }
@@ -140,7 +140,6 @@ $(document).ready(function(){
                         $( '#password_confirmation_error2').html( data.errors.password_confirmation[0] );
                     }
                 }
-
                 if(data.success==true)
                 {
                     $('#changepass').modal('toggle');
@@ -153,7 +152,11 @@ $(document).ready(function(){
     });
 
 });
+
+
 function deleteStaff($id) {
+    // console.log($id);
+    // alert($id);
     $('#delete_id').val($id);
     $('#delete').modal('show');
 }

@@ -6,22 +6,14 @@
             <form action="{{url('currency_group/store')}}" method="post">
                 @csrf
 
-{{--<<<<<<< HEAD--}}
-{{--                </div>--}}
-{{--                <div class="bg-white table border-0 bg-white box-shadow-mount rounded-table-mount col-lg-5 mt-5">--}}
-{{--                    <div class="p-3">--}}
-{{--                        <div class="mb-2 pr-5">--}}
-{{--                            <label for="#currency" class="w-25 fontsize-mount"> Currency</label>--}}
-{{--                            <select class="border-top-0 border-right-0 border-left-0 rounded-0 mount-input3 bg-white text-secondary bd-bottom-mount fontsize-mount22" id="currency" name="currency">--}}
-{{--                                <option selected disabled>--None--</option>--}}
-{{--=======--}}
+
                 <div class="bg-white row m-0 pb-3 border-bottom-radius-mount pt-4">
                     <div class="col ml-4">
                         <label for="#currency" class="w-25 fontsize-mount6 d-block pl-2 ml-1"> Currency</label>
                         @php
                             $currencies=\App\Model\Currency::all();
                         @endphp
-                        <select class="selectpicker show-menu-arrow"  id="currency" name="currency" title="Choose one of the following..." data-style="btn-white">
+                        <select class="selectpicker show-menu-arrow"  id="currency" name="currency" title="Choose one..." data-style="btn-white">
 
                             @foreach($currencies as $currency)
                                 <option value="{{$currency->id}}">{{$currency->name}}</option>
@@ -35,7 +27,7 @@
                     <div class="col">
                         <label for="" class="fontsize-mount d-block">Note</label>
                         <div class="d-block" style=";position: relative" >
-                            <select id="multi_select" multiple="multiple" name="notes[]">
+                            <select id="multi_select" multiple="multiple" name="notes[]" style="border: none;">
                                 @php
                                     $notes=\App\Model\Note::all();
                                 @endphp
@@ -108,13 +100,13 @@
                          <td scope="row" class="table-row-m fontsize-mount">{{$currency_group->name}}</td>
                          <td class="table-row-m fontsize-mount">{{$currency_group->currency->name}}</td>
                          <td class="table-row-m text-center">
-                             <form action="{{url('currency_group/'.$currency_group->id.'/edit')}}" method="get">
+                             <form action="{{url('currency_group/'.$currency_group->id.'/edit')}}" method="get" class="d-inline">
                                  <a>
 
-                                     <button ><i class="far fa-edit mr-3 text-info"> </i></button>
+                                     <button  class="border-0 bg-transparent"><i class="far fa-edit mr-3 text-info"> </i></button>
                                  </a>
                              </form>
-                             <a href="#" data-toggle="modal" data-target="#Delete">
+                             <a class="d-inline" href="#" data-toggle="modal" data-target="#Delete">
                                  <i class="far fa-trash-alt text-danger"></i>
                              </a>
                          </td>

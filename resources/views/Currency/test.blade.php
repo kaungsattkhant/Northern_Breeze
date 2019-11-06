@@ -12,18 +12,16 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
     <link rel="stylesheet" href="css/main.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
-    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/i18n/defaults-*.min.js"></script> -->
 
-    <!-- <script type="text/javascript">
-        $(function () {
-            $('select').selectpicker();
-        });
-    </script> -->
     <style type="text/css">
 
         .bootstrap-select .dropdown-menu {
             border-radius: 13px !important;
             border:5px solid gray;
+        }
+        .yolo:hover{
+            background-color: #eeeeee;
+            box-shadow: -0px -0px 2px #777777 inset;
         }
 
     </style>
@@ -33,29 +31,40 @@
 <div class="overall-container-mount3">
 <div class="sidebar-nb-mount shadow mr-0">
     <ul class="nav flex-column mr-0 pt-3" id="myDIV" style="position: relative;">
-        <li class="nav-item dropdown btn-mount mx-auto " id="pos">
-            <a class="nav-link dropdown-toggle p-0  sidebar-box-mount img-pos text-center" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+        <li class="nav-item dropdown btn-mount mx-auto mb-1" data-toggle="collapse" href="#pos">
+            <a class="nav-link p-0  sidebar-box-mount img-pos text-center" href="#"  role="button" aria-haspopup="true" aria-expanded="false">
                 <div class=" mt-0 px-auto "><p class="sb-text">POS &nbsp; <i class="fas fa-chevron-down"></i></p></div>
 
             </a>
-            <div class="dropdown-menu dp-mount" id="menu">
-                <a class="dropdown-item" href="{{url('non_member')}}" >Non-Member</a>
-                <a class="dropdown-item" href="{{url('pos_member')}}" >Member</a>
+{{--            <div class="dropdown-menu dp-mount" id="menu" style="border: 5px solid grey; border-radius: 10px;">--}}
+{{--                <a class="dropdown-item" href="{{url('non_member')}}" >Non-Member</a>--}}
+{{--                <a class="dropdown-item" href="{{url('pos_member')}}" >Member</a>--}}
 
-            </div>
+{{--            </div>--}}
 
         </li>
-
+        <div class="rounded-0 collapse border-0" id="pos" style="width: 100%">
+            <div class="rounded-0 border-0 py-0" style=";background-color:#eeeeee;width: 100%">
+                <a class="dropdown-item pl-4 py-3" href="{{url('non_member')}}" style="box-shadow: 1px 1px 10px #666666 inset;">Non-Member</a>
+                <a class="dropdown-item pl-4 py-3" href="{{url('pos_member')}}" style="box-shadow: 1px 1px 10px #555555 inset;" >Member</a>
+            </div>
+        </div>
         <li class="nav-item btn-mount mx-auto " id="member">
             <a class="nav-link p-0  sidebar-box-mount img-member text-center " href="{{url('member')}}">
                 <div class=" mt-0 px-auto "><p class="sb-text">Member</p></div>
             </a>
         </li>
 
-        <li class="nav-item btn-mount mx-auto " id="sr">
-            <a class="nav-link p-0  sidebar-box-mount img-sale-record text-center" href="{{url('sale')}}">
+        <li class="nav-item btn-mount mx-auto " data-toggle="collapse" href="#collapseExample" id="sr">
+            <a class="nav-link p-0  sidebar-box-mount img-sale-record text-center" >
                 <div class=" mt-0 px-auto "><p class="sb-text">Sale Record</p></div></a>
         </li>
+        <div class="rounded-0 collapse border-0 " id="collapseExample" style="width: 100%">
+            <div class="rounded-0 border-0" style="box-shadow: 0px 0px 20px #777777 inset;background-color:#fff;width: 100%">
+                <a class="dropdown-item pl-4 py-2 yolo" href="{{url('non_member')}}" style="border-bottom: 1px solid #dddddd">Non-Member</a>
+                <a class="dropdown-item pl-4 py-2 yolo" href="{{url('pos_member')}}" >Member</a>
+            </div>
+        </div>
         <li class="nav-item btn-mount mx-auto" id="stock">
             <a class="nav-link p-0  sidebar-box-mount img-stock-inventory text-center" href="{{url('stock')}}">
                 <div class=" mt-0 px-auto "><p class="sb-text">Stock Inventory</p></div></a>
@@ -67,6 +76,16 @@
         <li class="nav-item btn-mount mx-auto" id="daily">
             <a class="nav-link p-0  sidebar-box-mount img-daily text-center " href="{{url('daily_currency')}}">
                 <div class=" mt-0 px-auto "><p class="sb-text">Daily Currency</p></div></a>
+        </li>
+
+        <li class="nav-item mx-auto">
+{{--            <p>--}}
+{{--                <a class="btn " data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">--}}
+{{--                    Link--}}
+{{--                </a>--}}
+
+{{--            </p>--}}
+
         </li>
         <li class="nav-item btn-mount mx-auto" id="staff">
             <a class="nav-link p-0  sidebar-box-mount img-staff text-center " href="{{url('staff')}}">
@@ -103,6 +122,7 @@
                             @endforeach
                         </select>
                     </div>
+
                     <div class="col">
                         <label for="#GN" class="fontsize-mount d-block">Group Name</label>
                         <input type="text" id="GN" name="group_name" class="border-top-0 border-right-0 border-left-0 rounded-0 bd-bottom-mount fontsize-mount" placeholder="">
@@ -143,6 +163,7 @@
             <option>Ketchup</option>
             <option>Barbecue</option>
         </select>
+
         <table class="table bg-white box-shadow-mount rounded-table-mount mt-5"  id="myTable">
             <thead>
             <tr>

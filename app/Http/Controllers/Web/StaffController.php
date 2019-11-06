@@ -23,7 +23,7 @@ class StaffController extends Controller
 
         $vData=Validator::make($request->all(),[
             'name'=>"required",
-            'email'=>"required|unique:staff",
+            'email'=>"required|unique:staff|email",
             'password'=>'required',
             'password_confirmation'=>'required|same:password',
             'role'=>'required',
@@ -93,6 +93,7 @@ class StaffController extends Controller
     }
     public function destroy(Request $request)
     {
+//        dd($request->all());
         $staff=Staff::find($request->id);
         $staff->delete();
         return redirect('/staff');

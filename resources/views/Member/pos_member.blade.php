@@ -4,7 +4,7 @@
 
         <div class="container-nb-mount">
             <div>
-                <table class="table bg-white border-bottom-radius-mount mb-5">
+                <table class="table bg-white border-bottom-radius-mount mb-4">
                     <thead>
                     <tr>
                         <th scope="col" class="border-bottom-0 border-top-0 fontsize-mount6 pl-4" >Name</th>
@@ -22,16 +22,16 @@
                     </tr>
                     </tbody>
                 </table>
-                <div class="d-flex justify-content-between top-box-mount shadow-sm border-top-radius-mount">
-                    <div class="my-auto btnzz">
+                <div class="d-flex justify-content-between  top-box-mount shadow-sm border-top-radius-mount">
+                    <div class="my-auto fs-select2">
 
-                        <select class="border-0 rounded-0  bg-white text-color-mount fontsize-mount22 pl-4" style="height: 50px;">
+                        <select class="selectpicker pl-4" name="Branches" data-style="btn-white" data-width="auto">
                             <option selected disabled>လဲလှယ်မည့်ငွေ</option>
                             <option>11111</option>
                             <option>22222</option>
                         </select>
 
-                        <select class="border-0 rounded-0  bg-white  text-color-mount fontsize-mount22 pl-4" style="height: 50px;">
+                        <select class="selectpicker pl-4" name="Branches" data-style="btn-white" data-width="auto">
                             <option selected disabled>ပြန်လည်ထုတ် ပေးမည့်ငွေ</option>
                             <option>1111</option>
                             <option>22222</option>
@@ -42,8 +42,8 @@
             </div>
             <div class="row ">
                 <div class="col">
-                    <p class=" text-nb-mount row-col-p fontsize-mount4 mb-2 ml-1">လဲလှယ်မည့်ငွေ</p>
-                    <table class="table border-0 bg-white box-shadow-mount rounded-table-mount">
+                    <p class="border-top-radius-mount text-nb-mount mt-3 pl-3 fontsize-mount4 bg-white mb-0 pt-1 pb-2 w-25 ">လဲလှယ်မည့်ငွေ</p>
+                    <table class="table border-0 bg-white box-shadow-mount border-tab-radius-mount">
 
                         <tbody class="rounded-table-mount">
 
@@ -104,8 +104,10 @@
                                 <label for="#input1" class="text-color-mount fontsize-mount3">&nbsp;တန်ဖိုး</label>
                             </td>
                         </tr>
+
+{{--                        1row for total text space--}}
                         <tr>
-                            <td class="border-top-0 text-nb-mount" style="padding: 30px;"></td>
+                            <td class="border-top-0 text-nb-mount pb-5" style="padding: 30px;"></td>
                             <td class="text-right border-top-0">
 
                                 <label for="#input1" class="text-secondary">&nbsp;</label>
@@ -121,8 +123,8 @@
                     </div>
                 </div>
                 <div class="col">
-                    <p class=" row-col-p2 text-nb-mount fontsize-mount4 mb-2 ml-1">ပြန်လည်ပေးအပ်ငွေ</p>
-                    <table class="table border-0 bg-white box-shadow-mount rounded-table-mount">
+                    <p class="border-top-radius-mount text-nb-mount mt-3 pl-3 fontsize-mount4 bg-white mb-0 pt-1 pb-2" style="width: 27%">ပြန်လည်ပေးအပ်ငွေ</p>
+                    <table class="table border-0 bg-white box-shadow-mount border-tab-radius-mount">
                         <tbody class="rounded-table-mount">
 
                         <tr>
@@ -182,12 +184,14 @@
                                 <label for="#input1" class="text-color-mount fontsize-mount3">&nbsp;တန်ဖိုး</label>
                             </td>
                         </tr>
+{{--                        1row for total text space--}}
                         <tr >
-                            <td class="border-top-0 text-nb-mount" style="padding: 30px;"></td>
+                            <td class="border-top-0 text-nb-mount pb-5" style="padding: 30px;"></td>
                             <td class="text-right border-top-0">
                                 <label for="#input1" class="text-color-mount">&nbsp;</label>
                             </td>
                         </tr>
+
                         </tbody>
 
                     </table>

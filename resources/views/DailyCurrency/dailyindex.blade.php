@@ -5,11 +5,20 @@
         <div class="d-flex justify-content-between top-box-mount shadow-sm">
 
 
-            <div style="margin: 0">
-                <input type="text" id="currency_date" autocomplete="off"  name="daily_datefilter" class="border-top-0 border-right-0 border-left-0 rounded-0 mount-input">
-                <button class="btn btn-primary" id="currency_datefilter">Submit</button>
+            <div  style="margin: 0" class="input-group h-50 mt-3 pl-5">
+                <input type="text" id="currency_date" autocomplete="off"  name="daily_datefilter" class="border-top-0 border-right-0 border-left-0 pl-5" placeholder="YY-MM-DD" style="width: 20%;background-color: #eeeeee;border-top-left-radius: 8px;border-bottom-left-radius: 8px;">
+                <div class="input-group-append">
+                    <button class="btn btn-nb-mount-filter" id="currency_datefilter"><i class="fas fa-filter"></i></button>
+                </div>
 
             </div>
+{{--            <div class="input-group mb-3 w-25">--}}
+{{--                <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">--}}
+{{--                <div class="input-group-append">--}}
+{{--                    <button class="btn btn-outline-secondary" type="button" id="button-addon2">Button</button>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+
             <div class="mr-5 my-auto">
                 <form action="{{url('daily_currency/create')}}" method="get">
                     <button type="submit" class="btn btn-nb-mount mr-4 p-0 fontsize-mount"><a class="w-100 h-100 text-white text-decoration-none px-4 py-2">Create</a></button>
@@ -21,7 +30,12 @@
         </div>
 
         <div class="pt-5">
-
+    {{--            @if(session()->has('error'))--}}
+    {{--                <div class="alert alert-danger" style="width:700px">--}}
+    {{--                    <button type="button" class="close" data-dismiss="alert">×</button>--}}
+    {{--                    {{ session()->get('error') }}--}}
+    {{--                </div>--}}
+    {{--            @endif--}}
 
             <table class="table bg-white box-shadow-mount rounded-table-mount "  id="myTable">
                 <thead>
@@ -54,7 +68,7 @@
                     <td class="table-row-m text-info">
                         {{$group->lastest_buy_value}}
                     </td>
-                    <td class="table-row-m "><a href="#" class="text-a-mount" onclick="dailyDetail({{$group->currency->id}},{{$group->id}})" >Detail</a></td>
+                    <td class="table-row-m "><a href="#" class="text-a-mount" onclick="dailyDetail({{$group->id}},{{$group->detail_id}})" >Detail</a></td>
                 </tr>
                     @endforeach
                 </tbody>

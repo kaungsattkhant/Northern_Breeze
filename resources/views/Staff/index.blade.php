@@ -3,17 +3,27 @@
 
     <div class="container-nb-mount">
         <div class="d-flex justify-content-between top-box-mount shadow-sm">
-            <div  class="my-auto btnzz ml-4">
+            <div  class="my-auto ml-5">
+                <div class="mb-3 pt-4 pb-1 fs-select3 d-inline">
+                    <select  class="selectpicker" name="roles" title="roles" data-style="btn-white" data-width="auto" id="staff_filter">
+                        <option selected disabled>Roles</option>
+                        @php
+                            $roles=\App\Model\Role::all();
+                        @endphp
+                        @foreach($roles as $role)
+                            <option value="{{$role->id}}">{{$role->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+{{--                <div class="mb-3 pt-4 pb-1 fs-select">--}}
+{{--                    <select class="selectpicker show-menu-arrow ml-3 pl-2" name="Branches" data-style="btn-white" data-width="auto">--}}
+{{--                        <option selected disabled>Currency</option>--}}
+{{--                        <option>U.S.D Dollars</option>--}}
+{{--                        <option>Chinese</option>--}}
+{{--                        <option>Thailand</option>--}}
+{{--                    </select>--}}
 
-                <select class="border-0 rounded-0  bg-white  text-color-mount fontsize-mount pl-4 btn-m" style="height: 50px;" id="staff_filter">
-                    <option selected disabled>Roles</option>
-                    @php
-                        $roles=\App\Model\Role::all();
-                    @endphp
-                    @foreach($roles as $role)
-                        <option value="{{$role->id}}">{{$role->name}}</option>
-                    @endforeach
-                </select>
+{{--                </div>--}}
 
                 <form action="{{url('staff/search_name')}}" class="d-inline">
                     <input type="text" name="name" placeholder="Name..." class="fontsize-mount2 border-0 ml-5 pl-2 input-name">

@@ -17,24 +17,28 @@
                         <div class="mb-3 {{$errors->has('name') ? 'has:error':''}}">
                             <label for="#name123" class="w-25">Name</label>
                             <input type="text" id="name" class="border-top-0 border-right-0 border-left-0 rounded-0 mount-input">
-                            <span class="text-danger">
-                                    <strong id="name-error"></strong>
-                                </span>
+
                         </div>
+                        <span class="text-danger">
+                                    <strong id="name_error"></strong>
+                                </span>
+                        <br>
                         <div class="mb-3 {{$errors->has('email') ? 'has:error':''}}">
                             <label for="#pass123" class="w-25">Email</label>
                             <input type="text" id="email" class="border-top-0 border-right-0 border-left-0 rounded-0 mount-input">
-                            <span class="text-danger">
+
+                        </div>
+                        <span class="text-danger">
                                     <strong id="email-error"></strong>
                                 </span>
-                        </div>
                         <div class="mb-3 {{$errors->has('password') ? 'has:error':''}}">
                             <label for="#pass123" class="w-25">Password</label>
                             <input type="password" id="password"  class="border-top-0 border-right-0 border-left-0 rounded-0 mount-input">
-                            <span class="text-danger">
+
+                        </div>
+                        <span class="text-danger">
                                     <strong id="password-error"></strong>
                                 </span>
-                        </div>
                         <div class="mb-1 {{$errors->has('password_confirmation') ? 'has:error':''}}">
                             <label for="#pass123" class="w-25">Password<br><small>(confirmation)</small></label>
                             <input type="password" id="password_confirmation" class="border-top-0 border-right-0 border-left-0 rounded-0 mount-input">

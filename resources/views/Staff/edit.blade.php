@@ -18,18 +18,19 @@
                     <div class="mb-3 {{$errors->has('name') ? 'has:error':''}}">
                         <label for="#name123" class="w-25">Name</label>
                         <input type="text" id="name1" class="border-top-0 border-right-0 border-left-0 rounded-0 mount-input" >
-                        <span class="text-danger">
-                                    <strong id="name-error1"></strong>
-                                </span>
+
                     </div>
+                    <span class="text-danger">
+                                    <strong id="name_error1"></strong>
+                                </span>
                     <div class="mb-3 {{$errors->has('email') ? 'has:error':''}}">
                         <label for="#pass123" class="w-25">Email</label>
                         <input type="text" id="email1" class="border-top-0 border-right-0 border-left-0 rounded-0 mount-input">
-                        <span class="text-danger">
+
+                    </div>
+                    <span class="text-danger">
                                     <strong id="email-error1"></strong>
                                 </span>
-                    </div>
-
                     <div class="mb-3 {{$errors->has('role') ? 'has:error':''}}">
                         <label for="#role" class="w-25">Roles</label>
                         <select name="role" class="border-top-0 border-right-0 border-left-0 rounded-0 mount-input bg-white text-secondary" id="role1" style="border: 1px solid #ced4da;">

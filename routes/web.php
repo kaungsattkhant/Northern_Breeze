@@ -25,7 +25,7 @@ Route::group(['middleware'=>['staffCheck']],function() {
             Route::post('update','StaffController@update');
             Route::get('search_name','StaffController@search');
             Route::get('{id}/role_filter','StaffController@role_filter');
-            Route::post('destroy',  'StaffController@destroy');
+            Route::post('/destroy',  'StaffController@destroy');
         });
         Route::group(['prefix'=>'member'],function(){
             Route::get('/','MemberController@index');
@@ -36,7 +36,7 @@ Route::group(['middleware'=>['staffCheck']],function() {
             Route::post('update','MemberController@update');
             Route::get('{id}/member_type_filter','MemberController@member_type_filter');
             Route::get('search_name','MemberController@search');
-            Route::post('destroy','StaffController@destroy');
+            Route::post('destroy','MemberController@destroy');
 
         });
         Route::group(['prefix'=>'sale'],function(){
@@ -60,7 +60,7 @@ Route::group(['middleware'=>['staffCheck']],function() {
             Route::post('store','DailyCurrencyController@store');
             Route::get('{id}/filter','DailyCurrencyController@daily_currency_filter');
             Route::post('/datefilter','DailyCurrencyController@daily_currency_datefilter');
-            Route::get('/{currency_id}/detail/{group_id}','DailyCurrencyController@daily_detail');
+            Route::get('/{group_id}/detail/{detail_id}','DailyCurrencyController@daily_detail');
         });
     });
 });
@@ -101,10 +101,10 @@ Route::group(['namespace'=>'Web'],function(){
 //{
 //    return view('Currency.index');
 //});
-//Route::get('/daily_currency',function()
-//{
-//    return view('DailyCurrency.index');
-//});
+////Route::get('/daily_currency',function()
+////{
+////    return view('DailyCurrency.index');
+////});
 //Route::get('/daily_currency2',function()
 //{
 //    return view('DailyCurrency.index2');

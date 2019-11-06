@@ -177,8 +177,9 @@ $(document).ready(function(){
 });
 function deleteMember($id)
 {
+    // alert($id);
     $('#delete_id').val($id);
-    $('#destroy').modal.show();
+    $('#destroy').modal('show');
 
 }
 

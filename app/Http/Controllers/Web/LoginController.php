@@ -27,7 +27,7 @@ class LoginController extends Controller
             return redirect('/staff');
         }
         else
-            return 'error';
+//            return 'error';
             return redirect('login');
     }
     public function logout()

@@ -4,6 +4,8 @@ $(function(){
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+    $('#create_button').hide();
+
     $('#daily_currency_filter').on('change',function(){
         var currency_id=$(this).val();
         // alert(currency_id);
@@ -13,6 +15,8 @@ $(function(){
             success:function(data)
             {
                 // console.log(data);
+                $('#create_button').fadeIn();
+
                 $('#daily #group').html(data);
             }
         });
@@ -38,22 +42,17 @@ $(function(){
 
 });
 
-function dailyDetail($currency_id,$group_id) {
+function dailyDetail($group_id,$detail_id) {
     $.ajax({
-        url:'daily_currency/'+$currency_id+'/detail/'+$group_id,
+        url:'daily_currency/'+$group_id+'/detail/'+$detail_id,
         type:'get',
-        // dataType: "json",
-
         success:function (data) {
-            // console.log(data);
-            // $.each(function (data) {
-            //     "<tr><th scope='col class='border-bottom-0 border-top-0 fontsize-mount6'>"+ data.name +  "</th>"
-            //
-            // });
-            // console.log(data);
+
             $('#daily_detail').modal('show');
 
             $('table #dailycurrency_detail').html(data);
         },
     });
 }
+
+

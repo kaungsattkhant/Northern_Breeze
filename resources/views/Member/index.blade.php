@@ -5,7 +5,7 @@
     <div class="container-nb-mount">
         <div class="d-flex justify-content-between top-box-mount shadow-sm">
             <div  class="my-auto btn-m ml-4 pl-3 dropdown">
-                <select class="selectpicker show-menu-arrow" name="Branches" data-style="btn-white" data-width="auto" id="member_filter">
+                <select class="selectpicker" name="Branches" data-style="btn-white" data-width="auto" id="member_filter">
                     @php
                     $member_types=\App\Model\MemberType::all();
                     @endphp
@@ -48,7 +48,7 @@
                         </a>
                         <a >
                             <i class="far fa-trash-alt text-danger" onclick="deleteMember({{$member->id}})"></i>
-                        </a
+                        </a>
                     </td>
                 </tr>
                     @endforeach

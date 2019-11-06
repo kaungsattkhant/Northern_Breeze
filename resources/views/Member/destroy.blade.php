@@ -1,8 +1,8 @@
 <div class="modal fade" id="destroy" tabindex="-1" role="dialog" aria-labelledby="Delete" aria-hidden="true">
     <div class="modal-dialog modal-dialog" role="document" style="width: 350px;">
         <div class="modal-content">
-            <form>
-
+            <form action="{{url('member/destroy')}}" method="post">
+                @csrf
             <div class="modal-body mx-3">
                 <h5 class="mount-modal-title2 mb-3 text-dark" id="exampleModalLongTitle">Delete?</h5>
                 <button type="button" class="close x-button-mount" data-dismiss="modal" aria-label="Close">
