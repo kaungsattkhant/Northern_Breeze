@@ -1,7 +1,6 @@
 $(document).ready(function(){
     $('#member_filter').on('change',function () {
         var value=$(this).val();
-        alert(value);
         $.ajax({
             url:'member/'+value+'/member_type_filter',
             type:'get',

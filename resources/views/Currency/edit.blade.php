@@ -17,7 +17,7 @@
                     <div class="p-3">
                         <div class="mb-2 pr-5 fs-select4">
                             <label for="#currency" class="w-25 fontsize-mount pt-2"> Currency</label>
-                            <select class="selectpicker show-menu-arrow bd-bottom-mount " id="currency" name="currency">
+                            <select class="selectpicker show-menu-arrow bd-bottom-mount mount-input3 " id="currency" name="currency">
                                 <option selected disabled>--None--</option>
                                 @php
                                     $currencies=\App\Model\Currency::all();
@@ -35,10 +35,9 @@
                             <label for="#GN" class="w-25 pt-2 fontsize-mount">Group Name</label>
                             <input type="text" id="GN" name="group_name" class="pl-2 pb-1 border-top-0 border-right-0 border-left-0 rounded-0 mount-input3 bd-bottom-mount pb-1" value="{{$currency_groups->name}}">
                         </div>
-                        <div class="mb-1 ">
-                            <p class="w-25 pt-2 fontsize-mount " style="position: absolute;left:30px">Note</p>
-                            <div class="d-inline fs-select4 pl-1"style="left: 200px;position: relative" >
-                                <select class="selectpicker bd-bottom-mount show-menu-arrow" multiple data-selected-text-format="count > 5" title="Select options" name="notes[]">
+                        <div class="mb-1 pr-5 fs-select4">
+                            <label for="#currency" class="w-25 fontsize-mount pt-2"> Note</label>
+                                <select class="selectpicker show-menu-arrow bd-bottom-mount mount-input3" multiple data-selected-text-format="count > 5" title="Select options" name="notes[]">
                                     @php
                                         $notes=\App\Model\Note::all();
                                     @endphp
@@ -49,18 +48,13 @@
                                         >{{$note->name}}</option>
                                     @endforeach
                                 </select>
-                            </div>
                         </div>
                     </div>
 
                 </div>
             </form>
-
         </div>
-
-
     </div>
-
     <script>
         $(function(){
             $("#group a").addClass("active-group");

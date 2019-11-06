@@ -106,31 +106,33 @@
                                      <button  class="border-0 bg-transparent"><i class="far fa-edit mr-3 text-info"> </i></button>
                                  </a>
                              </form>
-                             <a class="d-inline" href="#" data-toggle="modal" data-target="#Delete">
-                                 <i class="far fa-trash-alt text-danger"></i>
+                             <a class="d-inline" >
+                                 <i class="far fa-trash-alt text-danger" onclick="deleteCurrencyGroup({{$currency_group->id}})"></i>
                              </a>
                          </td>
                      </tr>
                  @endforeach
-{{--                 @else--}}
-{{--                 <p>Doesn't not have</p>--}}
-{{--                 @endif--}}
-
-
              </tbody>
          </table>
 
-
     </div>
-
-{{--    </div>--}}
+    @include('Currency.destroy')
     <script>
         $(function(){
             $("#group a").addClass("active-group");
 
             $("#group").addClass("active2");
 
+
+
         });
+        function deleteCurrencyGroup ($id)
+        {
+            // alert($id);
+            $('#delete_id').val($id);
+            $('#destroy').modal('show');
+        }
+
     </script>
 @endsection
 

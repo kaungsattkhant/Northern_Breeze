@@ -25,6 +25,7 @@ Route::group(['middleware'=>['staffCheck']],function() {
             Route::post('update','StaffController@update');
             Route::get('search_name','StaffController@search');
             Route::get('{id}/role_filter','StaffController@role_filter');
+            Route::get('staff/{id}/role_filter','StaffController@role_filter');
             Route::post('/destroy',  'StaffController@destroy');
         });
         Route::group(['prefix'=>'member'],function(){
@@ -35,6 +36,7 @@ Route::group(['middleware'=>['staffCheck']],function() {
             Route::get('{id}/edit','MemberController@edit');
             Route::post('update','MemberController@update');
             Route::get('{id}/member_type_filter','MemberController@member_type_filter');
+            Route::get('member/{id}/member_type_filter','MemberController@member_type_filter');
             Route::get('search_name','MemberController@search');
             Route::post('destroy','MemberController@destroy');
 
@@ -53,6 +55,9 @@ Route::group(['middleware'=>['staffCheck']],function() {
             Route::post('store','CurrencyGroupController@store');
             Route::get('{id}/edit','CurrencyGroupController@edit');
             Route::patch('update','CurrencyGroupController@update');
+            Route::post('destroy','CurrencyGroupController@destroy');
+
+
         });
         Route::group(['prefix'=>'daily_currency'],function(){
             Route::get('/','DailyCurrencyController@index');

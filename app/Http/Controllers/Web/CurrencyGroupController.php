@@ -48,4 +48,10 @@ class CurrencyGroupController extends Controller
         $currency_group->notes()->attach($request->notes);
         return redirect('/currency_group');
     }
+    public function destroy(Request $request)
+    {
+        $currencygroup=Group::find($request->id);
+        $currencygroup->delete();
+        return redirect('currency_group');
+    }
 }
