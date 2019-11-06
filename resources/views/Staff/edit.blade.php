@@ -1,6 +1,7 @@
 <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document" style="width: 480px;">
         <div class="modal-content border-0 btr-mount">
+
             <div class="modal-header modal-title-bg text-center pb-1 border-0 btr-mount">
                 <h5 class="text-center mx-auto" id="exampleModalLongTitle">Edit Staff</h5>
             </div>
@@ -31,15 +32,23 @@
                     <span class="text-danger">
                                     <strong id="email-error1"></strong>
                                 </span>
-                    <div class="mb-3 {{$errors->has('role') ? 'has:error':''}}">
-                        <label for="#role" class="w-25">Roles</label>
-                        <select name="role" class="border-top-0 border-right-0 border-left-0 rounded-0 mount-input bg-white text-secondary" id="role1" style="border: 1px solid #ced4da;">
-                            <option selected disabled>--None--</option>
+{{--<<<<<<< HEAD--}}
+{{--                    <div class="mb-3 {{$errors->has('role') ? 'has:error':''}}">--}}
+{{--                        <label for="#role" class="w-25">Roles</label>--}}
+{{--                        <select name="role" class="border-top-0 border-right-0 border-left-0 rounded-0 mount-input bg-white text-secondary" id="role1" style="border: 1px solid #ced4da;">--}}
+{{--=======--}}
+{{--                    </div>--}}
+
+                    <div class="mb-3 row fs-select4 {{$errors->has('role') ? 'has:error':''}}">
+                        <label for="#role1" class="w-25" style="padding-left: 16px;">Roles</label>
+                        <select name="role" class="selectpicker show-menu-arrow margin-left-mount bd-bottom-mount" data-width="300px" id="role1">
+{{-->>>>>>> origin/front_end--}}
+{{--                            <option selected disabled>--None--</option>--}}
                             @php
                             $roles=\App\Model\Role::all();
                             @endphp
                             @foreach($roles as $role)
-                                <option value="{{$role->id}}">{{$role->name}}</option>
+                                <option value="{{$role->id}}" >{{$role->name}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -50,9 +59,10 @@
                         <button type="button" class="btn btn-nb-mount2 px-3 pt-0 pb-0 mr-4 shadow-0 fontsize-mount22" data-dismiss="modal">Cancel</button>
                         <button type="button" class="btn btn-nb-mount2 fontsize-mount22 px-3" id="submitForm1">Save</button>
                     </div>
-                </form>
+            </form>
             </div>
 
         </div>
     </div>
 </div>
+{{--</div>--}}

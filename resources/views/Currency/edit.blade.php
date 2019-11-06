@@ -15,9 +15,9 @@
 
                 <div class="bg-white table border-0 bg-white box-shadow-mount rounded-table-mount col-lg-5 mt-5">
                     <div class="p-3">
-                        <div class="mb-2 pr-5">
-                            <label for="#currency" class="w-25 fontsize-mount"> Currency</label>
-                            <select class="border-top-0 border-right-0 border-left-0 rounded-0 mount-input3 bg-white text-secondary bd-bottom-mount fontsize-mount22" id="currency" name="currency">
+                        <div class="mb-2 pr-5 fs-select4">
+                            <label for="#currency" class="w-25 fontsize-mount pt-2"> Currency</label>
+                            <select class="selectpicker show-menu-arrow bd-bottom-mount " id="currency" name="currency">
                                 <option selected disabled>--None--</option>
                                 @php
                                     $currencies=\App\Model\Currency::all();
@@ -33,23 +33,22 @@
                         </div>
                         <div class="mb-1">
                             <label for="#GN" class="w-25 pt-2 fontsize-mount">Group Name</label>
-                            <input type="text" id="GN" name="group_name" class="border-top-0 border-right-0 border-left-0 rounded-0 mount-input3 bd-bottom-mount" value="{{$currency_groups->name}}">
+                            <input type="text" id="GN" name="group_name" class="pl-2 pb-1 border-top-0 border-right-0 border-left-0 rounded-0 mount-input3 bd-bottom-mount pb-1" value="{{$currency_groups->name}}">
                         </div>
                         <div class="mb-1 ">
                             <p class="w-25 pt-2 fontsize-mount " style="position: absolute;left:30px">Note</p>
-                            <div class="d-inline  w-50 "style="left: 220px;position: relative" >
-                                <select id="multi_select" multiple="multiple" name="notes[]">
+                            <div class="d-inline fs-select4 pl-1"style="left: 200px;position: relative" >
+                                <select class="selectpicker bd-bottom-mount show-menu-arrow" multiple data-selected-text-format="count > 5" title="Select options" name="notes[]">
                                     @php
                                         $notes=\App\Model\Note::all();
                                     @endphp
                                     @foreach($notes as $note)
                                         <option value="{{$note->id}}"
-                                        @if($currency_groups->notes->containsStrict('id',$note->id)) selected="selected" @endif
+                                        @if($currency_groups->notes->containsStrict('id',$note->id)) selected="selected"
+                                            @endif
                                         >{{$note->name}}</option>
                                     @endforeach
                                 </select>
-
-
                             </div>
                         </div>
                     </div>
@@ -59,41 +58,9 @@
 
         </div>
 
-{{--        <table class="table bg-white box-shadow-mount rounded-table-mount mt-5"  id="myTable">--}}
-{{--            <thead>--}}
-{{--            <tr>--}}
-{{--                --}}{{--                    <th scope="col" class="border-bottom-0 border-top-0 fontsize-mount6" >#</th>--}}
-{{--                <th scope="col" class="border-bottom-0 border-top-0 fontsize-mount6" >Name</th>--}}
-{{--                <th scope="col" class="border-bottom-0 border-top-0 fontsize-mount6"> Role</th>--}}
-{{--                <th scope="col" class="border-bottom-0 border-top-0 text-center fontsize-mount6">Action</th>--}}
-{{--            </tr>--}}
-{{--            </thead>--}}
-{{--            <tbody>--}}
-{{--            --}}
-{{--            @foreach($currency_groups as $currency_group)--}}
-{{--                <tr>--}}
-{{--                    <td scope="row" class="table-row-m fontsize-mount">{{$currency_group->name}}</td>--}}
-{{--                    <td class="table-row-m fontsize-mount">{{$currency_group->currency->name}}</td>--}}
-{{--                    <td class="table-row-m text-center">--}}
-{{--                            <a>--}}
-{{--                                <i class="far fa-edit mr-3 text-info"></i>--}}
-{{--                            </a>--}}
-
-{{--                        <a href="#" data-toggle="modal" data-target="#Delete">--}}
-{{--                            <i class="far fa-trash-alt text-danger"></i>--}}
-{{--                        </a>--}}
-{{--                    </td>--}}
-{{--                </tr>--}}
-{{--            @endforeach--}}
-{{--     --}}
-
-{{--            </tbody>--}}
-{{--        </table>--}}
-
 
     </div>
 
-    {{--    </div>--}}
     <script>
         $(function(){
             $("#group a").addClass("active-group");

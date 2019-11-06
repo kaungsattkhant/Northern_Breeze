@@ -211,6 +211,9 @@ function editMember($id)
             $('#Emonths option[value="'+months+'"]').prop('selected',true);
             $('#Edays option').prop('selected',false);
             $('#Edays option[value="'+days+'"]').prop('selected',true);
+            $('#member_type1').selectpicker('refresh');
+            $('#exchange_type1').selectpicker('refresh');
+
             $('#edit').modal('show');
         }
     })
