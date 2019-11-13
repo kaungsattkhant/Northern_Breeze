@@ -16,11 +16,11 @@
         @foreach($groups as $group)
         <div class="col">
             <p class="text-color-mount fontsize-mount2 pt-1 text-center">
-                (
+
                 @foreach($group->notes as $note)
                     {{$note->name}},
                     @endforeach
-                )
+
             </p>
         </div>
         @endforeach
@@ -49,17 +49,7 @@
         <div class="col-4">
 
         </div>
-        @foreach($groups as $group)
-            <div class="col">
-                <p class="text-color-mount fontsize-mount2 pt-1 text-center">
-                    (
-                    @foreach($group->notes as $note)
-                        {{$note->name}},
-                    @endforeach
-                )
-                </p>
-            </div>
-            @endforeach
+
     </div>
 {{--                                                            buying value--}}
     <div class="row mb-1 pl-1 pt-3 pb-5">
