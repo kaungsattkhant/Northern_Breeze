@@ -5,15 +5,19 @@
                 <h5 class="text-center mx-auto" id="exampleModalLongTitle">Add Member</h5>
             </div>
             <div class="modal-body mx-5 px-0">
-
+                <ul id="createMessage">
+                    <li class="col-md-10 alert alert-success" style="height:40px;list-style:none;">
+                        <p id="success"></p>
+                    </li>
+                </ul>
                 <form>
                     @csrf
                     <div class="mb-1">
                         <label for="#name123" class="w-25 pt-2 fontsize-mount">Name</label>
                         <input type="text" id="name" name="name" class="border-top-0 border-right-0 border-left-0 rounded-0 mount-input2 bd-bottom-mount">
                         <span class="text-danger">
-                                    <strong id="name_error"></strong>
-                                </span>
+                            <strong id="name_error"></strong>
+                        </span>
                     </div>
                     <div class="mb-2">
                         <label for="#c123" class="w-25 pt-2 fontsize-mount">Company</label>

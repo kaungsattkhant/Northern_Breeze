@@ -6,12 +6,11 @@
                 </div>
                 <div class="modal-body mx-5 px-0">
 
-                    <button type="button" class="close x-button-mount" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <div class="col-md-9 alert alert-success" style="width:500px;"  id="createMessage">
-                        <strong id="success"></strong>
-                    </div>
+                    <ul id="createMessage">
+                        <li class="col-md-10 alert alert-success" style="height:40px;list-style:none;">
+                            <p id="success"></p>
+                        </li>
+                    </ul>
                     <form>
                         {{csrf_field()}}
                         <div class="mb-3 {{$errors->has('name') ? 'has:error':''}}">
@@ -58,6 +57,22 @@
                         </div>
                         <span class="text-danger">
                                     <strong id="role-error"></strong>
+                                </span>
+
+                        <div class="mb-3 row fs-select4 {{$errors->has('branch') ? 'has:error':''}}">
+                            <label for="#role" class="w-25" style="padding-left: 16px;">Branch</label>
+                            <select name="branch" class="selectpicker show-menu-arrow ml-1 bd-bottom-mount" data-width="300px" id="branch">
+                                <option selected disabled>--None--</option>
+                                @php
+                                $branches=\App\Model\Branch::all();
+                                @endphp
+                                @foreach($branches as $branch)
+                                    <option value="{{$branch->id}}">{{$branch->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <span class="text-danger">
+                                    <strong id="branch-error"></strong>
                                 </span>
                         <div class="m-button pt-3">
                             <button type="button" class="btn btn-nb-mount2 px-3 pt-0 pb-0 mr-4 shadow-0 fontsize-mount22" data-dismiss="modal">Cancel</button>

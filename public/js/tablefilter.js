@@ -28,4 +28,19 @@ $(document).ready(function(){
             }
         })
     });
+
+    $('#stock_currency_filter').on('change',function(){
+        var value=$(this).val();
+        $.ajax({
+            url:+value+'/stock_currency_filter',
+            type:'get',
+            success:function(data)
+            {
+                console.log(data);
+                $('div #stock_table_filter').html(data);
+
+            }
+        })
+    });
+
 });

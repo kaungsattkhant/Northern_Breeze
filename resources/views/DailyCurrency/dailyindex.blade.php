@@ -22,9 +22,7 @@
             <div class="mr-5 my-auto">
                 <form action="{{url('daily_currency/create')}}" method="get">
                     <button type="submit" class="btn btn-nb-mount mr-4 p-0 fontsize-mount"><a class="w-100 h-100 text-white text-decoration-none px-4 py-2">Create</a></button>
-
                 </form>
-{{--                <button type="button" class="btn btn-nb-mount p-0 fontsize-mount"><a class="w-100 h-100 text-white text-decoration-none px-3 py-2" href="{{url('transfer_stock')}}">Transfer</a></button>--}}
             </div>
 
         </div>

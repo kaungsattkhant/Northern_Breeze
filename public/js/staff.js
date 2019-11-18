@@ -4,7 +4,6 @@ $(document).ready(function(){
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-    // $("#staff_filter").select2();
 
     $('#editMessage').hide();
     $('#createMessage').hide();
@@ -15,11 +14,7 @@ $(document).ready(function(){
         var email=$('#email').val();
         var name=$('#name').val();
         var role=$('#role').val();
-        // $('#role-error').html("");
-        // $('#name-error').html("");
-        // $('#email-error').html("");
-        // $('#password-error').html("");
-        // $('#password_confirmation-error').html("");
+        var branch=$('#branch').val();
         event.preventDefault();
         $.ajax({
             url:'/staff/store',
@@ -30,6 +25,7 @@ $(document).ready(function(){
                 password:password,
                 password_confirmation:password_confirmation,
                 role:role,
+                branch:branch,
             },
             success:function(data)
             {
@@ -44,6 +40,9 @@ $(document).ready(function(){
                     }
                     if(data.errors.email){
                         $( '#email-error' ).html( data.errors.email[0] );
+                    }
+                    if(data.errors.branch){
+                        $( '#branch-error' ).html( data.errors.branch[0]);
                     }
                     if(data.errors.password){
                         $( '#password-error' ).html( data.errors.password[0]);
@@ -83,6 +82,7 @@ $(document).ready(function(){
                 name:name,
                 email:email,
                 role:role,
+                branch:branch,
             },
             success:function(data)
             {
@@ -96,6 +96,9 @@ $(document).ready(function(){
                     }
                     if(data.errors.role){
                         $( '#role-error1' ).html( data.errors.role[0] );
+                    }
+                    if(data.errors.branch){
+                        $( '#branch-error1' ).html( data.errors.branch[0] );
                     }
                 }
                 if(data.success==true)
