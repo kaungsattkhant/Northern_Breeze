@@ -88,18 +88,18 @@
              <thead>
                 <tr>
                     {{--                    <th scope="col" class="border-bottom-0 border-top-0 fontsize-mount6" >#</th>--}}
-                    <th scope="col" class="border-bottom-0 border-top-0 fontsize-mount6" >Name</th>
-                    <th scope="col" class="border-bottom-0 border-top-0 fontsize-mount6"> Group Name</th>
-                    <th scope="col" class="border-bottom-0 border-top-0 text-center fontsize-mount6">Action</th>
+                    <th scope="col" class=" border-top-0 fontsize-mount6" >Name</th>
+                    <th scope="col" class=" border-top-0 fontsize-mount6"> Group Name</th>
+                    <th scope="col" class=" border-top-0 text-center fontsize-mount6">Action</th>
                 </tr>
              </thead>
              <tbody>
 {{--             @if($currency_groups!=null)--}}
                  @foreach($currency_groups as $currency_group)
                      <tr>
-                         <td scope="row" class="table-row-m fontsize-mount">{{$currency_group->name}}</td>
-                         <td class="table-row-m fontsize-mount">{{$currency_group->currency->name}}</td>
-                         <td class="table-row-m text-center">
+                         <td scope="row" class="table-row-m fontsize-mount border-top-0">{{$currency_group->name}}</td>
+                         <td class="table-row-m fontsize-mount border-top-0">{{$currency_group->currency->name}}</td>
+                         <td class="table-row-m text-center border-top-0">
                              <form action="{{url('currency_group/'.$currency_group->id.'/edit')}}" method="get" class="d-inline">
                                  <a>
 

@@ -15,21 +15,23 @@
 
                 <button type="button" class="btn btn-nb-mount-save fontsize-mount px-4"  data-toggle="modal" data-target="#add">Add</button>
             </div>
+            <div class="mt-4 mb-0 bg-white border-top-radius-mount pr-2" style="width: fit-content;">
+                <select class="selectpicker pl-2" name="currency_value" data-style="btn-white" data-width="auto">
+                    <option selected disabled>Currency Value</option>
+                    <option>11111</option>
+                    <option>22222</option>
+                </select>
+            </div>
             <div class="row">
                 <div class="col">
-                    <div class="mt-4 mb-0 bg-white border-top-radius-mount" style="width: 30%;">
-                        <select class="selectpicker pl-2" name="currency_value" data-style="btn-white" data-width="auto">
-                            <option selected disabled>Currency Value</option>
-                            <option>11111</option>
-                            <option>22222</option>
-                        </select>
-                    </div>
-{{--                    <select class=" text-nb-mount row-col-p mb-0 border-0 bg-white border-top-radius-mount " style="font-size: 20px;">--}}
-{{--                        <option selected disabled>Currency value</option>--}}
-{{--                        <option>1</option>--}}
-{{--                        <option>1</option>--}}
-{{--                        <option>1</option>--}}
-{{--                    </select>--}}
+{{--                    <div class="mt-4 mb-0 bg-white border-top-radius-mount" style="width: 30%;">--}}
+{{--                        <select class="selectpicker pl-2" name="currency_value" data-style="btn-white" data-width="auto">--}}
+{{--                            <option selected disabled>Currency Value</option>--}}
+{{--                            <option>11111</option>--}}
+{{--                            <option>22222</option>--}}
+{{--                        </select>--}}
+{{--                    </div>--}}
+
                     <table class="table border-0 bg-white box-shadow-mount border-tab-radius-mount">
 
                         <tbody class="rounded-table-mount">
@@ -102,7 +104,7 @@
 
                     </div>
                 </div>
-                <div class="col pt-4 mt-4">
+                <div class="col">
                     {{--                    <p class="row-col-p2 text-nb-mount fontsize-mount4 mb-2 ml-1">ပြန်လည်ပေးအပ်ငွေ</p>--}}
 {{--                    <select class=" text-nb-mount row-col-p mb-2 ml-1 border-0 bg-transparent" style="font-size: 20px">--}}
 {{--                        <option selected disabled>Currency</option>--}}
@@ -110,7 +112,7 @@
 {{--                        <option>1</option>--}}
 {{--                        <option>1</option>--}}
 {{--                    </select>--}}
-                    <table class="table border-0 bg-white box-shadow-mount rounded-table-mount mt-2 pb-5">
+                    <table class="table border-0 bg-white box-shadow-mount rounded-table-mount pb-5">
                         <tbody class="rounded-table-mount ">
 
                         <tr>

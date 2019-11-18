@@ -1,19 +1,13 @@
 <div class="sidebar-nb-mount shadow mr-0">
+{{--    <div class="scrolled-content-wrapper">--}}
     <ul class="nav flex-column mr-0 pt-3" id="myDIV" style="position: relative;">
         <li class="nav-item dropdown btn-mount mx-auto mb-0" id="pos" data-toggle="collapse" href="#pos1">
             <a class="nav-link p-0  sidebar-box-mount img-pos text-center" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                 <div class=" mt-0 px-auto "><p class="sb-text">POS &nbsp; <i class="fas fa-chevron-down"></i></p></div>
 
             </a>
-
-{{--            <div class="dropdown-menu dp-mount" id="menu">--}}
-{{--                <a class="dropdown-item" href="{{url('non_member')}}" >Non-Member</a>--}}
-{{--                <a class="dropdown-item" href="{{url('pos_member')}}" >Member</a>--}}
-
-{{--            </div>--}}
-
         </li>
-        <div class="rounded-0 collapse border-0 " id="pos1" style="width: 100%">
+        <div class="rounded-0 collapse border-0 " id="pos1" style="width: 100%;margin-top: 5px;">
             <div class="rounded-0 border-0 collap-menu-mount">
                 <a class="dropdown-item text-center pl-4 pt-3 pb-1 text-color-mount collap-mount fontsize-mount" href="{{url('non_member')}}" style="border-bottom: 1px solid #dddddd">Non-Member</a>
                 <a class="dropdown-item text-center  pl-4 pt-1 pb-3 text-color-mount collap-mount fontsize-mount" href="{{url('pos_member')}}" >Member</a>
@@ -47,5 +41,5 @@
         </li>
 
     </ul>
-
+{{--    </div>--}}
 </div>

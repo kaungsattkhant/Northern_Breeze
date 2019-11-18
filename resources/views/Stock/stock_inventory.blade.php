@@ -17,16 +17,22 @@
                 </select>
             </div>
             <div class="mr-5 my-auto">
-                <button type="button" class="btn btn-nb-mount mr-4 p-0 fontsize-mount"><a class="w-100 h-100 text-white text-decoration-none px-4 py-2" href="{{url('create_stock')}}">Add</a></button>
+                <form class="d-inline">
+                    <button type="button" class="btn btn-nb-mount mr-4 p-0 fontsize-mount"><a class="w-100 h-100 text-white text-decoration-none px-4 py-2" href="{{url('create_stock')}}">Add</a></button>
 
-                 <button type="button" class="btn btn-nb-mount p-0 fontsize-mount"><a class="w-100 h-100 text-white text-decoration-none px-3 py-2" href="{{url('transfer_stock')}}">Transfer</a></button>
+                </form>
+                <form class="d-inline">
+                    <button type="button" class="btn btn-nb-mount p-0 fontsize-mount"><a class="w-100 h-100 text-white text-decoration-none px-3 py-2" href="{{url('transfer_stock')}}">Transfer</a></button>
+
+                </form>
+
              </div>
 
          </div>
          <div class="pt-2 mt-1">
              <div class="mb-1 pb-">
-                 <p class="mb-3 fontsize-mount17 ml-1 d-inline">Total amount exchange :</p>
-                 <p class="fontsize-mount17 d-inline"> 100,100,00</p>
+                 <p class="mb-3 fontsize-mount17 ml-1 d-inline text-shadow-mount">Total amount exchange :</p>
+                 <p class="fontsize-mount17 d-inline text-shadow-mount"> 100,100,00</p>
              </div>
              <table class="table bg-white box-shadow-mount rounded-table-mount "  id="myTable">
                  <thead>

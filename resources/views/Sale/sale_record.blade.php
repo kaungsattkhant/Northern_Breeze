@@ -28,8 +28,8 @@
         </div>
         <div class="pt-2 mt-1">
             <div class="mb-1">
-                <p class="mb-3 fontsize-mount17 ml-1 d-inline">Total amount exchange :</p>
-                <p class="fontsize-mount17 d-inline"> 100,100,00</p>
+                <p class="mb-3 fontsize-mount17 ml-1 d-inline text-shadow-mount">Total amount exchange :</p>
+                <p class="fontsize-mount17 d-inline text-shadow-mount"> 100,100,00</p>
             </div>
             <table class="table bg-white box-shadow-mount rounded-table-mount mt-1"  id="myTable" >
                 <thead>

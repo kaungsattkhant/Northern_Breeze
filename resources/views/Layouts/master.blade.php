@@ -20,6 +20,7 @@
 {{--    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>--}}
 {{--    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/i18n/defaults-*.min.js"></script>--}}
 
+
 </head>
 <body>
 <div>
@@ -38,8 +39,9 @@
 {{--=======--}}
 {{--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>--}}
 
-<script src="{{asset('js/bt.js')}}"></script>
 <script src="{{asset('js/jquery-ui.min.js')}}"></script>
+<script src="{{asset('js/bt.js')}}"></script>
+
 <script src="{{asset('js/multiselect.js')}}"></script>
 <script src="{{asset('js/multiselectfilter.js')}}"></script>
 <script src="{{asset('js/bs.js')}}"></script>
