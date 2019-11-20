@@ -196,7 +196,7 @@
                 </div>
                 <button type="submit" class="btn btn-nb-mount-save fontsize-mount px-4 stock_create" >Transfer</button>
             </div>
-            <select class="selectpicker pl-2" name="currency_value" data-style="btn-white" data-width="auto" data-live-search="true" id="stock_currency_filter">
+            <select class="selectpicker pl-2" name="currency" data-style="btn-white" data-width="auto" data-live-search="true" id="stock_currency_filter">
                 <option  disabled>Currency Value</option>
                 @php
                     $currencies=\App\Model\Currency::all();

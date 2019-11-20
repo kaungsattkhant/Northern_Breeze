@@ -24,16 +24,17 @@ class StockInventoryCreateValidation extends FormRequest
     public function rules()
     {
         return [
-            'notes.*'=>'numeric',
+            'notes.*'=>'nullable|numeric',
+            'currency'=>'required',
         ];
     }
-    public function messages()
-    {
-        $messages = [];
-        foreach ($this->get('notes') as $key => $val) {
-            $messages["external_media.$key.active_url"] = "$val is not a valid active url";
-        }
-
-        return $messages;
-    }
+//    public function messages()
+//    {
+//        $messages = [];
+//        foreach ($this->get('notes') as $key => $val) {
+//            $messages["external_media.$key.active_url"] = "$val is not a valid active url";
+//        }
+//
+//        return $messages;
+//    }
 }

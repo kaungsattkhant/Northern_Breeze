@@ -10,4 +10,8 @@ class Transfer extends Model
     {
         return $this->belongsToMany(GroupNote::class)->withPivot('sheet');
     }
+    public function currency()
+    {
+        return $this->belongsTo(Currency::class);
+    }
 }

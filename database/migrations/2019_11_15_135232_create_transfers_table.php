@@ -17,6 +17,8 @@ class CreateTransfersTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('to_branch_id')->nullable();
             $table->unsignedBigInteger('from_branch_id')->nullable();
+            $table->unsignedBigInteger('currency_id');
+            $table->foreign('currency_id')->references('id')->on('currencies')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('to_branch_id')->references('id')->on('branches')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('from_branch_id')->references('id')->on('branches')->onDelete('cascade')->onUpdate('cascade');
             $table->dateTime('date_time');

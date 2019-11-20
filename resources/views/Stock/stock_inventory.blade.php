@@ -6,10 +6,10 @@
             <div  class="my-auto ml-4 pl-3">
                 <select class="selectpicker" name="Branches" data-style="btn-white" data-width="auto">
                     <option selected disabled>Branches</option>
-                    <option>1111</option>
-                    <option>22222</option>
+                    @foreach($branches as $branch)
+                        <option value="{{$branch->id}}" >{{$branch->name}}</option>
+                    @endforeach
                 </select>
-
                 <select class="selectpicker" name="In/Out/All" data-style="btn-white" data-width="auto">
                     <option selected disabled>In/Out/All</option>
                     <option>1111</option>
@@ -42,56 +42,19 @@
                  </tr>
                  </thead>
                  <tbody>
-                 <tr>
-                     <td scope="row" class="table-row-m fontsize-mount2 border-top-0">Myanmar Kyats</td>
-                     <td class="table-row-m fontsize-mount2 border-top-0">1000000</td>
-                     <td class="table-row-m text-info border-top-0">In</td>
-                     <td class="table-row-m border-top-0"><a href="#" class="text-a-mount" data-toggle="modal" data-target="#detail">Detail</a></td>
-                 </tr>
-                 <tr>
-                     <td scope="row" class="table-row-m fontsize-mount2 border-top-0 ">U.S Dollar</td>
-                     <td class="table-row-m fontsize-mount2 border-top-0">1000000</td>
-                     <td class="table-row-m text-danger border-top-0">Out</td>
-                     <td class="table-row-m border-top-0"><a href="#" class="text-a-mount" data-toggle="modal" data-target="#detail">Detail</a></td>
-                 </tr>
-                 <tr>
-                     <td scope="row" class="table-row-m fontsize-mount2 border-top-0">Singapore Sing</td>
-                     <td class="table-row-m fontsize-mount2 border-top-0">1000000</td>
-                     <td class="table-row-m text-info border-top-0">In</td>
-                     <td class="table-row-m border-top-0"><a href="#" class="text-a-mount" data-toggle="modal" data-target="#detail">Detail</a></td>
-                 </tr>
-                 <tr>
-                     <td scope="row" class="table-row-m fontsize-mount2 border-top-0">Thai Baht</td>
-                     <td class="table-row-m fontsize-mount2 border-top-0">1000000</td>
-                     <td class="table-row-m text-info border-top-0">In</td>
-                     <td class="table-row-m  border-top-0"><a href="#" class="text-a-mount" data-toggle="modal" data-target="#detail">Detail</a></td>
-                 </tr>
-                 <tr>
-                     <td scope="row" class="table-row-m fontsize-mount2 border-top-0">Japanese Yen</td>
-                     <td class="table-row-m fontsize-mount2 border-top-0">1000000</td>
-                     <td class="table-row-m text-danger border-top-0">Out</td>
-                     <td class="table-row-m  border-top-0"><a href="#" class="text-a-mount" data-toggle="modal" data-target="#detail">Detail</a></td>
-                 </tr>
-                 <tr>
-                     <td scope="row" class="table-row-m fontsize-mount2 border-top-0">Chinese Yuan</td>
-                     <td class="table-row-m fontsize-mount2 border-top-0">1000000</td>
-                     <td class="table-row-m text-info border-top-0">In</td>
-                     <td class="table-row-m  border-top-0"><a href="#" class="text-a-mount" data-toggle="modal" data-target="#detail">Detail</a></td>
-                 </tr>
-                 <tr>
-                     <td scope="row" class="table-row-m fontsize-mount2 border-top-0"></td>
-                     <td class="table-row-m fontsize-mount2 border-top-0"></td>
-                     <td class="table-row-m text-info border-top-0"></td>
-                     <td class="table-row-m  border-top-0"><a href="#" class="text-a-mount" data-toggle="modal" data-target="#detail"></a></td>
-                 </tr>
-                 <tr>
-                     <td scope="row" class="table-row-m fontsize-mount2 border-top-0">.</td>
-                     <td class="table-row-m fontsize-mount2 border-top-0">.</td>
-                     <td class="table-row-m text-info border-top-0">.</td>
-                     <td class="table-row-m  border-top-0"><a href="#" class="text-a-mount" data-toggle="modal" data-target="#detail"></a></td>
-                 </tr>
+                 @foreach($transfers as $transfer)
+                     <tr>
+                         <td scope="row" class="table-row-m fontsize-mount2 border-top-0">{{$transfer->currency->name}}</td>
+                         <td class="table-row-m fontsize-mount2 border-top-0">{{$transfer->total_transfer_value}}</td>
+                         <td class="table-row-m text-info border-top-0">{{$transfer->transfer_status}}</td>
+                         <td class="table-row-m border-top-0"><a href="#" class="text-a-mount" onclick="transfer_detail({{$transfer->id}})">Detail</a></td>
+{{--                         <td class="table-row-m border-top-0"><a href="#" class="text-a-mount" data-target="#detail" data-toggle="modal">Detail</a></td>--}}
+                     </tr>
+                 @endforeach
+
                  </tbody>
              </table>
+             {{$transfers->links()}}
          </div>
      </div>
     <script>
@@ -101,6 +64,8 @@
             $("#stock").addClass("active2");
 
         });
+    </script>
+    <script src="{{asset('js/transfer.js')}}">
     </script>
 
     @include('Stock.detail_stock')
