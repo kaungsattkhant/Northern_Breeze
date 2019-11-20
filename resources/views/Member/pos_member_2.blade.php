@@ -25,13 +25,13 @@
             <div class="d-flex justify-content-between  top-box-mount shadow-sm border-top-radius-mount">
                 <div class="my-auto fs-select2">
 
-                    <select class="selectpicker pl-4" name="Branches" data-style="btn-white" data-width="auto">
+                    <select class="selectpicker show-menu-arrow pl-4" name="Branches" data-style="btn-white" data-width="auto">
                         <option selected disabled>လဲလှယ်မည့်ငွေ</option>
                         <option>11111</option>
                         <option>22222</option>
                     </select>
 
-                    <select class="selectpicker pl-4" name="Branches" data-style="btn-white" data-width="auto">
+                    <select class="selectpicker show-menu-arrow pl-4" name="Branches" data-style="btn-white" data-width="auto">
                         <option selected disabled>ပြန်လည်ထုတ် ပေးမည့်ငွေ</option>
                         <option>1111</option>
                         <option>22222</option>

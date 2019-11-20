@@ -1,30 +1,23 @@
 @extends('Layouts.master')
 @section('content')
-    <script>
 
-        $(document).ready(function(){
-            $(".append-btn").click(function(){
-                $("#append-div").clone().appendTo(".add-input-select");
-            });
-        });
-
-    </script>
     <div class="container-nb-mount">
         <div class="d-flex justify-content-between top-box-mount shadow-sm">
 
             <div class="my-auto ">
-                <select class="selectpicker ml-4" name="Branches" data-style="btn-white" data-width="auto">
+                <select class="selectpicker ml-4 show-menu-arrow" name="Branches" data-style="btn-white" data-width="auto">
 
                     <option selected disabled>လဲလှယ်မည့်ငွေ</option>
                     <option>11111</option>
                     <option>22222</option>
                 </select>
 
-                <select class="selectpicker pl-4" name="Branches" data-style="btn-white" data-width="auto">
+                <select class="selectpicker pl-4 show-menu-arrow" name="Branches" data-style="btn-white" data-width="auto">
                     <option selected disabled>ပြန်လည်ထုတ် ပေးမည့်ငွေ</option>
                     <option>1111</option>
                     <option>22222</option>
                 </select>
+
             </div>
             <button type="button" class="btn btn-nb-mount-save fontsize-mount" data-toggle="modal" data-target="#save">သိမ်းမည်</button>
         </div>
@@ -39,7 +32,7 @@
                         <td class="text-nb-mount border-top-0 pl-4 pt-4 fontsize-mount2">10000 kyats</td>
                         <td class="text-right border-top-0 pt-4 fs-select4">
                             <div id="append-div" class="d-inline-block">
-                                <input type="text" class="border rounded-table-mount text-center fontsize-mount3 pt-1" style="width:39%" placeholder="ရွက်">
+                                <input type="text" class="border rounded-table-mount text-center fontsize-mount3 pt-1 for-placeholder" style="width:39.5%" placeholder="ရွက်">
                                 <select class="selectpicker" data-width="fit-content">
                                     <option>class a</option>
                                     <option>class g</option>
@@ -47,14 +40,16 @@
                                 </select>
                             </div>
                             <button class="bg-transparent border-0 append-btn d-inline"><i class="fas fa-plus plus-btn-mount"></i></button>
-                            <div class="add-input-select"></div>
+                            <div class="add-input-select" id="mySelect">
+
+                            </div>
                         </td>
                     </tr>
                     <tr>
                         <td class="border-top-0 text-nb-mount pl-4 fontsize-mount2">5000 kyats</td>
                         <td class="text-right border-top-0 pt-4 fs-select4">
                             <div class="d-inline-block">
-                                <input type="text" class="border rounded-table-mount text-center fontsize-mount3 pt-1" style="width:39%" placeholder="ရွက်">
+                                <input type="text" class="border rounded-table-mount text-center fontsize-mount3 pt-1 for-placeholder" style="width:39.5%" placeholder="ရွက်">
                                 <select class="selectpicker" data-width="fit-content">
                                     <option>class a</option>
                                     <option>class g</option>
@@ -70,7 +65,7 @@
                         <td class="border-top-0 text-nb-mount pl-4 fontsize-mount2">1000 kyats</td>
                         <td class="text-right border-top-0 pt-4 fs-select4">
                             <div class="d-inline-block">
-                                <input type="text" class="border rounded-table-mount text-center fontsize-mount3 pt-1" style="width:39%" placeholder="ရွက်">
+                                <input type="text" class="border rounded-table-mount text-center fontsize-mount3 pt-1 for-placeholder" style="width:39.5%" placeholder="ရွက်">
                                 <select class="selectpicker" data-width="fit-content">
                                     <option>class a</option>
                                     <option>class g</option>
@@ -85,7 +80,7 @@
                         <td class="border-top-0 text-nb-mount pl-4 fontsize-mount2">500 kyats</td>
                         <td class="text-right border-top-0 pt-4 fs-select4">
                             <div class="d-inline-block">
-                                <input type="text" class="border rounded-table-mount text-center fontsize-mount3 pt-1" style="width:39%" placeholder="ရွက်">
+                                <input type="text" class="border rounded-table-mount text-center fontsize-mount3 pt-1 for-placeholder" style="width:39.5%" placeholder="ရွက်">
                                 <select class="selectpicker" data-width="fit-content">
                                     <option>class a</option>
                                     <option>class g</option>
@@ -100,7 +95,7 @@
                         <td class="border-top-0 text-nb-mount pl-4 fontsize-mount2">200 kyats</td>
                         <td class="text-right border-top-0 pt-4 fs-select4">
                             <div class="d-inline-block">
-                                <input type="text" class="border rounded-table-mount text-center fontsize-mount3 pt-1" style="width:39%" placeholder="ရွက်">
+                                <input type="text" class="border rounded-table-mount text-center fontsize-mount3 pt-1 for-placeholder" style="width:39.5%" placeholder="ရွက်">
                                 <select class="selectpicker" data-width="fit-content">
                                     <option>class a</option>
                                     <option>class g</option>
@@ -115,7 +110,7 @@
                         <td class="border-top-0 text-nb-mount pl-4 fontsize-mount2">100 kyats</td>
                         <td class="text-right border-top-0 pt-4 fs-select4">
                             <div class="d-inline-block">
-                                <input type="text" class="border rounded-table-mount text-center fontsize-mount3 pt-1" style="width:39%" placeholder="ရွက်">
+                                <input type="text" class="border rounded-table-mount text-center fontsize-mount3 pt-1 for-placeholder" style="width:39.5%" placeholder="ရွက်">
                                 <select class="selectpicker" data-width="fit-content">
                                     <option>class a</option>
                                     <option>class g</option>
@@ -130,7 +125,7 @@
                         <td class="border-top-0 text-nb-mount pl-4 fontsize-mount2">50 kyats</td>
                         <td class="text-right border-top-0 pt-4 fs-select4">
                             <div class="d-inline-block">
-                                <input type="text" class="border rounded-table-mount text-center fontsize-mount3 pt-1" style="width:39%" placeholder="ရွက်">
+                                <input type="text" class="border rounded-table-mount text-center fontsize-mount3 pt-1 for-placeholder" style="width:39.5%" placeholder="ရွက်">
                                 <select class="selectpicker" data-width="fit-content">
                                     <option>class a</option>
                                     <option>class g</option>
@@ -145,7 +140,7 @@
                         <td class="border-top-0 text-nb-mount pl-4 fontsize-mount2">10 kyats</td>
                         <td class="text-right border-top-0 pt-4 fs-select4">
                             <div class="d-inline-block">
-                                <input type="text" class="border rounded-table-mount text-center fontsize-mount3 pt-1" style="width:39%" placeholder="ရွက်">
+                                <input type="text" class="border rounded-table-mount text-center fontsize-mount3 pt-1 for-placeholder" style="width:39.5%" placeholder="ရွက်">
                                 <select class="selectpicker" data-width="fit-content">
                                     <option>class a</option>
                                     <option>class g</option>
@@ -257,15 +252,61 @@
     </div>
 
     @include('Member.save')
+{{--    <script>--}}
+{{--        $(function(){--}}
+{{--            $("#pos .img-pos").addClass("active-pos");--}}
+
+{{--            $("#pos").addClass("active2");--}}
+{{--            $("#pos .img-pos").removeClass("img-pos");--}}
+{{--        });--}}
+{{--    </script>--}}
+
+
+
+    @endsection
+@section('script')
     <script>
+
+
+        $(document).ready(function(){
+            // $('.selectpick').selectpicker();
+            $(".append-btn").click(function(){
+                // $("#append-div").clone().appendTo("#mySelect");
+                // $('.selectpick').selectpicker();
+                // $(".add-input-select").append("<button class='bg-transparent border-0' id='single' >x</button>");
+                $('#mySelect').append(`
+                                <div class="d-inline-block appended-item ">
+                                    <input type="text" class="border rounded-table-mount text-center fontsize-mount3 pt-1 for-placeholder" style="width:35.5%" placeholder="ရွက်">
+                                    <select class="select-append" data-width="fit-content">
+                                        <option>class a</option>
+                                        <option>class g</option>
+                                        <option>class z</option>
+                                    </select>
+                                    <button  class='bg-transparent border-0 delete-appended-item pad-l' onclick="deleteItem(this.id)" ><i class="fas fa-times plus-btn-mount"></i></button>
+                                </div>
+
+                `);
+                $('.select-append').selectpicker();
+                $.each($('.delete-appended-item'),function (ind) {
+                    $(this).attr('id', 'item-' + parseInt(ind+1));
+                })
+
+            });
+
+        });
+
+        function deleteItem(id){
+            $('#'+id).parent().remove();
+        }
+
         $(function(){
             $("#pos .img-pos").addClass("active-pos");
 
             $("#pos").addClass("active2");
             $("#pos .img-pos").removeClass("img-pos");
         });
+
+
     </script>
 
-
-
-    @endsection
+@endsection

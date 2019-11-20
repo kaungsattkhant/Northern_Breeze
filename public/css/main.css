@@ -798,7 +798,7 @@ li .dropdown-menu.show{
 }
 .fs-select4 .bootstrap-select > .dropdown-toggle {
     border: none;
-    color: #777777;
+    color: #666666;
     font-size: 15px;
 }
 .fs-select5 .bootstrap-select > .dropdown-toggle {
@@ -852,5 +852,11 @@ li .dropdown-menu.show{
     font-weight: 600;
 }
 .add-input-select{
-    padding-right: 27px;
+    /*padding-right: 27px;*/
+}
+.pad-l{
+    padding-left: 9px;
+}
+input[type="text"].for-placeholder::placeholder{
+    color: #999999;
 }
