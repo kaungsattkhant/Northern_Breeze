@@ -207,7 +207,7 @@
         <script>
             $(function(){
                 $("#pos .img-pos").addClass("active-pos");
-
+                {{--$("#zzz").css("background-image","url('{{URL::asset('storage/image/banknotes.png')}}')");--}}
                 $("#pos").addClass("active2");
                 $("#pos .img-pos").removeClass("img-pos");
             });
