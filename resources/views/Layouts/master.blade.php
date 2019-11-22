@@ -40,6 +40,7 @@
 
 <script src="{{asset('js/bt.js')}}"></script>
 <script src="{{asset('js/jquery-ui.min.js')}}"></script>
+<script src="{{asset('js/jquery_validation.js')}}"></script>
 <script src="{{asset('js/multiselect.js')}}"></script>
 <script src="{{asset('js/multiselectfilter.js')}}"></script>
 <script src="{{asset('js/bs.js')}}"></script>
@@ -78,16 +79,8 @@
             hideIfNoPrevNext: true,
             yearRange: "1960:2030",
             duration:'slow',
-            // constrainInput: false
-            // showMonthAfterYear: true
-            // buttonImage: "/images/datepicker.gif",
-            // buttonImageOnly: true
     });
 
-        // $('#currency_datefilter').on('click',function () {
-        //     var date=$('#currency_date').val();
-        //     console.log(date);
-        // });
     });
 
 </script>

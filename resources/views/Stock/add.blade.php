@@ -26,14 +26,9 @@
                 @endphp
                 @foreach($currencies as $currency)
                     <option value="{{$currency->id}}"
-{{--                    @if($currency->id ==1)--}}
-{{--                        selected="selected"--}}
-{{--                        @endif--}}
                     >{{$currency->name}}</option>
-
                 @endforeach
             </select>
-
             <div class="row" id="stock_table_filter">
 
 
