@@ -27,6 +27,7 @@ class StockController extends Controller
             ->whereDate('date_time',Carbon::today())
             ->orderBy('id','desc')
             ->paginate(10);
+        $branch_total_value=0;
         if($transfers->isNotEmpty())
         {
             foreach($transfers as $transfer)
@@ -43,10 +44,12 @@ class StockController extends Controller
                 elseif($transfer->from_branch_id== $branch_id && $transfer->to_branch_id != $branch_id)
                     $transfer->transfer_status="Out";
 
-                $transfer->total_transfer_value= $this->total_transfer_value($transfer->id);;
+                $transfer->total_transfer_value= $this->total_transfer_value($transfer->id);
+                $branch_total_value+=$this->total_transfer_value($transfer->id);
+
 
             }
-            return view('Stock.stock_inventory',compact('branches','transfers'));
+            return view('Stock.stock_inventory',compact('branches','transfers','branch_total_value'));
 
         }
         return view('Stock.stock_inventory',compact('branches','transfers'));
@@ -78,21 +81,30 @@ class StockController extends Controller
                 $note=Note::whereId($id)->get();
                 foreach ($note as $n)
                 {
-//                    dd($n->id);
-                    $group_note_id=DB::table('group_note')->where('note_id',$n->id)
+                    $group_note_id=DB::table('group_note')
+//                        ->orderBy('id','asc')
+                        ->where('note_id',$n->id)
                         ->where('group_id',$group->id)
                         ->pluck('id');
+                    $g[]=$group_note_id[0];
+                    $buying_value=BuyGroupValue::where('group_id',$group->id)
+                        ->orderBy('date_time','DESC')
+                        ->first();
+//                    dd($buying_value);
+
                     $total_sheet=DB::table('branch_group_note')->where('group_note_id',$group_note_id[0])
                         ->where('branch_id',$branch_id)
                         ->sum('sheet');
 //                    dd($total_sheet);
                     $n->group_id=$group->id;
                     $n->total_sheet=$total_sheet;
-                    $total+=$total_sheet;
+                    $total+=intval($total_sheet)*$buying_value->value;
                     array_push($stock_notes,$n);
                 }
             }
+//            dd($g);
         }
+//        dd($total);
         asort($stock_notes);
 
         $data=view('Stock.stock_currency_filter',compact('stock_notes','total'));

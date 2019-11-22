@@ -17,7 +17,7 @@
 
         </table>
         <div class="div-p-mount2">
-            <p>Total : {{$total}} </p>
+            <p>Total : {{$total}} MMKs </p>
 
         </div>
     </div>

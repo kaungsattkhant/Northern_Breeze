@@ -30,7 +30,7 @@
          <div class="pt-2 mt-1">
              <div class="mb-1 pb-">
                  <p class="mb-3 fontsize-mount17 ml-1 d-inline">Total amount exchange :</p>
-                 <p class="fontsize-mount17 d-inline"> 100,100,00</p>
+                 <p class="fontsize-mount17 d-inline"> {{$branch_total_value}}</p>
              </div>
              <table class="table bg-white box-shadow-mount rounded-table-mount "  id="myTable">
                  <thead>

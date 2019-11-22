@@ -84,7 +84,6 @@ Route::group(['namespace'=>'Web'],function(){
 });
 
 
-
 //Route::get('/non_member',function()
 //{
 //    return view('Member.non_member');
