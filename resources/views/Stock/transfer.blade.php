@@ -202,17 +202,19 @@
                     $currencies=\App\Model\Currency::all();
                 @endphp
                 @foreach($currencies as $currency)
-                    <option value="{{$currency->id}}" selected>{{$currency->name}}</option>
+                    <option value="{{$currency->id}}"  selected>{{$currency->name}}</option>
 
                 @endforeach
             </select>
                         <select class="selectpicker pl-2" name="branch" data-style="btn-white" data-width="auto" id="to_branch">
                             <option  disabled selected>Choose Branch</option>
+
                             @php
                                 $branches=\App\Model\Branch::all();
+
                             @endphp
                             @foreach($branches as $branch)
-                                <option value="{{$branch->id}}" >{{$branch->name}}</option>
+                                <option value="{{$branch->id}}" @if(\Illuminate\Support\Facades\Auth::user()->branch_id==$branch->id) disabled  @endif >{{$branch->name}}</option>
                             @endforeach
                         </select>
             <div class="row" id="stock_table_filter">

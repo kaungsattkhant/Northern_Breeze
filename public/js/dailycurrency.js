@@ -37,8 +37,21 @@ $(function(){
             }
         });
     });
-
-
+    $('#transfer_datefilter').on('click',function () {
+        var date=$('#currency_date').val();
+        $.ajax({
+            url:'stock/transfer_datefilter',
+            type:'post',
+            data:{
+                date:date,
+            },
+            success:function(data)
+            {
+                // console.log(date);
+                $('table #stock_transfer').html(data);
+            }
+        });
+    });
 
 });
 

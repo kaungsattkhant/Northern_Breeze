@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Auth;
 
 class frontmanCheck
 {
@@ -15,6 +16,14 @@ class frontmanCheck
      */
     public function handle($request, Closure $next)
     {
-        return $next($request);
+        if(Auth::check())
+        {
+            if(Auth::user()->role_id == 3 || Auth::user()->role_id == 1)
+            {
+                return $next($request);
+            }
+
+        }
+        return redirect('login');
     }
 }

@@ -3,19 +3,19 @@
 
         <div class="container-nb-mount">
             @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li class="col-md-10 alert alert-danger" style="height:40px;margin:0;list-style:none;">
+                            {{ $error }}</li>
+                    @endforeach
+                </ul>
             @endif
-            <form action="{{url('stock/store')}}" method="post">
+{{--                <form id="stockForm">--}}
+                    <form action="{{url('stock/store')}}" method="post"  >
                 @csrf
             <div class="d-flex justify-content-between top-box-mount shadow-sm">
                                 <div class="my-auto">
-                                    <p style="margin-left: 20px"><b>Total values:</b> $823,323,000</p>
+                                    <p style="margin-left: 20px"><b>Total values:</b><i> {{$branch_total_value}}MMKs</i></p>
                                 </div>
                 <button type="submit" class="btn btn-nb-mount-save fontsize-mount px-4 stock_create" >Add</button>
             </div>
@@ -43,7 +43,6 @@
         <script>
             $(function(){
                 $("#stock a").addClass("active-si");
-
                 $("#stock").addClass("active2");
                 $('.stock_create').hide();
                 // $('#to_branch').hide();
@@ -51,7 +50,77 @@
                    $('.stock_create').fadeIn();
                    // $('#to_branch').fadeIn();
                 });
+                // var values = $("input[name^='notes[]']")
+                //     .map(function(){return $(this).val();}).get();
+                // alert(values);
+
+                // console.log('note_value='+'');
+
+                // $('.note_class').focusout(function () {
+                //     alert('ss');
+                //     cosole.log('success');
+                // });
+
+
+
+
+                // $('#stockForm').validate({
+                //     rules:{
+                //         notes:{
+                //             required:true,
+                //         },
+                //     },
+                //     message:{
+                //         notes:"Required Field",
+                //     }
+                // })
+
             });
+
+            function stockValidation($note) {
+                element="input[name='notes[]']";
+                // notes=
+
+                // $(element).validate({
+                //     rules:{
+                //                 notes:{
+                //                     numeric:true,
+                //                 },
+                //             },
+                //             message:{
+                //                 notes:"Required Field",
+                //             }
+                // });
+                myObj={};
+                $(element).each(myObj ,function(k,v) {
+                    note=$(this).val();
+                    if($.isNumeric(note))
+                    {
+                        $('span[class="note_error[]').each(function (k1,v1) {
+                            // if(k1 == k)
+                            // {
+                            //     $('span[class="note_error[]"]').html(' numeric');
+                            //
+                            // }
+                        });
+                        // console.log(k);
+                        // $('span[class="note_error[]').each(function () {
+                        //     $('span[class="note_error[]"]').html(' numeric');
+
+                        // });
+
+
+                    }
+                    else if(isNaN(note))
+                    {
+                        $('span[class="note_error[]"]').html('No numeric');
+                        // console.log('index is not numeric');
+
+                    }
+                });
+
+            }
         </script>
+
 
 @endsection

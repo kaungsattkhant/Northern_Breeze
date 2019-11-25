@@ -24,7 +24,13 @@ class StockInventoryCreateValidation extends FormRequest
     public function rules()
     {
         return [
-            'notes.*'=>'nullable|numeric',
+            'notes.*'=>[
+                'nullable',
+                'numeric',
+                'integer',
+                'regex:/^\d+$/'
+//                'regex:/(^([a-zA-Z]+)(\d+)?$)/u',
+            ],
             'currency'=>'required',
         ];
     }

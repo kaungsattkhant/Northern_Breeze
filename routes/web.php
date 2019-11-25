@@ -12,7 +12,7 @@
 */
 use Illuminate\Support\Facades\Route;
 
-Route::group(['middleware'=>['staffCheck']],function() {
+Route::group(['middleware'=>['adminCheck']],function() {
     Route::group(['namespace'=>'Web'],function(){
         Route::group(['prefix'=>'admin'],function(){
             Route::get('/','AdminController@index');
@@ -57,6 +57,7 @@ Route::group(['middleware'=>['staffCheck']],function() {
             Route::get('transfer','StockController@stock_transfer');
             Route::post('/store','StockController@store');
             Route::get('{id}/detail','StockController@stock_detail');
+            Route::post('transfer_datefilter','StockController@transfer_datepicker');
         });
         Route::group(['prefix'=>'currency_group'],function(){
             Route::get('/','CurrencyGroupController@index');
@@ -66,6 +67,31 @@ Route::group(['middleware'=>['staffCheck']],function() {
             Route::patch('update','CurrencyGroupController@update');
             Route::post('destroy','CurrencyGroupController@destroy');
         });
+        Route::group(['prefix'=>'daily_currency'],function(){
+            Route::get('/','DailyCurrencyController@index');
+            Route::get('/create','DailyCurrencyController@create');
+            Route::post('store','DailyCurrencyController@store');
+            Route::get('{id}/filter','DailyCurrencyController@daily_currency_filter');
+            Route::post('/datefilter','DailyCurrencyController@daily_currency_datefilter');
+            Route::get('/{group_id}/detail/{detail_id}','DailyCurrencyController@daily_detail');
+        });
+    });
+});
+Route::group(['middleware'=>['managerCheck']],function() {
+    Route::group(['namespace'=>'Web'],function() {
+        Route::group(['prefix'=>'stock'],function(){
+            Route::get('/','StockController@index');
+            Route::get('create_stock','StockController@create');
+            Route::get('{id}/stock_currency_filter','StockController@currency_filter');
+            Route::get('stock_inventory','StockController@stock_inventory');
+            Route::get('transfer','StockController@stock_transfer');
+            Route::post('/store','StockController@store');
+            Route::get('{id}/detail','StockController@stock_detail');
+        });
+    });
+});
+Route::group(['middleware'=>['frontmanCheck']],function() {
+    Route::group(['namespace'=>'Web'],function() {
         Route::group(['prefix'=>'daily_currency'],function(){
             Route::get('/','DailyCurrencyController@index');
             Route::get('/create','DailyCurrencyController@create');
