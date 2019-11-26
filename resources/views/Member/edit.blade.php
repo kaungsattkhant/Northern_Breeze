@@ -79,20 +79,25 @@
                 <h5 class="text-center mx-auto" id="exampleModalLongTitle">Edit Member</h5>
             </div>
             <div class="modal-body mx-5 px-0">
+                <ul id="editMessage">
+                    <li class="col-md-10 alert alert-success" style="height:40px;list-style:none;">
+                        <p id="success1"></p>
+                    </li>
+                </ul>
 
                 <form>
                     @csrf
                     <input type="hidden" name="id" id="id">
                     <div class="mb-1">
                         <label for="#name123" class="w-25 pt-2 fontsize-mount">Name</label>
-                        <input type="text" id="name1" name="name" class="border-top-0 border-right-0 border-left-0 rounded-0 mount-input2 bd-bottom-mount">
+                        <input type="text" id="name1" name="name" class="pl-2 border-top-0 border-right-0 border-left-0 rounded-0 mount-input2 bd-bottom-mount">
                         <span class="text-danger">
                                     <strong id="name_error1"></strong>
                                 </span>
                     </div>
                     <div class="mb-2">
                         <label for="#c123" class="w-25 pt-2 fontsize-mount">Company</label>
-                        <input type="text" id="company1" name="company"  class="border-top-0 border-right-0 border-left-0 rounded-0 mount-input2 bd-bottom-mount">
+                        <input type="text" id="company1" name="company"  class="pl-2 border-top-0 border-right-0 border-left-0 rounded-0 mount-input2 bd-bottom-mount">
                         <span class="text-danger">
                                     <strong id="company_error1"></strong>
                                 </span>
@@ -148,14 +153,14 @@
 
                     <div class="mb-1">
                         <label for="#phone_number1" class="w-25 pt-2 fontsize-mount">Phone</label>
-                        <input type="text" id="phone_number1" name="phone_number"  class="border-top-0 border-right-0 border-left-0 pt-2 rounded-0 mount-input2 bd-bottom-mount">
+                        <input type="text" id="phone_number1" name="phone_number"  class="pl-2 border-top-0 border-right-0 border-left-0 pt-2 rounded-0 mount-input2 bd-bottom-mount">
                         <span class="text-danger">
                                     <strong id="phone_number-error1"></strong>
                                 </span>
                     </div>
                     <div class="mb-1">
                         <label for="#email" class="w-25 pt-2 fontsize-mount">Email</label>
-                        <input type="email" id="email1" name="email"  class="border-top-0 border-right-0 border-left-0 pt-2 rounded-0 mount-input2 bd-bottom-mount">
+                        <input type="email" id="email1" name="email"  class="pl-2 border-top-0 border-right-0 border-left-0 pt-2 rounded-0 mount-input2 bd-bottom-mount">
                         <span class="text-danger">
                                     <strong id="email_error1"></strong>
                                 </span>
@@ -167,7 +172,7 @@
                     {{--                    </div>--}}
                     <div class="mb-4">
                         <label for="#add123" class="w-25 fontsize-mount">Address</label>
-                        <textarea type="text" id="address1" name="address"  class=" border-top-0 border-right-0 border-left-0 rounded-0  d-inline mount-input2 bd-bottom-mount" id="Add123" style="height: 60px;font-size: 15px;"></textarea>
+                        <textarea type="text" id="address1" name="address"  class="pl-2  border-top-0 border-right-0 border-left-0 rounded-0  d-inline mount-input2 bd-bottom-mount" id="Add123" style="height: 60px;font-size: 15px;"></textarea>
                         <span class="text-danger">
                                     <strong id="address_error1"></strong>
                                 </span>

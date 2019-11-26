@@ -14,6 +14,7 @@ class GroupNote extends Migration
     public function up()
     {
         Schema::create('group_note', function (Blueprint $table) {
+            $table->bigIncrements('id');
             $table->unsignedBigInteger('group_id');
             $table->unsignedBigInteger('note_id');
             $table->foreign('group_id')->references('id')->on('groups')->onDelete('cascade')->onUpdate('cascade');

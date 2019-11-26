@@ -201,7 +201,6 @@ class DailyCurrencyController extends Controller
                 $vs[] = $v;
 
             }
-//        dd($vs);
 
         $data=view('DailyCurrency.detail_view',compact('vs'));
 

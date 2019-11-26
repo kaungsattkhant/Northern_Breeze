@@ -11,8 +11,8 @@
         <div class="rounded-0 collapse border-0 mt-1" id="pos1" style="width: 100%">
 
             <div class="rounded-0 border-0 collap-menu-mount">
-                <a class="dropdown-item text-center pl-4 pt-3 pb-1 text-color-mount collap-mount fontsize-mount" href="{{url('non_member')}}" style="border-bottom: 1px solid #dddddd">Non-Member</a>
-                <a class="dropdown-item text-center  pl-4 pt-1 pb-3 text-color-mount collap-mount fontsize-mount" href="{{url('pos_member')}}" >Member</a>
+                <a class="dropdown-item text-center pl-4 pt-3 pb-1 text-color-mount collap-mount fontsize-mount" href="{{url('pos/non_member')}}" style="border-bottom: 1px solid #dddddd">Non-Member</a>
+                <a class="dropdown-item text-center  pl-4 pt-1 pb-3 text-color-mount collap-mount fontsize-mount" href="{{url('pos/member')}}" >Member</a>
             </div>
         </div>
         <li class="nav-item btn-mount mx-auto mt-2" id="member">
