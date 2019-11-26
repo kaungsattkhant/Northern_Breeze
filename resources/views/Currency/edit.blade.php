@@ -17,7 +17,11 @@
                     <div class="p-3">
                         <div class="mb-2 pr-5 fs-select4">
                             <label for="#currency" class="w-25 fontsize-mount pt-2"> Currency</label>
+<<<<<<< HEAD
                             <select class="selectpicker show-menu-arrow bd-bottom-mount mount-input3 " id="currency" name="currency">
+=======
+                            <select class="selectpicker show-menu-arrow bd-bottom-mount mount-input3" id="currency" name="currency">
+>>>>>>> b8f99745ec214ce91511f9e47e61ad6a43cfbe01
                                 <option selected disabled>--None--</option>
                                 @php
                                     $currencies=\App\Model\Currency::all();
@@ -48,6 +52,38 @@
                                         >{{$note->name}}</option>
                                     @endforeach
                                 </select>
+{{--=======--}}
+{{--                        <div class="mb-1 ">--}}
+{{--                            <p class="w-25 pt-2 fontsize-mount " style="position: absolute;left:30px">Note</p>--}}
+{{--                            <div class="d-inline fs-select4 pl-1" style="left: 53%;position: relative" >--}}
+{{--                                <select class="selectpicker bd-bottom-mount show-menu-arrow" multiple data-selected-text-format="count > 5" title="Select options" name="notes[]">--}}
+{{--                                    @php--}}
+{{--                                        $notes=\App\Model\Note::all();--}}
+{{--                                    @endphp--}}
+{{--                                    @foreach($notes as $note)--}}
+{{--                                        <option value="{{$note->id}}"--}}
+{{--                                        @if($currency_groups->notes->containsStrict('id',$note->id)) selected="selected"--}}
+{{--                                            @endif--}}
+{{--                                        >{{$note->name}}</option>--}}
+{{--                                    @endforeach--}}
+{{--                                </select>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                        <div class="mb-2 pr-5 fs-select4">--}}
+{{--                            <label for="#currency" class="w-25 fontsize-mount pt-2"> Notes</label>--}}
+{{--                            <select class="selectpicker show-menu-arrow bd-bottom-mount mount-input3"  multiple data-selected-text-format="count > 5" title="Select options" name="notes[]">--}}
+{{--                                <option selected disabled>--None--</option>--}}
+{{--                                @php--}}
+{{--                                    $notes=\App\Model\Note::all();--}}
+{{--                                @endphp--}}
+{{--                                @foreach($notes as $note)--}}
+{{--                                    <option value="{{$note->id}}"--}}
+{{--                                    @if($currency_groups->notes->containsStrict('id',$note->id)) selected="selected"--}}
+{{--                                    @endif--}}
+{{--                                    >{{$note->name}}</option>--}}
+{{--                                @endforeach--}}
+{{--                            </select>--}}
+{{-->>>>>>> b8f99745ec214ce91511f9e47e61ad6a43cfbe01--}}
                         </div>
                     </div>
 

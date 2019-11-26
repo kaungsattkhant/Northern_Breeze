@@ -83,11 +83,21 @@ Route::get('/non_member',function()
     return view('Member.non_member');
 });
 //
+Route::get('/non_member2',function()
+{
+    return view('Member.non_member_2');
+});
+
 Route::get('/pos_member',function()
 {
     return view('Member.pos_member');
 });
 //
+Route::get('/pos_member2',function()
+{
+    return view('Member.pos_member_2');
+});
+
 Route::get('/stock',function()
 {
     return view('Stock.stock_inventory');
@@ -107,6 +117,15 @@ Route::get('/currency',function()
     return view('Currency.index');
 });
 //Route::get('/daily_currency',function()
+//Route::get('/currency',function()
+//{
+//    return view('Currency.index');
+//});
+////Route::get('/daily_currency',function()
+////{
+////    return view('DailyCurrency.index');
+////});
+//Route::get('/daily_currency2',function()
 //{
 //    return view('DailyCurrency.index');
 //});
@@ -118,6 +137,10 @@ Route::get('/daily_currency2',function()
 //{
 //    return view('DailyCurrency.daily_currency');
 //});
+////Route::get('/daily_currency3',function()
+////{
+////    return view('DailyCurrency.daily_currency');
+////});
 Route::get('/test',function()
 {
     return view('Currency.test');
