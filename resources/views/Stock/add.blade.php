@@ -77,49 +77,38 @@
 
             });
 
-            function stockValidation($note) {
-                element="input[name='notes[]']";
-                // notes=
-
-                // $(element).validate({
-                //     rules:{
-                //                 notes:{
-                //                     numeric:true,
-                //                 },
-                //             },
-                //             message:{
-                //                 notes:"Required Field",
-                //             }
-                // });
-                myObj={};
-                $(element).each(myObj ,function(k,v) {
-                    note=$(this).val();
-                    if($.isNumeric(note))
-                    {
-                        $('span[class="note_error[]').each(function (k1,v1) {
-                            // if(k1 == k)
-                            // {
-                            //     $('span[class="note_error[]"]').html(' numeric');
-                            //
-                            // }
-                        });
-                        // console.log(k);
-                        // $('span[class="note_error[]').each(function () {
-                        //     $('span[class="note_error[]"]').html(' numeric');
-
-                        // });
-
-
-                    }
-                    else if(isNaN(note))
-                    {
-                        $('span[class="note_error[]"]').html('No numeric');
-                        // console.log('index is not numeric');
-
-                    }
-                });
-
-            }
+            // function stockValidation($note) {
+            //     element="input[name='notes[]']";
+            //
+            //     myObj={};
+            //     $(element).each(myObj ,function(k,v) {
+            //         note=$(this).val();
+            //         if($.isNumeric(note))
+            //         {
+            //             $('span[class="note_error[]').each(function (k1,v1) {
+            //                 // if(k1 == k)
+            //                 // {
+            //                 //     $('span[class="note_error[]"]').html(' numeric');
+            //                 //
+            //                 // }
+            //             });
+            //             // console.log(k);
+            //             // $('span[class="note_error[]').each(function () {
+            //             //     $('span[class="note_error[]"]').html(' numeric');
+            //
+            //             // });
+            //
+            //
+            //         }
+            //         else if(isNaN(note))
+            //         {
+            //             $('span[class="note_error[]"]').html('No numeric');
+            //             // console.log('index is not numeric');
+            //
+            //         }
+            //     });
+            //
+            // }
         </script>
 
 

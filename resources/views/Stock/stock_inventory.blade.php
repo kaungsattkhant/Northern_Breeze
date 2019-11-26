@@ -10,12 +10,13 @@
                         <option value="{{$branch->id}}" >{{$branch->name}}</option>
                     @endforeach
                 </select>
-                <select class="selectpicker" name="In/Out/All" data-style="btn-white" data-width="auto">
+                <select id="transfer_status_filter" class="selectpicker" name="In/Out/All" data-style="btn-white" data-width="auto">
                     <option selected disabled>In/Out/All</option>
-                    <option>1111</option>
-                    <option>22222</option>
+                    <option value="1">In</option>
+                    <option value="2">Out</option>
+                    <option value="3">Add</option>
+                    <option value="4" >All</option>
                 </select>
-
             </div>
             <div  style="margin: 20px 0 0 0" class="input-group h-25 pl-5">
                 <input type="text" id="currency_date" autocomplete="off"  name="transfer_history_filter" class="border-top-0 border-right-0 border-left-0 pl-5 dtpick-input" placeholder="YY-MM-DD">
@@ -79,7 +80,7 @@
 
                  </tbody>
              </table>
-{{--             {{$transfers->links()}}--}}
+             {{$transfers->links()}}
          </div>
      </div>
     <script>

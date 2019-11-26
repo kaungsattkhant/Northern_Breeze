@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection ALL */
 
 namespace App\Http\Controllers\Web;
 use App\Http\Requests\StockInventoryCreateValidation;
@@ -21,14 +21,7 @@ class StockController extends Controller
         $branches=Branch::all();
         $branch_id=Auth::user()->branch->id;
         $date=Carbon::today();
-        $transfers=$this->transfers($branch_id,$date);
-//        $transfers=Transfer::with('currency','group_note')
-//            ->whereDate('date_time',Carbon::today())
-//            ->where('from_branch_id',$branch_id)
-//            ->Where('to_branch_id',$branch_id)
-//            ->orderBy('id','desc')
-//            ->get();
-//        dd($transfers);
+        $transfers=$this->transfers($date);
         $transfer_total_value=0;
         if($transfers->isNotEmpty())
         {
@@ -283,14 +276,21 @@ class StockController extends Controller
         return $values;
 
     }
-    public function transfers($branch_id,$date)
+    public function transfers($date)
     {
+        $branch_id=Auth::user()->branch_id;
         $transfers=Transfer::with('currency','group_note')
-            ->where('from_branch_id',$branch_id)
-            ->where('to_branch_id',$branch_id)
             ->whereDate('date_time',$date)
             ->orderBy('id','desc')
+            ->where(function($query) use($branch_id){
+                $query->where('from_branch_id',$branch_id)
+                    ->orWhere('to_branch_id',$branch_id);
+            })
             ->paginate(10);
+//        $t=$transfers->filter(function($transfer){
+//            $branch_id=Auth::user()->branch->id;
+//            return $transfer->from_branch_id == $branch_id || $transfer->to_branch_id ==$branch_id;
+//        });
         return $transfers;
     }
     public function transfer_datepicker(Request $request)
@@ -304,7 +304,7 @@ class StockController extends Controller
 //            ->whereDate('date_time',$request->date)
 //            ->orderBy('id','desc')
 //            ->paginate(10);
-        $transfers=$this->transfers($branch_id,$date);
+        $transfers=$this->transfers($date);
 //        dd($transfers);
         $transfer_total_value=0;
         if($transfers->isNotEmpty())
@@ -328,11 +328,70 @@ class StockController extends Controller
 
 
             }
-            $date=view('Stock.stock_history_filter',compact('transfers'));
+            $date=view('Stock.stock_history_filter',compact('transfers','transfer_total_value'));
             return $date;
-
         }
         return '<p style="padding-left: 400px;padding-top:40px;"><b>No Transfer </b></p>';
+
+
+    }
+    public function transfer_status_filter($value)
+    {
+//        return response()->json($value);
+        $branch_id=Auth::user()->branch_id;
+
+//        $transfers=Transfer::all();
+        if($value==1)
+        {
+            $transfers=Transfer::with('currency','group_note')
+                ->orderBy('id','desc')
+                ->where(function($query) use($branch_id){
+                    $query->where('from_branch_id','!=',$branch_id)
+                        ->where('to_branch_id',$branch_id);
+                })
+                ->paginate(10);
+            foreach($transfers as $transfer)
+            {
+                $transfer->transfer_status='In';
+            }
+            $data=view('    Stock.transfer_status_filter',compact('transfers'));
+            return $data;
+        }
+        elseif($value==2)
+        {
+            $transfers=Transfer::with('currency','group_note')
+            ->orderBy('id','desc')
+            ->where(function($query) use($branch_id){
+                $query->where('from_branch_id',$branch_id)
+                    ->where('to_branch_id','!=',$branch_id);
+            })->paginate(10);
+            foreach($transfers as $transfer)
+            {
+                $transfer->transfer_status='Out';
+            }
+            $data=view('    Stock.transfer_status_filter',compact('transfers'));
+            return $data;
+        }
+        elseif($value==3)
+        {
+            $transfers=Transfer::with('currency','group_note')
+                ->orderBy('id','desc')
+                ->where(function($query) use($branch_id){
+                    $query->where('from_branch_id',$branch_id)
+                        ->where('to_branch_id',$branch_id);
+                })->paginate(10);
+            foreach($transfers as $transfer)
+            {
+                $transfer->transfer_status='Add';
+            }
+            $data=view('Stock.transfer_status_filter',compact('transfers'));
+            return $data;
+        }
+        elseif($value==4)
+        {
+            return redirect('stock');
+        }
+
 
 
     }

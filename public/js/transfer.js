@@ -1,9 +1,31 @@
-// $(function() {
-//     $.ajaxSetup({
-//         headers: {
-//             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-//         }
-//     });
+$(function() {
+
+    $('#transfer_status_filter').on('change',function(){
+
+        var value=$(this).val();
+        // alert(value);
+        $.ajax({
+            url:'stock/'+value+'/transfer_status_filter',
+            type:'get',
+            success:function(data)
+            {
+                // console.log(data);
+                $('table #stock_transfer').html(data);
+
+                // if(data.stauts==="all")
+                // {
+                //     location.reload();
+                // }
+                // else
+                // {
+                //     $('table #stock_transfer').html(data);
+                // }
+
+
+            }
+        });
+    });
+    });
 
     function transfer_detail($transfer_id)
     {
@@ -19,6 +41,7 @@
 
         })
     }
+
 // });
 
 
