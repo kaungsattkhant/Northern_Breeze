@@ -6,18 +6,13 @@
 
 
             <div  style="margin: 20px 0 0 0" class="input-group h-25 pl-5">
-                <input type="text" id="currency_date" autocomplete="off"  name="daily_datefilter" class="border-top-0 border-right-0 border-left-0 pl-5 dtpick-input" placeholder="YY-MM-DD">
+                <input type="text" id="datepicker" autocomplete="off"  name="daily_datefilter" class="border-top-0 border-right-0 border-left-0 pl-5 dtpick-input" placeholder="YY-MM-DD">
                 <div class="input-group-append">
                     <button class="btn btn-nb-mount-filter" id="currency_datefilter"><i class="fas fa-filter"></i></button>
                 </div>
 
             </div>
-{{--            <div class="input-group mb-3 w-25">--}}
-{{--                <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">--}}
-{{--                <div class="input-group-append">--}}
-{{--                    <button class="btn btn-outline-secondary" type="button" id="button-addon2">Button</button>--}}
-{{--                </div>--}}
-{{--            </div>--}}
+
 
             <div class="mr-5 my-auto">
                 <form action="{{url('daily_currency/create')}}" method="get">

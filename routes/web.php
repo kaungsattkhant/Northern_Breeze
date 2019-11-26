@@ -88,6 +88,8 @@ Route::group(['middleware'=>['managerCheck']],function() {
             Route::get('transfer','StockController@stock_transfer');
             Route::post('/store','StockController@store');
             Route::get('{id}/detail','StockController@stock_detail');
+            Route::post('transfer_datefilter','StockController@transfer_datepicker');
+            Route::get('{value}/transfer_status_filter','StockController@transfer_status_filter');
         });
     });
 });

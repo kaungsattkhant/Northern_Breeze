@@ -67,7 +67,7 @@
                 $('.img-pos').removeClass('active-pos');
             }
         );
-        $('#currency_date').datepicker({
+        $('#datepicker').datepicker({
             // altFormat:"dd-mm-YY",
             dateFormat:'yy-mm-dd',
             changeYear:true,

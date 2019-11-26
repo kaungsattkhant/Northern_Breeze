@@ -19,7 +19,7 @@
                 </select>
             </div>
             <div  style="margin: 20px 0 0 0" class="input-group h-25 pl-5">
-                <input type="text" id="currency_date" autocomplete="off"  name="transfer_history_filter" class="border-top-0 border-right-0 border-left-0 pl-5 dtpick-input" placeholder="YY-MM-DD">
+                <input type="text" id="datepicker" autocomplete="off"  name="transfer_history_filter" class="border-top-0 border-right-0 border-left-0 pl-5 dtpick-input" placeholder="YY-MM-DD">
                 <div class="input-group-append">
                     <button class="btn btn-nb-mount-filter" id="transfer_datefilter"><i class="fas fa-filter"></i></button>
                 </div>
@@ -77,7 +77,6 @@
 {{--                         <td class="table-row-m border-top-0"><a href="#" class="text-a-mount" data-target="#detail" data-toggle="modal">Detail</a></td>--}}
                      </tr>
                  @endforeach
-
                  </tbody>
              </table>
              {{$transfers->links()}}
