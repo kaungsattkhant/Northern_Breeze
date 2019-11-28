@@ -11,7 +11,7 @@ class CurrencyClassTableSeeder extends Seeder
      */
     public function run()
     {
-        $classes=['Class-A','Class-2','Class-3','Class-4'];
+        $classes=['Class-A','Class-B','Class-C','Class-D'];
         for($i=0;$i<count($classes);$i++)
         {
             \Illuminate\Support\Facades\DB::table('classifications')->insert([

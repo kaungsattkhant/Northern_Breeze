@@ -28,7 +28,7 @@ class StaffController extends Controller
             'password'=>'required',
             'password_confirmation'=>'required|same:password',
             'role'=>'required',
-            'branch'=>'required'
+            'branch'=>'nullable'
         ]);
         if($vData->passes())
         {
@@ -37,7 +37,8 @@ class StaffController extends Controller
             $staff->email=$request['email'];
             $staff->password=bcrypt($request['password']);
             $staff->role_id=$request['role'];
-            $staff->branch_id=$request['branch'];
+            $request->branch_id ? $staff->branch_id=$request['branch'] : $staff->branch_id=null;
+//            $staff->branch_id=$request['branch'];
             $staff->save();
             return response()->json([
                 'success'=>true,
@@ -60,7 +61,7 @@ class StaffController extends Controller
             'name' => "required",
             'email' => "required|unique:staff,email," . $request->id,
             'role' => 'required',
-            'branch'=>'required',
+            'branch'=>'nullable',
         ]);
         if ($vData->passes())
         {

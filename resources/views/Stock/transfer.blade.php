@@ -196,27 +196,32 @@
                 </div>
                 <button type="submit" class="btn btn-nb-mount-save fontsize-mount px-4 stock_create" >Transfer</button>
             </div>
-            <select class="selectpicker pl-2" name="currency" data-style="btn-white" data-width="auto" data-live-search="true" id="stock_currency_filter">
-                <option  disabled>Currency Value</option>
-                @php
-                    $currencies=\App\Model\Currency::all();
-                @endphp
-                @foreach($currencies as $currency)
-                    <option value="{{$currency->id}}"  selected>{{$currency->name}}</option>
+            <div class="row">
+            <div class="col">
+                <select class="selectpicker  mt-4" name="currency" data-style="btn-white" data-width="auto" data-live-search="true" id="stock_currency_filter">
+                    <option  disabled selected>Currency Value</option>
+                    @php
+                        $currencies=\App\Model\Currency::all();
+                    @endphp
+                    @foreach($currencies as $currency)
+                        <option value="{{$currency->id}}"  selected>{{$currency->name}}</option>
 
-                @endforeach
-            </select>
-                        <select class="selectpicker pl-2" name="branch" data-style="btn-white" data-width="auto" id="to_branch">
-                            <option  disabled selected>Choose Branch</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col">
+                <select class="selectpicker mt-4" name="branch" data-style="btn-white" data-width="auto" id="to_branch">
+                    <option  disabled selected>Choose Branch</option>
+                    @php
+                        $branches=\App\Model\Branch::all();
 
-                            @php
-                                $branches=\App\Model\Branch::all();
-
-                            @endphp
-                            @foreach($branches as $branch)
-                                <option value="{{$branch->id}}" @if(\Illuminate\Support\Facades\Auth::user()->branch_id==$branch->id) disabled  @endif >{{$branch->name}}</option>
-                            @endforeach
-                        </select>
+                    @endphp
+                    @foreach($branches as $branch)
+                        <option value="{{$branch->id}}" @if(\Illuminate\Support\Facades\Auth::user()->branch_id==$branch->id) disabled  @endif >{{$branch->name}}</option>
+                    @endforeach
+                </select>
+            </div>
+            </div>
             <div class="row" id="stock_table_filter">
                 <div class="col">
 
@@ -287,8 +292,9 @@
 
                     </div>
                 </div>
-                <div class="col pt-4 mt-4">
-                    <table class="table border-0 bg-white box-shadow-mount rounded-table-mount mt-2 pb-5">
+                <div class="col">
+
+                    <table class="table border-0 bg-white box-shadow-mount border-tab-radius-mount pb-5">
                         <tbody class="rounded-table-mount ">
 
                         <tr>

@@ -21,8 +21,8 @@
 
         </div>
     </div>
-    <div class="col pt-4 mt-4">
-        <table class="table border-0 bg-white box-shadow-mount rounded-table-mount mt-2 pb-5">
+    <div class="col">
+        <table class="table border-0 bg-white box-shadow-mount rounded-table-mount mt-0 pb-5">
             <tbody class="rounded-table-mount ">
             @foreach($stock_notes as $note)
             <tr>

@@ -14,4 +14,8 @@ class Transfer extends Model
     {
         return $this->belongsTo(Currency::class);
     }
+    public function branch()
+    {
+     return $this->belongsTo(Branch::class,'to_branch_id');
+    }
 }

@@ -1,29 +1,34 @@
 $(function() {
 
-    $('#transfer_status_filter').on('change',function(){
 
-        var value=$(this).val();
-        // alert(value);
+    $('#branch').on('change',function () {
+        var branch=$(this).val();
         $.ajax({
-            url:'stock/'+value+'/transfer_status_filter',
+            url:'stock/'+branch+'/branch_filter',
             type:'get',
             success:function(data)
             {
-                // console.log(data);
                 $('table #stock_transfer').html(data);
-
-                // if(data.stauts==="all")
-                // {
-                //     location.reload();
-                // }
-                // else
-                // {
-                //     $('table #stock_transfer').html(data);
-                // }
-
-
             }
         });
+    });
+
+    $('#transfer_status_filter').on('change',function(){
+
+        var value=$(this).val();
+        var branch=$('#branch').val();
+        if(branch!=null)
+        {
+            $.ajax({
+                url:'stock/'+value+'/transfer_status_filter',
+                type:'get',
+                success:function(data)
+                {
+                    $('table #stock_transfer').html(data);
+                }
+            });
+        }
+
     });
     });
 
@@ -39,7 +44,7 @@ $(function() {
                 $('div #detail_modal').html(data);
             }
 
-        })
+        });
     }
 
 // });

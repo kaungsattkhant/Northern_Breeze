@@ -42,5 +42,30 @@ $(document).ready(function(){
             }
         })
     });
+    // *********************************************************************************************************
+
+    // *******************************************POS Non_member *******************************************
+    $('#from_exchange_currency').on('change',function () {
+        var id=$(this).val();
+        // alert(id);
+        $.ajax({
+            url:+id+'/non_member_from_exchange_filter',
+            type:'get',
+            success:function (data) {
+                $('table #from_exchange_table').html(data);
+            }
+        });
+    });
+    $('#to_exchange_currency').on('change',function () {
+        var id=$(this).val();
+        $.ajax({
+            url:+id+'/non_member_to_exchange_filter',
+            type:'get',
+            success:function (data) {
+                $('table #to_exchange_table').html(data);
+            }
+        });
+    });
+    // ********************************************End POS********************************************
 
 });

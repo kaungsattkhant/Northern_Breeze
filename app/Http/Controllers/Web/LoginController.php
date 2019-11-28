@@ -24,6 +24,8 @@ class LoginController extends Controller
             'password'=>$request->password,
         ]))
         {
+//            dd(Auth::user());
+//            dd('a');
 //            dd(Auth::user()->role_id);
             if(Auth::user()->role_id== 1)
             {

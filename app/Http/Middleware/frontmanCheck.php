@@ -18,7 +18,8 @@ class frontmanCheck
     {
         if(Auth::check())
         {
-            if(Auth::user()->role_id == 3 || Auth::user()->role_id == 1)
+//            dd(Auth::user());
+            if(Auth::user()->role->id==1 || Auth::user()->role->id == 3 || Auth::user()->role->id == 2 )
             {
                 return $next($request);
             }

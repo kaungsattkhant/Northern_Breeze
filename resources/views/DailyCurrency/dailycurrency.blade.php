@@ -16,11 +16,10 @@
         @foreach($groups as $group)
         <div class="col">
             <p class="text-color-mount fontsize-mount2 pt-1 text-center">
-                (
                 @foreach($group->notes as $note)
                     {{$note->name}},
-                    @endforeach
-                )
+                 @endforeach
+
             </p>
         </div>
         @endforeach
@@ -36,9 +35,8 @@
         </div>
 
         @foreach($groups as $group)
-
             <div class="col col-item ">
-                <input type="text" placeholder="Price for group" name="selling_price[]" class="text-center text-box-mount">
+                <input type="text" placeholder="" name="selling_price[]" class="text-center text-box-mount">
             </div>
         @endforeach
 
@@ -49,17 +47,17 @@
         <div class="col-4">
 
         </div>
-        @foreach($groups as $group)
-            <div class="col">
-                <p class="text-color-mount fontsize-mount2 pt-1 text-center">
-                    (
-                    @foreach($group->notes as $note)
-                        {{$note->name}},
-                    @endforeach
-                )
-                </p>
-            </div>
-            @endforeach
+        {{--@foreach($groups as $group)--}}
+            {{--<div class="col">--}}
+                {{--<p class="text-color-mount fontsize-mount2 pt-1 text-center">--}}
+
+                    {{--@foreach($group->notes as $note)--}}
+                        {{--{{$note->name}},--}}
+                    {{--@endforeach--}}
+
+                {{--</p>--}}
+            {{--</div>--}}
+            {{--@endforeach--}}
     </div>
 {{--                                                            buying value--}}
     <div class="row mb-1 pl-1 pt-3 pb-5">
@@ -72,7 +70,7 @@
                     <div class="col col-item2">
                         {{--                                    <p class="text-color-mount fontsize-mount17 pt-1">10000</p>--}}
 {{--                        <input type="text" placeholder=""  class="text-center text-box-mount fontsize-mount17">--}}
-                        <input type="text" placeholder="2000"  name="buying_price[]" class="text-center text-black text-box-mount">
+                        <input type="text" placeholder=""  name="buying_price[]" class="text-center text-black text-box-mount">
 
                         <input type="hidden" name="class_group_id" value="{{$group->id}}">
                     </div>

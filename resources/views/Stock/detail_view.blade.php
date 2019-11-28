@@ -1,7 +1,8 @@
 {{--@foreach($transfers as $t)--}}
+
     <div class="my-2">
-        <p class="d-inline fontsize-mount text-nb-mount">Branch</p>
-        <p id="branch" class="mount-input2 p-0 fontsize-mount text-nb-mount">: Branch1</p>
+        <p class="d-inline fontsize-mount text-nb-mount">Received</p>
+        <p id="branch" class="mount-input2 p-0 fontsize-mount text-nb-mount">: {{$transfers->branch->name}}</p>
     </div>
     <div class="my-3">
         <p class="d-inline fontsize-mount text-nb-mount">Date : Time</p>

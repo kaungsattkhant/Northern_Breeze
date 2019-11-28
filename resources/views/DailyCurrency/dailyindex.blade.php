@@ -34,11 +34,12 @@
                 <thead>
                 <tr>
 
-                    <th scope="col" class="border-bottom-0 border-top-0 fontsize-mount6" >Currency</th>
-                    <th scope="col" class="border-bottom-0 border-top-0 fontsize-mount6" >Group</th>
-                    <th scope="col" class="border-bottom-0 border-top-0 fontsize-mount6">Note</th>
-                    <th scope="col" class="border-bottom-0 border-top-0 fontsize-mount6">Selling Value</th>
-                    <th scope="col" class="border-bottom-0 border-top-0 fontsize-mount6">Buying Value</th>
+                    <th scope="col" class="border-top-0 fontsize-mount6" >Currency</th>
+                    <th scope="col" class="border-top-0 fontsize-mount6" >Group</th>
+                    <th scope="col" class="border-top-0 fontsize-mount6">Note</th>
+                    <th scope="col" class="border-top-0 fontsize-mount6">Selling Value</th>
+                    <th scope="col" class="border-top-0 fontsize-mount6">Buying Value</th>
+                    <th scope="col" class="border-top-0 fontsize-mount6"></th>
 
                 </tr>
                 </thead>
@@ -46,22 +47,22 @@
 
                 @foreach($groups as $group)
                 <tr>
-                    <td scope="row" class="table-row-m fontsize-mount2">{{$group->currency->name}}</td>
+                    <td scope="row" class="table-row-m fontsize-mount2 border-top-0">{{$group->currency->name}}</td>
 
-                    <td scope="row" class="table-row-m fontsize-mount2">{{$group->name}}</td>
-                    <td class="table-row-m fontsize-mount2">
+                    <td scope="row" class="table-row-m fontsize-mount2 border-top-0">{{$group->name}}</td>
+                    <td class="table-row-m fontsize-mount2 border-top-0">
                         @foreach($group->notes as $note)
                             {{$note->name}}
                             @endforeach
                     </td>
 
-                    <td class="table-row-m text-info">
+                    <td class="table-row-m text-info border-top-0">
                        {{$group->lastest_sell_value}}
                     </td>
-                    <td class="table-row-m text-info">
+                    <td class="table-row-m text-info border-top-0">
                         {{$group->lastest_buy_value}}
                     </td>
-                    <td class="table-row-m "><a href="#" class="text-a-mount" onclick="dailyDetail({{$group->id}},{{$group->detail_id}})" >Detail</a></td>
+                    <td class="table-row-m  border-top-0"><a href="#" class="text-a-mount" onclick="dailyDetail({{$group->id}},{{$group->detail_id}})" >Detail</a></td>
                 </tr>
                     @endforeach
                 </tbody>

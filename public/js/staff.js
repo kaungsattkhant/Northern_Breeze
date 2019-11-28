@@ -7,6 +7,19 @@ $(document).ready(function(){
 
     $('#editMessage').hide();
     $('#createMessage').hide();
+    $('#role').on('change',function () {
+        var id=$(this).val();
+        console.log(id);
+        if(id==1)
+        {
+            // console.log('alert');
+            $('#branch_div').fadeOut();
+        }
+        else
+        {
+            $('#branch_div').fadeIn();
+        }
+    });
 
     $('#staffSubmit').click( function(event) {
         var password = $('#password').val();
@@ -14,7 +27,8 @@ $(document).ready(function(){
         var email=$('#email').val();
         var name=$('#name').val();
         var role=$('#role').val();
-        var branch=$('#branch').val();
+        role===1 ? branch=null :branch=$('#branch').val();
+        // var branch=$('#branch').val();
         event.preventDefault();
         $.ajax({
             url:'/staff/store',
@@ -67,6 +81,8 @@ $(document).ready(function(){
         var email = $("#email1").val();
         var name = $("#name1").val();
         var role=$('#role1').val();
+        role===1 ? branch=null :branch=$('#branch').val();
+
         // var password = $("#password").val();
         var id=$('#id').val();
         $('#phone_number-error1').html("");
