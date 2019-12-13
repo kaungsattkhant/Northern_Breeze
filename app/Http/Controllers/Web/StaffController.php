@@ -37,7 +37,7 @@ class StaffController extends Controller
             $staff->email=$request['email'];
             $staff->password=bcrypt($request['password']);
             $staff->role_id=$request['role'];
-            $request->branch_id ? $staff->branch_id=$request['branch'] : $staff->branch_id=null;
+            $request->branch ? $staff->branch_id=$request['branch'] : $staff->branch_id=null;
 //            $staff->branch_id=$request['branch'];
             $staff->save();
             return response()->json([
@@ -53,10 +53,12 @@ class StaffController extends Controller
     public function edit($id)
     {
         $staff=Staff::find($id);
-        return $staff;
+//        dd($staff);
+        return $staff   ;
     }
     public function update(Request $request)
     {
+//        return response()->json($request->all());
         $vData = Validator::make($request->all(), [
             'name' => "required",
             'email' => "required|unique:staff,email," . $request->id,
@@ -69,7 +71,8 @@ class StaffController extends Controller
             $staff->name=$request->name;
             $staff->email=$request->email;
             $staff->role_id=$request->role;
-            $staff->branch_id=$request->branch;
+//            $staff->branch_id=$request->branch;
+            $request->branch ? $staff->branch_id=$request['branch'] : $staff->branch_id=null;
             $staff->save();
             return response()->json([
                 'success'=>true,

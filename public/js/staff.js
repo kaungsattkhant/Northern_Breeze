@@ -4,20 +4,22 @@ $(document).ready(function(){
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+    $("#staff a").addClass("active-staff");
+    $("#staff").addClass("active2");
 
     $('#editMessage').hide();
     $('#createMessage').hide();
-    $('#role').on('change',function () {
+    $('div .role_branch_filter').on('change',function () {
         var id=$(this).val();
         console.log(id);
         if(id==1)
         {
             // console.log('alert');
-            $('#branch_div').fadeOut();
+            $('.branch_div').fadeOut();
         }
         else
         {
-            $('#branch_div').fadeIn();
+            $('.branch_div').fadeIn();
         }
     });
 
@@ -81,7 +83,7 @@ $(document).ready(function(){
         var email = $("#email1").val();
         var name = $("#name1").val();
         var role=$('#role1').val();
-        role===1 ? branch=null :branch=$('#branch').val();
+        role===1 ? branch=null :branch=$('#branch1').val();
 
         // var password = $("#password").val();
         var id=$('#id').val();

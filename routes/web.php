@@ -23,6 +23,9 @@ Route::group(['middleware'=>['adminCheck']],function() {
             Route::get('non_member','POSController@pos_non_member');
             Route::get('{id}/non_member_from_exchange_filter','POSController@non_member_from_exchange_filter');
             Route::get('{id}/non_member_to_exchange_filter','POSController@non_member_to_exchange_filter');
+            Route::get('total_currency_value','POSController@total_currency_value');
+            Route::get('non_member/{group_id}/get_group_value','POSController@getGroupValue');
+            Route::post('non_member_store','POSController@non_member_store');
         });
         Route::group(['prefix'=>'staff'],function (){
             Route::get('/','StaffController@index');
@@ -61,6 +64,11 @@ Route::group(['middleware'=>['adminCheck']],function() {
             Route::get('{id}/detail','StockController@stock_detail');
             Route::post('transfer_datefilter','StockController@transfer_datepicker');
             Route::get('{value}/transfer_status_filter','StockController@transfer_status_filter');
+//            Route::get('{key}/branch','StockController@get_branch');
+            Route::get('admin/add','StockController@get_branch');
+            Route::get('admin/transfer','StockController@get_transfer_branch');
+            Route::get('check_input','StockController@check_input');
+
         });
         Route::group(['prefix'=>'currency_group'],function(){
             Route::get('/','CurrencyGroupController@index');
@@ -118,6 +126,7 @@ Route::group(['middleware'=>['managerCheck']],function() {
             Route::post('transfer_datefilter','StockController@transfer_datepicker');
             Route::get('{value}/transfer_status_filter','StockController@transfer_status_filter');
             Route::get('{branch}/branch_filter','StockController@stock_branch_filter');
+            Route::get('admin/transfer','StockController@get_transfer_branch');
         });
         Route::group(['prefix'=>'daily_currency'],function(){
             Route::get('/','DailyCurrencyController@index');
@@ -126,6 +135,11 @@ Route::group(['middleware'=>['managerCheck']],function() {
             Route::get('{id}/filter','DailyCurrencyController@daily_currency_filter');
             Route::post('/datefilter','DailyCurrencyController@daily_currency_datefilter');
             Route::get('/{group_id}/detail/{detail_id}','DailyCurrencyController@daily_detail');
+        });
+
+        Route::group(['prefix'=>'sale'],function(){
+            Route::get('/','SaleController@index');
+            Route::get('sale_record','SaleController@sale_record');
         });
     });
 });
@@ -133,11 +147,35 @@ Route::group(['middleware'=>['frontmanCheck']],function() {
     Route::group(['namespace'=>'Web'],function() {
         Route::group(['prefix'=>'daily_currency'],function(){
             Route::get('/','DailyCurrencyController@index');
-            Route::get('/create','DailyCurrencyController@create');
-            Route::post('store','DailyCurrencyController@store');
             Route::get('{id}/filter','DailyCurrencyController@daily_currency_filter');
             Route::post('/datefilter','DailyCurrencyController@daily_currency_datefilter');
             Route::get('/{group_id}/detail/{detail_id}','DailyCurrencyController@daily_detail');
+        });
+        Route::group(['prefix'=>'pos'],function(){
+            Route::get('member','POSController@pos_member');
+            Route::get('non_member','POSController@pos_non_member');
+            Route::get('{id}/non_member_from_exchange_filter','POSController@non_member_from_exchange_filter');
+            Route::get('{id}/non_member_to_exchange_filter','POSController@non_member_to_exchange_filter');
+            Route::get('total_currency_value','POSController@total_currency_value');
+            Route::get('non_member/{group_id}/get_group_value','POSController@getGroupValue');
+            Route::post('non_member_store','POSController@non_member_store');
+        });
+        Route::group(['prefix'=>'member'],function(){
+//            Route::get('/','MemberController@index');
+//            Route::get('/non_member','MemberController@non_member');
+//            Route::get('/create','MemberController@create');
+//            Route::post('/store','MemberController@store');
+//            Route::get('{id}/edit','MemberController/@edit');
+//            Route::post('update','MemberController@update');
+//            Route::get('{id}/member_type_filter','MemberController@member_type_filter');
+//            Route::get('member/{id}/member_type_filter','MemberController@member_type_filter');
+//            Route::get('search_name','MemberController@search');
+//            Route::post('destroy','MemberController@destroy');
+
+        });
+        Route::group(['prefix'=>'sale'],function(){
+            Route::get('/','SaleController@index');
+            Route::get('sale_record','SaleController@sale_record');
         });
     });
 });

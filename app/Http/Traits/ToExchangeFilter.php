@@ -5,21 +5,15 @@ namespace App\Http\Traits;
 
 
 use App\Model\BuyGroupValue;
-use App\Model\Classification;
-use App\Model\Currency;
 use App\Model\Group;
 use App\Model\Note;
 use Illuminate\Support\Facades\Auth;
 use DB;
 
-trait CurrencyFilter
+trait ToExchangeFilter
 {
-    public function currency_filter($id)
+    public function to_currency_filter($id)
     {
-//        if($id==18)
-//        {
-//
-//        }
         $groups=Group::with('notes')->where('currency_id',$id)->get();
         $stock_notes=array();
         $total=0;
@@ -46,35 +40,32 @@ trait CurrencyFilter
 
 //                    if($buying_value!=null)
 //                    {
-                        $total_sheet=DB::table('branch_group_note')->where('group_note_id',$group_note_id[0])
-                            ->where('branch_id',$branch_id)
-                            ->sum('sheet');
+                    $total_sheet=DB::table('branch_group_note')->where('group_note_id',$group_note_id[0])
+                        ->where('branch_id',$branch_id)
+                        ->sum('sheet');
 //                        $n->group_id=$group->id;
 //                        $n->total_sheet=$total_sheet;
 //                        $total+=intval($total_sheet)*$buying_value->value;
-                        array_push($stock_notes,$n);
+                    array_push($stock_notes,$n);
 //                    }
+//                    else
+//                    {
+//                        return 'Empty buying value for this currency';
+//                        $total=0;
 //
+//                    }
+
+
 
                 }
             }
+//            dd($g);
         }
+//        dd($total);
         asort($stock_notes);
 //        dd($stock_notes);
-//        dd($id);
-        if($id===19)
-        {
-            $classification=Classification::all();
-            $data=view('Member.non_member_us_exchange_filter',compact('stock_notes','total','classification'));
-        }
-        else
-        {
-            $data=view('Member.pos_non_member_from_exchange_filter',compact('stock_notes','total'));
 
-
-        }
-//        $data=view('Member.non_member_from_us_exchange_filter',compact('stock_notes','total','currency'));
-
+        $data=view('Member.pos_non_member_to_exchange_filter',compact('stock_notes','total'));
         return $data;
     }
 }

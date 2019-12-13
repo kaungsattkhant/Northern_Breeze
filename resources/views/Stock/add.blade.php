@@ -11,7 +11,7 @@
                 </ul>
             @endif
 {{--                <form id="stockForm">--}}
-                    <form action="{{url('stock/store')}}" method="post"  >
+                    <form action="{{url('stock/store')}}" method="post" id="stock_create_form" >
                 @csrf
             <div class="d-flex justify-content-between top-box-mount shadow-sm">
                                 <div class="my-auto">
@@ -19,16 +19,42 @@
                                 </div>
                 <button type="submit" class="btn btn-nb-mount-save fontsize-mount px-4 stock_create" >Add</button>
             </div>
-            <select class="selectpicker  mt-4" name="currency" data-style="btn-white" data-width="auto" data-live-search="true" id="stock_currency_filter">
-                <option  disabled selected>Choose Currency Type</option>
-                @php
-                    $currencies=\App\Model\Currency::all();
-                @endphp
-                @foreach($currencies as $currency)
-                    <option value="{{$currency->id}}"
-                    >{{$currency->name}}</option>
-                @endforeach
-            </select>
+{{--            <select class="selectpicker  mt-4" name="currency" data-style="btn-white" data-width="auto" data-live-search="true" id="stock_currency_filter">--}}
+{{--                <option  disabled selected>Choose Currency Type</option>--}}
+{{--                @php--}}
+{{--                    $currencies=\App\Model\Currency::all();--}}
+{{--                @endphp--}}
+{{--                @foreach($currencies as $currency)--}}
+{{--                    <option value="{{$currency->id}}"--}}
+{{--                    >{{$currency->name}}</option>--}}
+{{--                @endforeach--}}
+{{--            </select>--}}
+                        <div class="row">
+                            <div class="col">
+                                <select class="selectpicker  mt-4" name="currency" data-style="btn-white" data-width="auto" data-live-search="true" id="stock_currency_filter">
+                                    <option  disabled selected>Currency Value</option>
+                                    @php
+                                        $currencies=\App\Model\Currency::all();
+                                    @endphp
+                                    @foreach($currencies as $currency)
+                                        <option value="{{$currency->id}}"  selected>{{$currency->name}}</option>
+
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col" id="branch">
+                                <select class="selectpicker mt-4" name="branch" data-style="btn-white" data-width="auto" id="to_branch">
+                                    <option  disabled selected>Choose Branch</option>
+                                    @php
+                                        $branches=\App\Model\Branch::all();
+
+                                    @endphp
+                                    @foreach($branches as $branch)
+                                        <option value="{{$branch->id}}" @if(\Illuminate\Support\Facades\Auth::user()->branch_id==$branch->id) disabled  @endif >{{$branch->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
             <div class="row" id="stock_table_filter">
 
 
@@ -209,74 +235,64 @@
 @include('Stock.save')
 
         <script>
+
             $(function(){
+                // $('#branch').hide();
+
+                // $(".stock_create").removeAttr("disabled", true);
+
+                $.get({
+                    url:'admin/add',
+                    success:function (data) {
+                        console.log(data);
+                        if(data==="admin_add")
+                        {
+                            $('#branch').show();
+                        }
+                        else
+                        {
+                            $('#branch').hide();
+                        }
+                    }
+                });
+                // console.log(data);
                 $("#stock a").addClass("active-si");
                 $("#stock").addClass("active2");
-                $('.stock_create').hide();
+                // $('.stock_create').hide();
                 // $('#to_branch').hide();
+                $(".stock_create").attr("disabled", true);
+
                 $('#stock_currency_filter').on('change',function ( ) {
-                   $('.stock_create').fadeIn();
-                   // $('#to_branch').fadeIn();
+                   // $('.stock_create').fadeIn();
+                   $(".stock_create").attr("disabled", false);
+
+
+                    // $('#to_branch').fadeIn();
                 });
-                // var values = $("input[name^='notes[]']")
-                //     .map(function(){return $(this).val();}).get();
-                // alert(values);
+                $(".stock_create").click(function () {
+                    $(".stock_create").attr("disabled", true);
+                    $('#stock_create_form').submit();
+                });
 
-                // console.log('note_value='+'');
-
-                // $('.note_class').focusout(function () {
-                //     alert('ss');
-                //     cosole.log('success');
-                // });
-
-
-
-
-                // $('#stockForm').validate({
-                //     rules:{
-                //         notes:{
-                //             required:true,
-                //         },
-                //     },
-                //     message:{
-                //         notes:"Required Field",
-                //     }
-                // })
 
             });
 
-            // function stockValidation($note) {
-            //     element="input[name='notes[]']";
-            //
-            //     myObj={};
-            //     $(element).each(myObj ,function(k,v) {
-            //         note=$(this).val();
-            //         if($.isNumeric(note))
-            //         {
-            //             $('span[class="note_error[]').each(function (k1,v1) {
-            //                 // if(k1 == k)
-            //                 // {
-            //                 //     $('span[class="note_error[]"]').html(' numeric');
-            //                 //
-            //                 // }
-            //             });
-            //             // console.log(k);
-            //             // $('span[class="note_error[]').each(function () {
-            //             //     $('span[class="note_error[]"]').html(' numeric');
-            //
-            //             // });
-            //
-            //
-            //         }
-            //         else if(isNaN(note))
-            //         {
-            //             $('span[class="note_error[]"]').html('No numeric');
-            //             // console.log('index is not numeric');
-            //
-            //         }
-            //     });
-            //
-            // }
+            function check(value) {
+                $.ajax({
+                    url:'check_input',
+                    data:{
+                        value:value,
+                    },
+                    dataType:'json',
+                    success:function (data) {
+                        console.log(data.errors.value[0]);
+                        if(data.errors)
+                        {
+                            $('.check_input').html(data.errors.value[0]);
+                        }
+                    }
+                });
+            }
         </script>
 
 

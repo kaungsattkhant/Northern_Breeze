@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class GroupNoteTransfer extends Migration
+class CreateInMmkGroupNote extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class GroupNoteTransfer extends Migration
      */
     public function up()
     {
-        Schema::create('group_note_transfer', function (Blueprint $table) {
-            $table->unsignedBigInteger('transfer_id');
+        Schema::create('in_MMK_group_note', function (Blueprint $table) {
+            $table->unsignedBigInteger('transaction_id')->nullable();
             $table->unsignedBigInteger('group_note_id')->nullable();
             $table->integer('sheet');
-            $table->foreign('transfer_id')->references('id')->on('transfers')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('group_note_id')->references('id')->on('group_note')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('transaction_id')->references('id')->on('transactions')->onDelete('cascade')->onUpdate('cascade');
+
         });
     }
 
@@ -29,6 +30,6 @@ class GroupNoteTransfer extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('group_note_transfer');
+        Schema::dropIfExists('in_MMK_group_note');
     }
 }

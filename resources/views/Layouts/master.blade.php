@@ -44,6 +44,8 @@
 <script src="{{asset('js/tablefilter.js')}}"></script>
 <script src="{{asset('js/multi.js')}}"></script>
 <script src="{{asset('js/dailycurrency.js')}}"></script>
+<script src="{{asset('js/pos.js')}}"></script>
+
 <script>
     $(function() {
         // $('select #currency').selectpicker();

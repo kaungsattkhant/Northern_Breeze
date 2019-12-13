@@ -20,27 +20,19 @@ class DailyCurrencyController extends Controller
 {
     public function index()
     {
-//        $buy=BuyGroupValue::with('group')
-//            ->with('group.notes','group.currency')
-//            ->orderBy('date_time','desc')
-//            ->get();
-
-
-
         $date = now()->format('Y-m-d');
         $groups=Group::with('currency','classifications','notes')
             ->orderBy('currency_id','asc')->get();
 
         foreach ($groups as $group){
-            $buy_values = BuyGroupValue::where('group_id',$group->id)->whereDate('date_time',$date)->get();
+            $buy_values = BuyGroupValue::where('group_id',$group->id)->latest()->get();
             $lastest_buy_value = collect($buy_values)->last();
             $group->detail_id=$lastest_buy_value['id'];
             $group->lastest_buy_value = $lastest_buy_value['value'];
-            $sell_values = SellGroupValue::where('group_id',$group->id)->whereDate('date_time',$date)->get();
+            $sell_values = SellGroupValue::where('group_id',$group->id)->latest()->get();
             $lastest_sell_value = collect($sell_values)->last();
             $group->lastest_sell_value = $lastest_sell_value['value'];
         }
-//        dd($groups);
         return view('DailyCurrency.dailyindex',compact('groups'));
     }
     public function daily_currency_filter($id)

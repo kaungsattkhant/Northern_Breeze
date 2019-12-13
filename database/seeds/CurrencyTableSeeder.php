@@ -22,6 +22,7 @@ class CurrencyTableSeeder extends Seeder
             'Japanese yang',
             'Macanese pataca',
             'Malaysia ringgit',
+            'Myanmar Kyat',
             'Philippine peso',
             'Singapore Dollar',
             'South Korea won',

@@ -1,6 +1,11 @@
 $(function() {
 
+    $(function(){
+        $("#stock a").addClass("active-si");
 
+        $("#stock").addClass("active2");
+
+    });
     $('#branch').on('change',function () {
         var branch=$(this).val();
         $.ajax({
@@ -34,18 +39,17 @@ $(function() {
 
     function transfer_detail($transfer_id)
     {
-        // alert($transfer_id);
         $.ajax({
             url:'stock/'+$transfer_id+'/detail',
             type:'get',
             success:function (data) {
-                // console.log(data);
                 $('#detail').modal('show');
                 $('div #detail_modal').html(data);
             }
 
         });
     }
+
 
 // });
 

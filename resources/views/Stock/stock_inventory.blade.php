@@ -88,7 +88,7 @@
                          @foreach($transfers as $transfer)
                              <tr>
                                  <td scope="row" class="table-row-m fontsize-mount2 border-top-0">{{$transfer->currency->name}}</td>
-                                 <td class="table-row-m fontsize-mount2 border-top-0">{{$transfer->total_transfer_value}}</td>
+                                 <td class="table-row-m fontsize-mount2 border-top-0">{{$transfer->total_transfer_value}} <b>Kyats</b></td>
                                  <td class="table-row-m text-info border-top-0">{{$transfer->transfer_status}}</td>
                                  <td class="table-row-m border-top-0"><a href="#" class="text-a-mount" onclick="transfer_detail({{$transfer->id}})">Detail</a></td>
 {{--                                 <td class="table-row-m brder-top-0"><a href="#" class="text-a-mount" data-target="#detail" data-toggle="modal">Detail</a></td>--}}
@@ -101,16 +101,17 @@
          </div>
     </div>
 {{--    </div>--}}
-    <script>
-        $(function(){
-            $("#stock a").addClass("active-si");
+{{--    <script>--}}
+{{--        $(function(){--}}
+{{--            $("#stock a").addClass("active-si");--}}
 
-            $("#stock").addClass("active2");
+{{--            $("#stock").addClass("active2");--}}
 
-        });
-        </script>
-
+{{--        });--}}
+{{--    </script>--}}
     <script src="{{asset('js/transfer.js')}}">
+
+//
     </script>
 
 
