@@ -4,10 +4,24 @@ $(document).ready(function(){
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-    // $("#staff_filter").select2();
+    $("#staff a").addClass("active-staff");
+    $("#staff").addClass("active2");
 
     $('#editMessage').hide();
     $('#createMessage').hide();
+    $('div .role_branch_filter').on('change',function () {
+        var id=$(this).val();
+        console.log(id);
+        if(id==1)
+        {
+            // console.log('alert');
+            $('.branch_div').fadeOut();
+        }
+        else
+        {
+            $('.branch_div').fadeIn();
+        }
+    });
 
     $('#staffSubmit').click( function(event) {
         var password = $('#password').val();
@@ -15,11 +29,8 @@ $(document).ready(function(){
         var email=$('#email').val();
         var name=$('#name').val();
         var role=$('#role').val();
-        // $('#role-error').html("");
-        // $('#name-error').html("");
-        // $('#email-error').html("");
-        // $('#password-error').html("");
-        // $('#password_confirmation-error').html("");
+        role===1 ? branch=null :branch=$('#branch').val();
+        // var branch=$('#branch').val();
         event.preventDefault();
         $.ajax({
             url:'/staff/store',
@@ -30,6 +41,7 @@ $(document).ready(function(){
                 password:password,
                 password_confirmation:password_confirmation,
                 role:role,
+                branch:branch,
             },
             success:function(data)
             {
@@ -44,6 +56,9 @@ $(document).ready(function(){
                     }
                     if(data.errors.email){
                         $( '#email-error' ).html( data.errors.email[0] );
+                    }
+                    if(data.errors.branch){
+                        $( '#branch-error' ).html( data.errors.branch[0]);
                     }
                     if(data.errors.password){
                         $( '#password-error' ).html( data.errors.password[0]);
@@ -68,6 +83,8 @@ $(document).ready(function(){
         var email = $("#email1").val();
         var name = $("#name1").val();
         var role=$('#role1').val();
+        role===1 ? branch=null :branch=$('#branch1').val();
+
         // var password = $("#password").val();
         var id=$('#id').val();
         $('#phone_number-error1').html("");
@@ -83,6 +100,7 @@ $(document).ready(function(){
                 name:name,
                 email:email,
                 role:role,
+                branch:branch,
             },
             success:function(data)
             {
@@ -96,6 +114,9 @@ $(document).ready(function(){
                     }
                     if(data.errors.role){
                         $( '#role-error1' ).html( data.errors.role[0] );
+                    }
+                    if(data.errors.branch){
+                        $( '#branch-error1' ).html( data.errors.branch[0] );
                     }
                 }
                 if(data.success==true)

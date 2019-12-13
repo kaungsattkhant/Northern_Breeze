@@ -23,6 +23,10 @@ class Group extends Model
         return $this->hasMany(BuyGroupValue::class);
 
     }
+    public function group_note()
+    {
+        return $this->belongsToMany(Note::class,'group_note');
+    }
 
     public function selling_price()
     {

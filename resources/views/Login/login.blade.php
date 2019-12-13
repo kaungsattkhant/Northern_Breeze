@@ -17,10 +17,13 @@
 </head>
 <body>
 <div class="container-mount mount-bg">
-    <img src="img/123asdf.jpg" class="img-bg-login">
+{{--    <img src="img/123asdf.jpg" class="img-bg-login">--}}
     <div class="mount-login-box shadow-lg p-3 mb-5">
         <form action="{{url('login')}}" method="post">
             @csrf
+            <div>
+                <img src="../image/nb.jpg" style="border-radius: 50%;width: 65px;height: 65px;" class="d-flex mx-auto">
+            </div>
             <div class="pt-1">
                 <label for="Username" class="mount-label">Email</label>
                 <input type="text" class="form-control " name="email"  aria-describedby="emailHelp" placeholder="Enter email">

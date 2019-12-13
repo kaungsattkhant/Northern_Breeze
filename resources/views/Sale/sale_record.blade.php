@@ -9,27 +9,12 @@
                     <option>1111</option>
                     <option>22222</option>
                 </select>
-
-{{--                <div class="d-inline">--}}
-{{--                    <button type="button" class="btn fontsize-mount6 text-color-mount pl-3 pr-2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">--}}
-{{--                        In/Out/All&nbsp;<i class="fas fa-chevron-down text-color-mount2 pl-1"></i>--}}
-{{--                    </button>--}}
-{{--                    <div class="dropdown-menu">--}}
-{{--                        <a class="dropdown-item" href="#">IN</a>--}}
-{{--                        <a class="dropdown-item" href="#">OUT</a>--}}
-{{--                        <a class="dropdown-item" href="#">ALL</a>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
             </div>
-{{--            <div class="my-auto mr-5">--}}
-{{--                <button type="button" class="btn btn-nb-mount mr-4 p-0 fontsize-mount"><a class="w-100 h-100 text-white text-decoration-none px-4 py-2" href="{{url('sale_create')}}">add</a></button>--}}
-{{--                <button type="button" class="btn btn-nb-mount px-3 fontsize-mount fontsize-mount" data-toggle="modal" data-target="#Transfer">Transfer</button>--}}
-{{--            </div>--}}
         </div>
         <div class="pt-2 mt-1">
             <div class="mb-1">
-                <p class="mb-3 fontsize-mount17 ml-1 d-inline">Total amount exchange :</p>
-                <p class="fontsize-mount17 d-inline"> 100,100,00</p>
+                <p class="mb-3 fontsize-mount17 ml-1 d-inline text-shadow-mount">Total amount exchange :</p>
+                <p class="fontsize-mount17 d-inline text-shadow-mount"> 100,100,00</p>
             </div>
             <table class="table bg-white box-shadow-mount rounded-table-mount mt-1"  id="myTable" >
                 <thead>
@@ -43,70 +28,16 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td scope="row" class="table-row-m fontsize-mount2 border-top-0">Myanmar Kyats</td>
-                    <td class="table-row-m fontsize-mount2 border-top-0">1000000</td>
-                    <td class="table-row-m fontsize-mount2 border-top-0">Japanese Yen</td>
-                    <td class="table-row-m fontsize-mount2 border-top-0">1000000</td>
-                    <td class="table-row-m fontsize-mount2 border-top-0">1:30 PM</td>
-                    <td class="table-row-m fontsize-mount2 border-top-0">Khant</td>
-                </tr>
-                <tr>
-                    <td scope="row" class="table-row-m fontsize-mount2 border-top-0">U.S Dollar</td>
-                    <td class="table-row-m fontsize-mount2 border-top-0">1000000</td>
-                    <td class="table-row-m fontsize-mount2 border-top-0">Singapore Sing</td>
-                    <td class="table-row-m fontsize-mount2 border-top-0">1000000</td>
-                    <td class="table-row-m fontsize-mount2 border-top-0">2:30 PM</td>
-                    <td class="table-row-m fontsize-mount2 border-top-0">Will Smith</td>
-                </tr>
-                <tr>
-                    <td scope="row" class="table-row-m fontsize-mount2 border-top-0">Singapore Sing</td>
-                    <td class="table-row-m fontsize-mount2 border-top-0">1000000</td>
-                    <td class="table-row-m fontsize-mount2 border-top-0">Myanmar Kyats</td>
-                    <td class="table-row-m fontsize-mount2 border-top-0">1000000</td>
-                    <td class="table-row-m fontsize-mount2 border-top-0">3:30 PM</td>
-                    <td class="table-row-m fontsize-mount2 border-top-0">The Rock</td>
-                </tr>
-                <tr>
-                    <td scope="row" class="table-row-m fontsize-mount2 border-top-0">Thai Baht</td>
-                    <td class="table-row-m fontsize-mount2 border-top-0">1000000</td>
-                    <td class="table-row-m fontsize-mount2 border-top-0">Singapore Sing</td>
-                    <td class="table-row-m fontsize-mount2 border-top-0">1000000</td>
-                    <td class="table-row-m fontsize-mount2 border-top-0">4:30 PM</td>
-                    <td class="table-row-m fontsize-mount2 border-top-0">Van Desel</td>
-                </tr>
-                <tr>
-                    <td scope="row" class="table-row-m fontsize-mount2 border-top-0">Japanese Yen</td>
-                    <td class="table-row-m fontsize-mount2 border-top-0">1000000</td>
-                    <td class="table-row-m fontsize-mount2 border-top-0">Myanmar Kyats</td>
-                    <td class="table-row-m fontsize-mount2 border-top-0">1000000</td>
-                    <td class="table-row-m fontsize-mount2 border-top-0">5:30 PM</td>
-                    <td class="table-row-m fontsize-mount2 border-top-0">Paul Walker</td>
-                </tr>
-                <tr>
-                    <td scope="row" class="table-row-m fontsize-mount2 border-top-0">Chinese Yuan</td>
-                    <td class="table-row-m fontsize-mount2 border-top-0">1000000</td>
-                    <td class="table-row-m fontsize-mount2 border-top-0">Japanese Yuan</td>
-                    <td class="table-row-m fontsize-mount2 border-top-0">1000000</td>
-                    <td class="table-row-m fontsize-mount2 border-top-0">12:30 PM</td>
-                    <td class="table-row-m fontsize-mount2 border-top-0">Simon</td>
-                </tr>
-                <tr>
-                    <td scope="row" class="table-row-m fontsize-mount2 border-top-0"></td>
-                    <td class="table-row-m fontsize-mount2 border-top-0"></td>
-                    <td class="table-row-m fontsize-mount2 border-top-0"> </td>
-                    <td class="table-row-m fontsize-mount2 border-top-0"></td>
-                    <td class="table-row-m fontsize-mount2 border-top-0"></td>
-                    <td class="table-row-m fontsize-mount2 border-top-0"></td>
-                </tr>
-                <tr>
-                    <td scope="row" class="table-row-m fontsize-mount2 border-top-0"></td>
-                    <td class="table-row-m fontsize-mount2 border-top-0"></td>
-                    <td class="table-row-m fontsize-mount2 border-top-0"></td>
-                    <td class="table-row-m fontsize-mount2 border-top-0"></td>
-                    <td class="table-row-m fontsize-mount2 border-top-0"></td>
-                    <td class="table-row-m fontsize-mount2 border-top-0"></td>
-                </tr>
+                @foreach($transactions as $transaction)
+                    <tr>
+                        <td scope="row" class="table-row-m fontsize-mount2 border-top-0">{{$transaction->in_currency}}</td>
+                        <td class="table-row-m fontsize-mount2 border-top-0">{{$transaction->in_value_MMK}}</td>
+                        <td class="table-row-m fontsize-mount2 border-top-0">{{$transaction->out_currency}}</td>
+                        <td class="table-row-m fontsize-mount2 border-top-0">{{$transaction->out_value_MMK}}</td>
+                        <td class="table-row-m fontsize-mount2 border-top-0">{{$transaction->date_time}}</td>
+                        <td class="table-row-m fontsize-mount2 border-top-0">{{$transaction->staff->name}}</td>
+                    </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>

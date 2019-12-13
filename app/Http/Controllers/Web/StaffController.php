@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Model\Role;
 use App\Model\Staff;
+use http\Env\Response;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
@@ -20,14 +21,14 @@ class StaffController extends Controller
     }
     public function store(Request $request)
     {
-
+//        return response()->json($request->all());
         $vData=Validator::make($request->all(),[
             'name'=>"required",
             'email'=>"required|unique:staff|email",
             'password'=>'required',
             'password_confirmation'=>'required|same:password',
             'role'=>'required',
-//            'branch'=>'branch'
+            'branch'=>'nullable'
         ]);
         if($vData->passes())
         {
@@ -36,6 +37,8 @@ class StaffController extends Controller
             $staff->email=$request['email'];
             $staff->password=bcrypt($request['password']);
             $staff->role_id=$request['role'];
+            $request->branch ? $staff->branch_id=$request['branch'] : $staff->branch_id=null;
+//            $staff->branch_id=$request['branch'];
             $staff->save();
             return response()->json([
                 'success'=>true,
@@ -50,14 +53,17 @@ class StaffController extends Controller
     public function edit($id)
     {
         $staff=Staff::find($id);
-        return $staff;
+//        dd($staff);
+        return $staff   ;
     }
     public function update(Request $request)
     {
+//        return response()->json($request->all());
         $vData = Validator::make($request->all(), [
             'name' => "required",
             'email' => "required|unique:staff,email," . $request->id,
             'role' => 'required',
+            'branch'=>'nullable',
         ]);
         if ($vData->passes())
         {
@@ -65,6 +71,8 @@ class StaffController extends Controller
             $staff->name=$request->name;
             $staff->email=$request->email;
             $staff->role_id=$request->role;
+//            $staff->branch_id=$request->branch;
+            $request->branch ? $staff->branch_id=$request['branch'] : $staff->branch_id=null;
             $staff->save();
             return response()->json([
                 'success'=>true,

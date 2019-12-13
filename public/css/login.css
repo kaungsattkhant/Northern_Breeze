@@ -2,8 +2,9 @@
     position: relative;
     height: 100vh;
     width: 100%;
-    /*background-color: #0984e3;*/
-    background-color: rgba(0,0,0,0.9);
+    /*background-color: maroon;*/
+    background:linear-gradient(to top right,#550000,#770000,#990000);
+    /*background-color: rgba(0,0,0,0.9);*/
 }
 .img-bg-login{
     width: 100%;
@@ -17,6 +18,7 @@
     top: 30%;
     left: 39%;
     height: 260px;
+    min-height: max-content;
     width: 300px;
     border: 1px solid rgba(55,55,55,0.6);
     background-color: rgba(0,0,0,0.5);

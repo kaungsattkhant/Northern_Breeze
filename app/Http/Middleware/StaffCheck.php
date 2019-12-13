@@ -18,6 +18,9 @@ class StaffCheck
     {
         if(Auth::check())
         {
+//            dd(Auth::user());
+//            dd('manager');
+
             return $next($request);
 
         }

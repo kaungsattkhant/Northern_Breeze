@@ -36,7 +36,6 @@
         </div>
 
         @foreach($groups as $group)
-
             <div class="col col-item ">
                 <input type="text" placeholder="" name="selling_price[]" class="text-center text-box-mount">
             </div>
@@ -49,6 +48,18 @@
         <div class="col-4">
 
         </div>
+
+        {{--@foreach($groups as $group)--}}
+            {{--<div class="col">--}}
+                {{--<p class="text-color-mount fontsize-mount2 pt-1 text-center">--}}
+
+                    {{--@foreach($group->notes as $note)--}}
+                        {{--{{$note->name}},--}}
+                    {{--@endforeach--}}
+
+                {{--</p>--}}
+            {{--</div>--}}
+            {{--@endforeach--}}
 
     </div>
 {{--                                                            buying value--}}

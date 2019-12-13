@@ -19,7 +19,9 @@ class CreateStaffTable extends Migration
             $table->char('email',45);
             $table->char('password',60);
             $table->unsignedBigInteger('role_id');
+            $table->unsignedBigInteger('branch_id')->nullable();
             $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('branch_id')->references('id')->on('branches')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

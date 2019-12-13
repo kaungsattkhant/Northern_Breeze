@@ -20,27 +20,19 @@ class DailyCurrencyController extends Controller
 {
     public function index()
     {
-//        $buy=BuyGroupValue::with('group')
-//            ->with('group.notes','group.currency')
-//            ->orderBy('date_time','desc')
-//            ->get();
-
-
-
         $date = now()->format('Y-m-d');
         $groups=Group::with('currency','classifications','notes')
             ->orderBy('currency_id','asc')->get();
 
         foreach ($groups as $group){
-            $buy_values = BuyGroupValue::where('group_id',$group->id)->whereDate('date_time',$date)->get();
+            $buy_values = BuyGroupValue::where('group_id',$group->id)->latest()->get();
             $lastest_buy_value = collect($buy_values)->last();
             $group->detail_id=$lastest_buy_value['id'];
             $group->lastest_buy_value = $lastest_buy_value['value'];
-            $sell_values = SellGroupValue::where('group_id',$group->id)->whereDate('date_time',$date)->get();
+            $sell_values = SellGroupValue::where('group_id',$group->id)->latest()->get();
             $lastest_sell_value = collect($sell_values)->last();
             $group->lastest_sell_value = $lastest_sell_value['value'];
         }
-//        dd($groups);
         return view('DailyCurrency.dailyindex',compact('groups'));
     }
     public function daily_currency_filter($id)
@@ -144,67 +136,74 @@ class DailyCurrencyController extends Controller
         $request_date=$request->date;
         $groups=Group::with('currency','classifications','notes')
             ->orderBy('currency_id','asc')->get();
-
-        foreach ($groups as $group){
-            $buy_values = BuyGroupValue::where('group_id',$group->id)->whereDate('date_time',$request_date)->get();
-            $lastest_buy_value = collect($buy_values)->last();
-            $group->detail_id=$lastest_buy_value['id'];
-            $group->lastest_buy_value = $lastest_buy_value['value'];
-            $sell_values = SellGroupValue::where('group_id',$group->id)->whereDate('date_time',$request_date)->get();
-            $lastest_sell_value = collect($sell_values)->last();
-            $group->lastest_sell_value = $lastest_sell_value['value'];
-        }
+        if($groups->isNotEmpty()) {
+            foreach ($groups as $group) {
+                $buy_values = BuyGroupValue::where('group_id', $group->id)->whereDate('date_time', $request_date)->get();
+                $lastest_buy_value = collect($buy_values)->last();
+                $group->detail_id = $lastest_buy_value['id'];
+                $group->lastest_buy_value = $lastest_buy_value['value'];
+                $sell_values = SellGroupValue::where('group_id', $group->id)->whereDate('date_time', $request_date)->get();
+                $lastest_sell_value = collect($sell_values)->last();
+                $group->lastest_sell_value = $lastest_sell_value['value'];
+//            }
 //        dd($groups);
-        $result=view('DailyCurrency.dailycurrency_datefilter',compact('groups','request_date'));
-        return $result;
-//        return response()->json($buy);
+                $result = view('DailyCurrency.dailycurrency_datefilter', compact('groups', 'request_date'));
+                return $result;
+            }
+            return '<p style="padding-left: 400px;padding-top:40px;"><b>Empty </b></p>';
+        }
     }
     public function daily_detail($group_id,$detail_id)
     {
 //        dd(now());
         $detail_date=DB::table('buy_group_values')->whereId($detail_id)->pluck('date_time');
-        $date=date("Y-m-d", strtotime($detail_date[0]));
-//        dd($date);
+//        dd($detail_date);
+        if($detail_date->isNotEmpty())
+        {
+            $date=date("Y-m-d", strtotime($detail_date[0]));
             $buy_values = BuyGroupValue::where('group_id',$group_id)->whereDate('date_time',$date)->orderBy('date_time','asc')
                 ->get();
+//            dd($buy_values);
             foreach ($buy_values as $buy_value){
                 $buy_value->type = 'buy';
             }
             $sell_values = SellGroupValue::where('group_id',$group_id)->whereDate('date_time',$date)->orderBy('date_time','asc')
                 ->get();
-//            dd($sell_values);
             foreach ($sell_values as $sell_value){
                 $sell_value->type = 'sell';
             }
+//            if(isset($buy_values->type) && isset($sell_values->type)){
             $buy_values = collect($buy_values);
+//            dd($buy_values);
             $sell_values = collect($sell_values);
             $values = $buy_values->merge($sell_values);
-//            dd($values);
             $grouped_values = $values->groupBy('date_time');
-//            dd($grouped_values);
             foreach ($grouped_values as $key=>$grouped_value){
                 $v = new \stdClass();
                 $v->date = $grouped_value[0]->date_time;
-//                dd($v->date);
                 foreach ($grouped_value as $g_value){
                     if($g_value->type == 'buy'){
                         $v->buy_value= $g_value->value;
                     }
                     elseif($g_value->type=='sell')
-                        {
-//                            dd($grouped_value[]->value);
-                            $v->sell_value= $g_value->value;
-//                            dd($v->sell_value);
-                        }
+                    {
+                        $v->sell_value= $g_value->value;
+                    }
                 }
-//                dd($v);
                 $vs[] = $v;
 
             }
-//        dd($vs);
 
-        $data=view('DailyCurrency.detail_view',compact('vs'));
+            $data=view('DailyCurrency.detail_view',compact('vs'));
 
-        return $data;
+            return $data;
+        }
+//            }
+        return '<tr><td>
+                    <p style="padding-left: 100px;padding-top:40px;"><b>Empty </b></p></td>
+                    <td>Empty</td>
+                    <td>Empty</td>
+                    </tr>';
     }
 }
+

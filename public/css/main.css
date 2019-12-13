@@ -6,9 +6,12 @@
 }
 
 .overall-container-mount{
+    display: flex;
     width: 100%;
-    height: 100vh;
-    background-color: #f1f1f1;
+    min-height: 100%;
+    /*max-height: auto;*/
+    background-color: #d8d8d8;
+    clear: both;
 }
 .overall-container-mount2{
     width: 100%;
@@ -56,8 +59,16 @@ button[type="button"]:focus{
     margin: 0 !important;
     padding: 0;
     float: left;
+    /*overflow-y: scroll;*/
     /*overflow: auto;*/
 }
+/*.scrolled-content-wrapper {*/
+/*    position:absolute;*/
+/*    width:100%;*/
+/*    height:100vh;*/
+/*    overflow-y:scroll;*/
+/*    z-index:100;*/
+/*}*/
 @media only screen and (max-width: 600px) {
     .sidebar-nb-mount{
         width: 100%;
@@ -116,13 +127,13 @@ button.fontsize-mount{
 .fontsize-mount3{
     font-size: 13px !important;
     font-family: 'Roboto',sans-serif !important;
-    font-family: 'Padauk', sans-serif;
+    /*font-family: 'Padauk', sans-serif;*/
 }
 .fontsize-mount4{
     font-size: 14px;
     font-weight:600;
     font-family: 'Roboto',sans-serif;
-    font-family: 'Padauk', sans-serif!important;
+    /*font-family: 'Padauk', sans-serif!important;*/
 }
 .fontsize-mount44{
     font-size: 21px;
@@ -313,14 +324,14 @@ input:focus{
     color: #444;
     outline: none;
     text-decoration: none;
-    font-size: 18;
+    font-size: 18px;
     font-family: 'Roboto',sans-serif;
 }
 .text-a-mount:hover{
     color: #111;
     outline: none;
     text-decoration: none;
-    font-size: 18;
+    /*font-size: 18px;*/
 
 }
 .text-color-mount2{
@@ -335,7 +346,8 @@ input:focus{
 }
 .img-member{
 
-    background-image: url("https://img.icons8.com/wired/55/888888/membership-card.png") ;
+    background-image: url("../image/icons8-membership-card-55 (1).png");
+    /*background-image: {{asset("/images/background.jpg")}};*/
     width: 100%;
     height: 80%;
     background-clip: padding-box;
@@ -345,7 +357,7 @@ input:focus{
 
 }
 .img-member:hover,.active-m{
-    background-image: url("https://img.icons8.com/wired/55/FFFFFF/membership-card.png") ;
+    background-image: url("../image/icons8-membership-card-55(fff).png") ;
     width: 100%;
     height: 80%;
     color: white;
@@ -357,7 +369,7 @@ input:focus{
 
 .img-pos{
 
-    background-image: url("https://img.icons8.com/wired/55/888888/pos-terminal.png") ;
+    background-image: url("../image/icons8-pos-terminal-55-2.png") ;
     width: 100%;
     height: 80%;
     background-clip: padding-box;
@@ -367,7 +379,7 @@ input:focus{
 
 }
 .img-pos:hover,.active-pos{
-    background-image: url("https://img.icons8.com/wired/55/FFFFFF/pos-terminal.png") ;
+    background-image: url("../image/icons8-pos-terminal-55.png") ;
     width: 100%;
     height: 80%;
     color: white;
@@ -387,7 +399,7 @@ input:focus{
 }*/
 .img-non-member{
 
-    background-image: url("https://img.icons8.com/ios/55/888888/user-male-circle.png") ;
+    background-image: url("../image/icons8-pos-terminal-55.png") ;
     width: 100%;
     height: 80%;
     background-clip: padding-box;
@@ -397,7 +409,7 @@ input:focus{
 
 }
 .img-non-member:hover,.active-nm{
-    background-image: url("https://img.icons8.com/ios/55/FFFFFF/user-male-circle.png") !important;
+    background-image: url("../image/icons8-pos-terminal-55-2.png") !important;
     width: 100%;
     height: 80%;
     color: white;
@@ -409,7 +421,7 @@ input:focus{
 
 .img-sale-record{
 
-    background-image: url("https://img.icons8.com/ios/50/888888/us-dollar.png") ;
+    background-image: url("../image/icons8-us-dollar-50 (1).png") ;
     width: 100%;
     height: 80%;
     background-clip: padding-box;
@@ -419,7 +431,7 @@ input:focus{
 
 }
 .img-sale-record:hover,.active-sr{
-    background-image: url("https://img.icons8.com/ios/50/FFFFFF/us-dollar.png") ;
+    background-image: url("../image/icons8-us-dollar-50(FFF).png") ;
     width: 100%;
     height: 80%;
     color: white;
@@ -431,7 +443,7 @@ input:focus{
 
 .img-stock-inventory{
 
-    background-image: url("https://img.icons8.com/ios/50/888888/safe.png") ;
+    background-image: url("../image/safe.png") ;
     width: 100%;
     height: 80%;
     background-clip: padding-box;
@@ -441,7 +453,7 @@ input:focus{
 
 }
 .img-stock-inventory:hover,.active-si{
-    background-image: url("https://img.icons8.com/ios/50/FFFFFF/safe.png") ;
+    background-image: url("../image/safe (ffffff).png") ;
     width: 100%;
     height: 80%;
     color: white;
@@ -452,7 +464,7 @@ input:focus{
 }
 .img-staff{
 
-    background-image: url("https://img.icons8.com/wired/55/777777/manager.png") ;
+    background-image: url("../image/icons8-manager-55 (1).png") ;
     width: 100%;
     height: 80%;
     background-clip: padding-box;
@@ -462,7 +474,7 @@ input:focus{
 
 }
 .img-staff:hover,.active-staff{
-    background-image: url("https://img.icons8.com/wired/55/FFFFFF/manager.png") ;
+    background-image: url("../image/icons8-manager-55(fff).png") ;
     width: 100%;
     height: 80%;
     color: white;
@@ -473,7 +485,7 @@ input:focus{
 }
 .img-group{
     /*<img src="https://img.icons8.com/dotty/80/000000/banknotes.png">*/
-    background-image: url("https://img.icons8.com/dotty/55/777777/banknotes.png") ;
+    background-image: url("../image/banknotes.png") ;
     width: 100%;
     height: 80%;
     background-clip: padding-box;
@@ -483,7 +495,7 @@ input:focus{
 
 }
 .img-group:hover,.active-group{
-    background-image: url("https://img.icons8.com/dotty/55/FFFFFF/banknotes.png") ;
+    background-image: url("../image/banknotes (fff).png") ;
     width: 100%;
     height: 80%;
     color: white;
@@ -494,7 +506,7 @@ input:focus{
 }
 .img-daily{
     /*<img src="https://img.icons8.com/carbon-copy/100/000000/banknotes.png">*/
-    background-image: url("https://img.icons8.com/carbon-copy/60/777777/banknotes.png") ;
+    background-image: url("../image/daily-currency.png") ;
     width: 100%;
     height: 80%;
     background-clip: padding-box;
@@ -504,7 +516,7 @@ input:focus{
 
 }
 .img-daily:hover,.active-daily{
-    background-image: url("https://img.icons8.com/carbon-copy/60/FFFFFF/banknotes.png") ;
+    background-image: url("../image/daily-currency(fff).png") ;
     width: 100%;
     height: 80%;
     color: white;
@@ -787,6 +799,13 @@ li .dropdown-menu.show{
 }
 .fs-select4 .bootstrap-select > .dropdown-toggle {
     border: none;
+    color: #666666;
+    font-size: 15px;
+}
+.fs-select5 .bootstrap-select > .dropdown-toggle {
+    border: none;
+    padding-top: 0;
+    padding-bottom: 0;
     color: #777777;
     font-size: 15px;
 }
@@ -795,7 +814,7 @@ li .dropdown-menu.show{
 }
 .collap-menu-mount{
     box-shadow: 0px 0px 18px #888888 inset;
-    background-color:#fff;
+    background-color:#f6f6f6;
     width: 100%;
 }
 .collap-mount:hover{
@@ -816,7 +835,37 @@ li .dropdown-menu.show{
     /*box-shadow: -2px 2px 6px #111111;*/
     box-shadow: -1px 1px 3px #aaa;
 }
+.dtpick-input2{
+    width: 50%;
+    background-color: #eeeeee;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    /*box-shadow: -2px 2px 6px #111111;*/
+    box-shadow: -1px 1px 3px #aaa;
+}
 .margin-left-mount{
     margin-left: -4px!important;
 }
-
+.text-shadow-mount{
+    text-shadow:1px 1px 0 #fff;
+}
+.plus-btn-mount{
+    color:#777;font-size: 13px;
+}
+.padding-top-mount{
+    /*padding-top: 28px!important;*/
+}
+.total-text-mount{
+    color: #444;
+    font-size: 16px;
+    font-weight: 600;
+}
+.add-input-select{
+    /*padding-right: 27px;*/
+}
+.pad-l{
+    padding-left: 9px;
+}
+input[type="text"].for-placeholder::placeholder{
+    color: #999999;
+}

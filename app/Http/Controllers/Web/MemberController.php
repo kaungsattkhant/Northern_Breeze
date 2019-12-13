@@ -9,6 +9,7 @@ use App\Model\ExchangeType;
 use App\Model\MemberType;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Input;
 
@@ -16,6 +17,7 @@ class MemberController extends Controller
 {
     public function index()
     {
+
         $member_types=MemberType::all();
         $exchange_types=ExchangeType::all();
         $members=Member::with('member_type','exchange_type')->latest()->paginate(10);
