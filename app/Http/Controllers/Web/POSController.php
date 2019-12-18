@@ -157,6 +157,8 @@ class POSController extends Controller
         else{
             return response()->json('Not Enough!');
         }
+        $check_branch=DB::table('branch_group_note')->where('branch_id',Auth::user()->branch_id)->get();
+
         $transaction=new Transaction();
         $transaction->in_value=$in_value;
         $transaction->in_value_MMK=$in_total_value;
@@ -176,11 +178,14 @@ class POSController extends Controller
             $transaction->status="OtherToOther";
         $transaction->staff_id=Auth::user()->id;
         $transaction->member_id=null;
-        $transaction->save();
+        if($check_branch->isNotEmpty() && $request->from_currency != null && $request->to_currency != null){
+            $transaction->save();
+
+        }else{
+            return redirect('stock')->with('error','Something Wrong!Try agian');
+            dd('Empty sheet in this branch!Please try again');
+        }
         $branch=Branch::with('branch_group_note')->whereId(Auth::user()->branch_id)->first();
-//        dd($branch);
-//        dd($from_group_notes);
-//        dd(Auth::user()->branch->id);
 
         if(intval($request->from_currency) === $myanmar_currency->id)
         {
@@ -190,10 +195,10 @@ class POSController extends Controller
 //                    $group_note=DB::table('group_note')->where('group_id',$group_id)
 //                    ->where('note_id',$note)
 //                    ->first();
-                    $group_note=$this->getGroupNote($group_id,$note);
+                $group_note=$this->getGroupNote($group_id,$note);
 //                    dd($group_note);
-                $a[]=$group_note->id;
-                    $branch_group_note=$this->getBranchGroupNote($branch->id,$group_note->id);
+//                $a[]=$group_note->id;
+                $branch_group_note=$this->getBranchGroupNote($branch->id,$group_note->id);
 //                    dd($branch_group_note->group_note_id);
 //                    $id[]=$branch_group_note->group_note_id;
 //                    dd($branch_group_note->id)
@@ -218,20 +223,24 @@ class POSController extends Controller
                 }
             }
 //            dd($a);
-
         }
-        else if(intval($request->from_currency) !== $myanmar_currency->id){
+        elseif(intval($request->from_currency) !== $myanmar_currency->id) {
             foreach($from_group_notes as $note=>$group_id)
             {
 //                dd('not equal');
                 $group_note=$this->getGroupNote($group_id,$note);
+//                dd($group_note);
                 $branch_group_note=$this->getBranchGroupNote($branch->id,$group_note->id);
+//                dd($branch_group_note->sheet);
 
 //                $branch_group_note
                 foreach($from_note_array as $note_id=>$notes)
                 {
-                    if($note_id==$note && $notes!=null)
+                    if($note_id == $note && $notes!=null)
                     {
+//                        dd($notes);
+//                        dd($branch_group_note->sheet);
+
                         $result=(intval($branch_group_note->sheet)+intval($notes));
                         $branch->branch_group_note()->wherePivot('branch_id',$branch->id)
                             ->wherePivot('group_note_id',$group_note->id)->detach();
@@ -249,24 +258,26 @@ class POSController extends Controller
 //            dd('aaa');
             foreach($to_group_notes as $note_id=>$group_id)
             {
-//                $sell_group_note=DB::table('group_note')->where('group_id',$group_id)
-//                    ->Where('note_id',$note_id)
-//                    ->first();
                 $sell_group_note=$this->getGroupNote($group_id,$note_id);
-                $branch_group_note=$this->getBranchGroupNote($branch->id,$group_note->id);
+                $branch_group_note=$this->getBranchGroupNote($branch->id,$sell_group_note->id);
                 foreach($to_note_array as $id=>$value)
                 {
-                    if($note_id== $id && $value !=null)
+                    if($note_id == $id && $value !=null)
                     {
-                        if(intval($branch_group_note->sheet)>=intval($notes))
+//                        dd($value);
+//                        dd($branch_group_note->sheet);
+                        if(intval($branch_group_note->sheet)>=intval($value))
                         {
-                            $result=intval($branch_group_note->sheet)-intval($notes);
+                            $result=intval($branch_group_note->sheet)-intval($value);
+//                            dd($result);
                             $branch->branch_group_note()->wherePivot('branch_id',$branch->id)
-                                ->wherePivot('group_note_id',$group_note->id)->detach();
-                            $branch->branch_group_note()->attach($transaction->id,['group_note_id'=>$group_note->id,'sheet'=>$result]);
+                                ->wherePivot('group_note_id',$sell_group_note->id)->detach();
+                            $branch->branch_group_note()->attach($transaction->id,['group_note_id'=>$sell_group_note->id,'sheet'=>$result]);
                             $transaction->out_MMK_group_note()->attach($transaction->id,['group_note_id'=>$sell_group_note->id,'sheet'=>$value]);
+                        }else{
+                            dd('Not enough to exchange currency in this branch');
+
                         }
-                        dd("Enough sheet in the branch");
 
 
                     }
@@ -278,30 +289,27 @@ class POSController extends Controller
         else {
             foreach($to_group_notes as $note_id=>$group_id)
             {
-//                dd('a');
                 $sell_group_note=$this->getGroupNote($group_id,$note_id);
-                $branch_group_note=$this->getBranchGroupNote($branch->id,$group_note->id);
+                $branch_group_note=$this->getBranchGroupNote($branch->id,$sell_group_note->id);
                 foreach($to_note_array as $id=>$value)
                 {
-
-//                dd($value);
-                    if($note_id== $id && $value !=null)
+                    if($note_id == $id && $value !=null)
                     {
-                        if(intval($branch_group_note->sheet)>=intval($notes))
+                        if(intval($branch_group_note->sheet)>=intval($value))
                         {
-                            $result=intval($branch_group_note->sheet)-intval($notes);
+                            $r=intval($branch_group_note->sheet)-intval($value);
                             $branch->branch_group_note()->wherePivot('branch_id',$branch->id)
-                                ->wherePivot('group_note_id',$group_note->id)->detach();
-                            $branch->branch_group_note()->attach($branch->id,['group_note_id'=>$group_note->id,'sheet'=>$result]);
+                                ->wherePivot('group_note_id',$sell_group_note->id)->detach();
+                            $branch->branch_group_note()->attach($branch->id,['group_note_id'=>$sell_group_note->id,'sheet'=>$r]);
                             $sell_value=SellGroupValue::where('group_id',$sell_group_note->group_id)->latest()->first();
                             $transaction->out_transaction_group_note()->attach($transaction->id,['group_note_id'=>$sell_group_note->id,'sell_group_value_id'=>$sell_value->id,'sheet'=>$value]);
+                        }else{
+                            dd('Not enough to exchange currency in this branch');
                         }
 
 
                     }
                 }
-
-
             }
         }
 

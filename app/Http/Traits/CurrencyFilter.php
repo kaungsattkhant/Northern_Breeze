@@ -14,13 +14,13 @@ use DB;
 
 trait CurrencyFilter
 {
-    public function currency_filter($id)
+    public function currency_filter($currency_id)
     {
 //        if($id==18)
 //        {
 //
 //        }
-        $groups=Group::with('notes')->where('currency_id',$id)->get();
+        $groups=Group::with('notes')->where('currency_id',$currency_id)->get();
         $stock_notes=array();
         $total=0;
         $branch_id=Auth::user()->branch_id ? Auth::user()->branch_id : null;
@@ -62,16 +62,22 @@ trait CurrencyFilter
         asort($stock_notes);
 //        dd($stock_notes);
 //        dd($id);
-        if($id===19)
+        if($stock_notes == null)
         {
-            $classification=Classification::all();
-            $data=view('Member.non_member_us_exchange_filter',compact('stock_notes','total','classification'));
-        }
-        else
-        {
-            $data=view('Member.pos_non_member_from_exchange_filter',compact('stock_notes','total'));
+            $data="<i style='color: red;'>First,need to establish notes as group in currency.Try again!</i>";
+        }else{
+            if(intval($currency_id) == 19)
+            {
+//                dd($currency_id);
+                $classification=Classification::all();
+                $data=view('Member.non_member_us_exchange_filter',compact('stock_notes','total','classification'));
+            }
+            else
+            {
+                $data=view('Member.pos_non_member_from_exchange_filter',compact('stock_notes','total'));
 
 
+            }
         }
 //        $data=view('Member.non_member_from_us_exchange_filter',compact('stock_notes','total','currency'));
 

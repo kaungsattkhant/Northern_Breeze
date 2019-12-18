@@ -5,6 +5,7 @@ namespace App\Http\Traits;
 
 
 use App\Model\BuyGroupValue;
+use App\Model\Classification;
 use App\Model\Group;
 use App\Model\Note;
 use Illuminate\Support\Facades\Auth;
@@ -12,9 +13,9 @@ use DB;
 
 trait ToExchangeFilter
 {
-    public function to_currency_filter($id)
+    public function to_currency_filter($currency_id)
     {
-        $groups=Group::with('notes')->where('currency_id',$id)->get();
+        $groups=Group::with('notes')->where('currency_id',$currency_id)->get();
         $stock_notes=array();
         $total=0;
         $branch_id=Auth::user()->branch_id ? Auth::user()->branch_id : null;
@@ -65,7 +66,22 @@ trait ToExchangeFilter
         asort($stock_notes);
 //        dd($stock_notes);
 
-        $data=view('Member.pos_non_member_to_exchange_filter',compact('stock_notes','total'));
+        if($stock_notes == null)
+        {
+            $data="<i style='color: red;'>First,need to establish notes as group in currency.Try again!</i>";
+        }else{
+            if($currency_id == 19)
+            {
+                $classification=Classification::all();
+                $data=view('Member.non_member_us_to_exchange_filter',compact('stock_notes','total','classification'));
+            }
+            else{
+//                dd('aa');
+                $data=view('Member.pos_non_member_to_exchange_filter',compact('stock_notes','total'));
+
+            }
+
+        }
         return $data;
     }
 }

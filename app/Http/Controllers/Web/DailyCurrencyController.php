@@ -25,11 +25,11 @@ class DailyCurrencyController extends Controller
             ->orderBy('currency_id','asc')->get();
 
         foreach ($groups as $group){
-            $buy_values = BuyGroupValue::where('group_id',$group->id)->latest()->get();
+            $buy_values = BuyGroupValue::where('group_id',$group->id)->get();
             $lastest_buy_value = collect($buy_values)->last();
             $group->detail_id=$lastest_buy_value['id'];
             $group->lastest_buy_value = $lastest_buy_value['value'];
-            $sell_values = SellGroupValue::where('group_id',$group->id)->latest()->get();
+            $sell_values = SellGroupValue::where('group_id',$group->id)->get();
             $lastest_sell_value = collect($sell_values)->last();
             $group->lastest_sell_value = $lastest_sell_value['value'];
         }
@@ -140,18 +140,17 @@ class DailyCurrencyController extends Controller
             foreach ($groups as $group) {
                 $buy_values = BuyGroupValue::where('group_id', $group->id)->whereDate('date_time', $request_date)->get();
                 $lastest_buy_value = collect($buy_values)->last();
-                $group->detail_id = $lastest_buy_value['id'];
+//                $group->detail_id = $lastest_buy_value['id'];
                 $group->lastest_buy_value = $lastest_buy_value['value'];
                 $sell_values = SellGroupValue::where('group_id', $group->id)->whereDate('date_time', $request_date)->get();
                 $lastest_sell_value = collect($sell_values)->last();
                 $group->lastest_sell_value = $lastest_sell_value['value'];
-//            }
-//        dd($groups);
-                $result = view('DailyCurrency.dailycurrency_datefilter', compact('groups', 'request_date'));
-                return $result;
             }
-            return '<p style="padding-left: 400px;padding-top:40px;"><b>Empty </b></p>';
+            $result = view('DailyCurrency.dailycurrency_datefilter', compact('groups', 'request_date'));
+            return $result;
         }
+        return '<p style="padding-left: 400px;padding-top:40px;"><b>Empty </b></p>';
+
     }
     public function daily_detail($group_id,$detail_id)
     {
@@ -198,9 +197,11 @@ class DailyCurrencyController extends Controller
 
             return $data;
         }
+//        <p style="padding-left: 100px;padding-top:40px;"><b>Empty </b></p></td>
+
 //            }
         return '<tr><td>
-                    <p style="padding-left: 100px;padding-top:40px;"><b>Empty </b></p></td>
+                    empty</td>
                     <td>Empty</td>
                     <td>Empty</td>
                     </tr>';
