@@ -11,11 +11,13 @@ class BranchTableSeeder extends Seeder
      */
     public function run()
     {
-        $branches=['Branch1','Branch2','Branch3','Branch4'];
+        $branches=['Branch1','Branch2','Branch3','Branch4','Supplier'];
+
         foreach($branches as $branch)
         {
             \Illuminate\Support\Facades\DB::table('branches')->insert([
                 'name'=>$branch,
+                'branch_type_id'=>1,
             ]);
         }
     }

@@ -16,14 +16,11 @@ trait CurrencyFilter
 {
     public function currency_filter($currency_id)
     {
-//        if($id==18)
-//        {
-//
-//        }
+        $us_currency=Currency::where('name','United States dollar')->first();
         $groups=Group::with('notes')->where('currency_id',$currency_id)->get();
         $stock_notes=array();
         $total=0;
-        $branch_id=Auth::user()->branch_id ? Auth::user()->branch_id : null;
+        $branch_id = Auth::user()->branch_id ? Auth::user()->branch_id : null;
 
         foreach($groups as $group)
         {
@@ -60,13 +57,12 @@ trait CurrencyFilter
             }
         }
         asort($stock_notes);
-//        dd($stock_notes);
-//        dd($id);
+
         if($stock_notes == null)
         {
             $data="<i style='color: red;'>First,need to establish notes as group in currency.Try again!</i>";
         }else{
-            if(intval($currency_id) == 19)
+            if(intval($currency_id) === $us_currency->id)
             {
 //                dd($currency_id);
                 $classification=Classification::all();
@@ -81,6 +77,7 @@ trait CurrencyFilter
         }
 //        $data=view('Member.non_member_from_us_exchange_filter',compact('stock_notes','total','currency'));
 
+//        dd($data);
         return $data;
     }
 }

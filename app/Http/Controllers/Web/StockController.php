@@ -8,6 +8,7 @@ use App\Model\Currency;
 use App\Model\Group;
 use App\Model\GroupNote;
 use App\Model\Note;
+use App\Model\Role;
 use App\Model\Transfer;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -15,24 +16,27 @@ use App\Http\Controllers\Controller;
 use DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-use const http\Client\Curl\AUTH_ANY;
 
 
 class StockController extends Controller
 {
     public function index()
     {
-        $branches=Branch::all();
-        $branch_id=Auth::user()->branch_id;
-        $date=Carbon::today();
-        $transfer_total_value=0;
-        $total=array();
-        if(Auth::user()->role_id==1)
+        $branches = Branch::all();
+        $branch_id = Auth::user()->branch_id;
+        $date = Carbon::today();
+        $transfer_total_value = 0;
+        $total = array();
+        $admin_role=Role::where('name','Admin')->first();
+        $manager_role=Role::where('name','Manager')->first();
+//        dd($manager_role->id);
+        $front_man_role=Role::where('name','Front Man')->first();
+        if (Auth::user()->role_id === $admin_role->id)
         {
-            foreach($branches as $branch){
-                $transfers=Transfer::with('currency','group_note')
+            foreach ($branches as $branch) {
+                $transfers = Transfer::with('currency', 'group_note')
 //                ->whereDate('date_time',$date)
-                    ->orderBy('id','desc')
+                    ->orderBy('id', 'desc')
 //                    ->where(function($query) use($branch){
 //                        $query->where('from_branch_id',$branch->id)
 //                            ->orWhere('to_branch_id',$branch->id);
@@ -42,34 +46,28 @@ class StockController extends Controller
 //                    {
 ////                        if($transfers->isNotEmpty())
 ////                        {
-                            foreach($transfers as $transfer)
-                            {
+                foreach ($transfers as $transfer) {
 //                                dd($transfer);
-                                if($transfer->to_branch_id == $branch->id && $transfer->from_branch_id ==$branch->id ||
-                                    $transfer->to_branch_id == $transfer->from_branch_id)
-                                {
-                                    $transfer->transfer_status="Add";
-                                }
-                                elseif($transfer->to_branch_id== $branch->id  && $transfer->from_branch_id != $branch->id)
-                                {
-                                    $transfer->transfer_status="In";
-                                }
-                                elseif($transfer->from_branch_id== $branch->id && $transfer->to_branch_id != $branch->id)
-                                    $transfer->transfer_status="Out";
+                    if ($transfer->to_branch_id == $branch->id && $transfer->from_branch_id == $branch->id ||
+                        $transfer->to_branch_id == $transfer->from_branch_id) {
+                        $transfer->transfer_status = "Add";
+                    } elseif ($transfer->to_branch_id == $branch->id && $transfer->from_branch_id != $branch->id) {
+                        $transfer->transfer_status = "In";
+                    } elseif ($transfer->from_branch_id == $branch->id && $transfer->to_branch_id != $branch->id)
+                        $transfer->transfer_status = "Out";
 
-                                $transfer->total_transfer_value= $this->total_transfer_value($transfer->id);
-                                $transfer_total_value+=$this->total_transfer_value($transfer->id);
-                            }
-                            array_push($total,$transfer_total_value);
+                    $transfer->total_transfer_value = $this->total_transfer_value($transfer->id);
+                    $transfer_total_value += $this->total_transfer_value($transfer->id);
+                }
+                array_push($total, $transfer_total_value);
 
 
-                $total_value=array_sum($total);
+                $total_value = array_sum($total);
 
-                return view('Stock.stock_inventory',compact('branches','transfers','total_value'));
+                return view('Stock.stock_inventory', compact('branches', 'transfers', 'total_value'));
             }
-
         }
-        else if (Auth::user()->role_id==2)
+        elseif (Auth::user()->role_id=== $manager_role->id)
         {
             $total_value=0;
             $branch_id=Auth::user()->branch_id;
@@ -97,7 +95,7 @@ class StockController extends Controller
 
 //            return 'No Branch_Transfer';
         }
-        else if(Auth::user()->role_id==3){
+        elseif (Auth::user()->role_id=== $front_man_role->id){
             $total_value=0;
             $branch_id=Auth::user()->branch_id;
             $transfers=$this->branch_transfers($date);
@@ -120,6 +118,7 @@ class StockController extends Controller
             }
             return view('Stock.stock_inventory',compact('branches','transfers','total_value'));
         }
+
     }
 
     public function create()
@@ -162,39 +161,48 @@ class StockController extends Controller
                         $n->total_sheet=$total_sheet;
                         $total+=intval($total_sheet);
                         array_push($stock_notes,$n);
-                    }else{
+                    }
+//                    elseif($currency->name==="United States dollar"){
+//                        dd('a');
+//                    }
+                    else{
                         $buying_value=BuyGroupValue::where('group_id',$group->id)
                             ->orderBy('date_time','DESC')
                             ->first();
 //                    dd($buying_value);
-                        if($buying_value!=null )
-                        {
+//                        if($buying_value!=null )
+//                        {
                             $total_sheet=DB::table('branch_group_note')->where('group_note_id',$group_note_id[0])
                                 ->where('branch_id',$branch_id)
                                 ->sum('sheet');
                             $n->group_id=$group->id;
                             $n->total_sheet=$total_sheet;
-                            $total+=intval($total_sheet)*$buying_value->value;
+//                            $total+=intval($total_sheet)*$buying_value->value;
                             array_push($stock_notes,$n);
-                        }
-                        else
-                        {
-                            return 'Empty buying value for this currency';
-
-                        }
+//                        }
+//                        else
+//                        {
+//                            return 'Empty buying value for this currency';
+//
+//                        }
 
                     }
 
-
-
                 }
             }
-//            dd($g);
         }
-//        dd($total);
         asort($stock_notes);
-
-        $data=view('Stock.stock_currency_filter',compact('stock_notes','total'));
+        $c=collect($stock_notes);
+        $stock_notes=$c->groupBy('group_id');
+//        dd($stock_notes);
+//        foreach($stock_notes as $key=>$stock_note)
+//        {
+////            echo $stock_note;
+////            foreach($stock_note  as $note){
+////                dd($note->name);
+////            }
+//        }
+            $data=view('Stock.stock_currency_filter',compact('stock_notes','total'));
         return $data;
     }
     public function stock_transfer()
@@ -220,7 +228,7 @@ class StockController extends Controller
 
     public function store(StockInventoryCreateValidation $request)
     {
-//        dd($request->all());
+        dd($request->all());
         if($request->branch == null && Auth::user()->branch_id != null)
         {
 //            dd('add');
@@ -245,7 +253,6 @@ class StockController extends Controller
         if($request->from_branch !=null)
         {
             $from_branch=Branch::find($request->from_branch);
-
         }
         $transfer=new Transfer();
         $transfer->from_branch_id=$branch_id;
@@ -258,7 +265,6 @@ class StockController extends Controller
             return redirect('stock')->with('error','Please add currency group !');
         }
         $groups=array_unique($request->group);
-
         $note_id=$request->note_id;
         $notes=$request->notes;
         $note_array=array_combine($note_id,$notes);
@@ -266,6 +272,14 @@ class StockController extends Controller
 
         foreach($groups as $group)
         {
+            foreach($request->group_value as $gp_value)
+            {
+                if($gp_value!=null)
+                {
+                    $transfer->transfer_group()->attach($group,['value'=>$gp_value]);
+
+                }
+            }
             foreach($note_array as $id=>$value)
             {
                 if($value==null)

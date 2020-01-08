@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBranchesTable extends Migration
+class CretaeBranchType extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateBranchesTable extends Migration
      */
     public function up()
     {
-        Schema::create('branches', function (Blueprint $table) {
+        Schema::create('branch_types', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->char('name',120);
-            $table->unsignedBigInteger('branch_type_id');
-            $table->foreign('branch_type_id')->references('id')->on('branch_types')->onDelete('cascade')->onUpdate('cascade');
+            $table->char('name');
+            $table->timestamps();
         });
     }
 
@@ -28,6 +27,6 @@ class CreateBranchesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('branches');
+        Schema::dropIfExists('branch_type');
     }
 }

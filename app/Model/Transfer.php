@@ -18,4 +18,8 @@ class Transfer extends Model
     {
      return $this->belongsTo(Branch::class,'to_branch_id');
     }
+    public function transfer_group()
+    {
+        return $this->belongsToMany(Group::class,'transfer_group','transfer_id','group_id')->withPivot('value');
+    }
 }

@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Model\BuyClassGroupValue;
 use App\Model\BuyGroupValue;
 use App\Model\Classification;
 use App\Model\ClassValue;
 use App\Model\Currency;
 use App\Model\Group;
+use App\Model\SellClassGroupValue;
 use App\Model\SellGroupValue;
 use Carbon\Carbon;
 use Dotenv\Parser;
@@ -47,55 +49,91 @@ class DailyCurrencyController extends Controller
     }
     public function store(Request $request)
     {
-//        dd(now());
-        if(in_array(null,$request->buying_price))
-        {
-            return back()->with('error','There is a problem that required value in  selling field .Try again!!');
-        }
-        elseif(in_array(null,$request->buying_price))
-        {
-            return back()->with('error','There is a problem that required  value in selling field .Try again!!');
-        }
+//        dd($request->all());
+        $us_currency_id=Currency::where('name','United States dollar')->first();
+        if($request->currency !=   $us_currency_id->id){
+            if(in_array(null,$request->buying_price))
+            {
+                return back()->with('error','There is a problem that required value in buying field .Try again!!');
+            }
+            elseif(in_array(null,$request->selling_price))
+            {
+                return back()->with('error','There is a problem that required  value in selling field .Try again!!');
+            }
+            $vData=Validator::make($request->all(),[
+                'buying_price.*'=>'numeric',
+                'selling_price.*'=>'numeric',
+            ]);
 
-        $vData=Validator::make($request->all(),[
-            'buying_price.*'=>'numeric',
-            'selling_price.*'=>'numeric',
-        ]);
-
-        if($vData->fails())
-        {
-            return back()->withErrors($vData);
-        }
+            if($vData->fails())
+            {
+                return back()->withErrors($vData);
+            }
 
 //        if($vData->passes())
 //        {
 //            dd($request->all());
             for($i=0;$i<count($request->group_id);$i++)
             {
+                $buying_price = new BuyGroupValue();
+                $buying_price->value =$request->buying_price[$i];
+                $buying_price->group_id=$request->group_id[$i];
+                $buying_price->date_time=Carbon::now()->format('Y-m-d H:i');
+                $buying_price->save();
 
-                    $buying_price = new BuyGroupValue();
-                    $buying_price->value =$request->buying_price[$i];
-                    $buying_price->group_id=$request->group_id[$i];
-                    $buying_price->date_time=Carbon::now()->format('Y-m-d H:i');
-                    $buying_price->save();
-
-                    $selling_price=new SellGroupValue();
-                    $selling_price->value=$request->selling_price[$i];
-                    $selling_price->group_id=$request->group_id[$i];
-                    $selling_price->date_time=now()->format('Y-m-d H:i');
-                    $selling_price->save();
+                $selling_price=new SellGroupValue();
+                $selling_price->value=$request->selling_price[$i];
+                $selling_price->group_id=$request->group_id[$i];
+                $selling_price->date_time=now()->format('Y-m-d H:i');
+                $selling_price->save();
 //                }
 //                else
 //                    return back()->with('error','Something Wrong!!');
-
             }
-            if($request->classification_id)
+//            dd('a');
+        }else{
+            if($request->selling_classification_id)
             {
                 $classification_all=Classification::all();
                 $classification_count=count($classification_all);
-                $ary=array_chunk($request->classification_id,$classification_count);
-                $class_value=array_chunk($request->classification,$classification_count);
+                $ary=array_chunk($request->selling_classification_id,$classification_count);
+                $selling_class_value=array_chunk($request->selling_classification,$classification_count);
+//                dd($class_value);
+                foreach($request->group_id as $i=>$group)
+                {
+                    $id=(int)$group;
+                    foreach($ary[$i] as $key=>$a)
+                    {
+                        if($selling_class_value[$i][$key]!=null)
+                        {
+                            $group=Group::with('classifications')->whereId($id)->firstOrfail();
+                            $is_exist =$group->classifications()-> wherePivot('classification_id',$a)->exists();
+                            if($is_exist  ==false)
+                            {
 
+                                $group->classifications()->attach($a);
+//                        $all_classification= $group->classifications()->get();
+//                        $group_classification = collect($all_classification)->last();
+//                        $classification_group_id = $group_classification->pivot->id;
+                            }
+                            $classification_group_id=DB::table('classification_group')->where('group_id',$id)
+                                ->where('classification_id',$a)->pluck('id')->first();
+                            $sell_class_value=new SellClassGroupValue();
+                            $sell_class_value->value=$selling_class_value[$i][$key];
+                            $sell_class_value->date_time=now();
+                            $sell_class_value->classification_group_id = $classification_group_id;
+                            $sell_class_value->save();
+                        }
+
+                    }
+                }
+            }
+            if($request->buying_classification_id){
+                $classification_all=Classification::all();
+                $classification_count=count($classification_all);
+                $ary=array_chunk($request->buying_classification_id,$classification_count);
+                $class_value=array_chunk($request->buying_classification,$classification_count);
+//                dd($class_value);
                 foreach($request->group_id as $i=>$group)
                 {
                     $id=(int)$group;
@@ -114,16 +152,18 @@ class DailyCurrencyController extends Controller
                             }
                             $classification_group_id=DB::table('classification_group')->where('group_id',$id)
                                 ->where('classification_id',$a)->pluck('id')->first();
-                            $class_values=new ClassValue();
-                            $class_values->value=$class_value[$i][$key];
-                            $class_values->date_time=now();
-                            $class_values->classification_group_id = $classification_group_id;
-                            $class_values->save();
+                            $buy_class_values=new BuyClassGroupValue();
+                            $buy_class_values->value=$class_value[$i][$key];
+                            $buy_class_values->date_time=now();
+                            $buy_class_values->classification_group_id = $classification_group_id;
+                            $buy_class_values->save();
                         }
 
                     }
                 }
             }
+        }
+
             return redirect('/daily_currency');
 //        }
 //        return view('DailyCurrency.create')->with('error','Something Wrong');
@@ -154,9 +194,7 @@ class DailyCurrencyController extends Controller
     }
     public function daily_detail($group_id,$detail_id)
     {
-//        dd(now());
         $detail_date=DB::table('buy_group_values')->whereId($detail_id)->pluck('date_time');
-//        dd($detail_date);
         if($detail_date->isNotEmpty())
         {
             $date=date("Y-m-d", strtotime($detail_date[0]));
@@ -190,15 +228,11 @@ class DailyCurrencyController extends Controller
                     }
                 }
                 $vs[] = $v;
-
             }
-
             $data=view('DailyCurrency.detail_view',compact('vs'));
-
             return $data;
         }
 //        <p style="padding-left: 100px;padding-top:40px;"><b>Empty </b></p></td>
-
 //            }
         return '<tr><td>
                     empty</td>

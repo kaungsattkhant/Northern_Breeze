@@ -6,6 +6,7 @@ namespace App\Http\Traits;
 
 use App\Model\BuyGroupValue;
 use App\Model\Classification;
+use App\Model\Currency;
 use App\Model\Group;
 use App\Model\Note;
 use Illuminate\Support\Facades\Auth;
@@ -15,6 +16,7 @@ trait ToExchangeFilter
 {
     public function to_currency_filter($currency_id)
     {
+        $us_currency=Currency::where('name','United States dollar')->first();
         $groups=Group::with('notes')->where('currency_id',$currency_id)->get();
         $stock_notes=array();
         $total=0;
@@ -70,8 +72,9 @@ trait ToExchangeFilter
         {
             $data="<i style='color: red;'>First,need to establish notes as group in currency.Try again!</i>";
         }else{
-            if($currency_id == 19)
+            if($currency_id == $us_currency->id)
             {
+//                dd('a');
                 $classification=Classification::all();
                 $data=view('Member.non_member_us_to_exchange_filter',compact('stock_notes','total','classification'));
             }

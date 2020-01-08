@@ -35,17 +35,14 @@
 <script src="{{asset('js/jquery-ui.min.js')}}"></script>
 
 <script src="{{asset('js/bs.js')}}"></script>
-
-
 {{--<script src="{{asset('js/jquery_validation.js')}}"></script>--}}
 <script src="{{asset('js/multiselect.js')}}"></script>
 <script src="{{asset('js/multiselectfilter.js')}}"></script>
-@yield('script')
 <script src="{{asset('js/tablefilter.js')}}"></script>
 <script src="{{asset('js/multi.js')}}"></script>
 <script src="{{asset('js/dailycurrency.js')}}"></script>
 <script src="{{asset('js/pos.js')}}"></script>
-
+@yield('script')
 <script>
     $(function() {
         // $('select #currency').selectpicker();

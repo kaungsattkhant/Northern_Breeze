@@ -56,125 +56,7 @@
                             </div>
                         </td>
                     </tr>
-{{--                    <tr>--}}
-{{--                        <td class="border-top-0 text-nb-mount pl-4 fontsize-mount2">5000 kyats</td>--}}
-{{--                        <td class="text-right border-top-0 pt-4 fs-select4">--}}
-{{--                            <div class="d-inline-block">--}}
-{{--                                <input type="text" class="border rounded-table-mount text-center fontsize-mount3 pt-1 for-placeholder" style="width:39.5%" placeholder="ရွက်">--}}
-{{--                                <select class="selectpicker" data-width="fit-content">--}}
-{{--                                    @php--}}
-{{--                                       $classification=\App\Model\Classification::all();--}}
-{{--                                    @endphp--}}
-{{--                                    @foreach($classification as $c)--}}
-{{--                                    <option value="{{$c->id}}">{{$c->name}}</option>--}}
-{{--                                    @endforeach--}}
-{{--                                </select>--}}
-{{--                            </div>--}}
-{{--                            <button class="bg-transparent border-0 myClass "><i class="fas fa-plus plus-btn-mount"></i></button>--}}
-{{--                            --}}{{--                            <label for="#input1" class="text-color-mount fontsize-mount3">&nbsp;တန်ဖိုး</label>--}}
-{{--                        </td>--}}
-{{--                    </tr>--}}
-{{--                    <tr>--}}
 
-{{--                        <td class="border-top-0 text-nb-mount pl-4 fontsize-mount2">1000 kyats</td>--}}
-{{--                        <td class="text-right border-top-0 pt-4 fs-select4">--}}
-{{--                            <div class="d-inline-block">--}}
-{{--                                <input type="text" class="border rounded-table-mount text-center fontsize-mount3 pt-1 for-placeholder" style="width:39.5%" placeholder="ရွက်">--}}
-{{--                                <select class="selectpicker" data-width="fit-content">--}}
-{{--                                    <option>class a</option>--}}
-{{--                                    <option>class g</option>--}}
-{{--                                    <option>class z</option>--}}
-{{--                                </select>--}}
-{{--                            </div>--}}
-{{--                            <button class="bg-transparent border-0 "><i class="fas fa-plus plus-btn-mount"></i></button>--}}
-{{--                            --}}{{--                            <label for="#input1" class="text-color-mount fontsize-mount3">&nbsp;တန်ဖိုး</label>--}}
-{{--                        </td>--}}
-{{--                    </tr>--}}
-{{--                    <tr>--}}
-{{--                        <td class="border-top-0 text-nb-mount pl-4 fontsize-mount2">500 kyats</td>--}}
-{{--                        <td class="text-right border-top-0 pt-4 fs-select4">--}}
-{{--                            <div class="d-inline-block">--}}
-{{--                                <input type="text" class="border rounded-table-mount text-center fontsize-mount3 pt-1 for-placeholder" style="width:39.5%" placeholder="ရွက်">--}}
-{{--                                <select class="selectpicker" data-width="fit-content">--}}
-{{--                                    <option>class a</option>--}}
-{{--                                    <option>class g</option>--}}
-{{--                                    <option>class z</option>--}}
-{{--                                </select>--}}
-{{--                            </div>--}}
-{{--                            <button class="bg-transparent border-0 "><i class="fas fa-plus plus-btn-mount"></i></button>--}}
-{{--                            --}}{{--                            <label for="#input1" class="text-color-mount fontsize-mount3">&nbsp;တန်ဖိုး</label>--}}
-{{--                        </td>--}}
-{{--                    </tr>--}}
-{{--                    <tr>--}}
-{{--                        <td class="border-top-0 text-nb-mount pl-4 fontsize-mount2">200 kyats</td>--}}
-{{--                        <td class="text-right border-top-0 pt-4 fs-select4">--}}
-{{--                            <div class="d-inline-block">--}}
-{{--                                <input type="text" class="border rounded-table-mount text-center fontsize-mount3 pt-1 for-placeholder" style="width:39.5%" placeholder="ရွက်">--}}
-{{--                                <select class="selectpicker" data-width="fit-content">--}}
-{{--                                    <option>class a</option>--}}
-{{--                                    <option>class g</option>--}}
-{{--                                    <option>class z</option>--}}
-{{--                                </select>--}}
-{{--                            </div>--}}
-{{--                            <button class="bg-transparent border-0"><i class="fas fa-plus plus-btn-mount"></i></button>--}}
-{{--                            --}}{{--                            <label for="#input1" class="text-color-mount fontsize-mount3">&nbsp;တန်ဖိုး</label>--}}
-{{--                        </td>--}}
-{{--                    </tr>--}}
-{{--                    <tr>--}}
-{{--                        <td class="border-top-0 text-nb-mount pl-4 fontsize-mount2">100 kyats</td>--}}
-{{--                        <td class="text-right border-top-0 pt-4 fs-select4">--}}
-{{--                            <div class="d-inline-block">--}}
-{{--                                <input type="text" class="border rounded-table-mount text-center fontsize-mount3 pt-1 for-placeholder" style="width:39.5%" placeholder="ရွက်">--}}
-{{--                                <select class="selectpicker" data-width="fit-content">--}}
-{{--                                    <option>class a</option>--}}
-{{--                                    <option>class g</option>--}}
-{{--                                    <option>class z</option>--}}
-{{--                                </select>--}}
-{{--                            </div>--}}
-{{--                            <button class="bg-transparent border-0"><i class="fas fa-plus plus-btn-mount"></i></button>--}}
-{{--                            --}}{{--                            <label for="#input1" class="text-color-mount fontsize-mount3">&nbsp;တန်ဖိုး</label>--}}
-{{--                        </td>--}}
-{{--                    </tr>--}}
-{{--                    <tr>--}}
-{{--                        <td class="border-top-0 text-nb-mount pl-4 fontsize-mount2">50 kyats</td>--}}
-{{--                        <td class="text-right border-top-0 pt-4 fs-select4">--}}
-{{--                            <div class="d-inline-block">--}}
-{{--                                <input type="text" class="border rounded-table-mount text-center fontsize-mount3 pt-1 for-placeholder" style="width:39.5%" placeholder="ရွက်">--}}
-{{--                                <select class="selectpicker" data-width="fit-content">--}}
-{{--                                    <option>class a</option>--}}
-{{--                                    <option>class g</option>--}}
-{{--                                    <option>class z</option>--}}
-{{--                                </select>--}}
-{{--                            </div>--}}
-{{--                            <button class="bg-transparent border-0"><i class="fas fa-plus plus-btn-mount"></i></button>--}}
-{{--                            --}}{{--                            <label for="#input1" class="text-color-mount fontsize-mount3">&nbsp;တန်ဖိုး</label>--}}
-{{--                        </td>--}}
-{{--                    </tr>--}}
-{{--                    <tr>--}}
-{{--                        <td class="border-top-0 text-nb-mount pl-4 fontsize-mount2">10 kyats</td>--}}
-{{--                        <td class="text-right border-top-0 pt-4 fs-select4">--}}
-{{--                            <div class="d-inline-block">--}}
-{{--                                <input type="text" class="border rounded-table-mount text-center fontsize-mount3 pt-1 for-placeholder" style="width:39.5%" placeholder="ရွက်">--}}
-{{--                                <select class="selectpicker" data-width="fit-content">--}}
-{{--                                    <option>class a</option>--}}
-{{--                                    <option>class g</option>--}}
-{{--                                    <option>class z</option>--}}
-{{--                                </select>--}}
-{{--                            </div>--}}
-{{--                            <button class="bg-transparent border-0"><i class="fas fa-plus plus-btn-mount"></i></button>--}}
-{{--                            --}}{{--                            <label for="#input1" class="text-color-mount fontsize-mount3">&nbsp;တန်ဖိုး</label>--}}
-{{--                        </td>--}}
-{{--                    </tr>--}}
-
-
-{{--                    <tr>--}}
-{{--                        <td class="border-top-0 text-nb-mount" style="padding: 30px;"></td>--}}
-{{--                        <td class="text-left border-top-0">--}}
-
-{{--                            <p class="total-text-mount pl-5 ">Total :</p>--}}
-{{--                            <p class="total-text-mount fontsize-mount3 pl-5">ပြန်အမ်းငွေ :</p>--}}
-{{--                        </td>--}}
-{{--                    </tr>--}}
 
                     </tbody>
 
@@ -275,59 +157,11 @@
 {{--            $("#pos .img-pos").removeClass("img-pos");--}}
 {{--        });--}}
 {{--    </script>--}}
-
-
-
     @endsection
 @section('script')
     <script>
-
-
-{{--        $(document).ready(function(){--}}
-
-{{--            // $('.selectpick').selectpicker();--}}
-{{--            $(".append-btn").click(function(){--}}
-{{--                // $("#append-div").clone().appendTo("#mySelect");--}}
-{{--                // $('.selectpick').selectpicker();--}}
-{{--                // $(".add-input-select").append("<button class='bg-transparent border-0' id='single' >x</button>");--}}
-{{--                $('#mySelect').append(`--}}
-{{--                                <div class="d-inline-block appended-item ">--}}
-{{--                                    <input type="text" class="border rounded-table-mount text-center fontsize-mount3 pt-1 for-placeholder" style="width:35.5%" placeholder="ရွက်">--}}
-{{--                                    <select class="select-append" data-width="fit-content">--}}
-{{--                                      @php--}}
-
-{{--                                        $classification=\App\Model\Classification::all();--}}
-{{--                                      @endphp--}}
-{{--                    @foreach($classification as $c)--}}
-{{--                         <option value={{$c->id}}>{{$c->name}}</option>--}}
-{{--                    @endforeach--}}
-
-{{--                                    </select>--}}
-{{--                                    <button  class='bg-transparent border-0 delete-appended-item pad-l' onclick="deleteItem(this.id)" ><i class="fas fa-times plus-btn-mount"></i></button>--}}
-{{--                                </div>--}}
-
-{{--                `);--}}
-{{--                $('.select-append').selectpicker();--}}
-{{--                $.each($('.delete-appended-item'),function (ind) {--}}
-{{--                    $(this).attr('id', 'item-' + parseInt(ind+1));--}}
-{{--                });--}}
-
-{{--            });--}}
-{{--            // $('#non_member_create').hide();--}}
-{{--            // $('#to_exchange_currency').on('change',function () {--}}
-{{--            //     $('#non_member_create').show();--}}
-{{--            // });--}}
-
-
-{{--        });--}}
-
-        // function deleteItem(id){
-        //     $('#'+id).parent().remove();
-        // }
-
         $(function(){
             $("#pos .img-pos").addClass("active-pos");
-
             $("#pos").addClass("active2");
             $("#pos .img-pos").removeClass("img-pos");
         });

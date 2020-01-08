@@ -55,6 +55,7 @@ class SaleController extends Controller
 
             }
         }
+//        dd($transactions);
 
         return view('Sale.sale_record',compact('transactions'));
     }
@@ -66,22 +67,27 @@ class SaleController extends Controller
             {
                 $get_in_transaction=DB::table('in_transaction_group_note')->where('transaction_id',$transaction->id)->first();
                 $get_out_transaction=DB::table('out_transaction_group_note')->where('transaction_id',$transaction->id)->first();
+//                dd($get_in_transaction);
+//                dd($get_out_transaction);
                 if(isset($get_in_transaction) && isset($get_out_transaction)  )
                 {
                     $get_in_group=DB::table('group_note')->whereId($get_in_transaction->group_note_id)->first();
                     $get_out_group=DB::table('group_note')->whereId($get_out_transaction->group_note_id)->first();
+//                    dd($get_out_group);
                     if($get_in_group != null  && $get_out_group != null )
                     {
                         $in_currency=Group::with('currency')->whereId($get_in_group->group_id)->first();
+//                        dd($in_currency);
                         $out_currency=Group::with('currency')->whereId($get_out_group->group_id)->first();
                         if($in_currency != null && $out_currency != null )
                         {
+//                            dd($in_currency->currency->name);
                             $transaction->in_currency=$in_currency->currency->name;
                             $transaction->out_currency=$out_currency->currency->name;
                         }
-
                     }
                 }
+//                dd($transaction);
             }
             elseif($transaction->status==="MyanmarToOther"){
 //                $get_in_transaction=DB::table('in_transaction_group_note')->where('transaction_id',$transaction->id)->first();
@@ -105,6 +111,7 @@ class SaleController extends Controller
             }
             elseif($transaction->status==="OtherToMyanmar"){
                 $get_in_transaction=DB::table('in_transaction_group_note')->where('transaction_id',$transaction->id)->first();
+//                dd($get_in_transaction);
 //                $get_out_transaction=DB::table('out_transaction_group_note')->where('transaction_id',$transaction->id)->first();
                 if(isset($get_in_transaction) && isset($get_out_transaction)  )
                 {
@@ -119,13 +126,13 @@ class SaleController extends Controller
                             $transaction->in_currency=$in_currency->currency->name;
                             $transaction->out_currency="Myanmar Kyat";
                         }
-
                     }
                 }
             }
 
 
         }
+//        dd($transactions);
         return $transactions;
     }
 
