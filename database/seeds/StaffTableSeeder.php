@@ -16,7 +16,7 @@ class StaffTableSeeder extends Seeder
             'email'=>'admin@gmail.com',
             'password'=>bcrypt('password'),
             'role_id'=>1,
-            'branch_id'=>1,
+            'branch_id'=>null,
         ]);
         \App\Model\Staff::create([
             'name'=>'Manager',

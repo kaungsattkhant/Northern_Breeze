@@ -18,12 +18,17 @@ class frontmanCheck
     {
         if(Auth::check())
         {
-            if(Auth::user()->role_id == 3 || Auth::user()->role_id == 1)
+//            dd(Auth::user());
+            if(Auth::user()->role_id === 1 || Auth::user()->role_id === 3 )
             {
+//                abort(401,'This action is unauthorized');
                 return $next($request);
+
             }
 
         }
+//        return $next($request);
+
         return redirect('login');
     }
 }

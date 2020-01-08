@@ -34,7 +34,7 @@
 
                     <div class="mb-3 row fs-select4 {{$errors->has('role') ? 'has:error':''}}">
                         <label for="#role1" class="w-25" style="padding-left: 16px;">Roles</label>
-                        <select name="role" class="selectpicker show-menu-arrow margin-left-mount bd-bottom-mount" data-width="300px" id="role1">
+                        <select name="role" class="selectpicker show-menu-arrow margin-left-mount bd-bottom-mount role_branch_filter" data-width="300px" id="role1">
                             @php
                             $roles=\App\Model\Role::all();
                             @endphp
@@ -46,10 +46,11 @@
                     <span class="text-danger">
                                     <strong id="role-error1"></strong>
                                 </span>
-                    <div class="mb-3 row fs-select4 {{$errors->has('branch') ? 'has:error':''}}">
+                    <div class="branch_div mb-3 row fs-select4 {{$errors->has('branch') ? 'has:error':''}}">
                         <label for="#role" class="w-25" style="padding-left: 16px;">Branch</label>
-                        <select name="role" class="selectpicker show-menu-arrow ml-1 bd-bottom-mount" data-width="300px" id="branch1">
-                            <option selected disabled>--None--</option>
+                        <select name="branch" class="selectpicker show-menu-arrow ml-1 bd-bottom-mount" data-width="300px" id="branch1">
+{{--                            <option selected disabled>--None--</option>--}}
+
                             @php
                                 $branches=\App\Model\Branch::all();
                             @endphp

@@ -188,13 +188,13 @@
 @section('content')
 
     <div class="container-nb-mount">
-        <form action="{{url('stock/store')}}" method="post">
+        <form action="{{url('stock/store')}}" method="post" id="stock_transfer_form">
             @csrf
             <div class="d-flex justify-content-between top-box-mount shadow-sm">
                 <div class="my-auto">
                     <p style="margin-left: 20px"><b>Total values:</b> $823,323,000</p>
                 </div>
-                <button type="submit" class="btn btn-nb-mount-save fontsize-mount px-4 stock_create" >Transfer</button>
+                <button type="submit" class="btn btn-nb-mount-save fontsize-mount px-4 stock_transfer" >Transfer</button>
             </div>
             <div class="row">
             <div class="col">
@@ -209,17 +209,41 @@
                     @endforeach
                 </select>
             </div>
-            <div class="col">
-                <select class="selectpicker mt-4" name="branch" data-style="btn-white" data-width="auto" id="to_branch">
-                    <option  disabled selected>Choose Branch</option>
-                    @php
-                        $branches=\App\Model\Branch::all();
+                <div class="col" id="from_branch">
+                    <select class="selectpicker mt-4" name="from_branch" data-style="btn-white" data-width="auto">
+                        <option  disabled selected>From Branch</option>
+                        @php
+                            $branches=\App\Model\Branch::all();
 
-                    @endphp
-                    @foreach($branches as $branch)
-                        <option value="{{$branch->id}}" @if(\Illuminate\Support\Facades\Auth::user()->branch_id==$branch->id) disabled  @endif >{{$branch->name}}</option>
-                    @endforeach
-                </select>
+                        @endphp
+                        @foreach($branches as $branch)
+                            <option value="{{$branch->id}}" @if(\Illuminate\Support\Facades\Auth::user()->branch_id==$branch->id) disabled  @endif >{{$branch->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+            <div class="col">
+{{--                    <select class="selectpicker mt-4" name="from_branch" data-style="btn-white" data-width="auto" id="from_branch">--}}
+{{--                        <option  disabled selected>From Branch</option>--}}
+{{--                        @php--}}
+{{--                            $branches=\App\Model\Branch::all();--}}
+
+{{--                        @endphp--}}
+{{--                        @foreach($branches as $branch)--}}
+{{--                            <option value="{{$branch->id}}" @if(\Illuminate\Support\Facades\Auth::user()->branch_id==$branch->id) disabled  @endif >{{$branch->name}}</option>--}}
+{{--                        @endforeach--}}
+{{--                    </select>--}}
+                    <select class="selectpicker mt-4" name="branch" data-style="btn-white" data-width="auto" id="to_branch">
+                        <option  disabled selected>To Branch</option>
+                        @php
+                            $branches=\App\Model\Branch::all();
+
+                        @endphp
+                        @foreach($branches as $branch)
+                            <option value="{{$branch->id}}" @if(\Illuminate\Support\Facades\Auth::user()->branch_id==$branch->id) disabled  @endif >{{$branch->name}}</option>
+                        @endforeach
+                    </select>
+
+
             </div>
             </div>
             <div class="row" id="stock_table_filter">
@@ -359,8 +383,7 @@
                     </table>
                     <div class="div-p-mount2">
                         <p>Total :</p>
-                    </div>
-
+                    </div
                 </div>
 
 
@@ -373,15 +396,34 @@
 
     <script>
         $(function(){
+            $('#from_branch').hide();
+            $.get({
+                url:'admin/transfer',
+                success:function (data) {
+                    console.log(data);
+                    if(data==='admin_transfer')
+                    {
+                        // dd('aaa')
+                        $('#from_branch').show();
+                    }
+                    else
+                    {
+                        $('#from_branch').hide();
+
+                    }
+                }
+            });
             $("#stock a").addClass("active-si");
 
             $("#stock").addClass("active2");
-            $('.stock_create').hide();
-            // $('#to_branch').hide();
+            $(".stock_transfer").attr("disabled", true);
             $('#to_branch').on('change',function ( ) {
-                $('.stock_create').fadeIn();
-                // $('#to_branch').fadeIn();
+                $(".stock_transfer").attr("disabled", false);
             });
+           $(".stock_transfer").click(function () {
+               $(".stock_transfer").attr("disabled", true);
+               $('#stock_transfer_form').submit();
+           });
         });
     </script>
 

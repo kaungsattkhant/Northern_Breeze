@@ -5,7 +5,7 @@
 
         <div class="row top-box-mount shadow-sm">
             <div  class="my-auto  col-5">
-                <select class="selectpicker " name="Branches" data-style="btn-white" data-width="auto">
+                <select class="selectpicker " name="Branches" data-style="btn-white" data-width="auto" id="branch">
                     <option selected disabled>Branches</option>
                     @php
                         $branches=\App\Model\Branch::all();
@@ -23,8 +23,13 @@
                     <option value="4" >All</option>
                 </select>
             </div>
+{{--<<<<<<< HEAD--}}
+{{--            <div  style="margin: 20px 0 0 0" class="input-group h-25 pl-5">--}}
+{{--                <input type="text" id="datepicker" autocomplete="off"  name="transfer_history_filter" class="border-top-0 border-right-0 border-left-0 pl-5 dtpick-input" placeholder="YY-MM-DD">--}}
+{{--=======--}}
             <div  style="margin: 20px 0 0 0" class="input-group h-25  col-4">
-                <input type="text" id="currency_date" autocomplete="off"  name="transfer_history_filter" class="border-top-0 border-right-0 border-left-0 pl-5 dtpick-input2" placeholder="YY-MM-DD">
+                <input type="text" id="datepicker" autocomplete="off"  name="transfer_history_filter" class="border-top-0 border-right-0 border-left-0 pl-5 dtpick-input2" placeholder="YY-MM-DD">
+{{-->>>>>>> origin/front_end-1.1--}}
                 <div class="input-group-append">
                     <button class="btn btn-nb-mount-filter" id="transfer_datefilter"><i class="fas fa-filter"></i></button>
                 </div>
@@ -77,32 +82,36 @@
                  </tr>
                  </thead>
                  <tbody id="stock_transfer">
-                 @foreach($transfers as $transfer)
-                     <tr>
-                         <td scope="row" class="table-row-m fontsize-mount2 border-top-0">{{$transfer->currency->name}}</td>
-                         <td class="table-row-m fontsize-mount2 border-top-0">{{$transfer->total_transfer_value}}</td>
-                         <td class="table-row-m text-info border-top-0">{{$transfer->transfer_status}}</td>
-                         <td class="table-row-m border-top-0"><a href="#" class="text-a-mount" onclick="transfer_detail({{$transfer->id}})">Detail</a></td>
-{{--                         <td class="table-row-m border-top-0"><a href="#" class="text-a-mount" data-target="#detail" data-toggle="modal">Detail</a></td>--}}
-                     </tr>
-                 @endforeach
-
+{{--                 @include('Stock.stock_admin_view')--}}
+{{--                 @include('Stock.stock_manager_and_front_view')--}}
+{{--                 @foreach($total_transfers as $transfers)--}}
+                         @foreach($transfers as $transfer)
+                             <tr>
+                                 <td scope="row" class="table-row-m fontsize-mount2 border-top-0">{{$transfer->currency->name}}</td>
+                                 <td class="table-row-m fontsize-mount2 border-top-0">{{$transfer->total_transfer_value}} <b>Kyats</b></td>
+                                 <td class="table-row-m text-info border-top-0">{{$transfer->transfer_status}}</td>
+                                 <td class="table-row-m border-top-0"><a href="#" class="text-a-mount" onclick="transfer_detail({{$transfer->id}})">Detail</a></td>
+{{--                                 <td class="table-row-m brder-top-0"><a href="#" class="text-a-mount" data-target="#detail" data-toggle="modal">Detail</a></td>--}}
+                             </tr>
+                         @endforeach
+{{--                 @endforeach--}}
                  </tbody>
              </table>
              {{$transfers->links()}}
          </div>
     </div>
 {{--    </div>--}}
-    <script>
-        $(function(){
-            $("#stock a").addClass("active-si");
+{{--    <script>--}}
+{{--        $(function(){--}}
+{{--            $("#stock a").addClass("active-si");--}}
 
-            $("#stock").addClass("active2");
+{{--            $("#stock").addClass("active2");--}}
 
-        });
-        </script>
-
+{{--        });--}}
+{{--    </script>--}}
     <script src="{{asset('js/transfer.js')}}">
+
+//
     </script>
 
 

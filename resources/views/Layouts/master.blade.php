@@ -29,34 +29,20 @@
         @yield('content')
     </div>
 </div>
-{{-- @include('sidebar');--}}
-{{--<script src="https://code.jquery.com/jquery-3.4.1.js"></script>--}}
-{{--<<<<<<< HEAD--}}
 
-{{--<script src="{{asset('js/bootstrap.min.js')}}"></script>--}}
-{{--<link rel="stylesheet" type="text/css" href="{{asset('js/datepicker.min.js')}}">--}}
-
-{{--=======--}}
-{{--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>--}}
 <script src="{{asset('js/bt.js')}}"></script>
 
 <script src="{{asset('js/jquery-ui.min.js')}}"></script>
 
-<script src="{{asset('js/jquery_validation.js')}}"></script>
+<script src="{{asset('js/bs.js')}}"></script>
+{{--<script src="{{asset('js/jquery_validation.js')}}"></script>--}}
 <script src="{{asset('js/multiselect.js')}}"></script>
 <script src="{{asset('js/multiselectfilter.js')}}"></script>
-<script src="{{asset('js/bs.js')}}"></script>
-{{--<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/i18n/defaults-*.min.js"></script>--}}
-{{--<script src="{{asset('js/multiselectde.js')}}"></script>--}}
-
-{{--<script src="{{asset('js/bootstrap.min.js')}}"></script>--}}
-{{--<script src="{{asset('js/bootstrap.popper.min.js')}}"></script>--}}
-{{--<script href="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" type="text/javascript"></script>--}}
-{{--<script href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" type="text/javascript"></script>"--}}
-@yield('script')
 <script src="{{asset('js/tablefilter.js')}}"></script>
 <script src="{{asset('js/multi.js')}}"></script>
 <script src="{{asset('js/dailycurrency.js')}}"></script>
+<script src="{{asset('js/pos.js')}}"></script>
+@yield('script')
 <script>
     $(function() {
         // $('select #currency').selectpicker();
@@ -69,7 +55,7 @@
                 $('.img-pos').removeClass('active-pos');
             }
         );
-        $('#currency_date').datepicker({
+        $('#datepicker').datepicker({
             // altFormat:"dd-mm-YY",
             dateFormat:'yy-mm-dd',
             changeYear:true,

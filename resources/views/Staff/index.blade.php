@@ -69,13 +69,7 @@
     @include('Staff.create')
     @include('Staff.edit')
     @include('Staff.destroy')
-    <script>
-        $(function(){
 
-            $("#staff a").addClass("active-staff");
-            $("#staff").addClass("active2");
-        });
-    </script>
 @endsection
 @section('script')
     <script src="{{asset('js/staff.js')}}"></script>

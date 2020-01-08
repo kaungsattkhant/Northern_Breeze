@@ -17,11 +17,11 @@
                     <div class="p-3">
                         <div class="mb-2 pr-5 fs-select4">
                             <label for="#currency" class="w-25 fontsize-mount pt-2"> Currency</label>
-<<<<<<< HEAD
-                            <select class="selectpicker show-menu-arrow bd-bottom-mount mount-input3 " id="currency" name="currency">
-=======
+{{--<<<<<<< HEAD--}}
+{{--                            <select class="selectpicker show-menu-arrow bd-bottom-mount mount-input3 " id="currency" name="currency">--}}
+{{--=======--}}
                             <select class="selectpicker show-menu-arrow bd-bottom-mount mount-input3" id="currency" name="currency">
->>>>>>> b8f99745ec214ce91511f9e47e61ad6a43cfbe01
+{{-->>>>>>> b8f99745ec214ce91511f9e47e61ad6a43cfbe01--}}
                                 <option selected disabled>--None--</option>
                                 @php
                                     $currencies=\App\Model\Currency::all();

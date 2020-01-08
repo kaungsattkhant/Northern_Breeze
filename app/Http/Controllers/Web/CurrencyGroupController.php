@@ -20,6 +20,7 @@ class CurrencyGroupController extends Controller
     }
     public function store(Request $request)
     {
+//        dd($request->all());
         $vData=$request->validate([
             'currency'=>'required',
             'group_name'=>'required',

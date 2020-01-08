@@ -18,7 +18,7 @@ class GroupNoteTransfer extends Migration
             $table->unsignedBigInteger('group_note_id')->nullable();
             $table->integer('sheet');
             $table->foreign('transfer_id')->references('id')->on('transfers')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('group_note_id')->references('id')->on('group_note');
+            $table->foreign('group_note_id')->references('id')->on('group_note')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
