@@ -202,10 +202,10 @@ Route::group(['namespace'=>'Web'],function(){
 //    return view('Member.pos_member');
 //});
 //
-//Route::get('/stock',function()
-//{
-//    return view('Stock.stock_inventory');
-//});
+Route::get('/branch',function()
+{
+    return view('Branch.index');
+});
 //
 //Route::get('/non_member2',function()
 //{

@@ -7,7 +7,7 @@
             @foreach($stock_notes as $group_name=>$stock_note)
                 <tr>
                     <td>
-                        <h3>
+                        <h3 class="pb-2">
 {{--                            Group-{{$group_name}}--}}
                             @php
                                 $gp_name=\App\Model\Group::whereId($group_name)->first();
@@ -21,7 +21,7 @@
                     <td class="text-nb-mount border-top-0 pl-4 pt-4 fontsize-mount2">{{ $note->name}}</td>
                     <input type="hidden" name="note_id[]" value="{{$note->id}}">
                     <td class="text-right border-top-0 pt-4">
-                        <p class="text-color-mount fontsize-mount2">{{$note->total_sheet}}</p>
+                        <p class="text-color-mount fontsize-mount2" style="padding-bottom: 1px">{{$note->total_sheet}}</p>
                     </td>
                 </tr>
                     @endforeach
@@ -37,8 +37,8 @@
         </div>
     </div>
     <div class="col">
-        <table class="table border-0 bg-white box-shadow-mount rounded-table-mount mt-0 pb-5">
-            <tbody class="rounded-table-mount ">
+        <table class="table border-0 bg-white box-shadow-mount d-flex rounded-table-mount mt-0 pb-1">
+            <tbody class="rounded-table-mount pb-5">
 
             @foreach($stock_notes as $group_name=>$stock_note)
                 <tr>
@@ -61,7 +61,7 @@
                         @endphp
                         @if($currency_id == $us_currency_id->id)
                         @foreach($classifications as $classification)
-                            <input type="text" name=classification-{{$note->name}}[] class="note_class border rounded-table-mount w-25 text-center fontsize-mount3 pt-1 "   id="input1" placeholder="" onchange=" check($(this).val())">
+                            <input type="text" name=classification-{{$note->name}}[] class="note_class border rounded-table-mount w-21 text-center fontsize-mount3 pt-1 "   id="input1" placeholder="" onchange=" check($(this).val())">
                         @endforeach
                         @else
                         <input type="text" name=group_value[] class="note_class border rounded-table-mount w-25 text-center fontsize-mount3 pt-1 "  placeholder="" >
@@ -83,7 +83,7 @@
 {{--                            @endphp--}}
                             @if($currency_id == $us_currency_id->id)
                             @foreach($classifications as $classification)
-                                <input type="text" name=classification-{{$note->name}}[] class="note_class border rounded-table-mount w-25 text-center fontsize-mount3 pt-1 "   id="input1" placeholder="" onchange=" check($(this).val())">
+                                <input type="text" name=classification-{{$note->name}}[] class="note_class border rounded-table-mount w-21 text-center fontsize-mount3 pt-1 "   id="input1" placeholder="" onchange=" check($(this).val())">
                             @endforeach
                             @else
                                 <input type="text" name=notes[] class="note_class border rounded-table-mount w-25 text-center fontsize-mount3 pt-1 "   id="input1" placeholder="" onchange=" check($(this).val())">
@@ -98,16 +98,20 @@
                         </td>
                     </tr>
 
+
                     {{--                @if($note->group_id==)--}}
                     @endforeach
 
             @endforeach
+
             </tbody>
+
         </table>
-        <div class="div-p-mount2">
+        <div class="div-p-mount2 text-center">
 
             <p>Total :</p>
         </div>
+
 
     </div>
 

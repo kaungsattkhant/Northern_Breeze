@@ -10,10 +10,10 @@
                 </button>
             </div>
             <div class="modal-body mx-5 px-3">
-                <div class="pt-5">
+                <div class="pt-3">
 
 
-                    <table class="table bg-white box-shadow-mount rounded-table-mount "  id="myTable">
+                    <table class="table bg-white  rounded-table-mount "  id="myTable">
                         <thead>
                         <tr id="daily_row">
 

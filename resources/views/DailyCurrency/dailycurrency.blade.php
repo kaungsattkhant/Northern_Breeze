@@ -14,7 +14,7 @@
         </div>
         @foreach($groups as $group)
         <div class="col">
-            <p class="text-color-mount fontsize-mount2 pt-1 text-center">
+            <p class="text-color-mount fontsize-mount2 pt-1 text-center for-quote">
 
                 @foreach($group->notes as $note)
                     {{$note->name}},
