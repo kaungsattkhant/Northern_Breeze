@@ -38,9 +38,9 @@
 
 {{--=======--}}
 {{--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>--}}
+<script src="{{asset('js/bt.js')}}"></script>
 
 <script src="{{asset('js/jquery-ui.min.js')}}"></script>
-<script src="{{asset('js/bt.js')}}"></script>
 
 <script src="{{asset('js/jquery_validation.js')}}"></script>
 <script src="{{asset('js/multiselect.js')}}"></script>
