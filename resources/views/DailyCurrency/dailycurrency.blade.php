@@ -3,7 +3,6 @@
             <label class="pl-3 text-color-mount fontsize-mount pr-4 my-auto">Group Name</label>
         </div>
         @foreach($groups as $group)
-
         <div class="col col-item ">
             <p class="text-color-mount fontsize-mount17 pt-1">{{$group->name}}</p>
             <input type="hidden" name="group_id[]" value="{{$group->id}}">

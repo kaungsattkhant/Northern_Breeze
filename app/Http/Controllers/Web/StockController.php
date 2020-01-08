@@ -132,8 +132,9 @@ class StockController extends Controller
     }
     public function currency_filter($id)
     {
-        $groups=Group::with('notes')->where('currency_id',$id)->get();
-        $currency=Currency::find($id);
+        $currency_id=$id;
+        $groups=Group::with('notes')->where('currency_id',$currency_id)->get();
+        $currency=Currency::find($currency_id);
         $stock_notes=array();
         $total=0;
         $branch_id=Auth::user()->branch_id;
@@ -194,15 +195,7 @@ class StockController extends Controller
         asort($stock_notes);
         $c=collect($stock_notes);
         $stock_notes=$c->groupBy('group_id');
-//        dd($stock_notes);
-//        foreach($stock_notes as $key=>$stock_note)
-//        {
-////            echo $stock_note;
-////            foreach($stock_note  as $note){
-////                dd($note->name);
-////            }
-//        }
-            $data=view('Stock.stock_currency_filter',compact('stock_notes','total'));
+            $data=view('Stock.stock_currency_filter',compact('stock_notes','total','currency_id'));
         return $data;
     }
     public function stock_transfer()

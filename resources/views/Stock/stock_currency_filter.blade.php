@@ -42,6 +42,7 @@
 
             @foreach($stock_notes as $group_name=>$stock_note)
                 <tr>
+
                     <td>
                         <h3>
 {{--                            Group-{{$group_name}}--}}
@@ -55,11 +56,16 @@
                         @php
                             $classifications=\App\Model\Classification::all();
                         @endphp
+                        @php
+                            $us_currency_id=\App\Model\Currency::where('name','United States dollar')->first();
+                        @endphp
+                        @if($currency_id == $us_currency_id->id)
                         @foreach($classifications as $classification)
                             <input type="text" name=classification-{{$note->name}}[] class="note_class border rounded-table-mount w-25 text-center fontsize-mount3 pt-1 "   id="input1" placeholder="" onchange=" check($(this).val())">
                         @endforeach
-{{--                        <input type="text" name=group_value[] class="note_class border rounded-table-mount w-25 text-center fontsize-mount3 pt-1 "  placeholder="" >--}}
-
+                        @else
+                        <input type="text" name=group_value[] class="note_class border rounded-table-mount w-25 text-center fontsize-mount3 pt-1 "  placeholder="" >
+                            @endif
                     </td>
                 </tr>
                 @foreach($stock_note as $note)
@@ -72,9 +78,17 @@
                             @php
                               $classifications=\App\Model\Classification::all();
                             @endphp
+{{--                            @php--}}
+{{--                                $us_currency_id=\App\Model\Currency::where('name','United States dollar')->first();--}}
+{{--                            @endphp--}}
+                            @if($currency_id == $us_currency_id->id)
                             @foreach($classifications as $classification)
                                 <input type="text" name=classification-{{$note->name}}[] class="note_class border rounded-table-mount w-25 text-center fontsize-mount3 pt-1 "   id="input1" placeholder="" onchange=" check($(this).val())">
                             @endforeach
+                            @else
+                                <input type="text" name=notes[] class="note_class border rounded-table-mount w-25 text-center fontsize-mount3 pt-1 "   id="input1" placeholder="" onchange=" check($(this).val())">
+
+                            @endif
                             <span class="note_error[]" id=""></span>
                             <input type="hidden" name="group[]" value="{{$note->group_id}}">
                             <br>
