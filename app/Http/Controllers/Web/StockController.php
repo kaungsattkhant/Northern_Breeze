@@ -195,6 +195,7 @@ class StockController extends Controller
         asort($stock_notes);
         $c=collect($stock_notes);
         $stock_notes=$c->groupBy('group_id');
+//        dd($stock_notes);
             $data=view('Stock.stock_currency_filter',compact('stock_notes','total','currency_id'));
         return $data;
     }
@@ -221,7 +222,7 @@ class StockController extends Controller
 
     public function store(StockInventoryCreateValidation $request)
     {
-        dd($request->all());
+//        dd($request->all());
         if($request->branch == null && Auth::user()->branch_id != null)
         {
 //            dd('add');

@@ -61,7 +61,7 @@
                         @endphp
                         @if($currency_id == $us_currency_id->id)
                         @foreach($classifications as $classification)
-                            <input type="text" name=classification-{{$note->name}}[] class="note_class border rounded-table-mount w-21 text-center fontsize-mount3 pt-1 "   id="input1" placeholder="" onchange=" check($(this).val())">
+                            <input type="text" name=group_classification_value-{{$group_name}}[] class="note_class border rounded-table-mount w-21 text-center fontsize-mount3 pt-1 "   id="input1" placeholder="{{$classification->name}}" onchange=" check($(this).val())">
                         @endforeach
                         @else
                         <input type="text" name=group_value[] class="note_class border rounded-table-mount w-25 text-center fontsize-mount3 pt-1 "  placeholder="" >
@@ -83,7 +83,7 @@
 {{--                            @endphp--}}
                             @if($currency_id == $us_currency_id->id)
                             @foreach($classifications as $classification)
-                                <input type="text" name=classification-{{$note->name}}[] class="note_class border rounded-table-mount w-21 text-center fontsize-mount3 pt-1 "   id="input1" placeholder="" onchange=" check($(this).val())">
+                                <input type="text" name=note_classification_value-{{$note->name}}[] class="note_class border rounded-table-mount w-21 text-center fontsize-mount3 pt-1 "   id="input1" placeholder="{{$classification->name}}" onchange=" check($(this).val())">
                             @endforeach
                             @else
                                 <input type="text" name=notes[] class="note_class border rounded-table-mount w-25 text-center fontsize-mount3 pt-1 "   id="input1" placeholder="" onchange=" check($(this).val())">
