@@ -278,7 +278,6 @@ class DailyCurrencyController extends Controller
             $values = $buy_values->merge($sell_values);
 //            dd($values);
             $grouped_values = $values->groupBy('date_time');
-            dd($grouped_values);
             foreach ($grouped_values as $key=>$grouped_value){
                 $v = new \stdClass();
                 $v->date = $grouped_value[0]->date_time;
