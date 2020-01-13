@@ -319,8 +319,8 @@ class StockController extends Controller
                                 if($ncv!=null){
                                     $transfer->transfer_group_note_class()->attach($transfer->id,['group_note_id'=>$group_note->id,'class_id'=>$key,'sheet'=>$ncv]);
 
-//   *******************************************Manager Level add sheet with classification to his branch**************************************
-                                    if( $request->branch==null && Auth::user()->branch_id != null ) {
+//   *******************************************Admin and Manager Level add sheet with classification to his branch**************************************
+                                    if(  $branch!=null ) {
 //                                        dd($key);
                                         $branch_note=DB::table('branch_group_note_class')->where('group_note_id',$group_note->id)
                                             ->where('branch_id',$branch_id)

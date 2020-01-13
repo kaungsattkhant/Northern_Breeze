@@ -39,7 +39,7 @@ class POSController extends Controller
     public function non_member_from_exchange_filter($currency_id)
 
     {
-        $classification=Classification::all();
+        $classification=Classification::all('id','name');
         $us_currency_id=Currency::where('name','United States dollar')->first();
         $groups=Group::with('notes')->where('currency_id',$currency_id)->get();
         $branch_id = Auth::user()->branch_id ? Auth::user()->branch_id : 1;
@@ -117,7 +117,7 @@ class POSController extends Controller
         foreach($new as $k=>$n){
             $new[$k]->notes=$notes[$k];
         }
-        dd($new);
+//        dd($new);
         return response()->json([
                 'class'=>$classification,
                 'group'=>
