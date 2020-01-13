@@ -15,8 +15,7 @@
                         <option value="{{$cu->id}}">{{$cu->name}}</option>
                     @endforeach
                 </select>
-
-                <select class="selectpicker pl-4 show-menu-arrow" name="to_currency" data-style="btn-white" data-width="auto" id="to_exchange_currency">
+                <select class="selectpicker ml-4 show-menu-arrow" name="to_currency" data-style="btn-white" data-width="auto" id="to_exchange_currency">
                     <option selected disabled>ပြန်လည်ထုတ် ပေးမည့်ငွေ</option>
                     @php
                         $currency=\App\Model\Currency::all();
@@ -25,7 +24,21 @@
                         <option value="{{$cu->id}}">{{$cu->name}}</option>
                     @endforeach
                 </select>
-
+                @php
+                   $auth_user=\Illuminate\Support\Facades\Auth::user();
+                   $admin_user=\App\Model\Staff::whereId($auth_user->id)->first();
+                @endphp
+                @if($admin_user->name==="Admin")
+                    <select class="selectpicker ml-4 show-menu-arrow"  data-style="btn-white" data-width="auto" >
+                        <option selected disabled>Choose Branch        </option>
+                        @php
+                            $branches=\App\Model\Branch::all();
+                        @endphp
+                        @foreach($branches as $branch)
+                            <option value="{{$branch->id}}" >{{$branch->name}}</option>
+                        @endforeach
+                    </select>
+                    @endif
             </div>
             <button type="submit" class="btn btn-nb-mount-save fontsize-mount" id="non_member_create" >သိမ်းမည်</button>
         </div>
@@ -61,10 +74,7 @@
                     </tbody>
 
                 </table>
-{{--                <div class="div-p-mount2">--}}
-{{--                    <p>Total :</p>--}}
-{{--                    <p class="fontsize-mount3">ပြန်အမ်းငွေ :</p>--}}
-{{--                </div>--}}
+
             </div>
             <div class="col">
                 <p class="border-top-radius-mount text-nb-mount mt-3 pl-3 fontsize-mount4 bg-white mb-0 pt-1 pb-2" style="width: 27%">ပြန်လည်ပေးအပ်ငွေ</p>
@@ -79,56 +89,7 @@
 
                         </td>
                     </tr>
-{{--                    <tr style="height: 70px">--}}
-{{--                        <td class="border-top-0 text-nb-mount pl-4 fontsize-mount2 ">5000 kyats</td>--}}
-{{--                        <td class="text-right border-top-0 pt-4  padding-top-mount fs-select4">--}}
-{{--                            <input type="text" class="border rounded-table-mount w-25 text-center fontsize-mount3 pt-1" id="input1" placeholder="ရွက်" style="">--}}
 
-{{--                        </td>--}}
-{{--                    </tr>--}}
-{{--                    <tr style="height: 70px">--}}
-
-{{--                        <td class="border-top-0 text-nb-mount pl-4 fontsize-mount2">1000 kyats</td>--}}
-{{--                        <td class="text-right border-top-0 pt-4 fs-select4 padding-top-mount">--}}
-{{--                            <input type="text" class="border rounded-table-mount w-25 text-center fontsize-mount3 pt-1" id="input1" placeholder="ရွက်">--}}
-
-{{--                        </td>--}}
-{{--                    </tr>--}}
-{{--                    <tr style="height: 70px">--}}
-{{--                        <td class="border-top-0 text-nb-mount pl-4 fontsize-mount2">500 kyats</td>--}}
-{{--                        <td class="text-right border-top-0 pt-4 fs-select4 padding-top-mount">--}}
-{{--                            <input type="text" class="border rounded-table-mount w-25 text-center fontsize-mount3 pt-1" id="input1" placeholder="ရွက်">--}}
-
-{{--                        </td>--}}
-{{--                    </tr>--}}
-{{--                    <tr style="height: 70px">--}}
-{{--                        <td class="border-top-0 text-nb-mount pl-4 fontsize-mount2">200 kyats</td>--}}
-{{--                        <td class="text-right border-top-0 pt-4 fs-select4 padding-top-mount">--}}
-{{--                            <input type="text" class="border rounded-table-mount w-25 text-center fontsize-mount3 pt-1" id="input1" placeholder="ရွက်">--}}
-
-{{--                        </td>--}}
-{{--                    </tr>--}}
-{{--                    <tr style="height: 70px">--}}
-{{--                        <td class="border-top-0 text-nb-mount pl-4 fontsize-mount2">100 kyats</td>--}}
-{{--                        <td class="text-right border-top-0 pt-4 fs-select4 padding-top-mount">--}}
-{{--                            <input type="text" class="border rounded-table-mount w-25 text-center fontsize-mount3 pt-1" id="input1" placeholder="ရွက်">--}}
-
-{{--                        </td>--}}
-{{--                    </tr>--}}
-{{--                    <tr style="height: 70px">--}}
-{{--                        <td class="border-top-0 text-nb-mount pl-4 fontsize-mount2">50 kyats</td>--}}
-{{--                        <td class="text-right border-top-0 pt-4 fs-select4 padding-top-mount">--}}
-{{--                            <input type="text" class="border rounded-table-mount w-25 text-center fontsize-mount3 pt-1" id="input1" placeholder="ရွက်">--}}
-
-{{--                        </td>--}}
-{{--                    </tr>--}}
-{{--                    <tr style="height: 70px">--}}
-{{--                        <td class="border-top-0 text-nb-mount pl-4 fontsize-mount2">10 kyats</td>--}}
-{{--                        <td class="text-right border-top-0 pt-4 fs-select4 padding-top-mount">--}}
-{{--                            <input type="text" class="border rounded-table-mount w-25 text-center fontsize-mount3 pt-1" id="input1" placeholder="ရွက်">--}}
-
-{{--                        </td>--}}
-{{--                    </tr>--}}
 
                     <tr >
                         <td class="border-top-0 text-nb-mount" style="padding: 30px;"></td>
@@ -149,14 +110,6 @@
     </div>
 
     @include('Member.save'   )
-{{--    <script>--}}
-{{--        $(function(){--}}
-{{--            $("#pos .img-pos").addClass("active-pos");--}}
-
-{{--            $("#pos").addClass("active2");--}}
-{{--            $("#pos .img-pos").removeClass("img-pos");--}}
-{{--        });--}}
-{{--    </script>--}}
     @endsection
 @section('script')
     <script>
