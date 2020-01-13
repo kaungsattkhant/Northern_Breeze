@@ -26,13 +26,23 @@ class POSController extends Controller
 {
     use CurrencyFilter;
     use ToExchangeFilter;
+
+    public function currency_group(Request $request)
+    {
+        $results = json_decode( file_get_contents(public_path().'/currency_group.json'));
+        return response()->json([
+            'results' => $results
+        ]);
+    }
+
     public function pos_member()
     {
         return view('Member.pos_member');
     }
     public function pos_non_member()
     {
-        return view('Member.non_member');
+        $currencies  = Currency::all();
+        return view('Member.non_member',compact('currencies'));
     }
     public function non_member_from_exchange_filter($currency_id)
     {

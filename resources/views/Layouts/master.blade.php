@@ -3,17 +3,24 @@
 <head>
     <title>Northern Breeze</title>
     <meta charset="utf-8">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}"/>
     <link href='http://fonts.googleapis.com/css?family=Merienda+One' rel='stylesheet' type='text/css'>
-{{--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.css">--}}
-    <link rel="stylesheet" type="text/css" href="{{asset('css/bootstrap.css')}}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="{{asset('css/ui.css')}}">
+{{--    <link rel="stylesheet" type="text/css" href="{{asset('css/bootstrap.css')}}">--}}
+
     <link rel="stylesheet" type="text/css" href="{{asset('css/multiselect.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('css/multiselect-filter.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('fontawesome/css/all.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('css/main.css')}}">
     <script src="{{asset('js/jquery.js')}}"></script>
     <link rel="stylesheet" type="text/css" href="{{asset('css/selectboot.css')}}">
+{{--    <link href="{{asset('css/app.css')}}" rel="stylesheet" type="text/css">--}}
+{{--    <script src="{{asset('js/app.js')}}"></script>--}}
+
+
+    {{--    <link rel="stylesheet" href="{{ mix('css/app.css') }}" />--}}
+{{--    <script defer src="{{ mix('js/app.js') }}"></script>--}}
     {{--    <link rel="stylesheet" type="text/css" href="{{asset('bootstrap-seleselectboot.css <script src="{{asset('js/jquery.js')}}"></script>
 
     {{--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">--}}
@@ -24,7 +31,7 @@
 </head>
 <body>
 <div>
-    <div class="overall-container-mount3">
+    <div id="app" class="overall-container-mount3">
         @include('Layouts.sidebar')
         @yield('content')
     </div>
@@ -42,6 +49,8 @@
 <script src="{{asset('js/multi.js')}}"></script>
 <script src="{{asset('js/dailycurrency.js')}}"></script>
 <script src="{{asset('js/pos.js')}}"></script>
+<script src="{{ asset('js/app.js') . '?' .rand(0,99999) }}" defer></script>
+
 @yield('script')
 <script>
     $(function() {
