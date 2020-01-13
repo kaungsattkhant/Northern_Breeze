@@ -68,7 +68,7 @@ Route::group(['middleware'=>['adminCheck']],function() {
             Route::get('admin/add','StockController@get_branch');
             Route::get('admin/transfer','StockController@get_transfer_branch');
             Route::get('check_input','StockController@check_input');
-
+            Route::get('{currency}/stock_branch_filter/{branch}/branch','StockController@currency_branch_filter');
         });
         Route::group(['prefix'=>'currency_group'],function(){
             Route::get('/','CurrencyGroupController@index');
@@ -100,6 +100,7 @@ Route::group(['middleware'=>['managerCheck']],function() {
             Route::get('{id}/detail','StockController@stock_detail');
             Route::post('transfer_datefilter','StockController@transfer_datepicker');
             Route::get('{value}/transfer_status_filter','StockController@transfer_status_filter');
+//            Route::get('{currency}/stock_branch_filter/{branch}/branch','StockController@currency_branch_filter');
         });
         Route::group(['prefix'=>'member'],function(){
             Route::get('/','MemberController@index');

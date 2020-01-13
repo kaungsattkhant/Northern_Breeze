@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web;
 use App\Http\Requests\StockInventoryCreateValidation;
+use App\Http\Traits\CurrencyFilter;
 use App\Model\Branch;
 use App\Model\BuyClassGroupValue;
 use App\Model\BuyGroupValue;
@@ -23,6 +24,7 @@ use Illuminate\Support\Facades\Validator;
 
 class StockController extends Controller
 {
+    use CurrencyFilter;
     public function index()
     {
 //        dd('a');
@@ -134,6 +136,11 @@ class StockController extends Controller
     public function transfer()
     {
     }
+    public function currency_branch_filter($currency_id,$branch_id){
+//        dd($branch_id);
+        return $this->currency_filter($currency_id,$branch_id);
+
+    }
     public function currency_filter($id)
     {
         $currency_id=$id;
@@ -142,6 +149,7 @@ class StockController extends Controller
         $stock_notes=array();
         $total=0;
         $branch_id=Auth::user()->branch_id;
+//        $total_sheet_per_class=0;
         foreach($groups as $group)
         {
             $note_id=DB::table('group_note')->where('group_id',$group->id)->orderBy('note_id','desc')->pluck('note_id');
@@ -178,20 +186,30 @@ class StockController extends Controller
                             $buying_value = BuyClassGroupValue::where('classification_group_id', $classification_group->id)
                                 ->orderBy('date_time', 'DESC')
                                 ->first();
+                            $total_sheet_per_class=0;
+                            foreach(Classification::all() as $c){
+                                $class_sheet=DB::table('branch_group_note_class')->where('group_note_id',$group_note_id[0])
+                                    ->where('branch_id',$branch_id)
+                                    ->where('class_id',$c->id)
+                                    ->first();
+                                $total_sheet_per_class+=$class_sheet->sheet;
+                            }
+                            $n->total_sheet=$total_sheet_per_class;
                         }else{
                             $buying_value=BuyGroupValue::where('group_id',$group->id)
                                 ->orderBy('date_time','DESC')
                                 ->first();
+                            $total_sheet=DB::table('branch_group_note')->where('group_note_id',$group_note_id[0])
+                                ->where('branch_id',$branch_id)
+                                ->sum('sheet');
+                            $n->total_sheet=$total_sheet;
                         }
 
 //                    dd($buying_value);
 //                        if($buying_value!=null )
 //                        {
-                            $total_sheet=DB::table('branch_group_note')->where('group_note_id',$group_note_id[0])
-                                ->where('branch_id',$branch_id)
-                                ->sum('sheet');
+
                             $n->group_id=$group->id;
-                            $n->total_sheet=$total_sheet;
                             $n->daily_value=$buying_value->value;
 //                            $total+=intval($total_sheet)*$buying_value->value;
                             array_push($stock_notes,$n);

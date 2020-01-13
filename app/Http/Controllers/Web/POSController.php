@@ -117,7 +117,8 @@ class POSController extends Controller
         foreach($new as $k=>$n){
             $new[$k]->notes=$notes[$k];
         }
-//        dd($new);
+        dd($new);
+//        dd(asort($new));
         return response()->json([
                 'class'=>$classification,
                 'group'=>
