@@ -192,7 +192,11 @@ class StockController extends Controller
                                     ->where('branch_id',$branch_id)
                                     ->where('class_id',$c->id)
                                     ->first();
-                                $total_sheet_per_class+=$class_sheet->sheet;
+                                if($class_sheet!=null){
+                                    $total_sheet_per_class+=$class_sheet->sheet;
+                                }else{
+                                    $total_sheet_per_class=0;
+                                }
                             }
                             $n->total_sheet=$total_sheet_per_class;
                         }else{
@@ -293,25 +297,17 @@ class StockController extends Controller
             return redirect('stock')->with('error','Please add currency group !');
         }
         $groups=array_unique($request->group);
-        $note_id=$request->note_id;
-        $note_name=array_unique($request->note_name);
-//        $note_array=array_combine($note_id,$notes);
+
              $branch=Branch::find($branch_id);
              $us_currency=Currency::where('name','United States dollar')->first();
              $classification=Classification::all();
 //             dd($branch);
         foreach($groups as $group)
         {
-//            foreach($request->group_value as $gp_value)
-//            {
-//                if($gp_value!=null)
-//                {
-//                    $transfer->transfer_group()->attach($group,['value'=>$gp_value]);
-//
-//                }
-//            }
+
             if($us_currency->id == (int) $request->currency)
             {
+                $note_name=array_unique($request->note_name);
                 $notes_id=array_unique($request->note_id);
                 $classification_id=array_unique($request->classification_id);
                 $class_group_value=array_combine($classification_id,$request->input('group_classification_value'.'_'.$group));
@@ -363,123 +359,135 @@ class StockController extends Controller
                     }
                 }
 
-            }
-//            dd($all_class_group_value);
+            }else{
+                $note_id=$request->note_id;
+                $note_array=array_combine($note_id,$request->notes);
+                foreach($note_array as $id=>$value)
+                {
 
-//            foreach($note_array as $id=>$value)
-//            {
-//                if($value==null)
-//                {
-//                    $value=0;
-//                }
-//                $group_note=GroupNote::where('note_id',$id)
-//                    ->where('group_id',$group)
-//                    ->pluck('id');
-//                if(isset($group_note[0]) && $group_note!=null)
-//                {
-//                    $transfer->group_note()->attach($group_note[0],['sheet'=>$value]);
-//                    $branch_note=DB::table('branch_group_note')->where('group_note_id',$group_note[0])
-//                        ->where('branch_id',$branch_id)
-//                        ->pluck('sheet');
-////                    dd($request->from_branch);
-////                    dd($group_note[0]);
-//                    $from_branch_note=DB::table('branch_group_note')->where('group_note_id',$group_note[0])
-//                        ->where('branch_id',$request->from_branch)
-//                        ->pluck('sheet');
-////            *******************Manager add sheet to his branch******************************************
-//
-//
-//                    if( $request->branch==null && Auth::user()->branch_id != null ) {
-////                        dd('add');
-//                        if ($branch_note->isEmpty()) {
-//                            $branch_note[0] = 0;
-//                            $result = $branch_note[0] + intval($value);
-//                        } else {
-//                            $result = $branch_note[0] + intval($value);
-//                        }
-//                        if ($branch != null) {
-//                            $branch->branch_group_note()->wherePivot('group_note_id', $group_note[0])->detach();
-//                        }
-//                        $branch->branch_group_note()->attach($group_note[0], ['sheet' => $result]);
-//
-//
-//                    }
-//
-//
-////          *****************************End Manager add sheet to his branch**********************************
-//
-//
-////          **************************Manager transfers sheet from branch to branch***************************
-//                    elseif( isset($branch_note[0]) && $request->branch != null && Auth::user()->branch_id != null) {
-////                        dd('transfer');
-////                        dd($branch_note[0]);
-////                        dd($value);
-//                        if ($branch_note[0] < intval($value)) {
-//                            return redirect('stock')->with('error', 'Not Enough!Your remaining balance is low.');
-//                        } else {
-//                            $result = $branch_note[0] - intval($value);
-//                            $branch->branch_group_note()->wherePivot('group_note_id', $group_note[0])->detach();
-//                            $branch->branch_group_note()->attach($group_note[0], ['sheet' => $result]);
-//                        }
-//                        if ($request->branch) {
-//                            $to_branch = $this->to_branch_store($request->branch, $group_note[0], $value);
-//
-//                        }
-//                    }
-////           **************************End Manager transfers sheet from branch to branch***************************
-//
-////           **************************Admin add sheet to branch *************************************************
-//                    elseif($request->branch !=null && Auth::user()->branch_id == null && $request->from_branch == null){
-//                        if($branch_note->isEmpty())
-//                        {
-//                            $branch_note[0]=0;
-//                            $result=$branch_note[0]+intval($value);
-//                        }
-//                        else {
-//                            $result=$branch_note[0]+intval($value);
-//                        }
-//                        if($branch!=null)
-//                        {
-//
-//                            $branch->branch_group_note()->wherePivot('group_note_id',$group_note[0])->detach();
-//                        }
-//                        $branch->branch_group_note()->attach($group_note[0],['sheet'=>$result]);
-//
-//                    }
-//
-////                 **************************End Admin add sheet to branch *************************************************
-//
-//
-////                 ****************************Admin transfers sheet from branch to branch**********************************
-//                    elseif($request->from_branch != null && $request->branch != null && Auth::user()->branch_id==null){
-//                        if($from_branch_note[0]<intval($value))
-//                        {
-//                            return redirect('stock')->with('error','Not Enough!Your remaining balance is low.');
-//                        }
-//                        else
-//                        {
-//                            $result=$from_branch_note[0]-intval($value);
-//                            $from_branch->branch_group_note()->wherePivot('group_note_id',$group_note[0])
-//                                ->wherePivot('branch_id',$from_branch->id)
-//                                ->detach();
-//                            $from_branch->branch_group_note()->attach($group_note[0],['sheet'=>$result]);
-//                        }
-//                        if($request->branch)
-//                        {
-//                            $to_branch=$this->to_branch_store($request->branch,$group_note[0],$value);
-//
-//                        }
-//                    }
-//
-////              ****************************Admin transfers sheet from branch to branch**********************************
-//
-//                    else
-//                    {
-//                        dd('Something Wrong!');
-//                    }
-//                }
-//
-//            }
+                    foreach($request->group_value as $gp_value)
+                    {
+                        if($gp_value!=null)
+                        {
+                            $transfer->transfer_group()->attach($group,['value'=>$gp_value]);
+
+                        }
+                    }
+                    if($value==null)
+                    {
+                        $value=0;
+                    }
+                    $group_note=GroupNote::where('note_id',$id)
+                        ->where('group_id',$group)
+                        ->pluck('id');
+                    if(isset($group_note[0]) && $group_note!=null)
+                    {
+                        $transfer->group_note()->attach($group_note[0],['sheet'=>$value]);
+                        $branch_note=DB::table('branch_group_note')->where('group_note_id',$group_note[0])
+                            ->where('branch_id',$branch_id)
+                            ->pluck('sheet');
+//                    dd($request->from_branch);
+//                    dd($group_note[0]);
+                        $from_branch_note=DB::table('branch_group_note')->where('group_note_id',$group_note[0])
+                            ->where('branch_id',$request->from_branch)
+                            ->pluck('sheet');
+//            *******************Manager add sheet to his branch******************************************
+
+
+                        if( $request->branch==null && Auth::user()->branch_id != null ) {
+//                        dd('add');
+                            if ($branch_note->isEmpty()) {
+                                $branch_note[0] = 0;
+                                $result = $branch_note[0] + intval($value);
+                            } else {
+                                $result = $branch_note[0] + intval($value);
+                            }
+                            if ($branch != null) {
+                                $branch->branch_group_note()->wherePivot('group_note_id', $group_note[0])->detach();
+                            }
+                            $branch->branch_group_note()->attach($group_note[0], ['sheet' => $result]);
+
+
+                        }
+
+
+//          *****************************End Manager add sheet to his branch**********************************
+
+
+//          **************************Manager transfers sheet from branch to branch***************************
+                        elseif( isset($branch_note[0]) && $request->branch != null && Auth::user()->branch_id != null) {
+//                        dd('transfer');
+//                        dd($branch_note[0]);
+//                        dd($value);
+                            if ($branch_note[0] < intval($value)) {
+                                return redirect('stock')->with('error', 'Not Enough!Your remaining balance is low.');
+                            } else {
+                                $result = $branch_note[0] - intval($value);
+                                $branch->branch_group_note()->wherePivot('group_note_id', $group_note[0])->detach();
+                                $branch->branch_group_note()->attach($group_note[0], ['sheet' => $result]);
+                            }
+                            if ($request->branch) {
+                                $to_branch = $this->to_branch_store($request->branch, $group_note[0], $value);
+
+                            }
+                        }
+//           **************************End Manager transfers sheet from branch to branch***************************
+
+//           **************************Admin add sheet to branch *************************************************
+                        elseif($request->branch !=null && Auth::user()->branch_id == null && $request->from_branch == null){
+                            if($branch_note->isEmpty())
+                            {
+                                $branch_note[0]=0;
+                                $result=$branch_note[0]+intval($value);
+                            }
+                            else {
+                                $result=$branch_note[0]+intval($value);
+                            }
+                            if($branch!=null)
+                            {
+
+                                $branch->branch_group_note()->wherePivot('group_note_id',$group_note[0])->detach();
+                            }
+                            $branch->branch_group_note()->attach($group_note[0],['sheet'=>$result]);
+
+                        }
+
+//                 **************************End Admin add sheet to branch *************************************************
+
+
+//                 ****************************Admin transfers sheet from branch to branch**********************************
+                        elseif($request->from_branch != null && $request->branch != null && Auth::user()->branch_id==null){
+                            if($from_branch_note[0]<intval($value))
+                            {
+                                return redirect('stock')->with('error','Not Enough!Your remaining balance is low.');
+                            }
+                            else
+                            {
+                                $result=$from_branch_note[0]-intval($value);
+                                $from_branch->branch_group_note()->wherePivot('group_note_id',$group_note[0])
+                                    ->wherePivot('branch_id',$from_branch->id)
+                                    ->detach();
+                                $from_branch->branch_group_note()->attach($group_note[0],['sheet'=>$result]);
+                            }
+                            if($request->branch)
+                            {
+                                $to_branch=$this->to_branch_store($request->branch,$group_note[0],$value);
+
+                            }
+                        }
+
+//              ****************************Admin transfers sheet from branch to branch**********************************
+
+                        else
+                        {
+                            dd('Something Wrong!');
+                        }
+                    }
+
+                }
+            }
+
+
         }
         return  redirect('stock');
     }

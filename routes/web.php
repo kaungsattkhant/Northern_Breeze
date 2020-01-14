@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware'=>['adminCheck']],function() {
     Route::group(['namespace'=>'Web'],function(){
+//        Route::post('currency_group','POSController@currency_group');
         Route::group(['prefix'=>'admin'],function(){
             Route::get('/','AdminController@index');
             Route::post('/store','AdminController@store');
@@ -26,6 +27,7 @@ Route::group(['middleware'=>['adminCheck']],function() {
             Route::get('total_currency_value','POSController@total_currency_value');
             Route::get('non_member/{group_id}/get_group_value','POSController@getGroupValue');
             Route::post('non_member_store','POSController@non_member_store');
+            Route::post('currency_group','POSController@currency_group');
         });
         Route::group(['prefix'=>'staff'],function (){
             Route::get('/','StaffController@index');
@@ -160,6 +162,8 @@ Route::group(['middleware'=>['frontmanCheck']],function() {
             Route::get('total_currency_value','POSController@total_currency_value');
             Route::get('non_member/{group_id}/get_group_value','POSController@getGroupValue');
             Route::post('non_member_store','POSController@non_member_store');
+            Route::post('currency_group','POSController@currency_group');
+
         });
         Route::group(['prefix'=>'member'],function(){
 //            Route::get('/','MemberController@index');

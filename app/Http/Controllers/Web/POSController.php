@@ -28,17 +28,29 @@ class POSController extends Controller
 {
     use CurrencyFilter;
     use ToExchangeFilter;
+
+//    public function currency_group(Request $request)
+//    {
+//        $results = json_decode( file_get_contents(public_path().'/currency_group.json'));
+//        return response()->json([
+//            'results' => $results
+//        ]);
+//    }
+
     public function pos_member()
     {
         return view('Member.pos_member');
     }
     public function pos_non_member()
     {
-        return view('Member.non_member');
+        $currencies  = Currency::all();
+        return view('Member.non_member',compact('currencies'));
     }
-    public function non_member_from_exchange_filter($currency_id)
-
+    public function currency_group(Request $request)
     {
+//        return response()->json($request->all());
+//        dd($request->all());
+        $currency_id=$request->currency_id;
         $classification=Classification::all('id','name');
         $us_currency_id=Currency::where('name','United States dollar')->first();
         $groups=Group::with('notes')->where('currency_id',$currency_id)->get();
@@ -48,7 +60,7 @@ class POSController extends Controller
             $new[$key]->group_id=$group->id;
             $new[$key]->group_name=$group->name;
 
-            $note_id=DB::table('group_note')->where('group_id',$group->id)->orderBy('note_id','desc')->pluck('note_id');
+            $note_id=DB::table('group_note')->where('group_id',$group->id)->orderBy('note_id','asc')->pluck('note_id');
             foreach ($note_id as $i=>$id)
             {
                 $note=Note::whereId($id)->first();
@@ -80,7 +92,6 @@ class POSController extends Controller
                     }
                     $notes[$key][$i]->class_sheet=$class_sheet;
                     $notes[$key][$i]->total_sheet=$class_total_sheet;
-
                 }else{
                     $total_sheet = DB::table('branch_group_note')->where('group_note_id', $group_note_id->id)
                         ->where('branch_id', $branch_id)
@@ -95,33 +106,31 @@ class POSController extends Controller
                     $buy_class_value= BuyClassGroupValue::where('classification_group_id', $classification_group_id->id)
                         ->latest()
                         ->first();
-                    $currency_value[]=new \stdClass();
+                    $currency_value[$c]=new \stdClass();
                     $currency_value[$c]->id=$buy_class_value->id;
                     $currency_value[$c]->class_id=$class->id;
                     $currency_value[$c]->value=$buy_class_value->value;
                 }
                 $new[$key]->class_currency_value=$currency_value;
                 $new[$key]->currency_value=null;
-
             }else{
                 $currency_value=new \stdClass();
-                $group_currency_value=BuyGroupValue::where('group_id',$group->id)->latest()->first();
+                    $group_currency_value=BuyGroupValue::where('group_id',$group->id)->latest()->first();
                 $currency_value->id=$group_currency_value->id;
                 $currency_value->value=$group_currency_value->value;
                 $new[$key]->currency_value=$currency_value;
                 $new[$key]->class_currency_value=null;
-
-
             }
         }
+//        dd(asort($notes[0]));
         foreach($new as $k=>$n){
             $new[$k]->notes=$notes[$k];
         }
-        dd($new);
+//        dd($new);
 //        dd(asort($new));
         return response()->json([
                 'class'=>$classification,
-                'group'=>
+                'groups'=>
                     $new,
             ]);
     }
@@ -157,7 +166,7 @@ class POSController extends Controller
     }
     public function non_member_store(Request $request )
     {
-        dd($request->all());
+//        dd($request->all());
         $b=array_unique($request->from_classification_id);
 //        $from_group_notes = array_combine($from_note_id, $request->from_group);
         $from_class_note=array_unique($request->from_class_note_id);

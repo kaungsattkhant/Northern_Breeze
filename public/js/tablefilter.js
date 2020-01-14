@@ -28,18 +28,18 @@ $(document).ready(function(){
         })
     });
     // **********************************Stock_Inventory******************************
-    // $('#stock_currency_filter').on('change',function(){
-    //     var value=$(this).val();
-    //     $.ajax({
-    //         url:+value+'/stock_currency_filter',
-    //         type:'get',
-    //         success:function(data)
-    //         {
-    //             console.log(data);
-    //             $('div #stock_table_filter').html(data);
-    //         }
-    //     })
-    // });
+    $('#stock_currency_filter').on('change',function(){
+        var value=$(this).val();
+        $.ajax({
+            url:+value+'/stock_currency_filter',
+            type:'get',
+            success:function(data)
+            {
+                console.log(data);
+                $('div #stock_table_filter').html(data);
+            }
+        })
+    });
     // $('#to_branch').on('change',function (){
     //     branch=$(this).val();
     //     currency=$('#stock_currency_filter').val();

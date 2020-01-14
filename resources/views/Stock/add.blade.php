@@ -19,16 +19,6 @@
                                 </div>
                 <button type="submit" class="btn btn-nb-mount-save fontsize-mount px-4 stock_create" >Add</button>
             </div>
-{{--            <select class="selectpicker  mt-4" name="currency" data-style="btn-white" data-width="auto" data-live-search="true" id="stock_currency_filter">--}}
-{{--                <option  disabled selected>Choose Currency Type</option>--}}
-{{--                @php--}}
-{{--                    $currencies=\App\Model\Currency::all();--}}
-{{--                @endphp--}}
-{{--                @foreach($currencies as $currency)--}}
-{{--                    <option value="{{$currency->id}}"--}}
-{{--                    >{{$currency->name}}</option>--}}
-{{--                @endforeach--}}
-{{--            </select>--}}
                         <div class="row">
                             <div class="col">
                                 <select class="selectpicker  mt-4" name="currency" data-style="btn-white" data-width="auto" data-live-search="true" id="stock_currency_filter">
@@ -41,31 +31,23 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col" id="branch">
-                                @php
-                                 $auth_branch=\Illuminate\Support\Facades\Auth::user()->branch_id;
-                                @endphp
-                                @if($auth_branch!=null)
-                                    <input type="hidden" value="{{$auth_branch}}" name="branch">
-                                    @else
-                                <select class="selectpicker mt-4" name="branch" data-style="btn-white" data-width="auto" id="to_branch">
-                                    <option  disabled selected>Choose Branch</option>
-                                    @php
-                                        $branches=\App\Model\Branch::all();
+{{--                            <div class="col" id="branch">--}}
 
-                                    @endphp
-                                    @foreach($branches as $branch)
-                                        <option value="{{$branch->id}}" @if(\Illuminate\Support\Facades\Auth::user()->branch_id==$branch->id) disabled  @endif >{{$branch->name}}</option>
-                                    @endforeach
-                                </select>
-                                    @endif
-                            </div>
-                            <button type="submit" id="stock_filter" class="btn btn-danger">Filter</button>
+
+{{--                                <select class="selectpicker mt-4" name="branch" data-style="btn-white" data-width="auto" id="to_branch">--}}
+{{--                                    <option  disabled selected>Choose Branch</option>--}}
+{{--                                    @php--}}
+{{--                                        $branches=\App\Model\Branch::all();--}}
+
+{{--                                    @endphp--}}
+{{--                                    @foreach($branches as $branch)--}}
+{{--                                        <option value="{{$branch->id}}" @if(\Illuminate\Support\Facades\Auth::user()->branch_id==$branch->id) disabled  @endif >{{$branch->name}}</option>--}}
+{{--                                    @endforeach--}}
+{{--                                </select>--}}
+{{--                            </div>--}}
+{{--                            <button type="submit" id="stock_filter" class="btn btn-danger">Filter</button>--}}
                         </div>
             <div class="row" id="stock_table_filter">
-
-
-
 {{--                <button type="button" class="btn btn-nb-mount-save fontsize-mount px-4"  data-toggle="modal" data-target="#add">Add</button>--}}
             </div>
 {{--            <div class="mt-4 mb-0 bg-white border-top-radius-mount pr-2" style="width: fit-content;">--}}
@@ -246,7 +228,7 @@
             $(function(){
                 // $('#branch').hide();
 
-                // $(".stock_create").removeAttr("disabled", true);
+                $(".stock_create").removeAttr("disabled", true);
 
                 // $.get({
                 //     url:'admin/add',
