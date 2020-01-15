@@ -188,7 +188,6 @@ class POSController extends Controller
                     }elseif($group->type=="sell"){
                         $transaction->out_MMK_group_note()->attach($note->group_note_id,['sheet'=>$note->total_sheet]);
                     }
-
                 }elseif($t->status=="other_other"){
                     if($group->type=="buy"){
                         $in_transaction=new InTransactionGroupNote();
