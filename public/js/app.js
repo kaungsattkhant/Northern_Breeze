@@ -2120,9 +2120,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 //
 //
 //
-//
-//
-//
 
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
@@ -2138,9 +2135,8 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       classes: 4,
       //maximum possible number of classes in a note
       total_mmk: 0,
-      changes: 0,
-      exceed_msg: '',
-      not_enough_msg: ''
+      not_enough_msg: '' // changes: 0
+
     };
   },
   methods: {
@@ -2154,18 +2150,11 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       return sum;
     },
     calculateTotalAndChanges: function calculateTotalAndChanges(note, class_value, i, j, k) {
-      this.exceed_msg = '';
-
       if (this.sheets[i][j][k] >= 0 && this.sheets[i][j][k] <= note.class_sheet[k].sheet) {
         this.not_enough_msg = '';
         this.current_value[i][j][k] = class_value * note.note_name * this.sheets[i][j][k];
         this.total_mmk = this.arrSum(this.current_value);
-
-        if (this.sellTotal >= this.total_mmk) {
-          this.changes = this.sellTotal - this.total_mmk;
-        } else {
-          this.exceed_msg = 'Error';
-        }
+        this.$store.commit('setSellTotal', this.total_mmk);
       } else {
         this.not_enough_msg = 'Invalid Value!';
       }
@@ -2205,11 +2194,6 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       }
 
       this.sheets.push(row);
-    }
-  },
-  computed: {
-    sellTotal: function sellTotal() {
-      return this.$store.state.sell_total_mmk;
     }
   }
 });
@@ -2528,131 +2512,6 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
     },
     getResults: function getResults() {
       return this.$store.state.results;
-    }
-  }
-});
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/SellUSCurrencyGroup.vue?vue&type=script&lang=js&":
-/*!******************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/SellUSCurrencyGroup.vue?vue&type=script&lang=js& ***!
-  \******************************************************************************************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_1__);
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__["default"]);
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['data'],
-  data: function data() {
-    return {
-      sheets: [],
-      current_value: [],
-      groups: this.data.groups.length,
-      notes: 4,
-      //maximum possible number of notes in a group
-      classes: 4,
-      //maximum possible number of classes in a note
-      total_mmk: 0,
-      not_enough_msg: '' // changes: 0
-
-    };
-  },
-  methods: {
-    arrSum: function arrSum(arr) {
-      var sum = 0;
-
-      for (var i = 0; i < arr.length; i++) {
-        if (_typeof(arr[i]) == 'object') sum += this.arrSum(arr[i]);else sum += arr[i];
-      }
-
-      return sum;
-    },
-    calculateTotalAndChanges: function calculateTotalAndChanges(note, class_value, i, j, k) {
-      if (this.sheets[i][j][k] >= 0 && this.sheets[i][j][k] <= note.class_sheet[k].sheet) {
-        this.not_enough_msg = '';
-        this.current_value[i][j][k] = class_value * note.note_name * this.sheets[i][j][k];
-        this.total_mmk = this.arrSum(this.current_value);
-        this.$store.commit('setSellTotal', this.total_mmk);
-      } else {
-        this.not_enough_msg = 'Invalid Value!';
-      }
-    }
-  },
-  mounted: function mounted() {
-    var deepCopy = function deepCopy(arr) {
-      var copy = [];
-      arr.forEach(function (elem) {
-        if (Array.isArray(elem)) {
-          copy.push(deepCopy(elem));
-        } else {
-          if (_typeof(elem) === 'object') {
-            copy.push(deepCopyObject(elem));
-          } else {
-            copy.push(elem);
-          }
-        }
-      });
-      return copy;
-    };
-
-    this.current_value = deepCopy(this.sheets);
-  },
-  created: function created() {
-    for (var i = 0; i < this.groups; i++) {
-      var row = [];
-
-      for (var j = 0; j < this.notes; j++) {
-        var column = [];
-
-        for (var k = 0; k < this.classes; k++) {
-          column.push(0);
-        }
-
-        row.push(column);
-      }
-
-      this.sheets.push(row);
     }
   }
 });
@@ -38232,14 +38091,6 @@ var render = function() {
             _vm._v("Total :"),
             _c("span", { staticClass: "total_value" }),
             _c("i", [_vm._v(_vm._s(_vm.total_mmk) + " MMKs")])
-          ]),
-          _vm._v(" "),
-          _c("p", { staticClass: " total-text-mount fontsize-mount3 pl-5" }, [
-            _vm._v("ပြန်အမ်းငွေ : " + _vm._s(_vm.changes) + " MMKs")
-          ]),
-          _vm._v(" "),
-          _c("span", { staticClass: "text-danger" }, [
-            _vm._v(_vm._s(_vm.exceed_msg))
           ])
         ])
       ])
@@ -38593,123 +38444,6 @@ var render = function() {
           _vm._v(" "),
           _c("span", { staticClass: "text-danger" }, [
             _vm._v(_vm._s(_vm.exceed_msg))
-          ])
-        ])
-      ])
-    ],
-    2
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-
-
-
-/***/ }),
-
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/SellUSCurrencyGroup.vue?vue&type=template&id=29f43043&":
-/*!**********************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/SellUSCurrencyGroup.vue?vue&type=template&id=29f43043& ***!
-  \**********************************************************************************************************************************************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "tbody",
-    { staticClass: "rounded-table-mount " },
-    [
-      _vm._l(_vm.data.groups, function(group, i) {
-        return _c(
-          "tr",
-          [
-            _c("h3", [_vm._v(_vm._s(group.group_name))]),
-            _vm._v(" "),
-            _vm._l(group.notes, function(note, j) {
-              return _c(
-                "td",
-                {
-                  staticClass:
-                    "text-nb-mount border-top-0 pl-4 pt-4 fontsize-mount2",
-                  staticStyle: { display: "block" }
-                },
-                [
-                  _vm._v(
-                    "\n            " + _vm._s(note.note_name) + "\n            "
-                  ),
-                  _vm._l(group.class_currency_value, function(item, k) {
-                    return _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.sheets[i][j][k],
-                          expression: "sheets[i][j][k]"
-                        }
-                      ],
-                      staticClass:
-                        "border rounded-table-mount w-25 text-center fontsize-mount3 pt-1 ",
-                      attrs: { type: "number", placeholder: "Class " },
-                      domProps: { value: _vm.sheets[i][j][k] },
-                      on: {
-                        keyup: function($event) {
-                          return _vm.calculateTotalAndChanges(
-                            note,
-                            item.value,
-                            i,
-                            j,
-                            k
-                          )
-                        },
-                        change: function($event) {
-                          return _vm.calculateTotalAndChanges(
-                            note,
-                            item.value,
-                            i,
-                            j,
-                            k
-                          )
-                        },
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(_vm.sheets[i][j], k, $event.target.value)
-                        }
-                      }
-                    })
-                  })
-                ],
-                2
-              )
-            })
-          ],
-          2
-        )
-      }),
-      _vm._v(" "),
-      _c("span", { staticClass: "text-danger" }, [
-        _vm._v(_vm._s(_vm.not_enough_msg))
-      ]),
-      _vm._v(" "),
-      _c("tr", [
-        _c("td", {
-          staticClass: "border-top-0 text-nb-mount",
-          staticStyle: { padding: "30px" }
-        }),
-        _vm._v(" "),
-        _c("td", { staticClass: "text-left border-top-0" }, [
-          _c("p", { staticClass: "total-text-mount pl-5 " }, [
-            _vm._v("Total :"),
-            _c("span", { staticClass: "total_value" }),
-            _c("i", [_vm._v(_vm._s(_vm.total_mmk) + " MMKs")])
           ])
         ])
       ])
@@ -51983,9 +51717,9 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 Vue.component('example-component', __webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue")["default"]);
 Vue.component('non-member', __webpack_require__(/*! ./components/NonMember.vue */ "./resources/js/components/NonMember.vue")["default"]);
 Vue.component('buy-currency-group', __webpack_require__(/*! ./components/BuyCurrencyGroup.vue */ "./resources/js/components/BuyCurrencyGroup.vue")["default"]);
-Vue.component('sell-us-currency-group', __webpack_require__(/*! ./components/SellUSCurrencyGroup.vue */ "./resources/js/components/SellUSCurrencyGroup.vue")["default"]);
+Vue.component('sell-us-currency-group', __webpack_require__(/*! ./components/BuyUSCurrencyGroup.vue */ "./resources/js/components/BuyUSCurrencyGroup.vue")["default"]);
 Vue.component('sell-currency-group', __webpack_require__(/*! ./components/SellCurrencyGroup.vue */ "./resources/js/components/SellCurrencyGroup.vue")["default"]);
-Vue.component('buy-us-currency-group', __webpack_require__(/*! ./components/BuyUSCurrencyGroup.vue */ "./resources/js/components/BuyUSCurrencyGroup.vue")["default"]);
+Vue.component('buy-us-currency-group', __webpack_require__(/*! ./components/SellUSCurrencyGroup.vue */ "./resources/js/components/SellUSCurrencyGroup.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -52394,67 +52128,9 @@ __webpack_require__.r(__webpack_exports__);
   !*** ./resources/js/components/SellUSCurrencyGroup.vue ***!
   \*********************************************************/
 /*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _SellUSCurrencyGroup_vue_vue_type_template_id_29f43043___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SellUSCurrencyGroup.vue?vue&type=template&id=29f43043& */ "./resources/js/components/SellUSCurrencyGroup.vue?vue&type=template&id=29f43043&");
-/* harmony import */ var _SellUSCurrencyGroup_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SellUSCurrencyGroup.vue?vue&type=script&lang=js& */ "./resources/js/components/SellUSCurrencyGroup.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-
-
-
-
-
-/* normalize component */
-
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _SellUSCurrencyGroup_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _SellUSCurrencyGroup_vue_vue_type_template_id_29f43043___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _SellUSCurrencyGroup_vue_vue_type_template_id_29f43043___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* hot reload */
-if (false) { var api; }
-component.options.__file = "resources/js/components/SellUSCurrencyGroup.vue"
-/* harmony default export */ __webpack_exports__["default"] = (component.exports);
-
-/***/ }),
-
-/***/ "./resources/js/components/SellUSCurrencyGroup.vue?vue&type=script&lang=js&":
-/*!**********************************************************************************!*\
-  !*** ./resources/js/components/SellUSCurrencyGroup.vue?vue&type=script&lang=js& ***!
-  \**********************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SellUSCurrencyGroup_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./SellUSCurrencyGroup.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/SellUSCurrencyGroup.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SellUSCurrencyGroup_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
-
-/***/ }),
-
-/***/ "./resources/js/components/SellUSCurrencyGroup.vue?vue&type=template&id=29f43043&":
-/*!****************************************************************************************!*\
-  !*** ./resources/js/components/SellUSCurrencyGroup.vue?vue&type=template&id=29f43043& ***!
-  \****************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SellUSCurrencyGroup_vue_vue_type_template_id_29f43043___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./SellUSCurrencyGroup.vue?vue&type=template&id=29f43043& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/SellUSCurrencyGroup.vue?vue&type=template&id=29f43043&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SellUSCurrencyGroup_vue_vue_type_template_id_29f43043___WEBPACK_IMPORTED_MODULE_0__["render"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SellUSCurrencyGroup_vue_vue_type_template_id_29f43043___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
-
-
+throw new Error("Module build failed (from ./node_modules/vue-loader/lib/index.js):\nError: ENOENT: no such file or directory, open '/home/tinmaungzin/PhpstormProjects/NorthernBreeze-master/resources/js/components/SellUSCurrencyGroup.vue'");
 
 /***/ }),
 

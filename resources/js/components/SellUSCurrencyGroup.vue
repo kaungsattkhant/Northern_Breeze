@@ -16,11 +16,14 @@
         </td>
     </tr>
     <span class="text-danger">{{not_enough_msg}}</span>
+
     <tr>
         <td class="border-top-0 text-nb-mount" style="padding: 30px;"></td>
         <td class="text-left border-top-0">
             <p class="total-text-mount pl-5 ">Total :<span class="total_value"></span><i>{{total_mmk}} MMKs</i></p>
-<!--            <p class=" total-text-mount fontsize-mount3 pl-5">ပြန်အမ်းငွေ : {{changes}} MMKs</p>-->
+            <p class=" total-text-mount fontsize-mount3 pl-5">ပြန်အမ်းငွေ : {{changes}} MMKs</p>
+            <span class="text-danger">{{exceed_msg}}</span>
+
         </td>
     </tr>
 
@@ -43,8 +46,10 @@
                 notes: 4, //maximum possible number of notes in a group
                 classes: 4,//maximum possible number of classes in a note
                 total_mmk: 0,
+                changes: 0,
+                exceed_msg: '',
                 not_enough_msg: ''
-                // changes: 0
+
             }
         },
         methods: {
@@ -59,11 +64,18 @@
                 return sum;
             },
             calculateTotalAndChanges(note,class_value,i,j,k){
+                this.exceed_msg = '';
                 if(this.sheets[i][j][k]>=0 && this.sheets[i][j][k]<=note.class_sheet[k].sheet){
                     this.not_enough_msg = '';
+
                     this.current_value[i][j][k] = class_value * note.note_name * this.sheets[i][j][k];
                     this.total_mmk = this.arrSum(this.current_value);
-                    this.$store.commit('setSellTotal',this.total_mmk);
+
+                    if(this.sellTotal>=this.total_mmk){
+                        this.changes= this.sellTotal-this.total_mmk;
+                    }else{
+                        this.exceed_msg = 'Error';
+                    }
                 }else{
                     this.not_enough_msg= 'Invalid Value!';
                 }
@@ -103,6 +115,11 @@
                 }
                 this.sheets.push(row);
             }
-        }
+        },
+        computed: {
+            sellTotal() {
+                return this.$store.state.sell_total_mmk;
+            },
+        },
     }
 </script>
