@@ -86,6 +86,7 @@
 {{--                        </td>--}}
 {{--                    </tr>--}}
 
+
 {{--                    </tbody>--}}
 
 {{--                </table>--}}
@@ -104,6 +105,7 @@
 {{--            $("#pos").addClass("active2");--}}
 {{--            $("#pos .img-pos").removeClass("img-pos");--}}
 {{--        });--}}
+
 
 
 {{--    </script>--}}

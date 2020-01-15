@@ -5,14 +5,14 @@
             <div class="d-flex justify-content-between top-box-mount shadow-sm">
                 <div class="my-auto ">
                     <select class="selectpicker ml-4 show-menu-arrow currency_option" name="from_currency"
-                            v-on:change="fetch_currency_groups('sell')" data-style="btn-white" data-width="auto">
+                            v-on:change="fetch_currency_groups('buy')" data-style="btn-white" data-width="auto">
                         <option selected disabled>လဲလှယ်မည့်ငွေ</option>
                         <option :value="item.id" v-for="item in items">{{item.name}}</option>
 
                     </select>
 
                     <select class="selectpicker pl-4 show-menu-arrow currency_option" name="to_currency"
-                            v-on:change="fetch_currency_groups('buy')" data-style="btn-white" data-width="auto">
+                            v-on:change="fetch_currency_groups('sell')" data-style="btn-white" data-width="auto">
                         <option selected disabled>ပြန်လည်ထုတ် ပေးမည့်ငွေ</option>
                         <option :value="item.id" v-for="item in items">{{item.name}}</option>
 
@@ -27,8 +27,8 @@
                         လဲလှယ်မည့်ငွေ</p>
                     <table class="table border-0 bg-white box-shadow-mount border-tab-radius-mount currency-group-table" id="from-currency-group-table" >
 
-                        <sell-currency-group v-if="sell_currency_groups" :data="sell_currency_groups"></sell-currency-group>
-                        <sell-us-currency-group v-if="us_sell_currency_groups" :data="us_sell_currency_groups"></sell-us-currency-group>
+                        <buy-currency-group v-if="buy_currency_groups" :data="buy_currency_groups"></buy-currency-group>
+                        <buy-us-currency-group v-if="us_buy_currency_groups" :data="us_buy_currency_groups"></buy-us-currency-group>
 
                     </table>
                 </div>
@@ -37,9 +37,10 @@
                        style="width: 27%">ပြန်လည်ပေးအပ်ငွေ</p>
 
                     <table class="table border-0 bg-white box-shadow-mount border-tab-radius-mount currency-group-table" id="to-currency-group-table" >
-                        <buy-currency-group v-if="buy_currency_groups" :data="buy_currency_groups"></buy-currency-group>
-                        <buy-us-currency-group v-if="us_buy_currency_groups" :data="us_buy_currency_groups"></buy-us-currency-group>
 
+
+                        <sell-currency-group v-if="sell_currency_groups" :data="sell_currency_groups"></sell-currency-group>
+                        <sell-us-currency-group v-if="us_sell_currency_groups" :data="us_sell_currency_groups"></sell-us-currency-group>
 
                     </table>
 
@@ -83,20 +84,18 @@
                 })
                     .then(response => response.json())
                     .then(data => {
-                        console.log(this.us_sell_currency_groups)
-                        if(status==='sell'){
-                            if(data.results.groups[0].currency_value){
-                                this.sell_currency_groups = data.results;
-                            }else{
-                                this.us_sell_currency_groups = data.results;
-                            }
-
-                        }else{
-
+                        if(status==='buy'){
                             if(data.results.groups[0].currency_value){
                                 this.buy_currency_groups = data.results;
                             }else{
                                 this.us_buy_currency_groups = data.results;
+                            }
+                        }else{
+
+                            if(data.results.groups[0].currency_value){
+                                this.sell_currency_groups = data.results;
+                            }else{
+                                this.us_sell_currency_groups = data.results;
                             }
                         }
 

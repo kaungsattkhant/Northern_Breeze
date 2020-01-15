@@ -15,7 +15,7 @@
 <!--                   onchange="">-->
         </td>
     </tr>
-
+    <span class="text-danger">{{not_enough_msg}}</span>
     <tr>
         <td class="border-top-0 text-nb-mount" style="padding: 30px;"></td>
         <td class="text-left border-top-0">
@@ -43,6 +43,7 @@
                 notes: 4, //maximum possible number of notes in a group
                 classes: 4,//maximum possible number of classes in a note
                 total_mmk: 0,
+                not_enough_msg: ''
                 // changes: 0
             }
         },
@@ -58,10 +59,13 @@
                 return sum;
             },
             calculateTotalAndChanges(note,class_value,i,j,k){
-                if(this.sheets[i][j][k]>=0){
+                if(this.sheets[i][j][k]>=0 && this.sheets[i][j][k]<=note.class_sheet[k].sheet){
+                    this.not_enough_msg = '';
                     this.current_value[i][j][k] = class_value * note.note_name * this.sheets[i][j][k];
                     this.total_mmk = this.arrSum(this.current_value);
                     this.$store.commit('setSellTotal',this.total_mmk);
+                }else{
+                    this.not_enough_msg= 'Invalid Value!';
                 }
 
 

@@ -123,7 +123,6 @@ class DailyCurrencyController extends Controller
                             $is_exist =$group->classifications()-> wherePivot('classification_id',$a)->exists();
                             if($is_exist  ==false)
                             {
-
                                 $group->classifications()->attach($a);
 //                        $all_classification= $group->classifications()->get();
 //                        $group_classification = collect($all_classification)->last();
@@ -133,7 +132,7 @@ class DailyCurrencyController extends Controller
                                 ->where('classification_id',$a)->pluck('id')->first();
                             $sell_class_value=new SellClassGroupValue();
                             $sell_class_value->value=$selling_class_value[$i][$key];
-                            $sell_class_value->date_time=now();
+                            $sell_class_value->date_time=now()->format('Y-m-d H:i');;
                             $sell_class_value->classification_group_id = $classification_group_id;
                             $sell_class_value->save();
                         }
@@ -159,15 +158,12 @@ class DailyCurrencyController extends Controller
                             if($is_exist  ==false)
                             {
                                 $group->classifications()->attach($a);
-//                        $all_classification= $group->classifications()->get();
-//                        $group_classification = collect($all_classification)->last();
-//                        $classification_group_id = $group_classification->pivot->id;
                             }
                             $classification_group_id=DB::table('classification_group')->where('group_id',$id)
                                 ->where('classification_id',$a)->pluck('id')->first();
                             $buy_class_values=new BuyClassGroupValue();
                             $buy_class_values->value=$class_value[$i][$key];
-                            $buy_class_values->date_time=now();
+                            $buy_class_values->date_time=now()->format('Y-m-d H:i');;
                             $buy_class_values->classification_group_id = $classification_group_id;
                             $buy_class_values->save();
                         }
@@ -237,11 +233,11 @@ class DailyCurrencyController extends Controller
             $detail_date=DB::table('buy_group_values')->whereId($detail_id)->pluck('date_time');
 
         }
-        $t=date("Y-m-d H:m", strtotime($detail_date[0]));
+        $t=date("Y-m-d", strtotime($detail_date[0]));
 
         if($detail_date->isNotEmpty())
         {
-            $date=date("Y-m-d ", strtotime($detail_date[0]));
+            $date=date("Y-m-d", strtotime($detail_date[0]));
 //            $us_currency_id=Currency::where('name','United States dollar')->first();
 //            $group=Group::with('currency')->whereId($group_id)->first();
 //            dd($group);
@@ -273,7 +269,6 @@ class DailyCurrencyController extends Controller
             }
 //            if(isset($buy_values->type) && isset($sell_values->type)){
             $buy_values = collect($buy_values);
-//            dd($buy_values);
             $sell_values = collect($sell_values);
             $values = $buy_values->merge($sell_values);
 //            dd($values);
@@ -292,7 +287,6 @@ class DailyCurrencyController extends Controller
                 }
                 $vs[] = $v;
             }
-            dd($vs);
             $data=view('DailyCurrency.detail_view',compact('vs'));
             return $data;
         }
