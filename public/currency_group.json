@@ -29,13 +29,22 @@
                     "total_sheet": 100,
                     "class_sheet": [
                         {
-                            "class_id": 2,
-                            "sheet": 50
+                            "class_id": 1,
+                            "sheet": 10
                         },
                         {
-                            "class_id": 1,
-                            "sheet": 50
+                            "class_id": 2,
+                            "sheet": 20
+                        },
+                        {
+                            "class_id": 3,
+                            "sheet": 30
+                        },
+                        {
+                            "class_id": 4,
+                            "sheet": 40
                         }
+
                     ]
                 },
                 {
@@ -54,7 +63,10 @@
                     ]
                 }
             ],
-            "currency_value": null,
+            "currency_value": {
+                "id": 1,
+                "value": 1350
+            },
             "class_currency_value": [
                 {
                     "id": 1,
@@ -89,16 +101,28 @@
                     "class_sheet": [
                         {
                             "class_id": 1,
-                            "sheet": 50
+                            "sheet": 10
                         },
                         {
+                            "class_id": 2,
+                            "sheet": 20
+                        },
+                         {
                             "class_id": 3,
-                            "sheet": 50
+                            "sheet": 30
+                        },
+                         {
+                            "class_id": 4,
+                            "sheet": 40
                         }
+
                     ]
                 }
             ],
-            "currency_value": null,
+            "currency_value": {
+                "id": 1,
+                "value": 1350
+            },
             "class_currency_value": [
                 {
                     "id": 1,

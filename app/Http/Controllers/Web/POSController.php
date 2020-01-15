@@ -56,6 +56,7 @@ class POSController extends Controller
         $currency_id=$request->currency_id;
         $classification=Classification::all('id','name');
         $us_currency_id=Currency::where('name','United States dollar')->first();
+        $myanmar_currency=Currency::where('name','Myanmar Kyat')->first();
         $groups=Group::with('notes')->where('currency_id',$currency_id)->get();
         $branch_id = Auth::user()->branch_id ? Auth::user()->branch_id : 1;
         foreach($groups as $key=>$group){
@@ -116,7 +117,12 @@ class POSController extends Controller
                 }
                 $new[$key]->class_currency_value=$currency_value;
                 $new[$key]->currency_value=null;
-            }else{
+            }elseif($currency_id== $myanmar_currency->id){
+                $currency_value=new \stdClass();
+                $currency_value->id="null";
+                $currency_value->value="null";
+            }
+            else{
                 $currency_value=new \stdClass();
                     $group_currency_value=BuyGroupValue::where('group_id',$group->id)->latest()->first();
                 $currency_value->id=$group_currency_value->id;
@@ -131,6 +137,7 @@ class POSController extends Controller
         }
 //        dd($new);
 //        dd(asort($new));
+//        dd($new);
         return response()->json([
                 'class'=>$classification,
                 'groups'=>
