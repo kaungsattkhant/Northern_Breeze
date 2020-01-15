@@ -14,9 +14,12 @@ class CreateInTrancasctionGroupNote extends Migration
     public function up()
     {
         Schema::create('in_transaction_group_note', function (Blueprint $table) {
+            $table->bigIncrements('id');
             $table->unsignedBigInteger('transaction_id')->nullable();
             $table->unsignedBigInteger('group_note_id')->nullable();
             $table->unsignedBigInteger('buy_group_value_id')->nullable();
+            $table->string('out_group_transaction_noteable_type');
+            $table->unsignedBigInteger('out_group_transaction_noteable_id');
             $table->integer('sheet');
             $table->foreign('transaction_id')->references('id')->on('transactions')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('buy_group_value_id')->references('id')->on('buy_group_values')->onDelete('cascade')->onUpdate('cascade');

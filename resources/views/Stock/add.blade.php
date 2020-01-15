@@ -31,20 +31,20 @@
                                     @endforeach
                                 </select>
                             </div>
-{{--                            <div class="col" id="branch">--}}
+                            <div class="col" id="branch">
 
 
-{{--                                <select class="selectpicker mt-4" name="branch" data-style="btn-white" data-width="auto" id="to_branch">--}}
-{{--                                    <option  disabled selected>Choose Branch</option>--}}
-{{--                                    @php--}}
-{{--                                        $branches=\App\Model\Branch::all();--}}
+                                <select class="selectpicker mt-4" name="branch" data-style="btn-white" data-width="auto" id="to_branch">
+                                    <option  disabled selected>Choose Branch</option>
+                                    @php
+                                        $branches=\App\Model\Branch::all();
 
-{{--                                    @endphp--}}
-{{--                                    @foreach($branches as $branch)--}}
-{{--                                        <option value="{{$branch->id}}" @if(\Illuminate\Support\Facades\Auth::user()->branch_id==$branch->id) disabled  @endif >{{$branch->name}}</option>--}}
-{{--                                    @endforeach--}}
-{{--                                </select>--}}
-{{--                            </div>--}}
+                                    @endphp
+                                    @foreach($branches as $branch)
+                                        <option value="{{$branch->id}}" @if(\Illuminate\Support\Facades\Auth::user()->branch_id==$branch->id) disabled  @endif >{{$branch->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
 {{--                            <button type="submit" id="stock_filter" class="btn btn-danger">Filter</button>--}}
                         </div>
             <div class="row" id="stock_table_filter">
@@ -230,20 +230,20 @@
 
                 $(".stock_create").removeAttr("disabled", true);
 
-                // $.get({
-                //     url:'admin/add',
-                //     success:function (data) {
-                //         console.log(data);
-                //         if(data==="admin_add")
-                //         {
-                //             $('#branch').show();
-                //         }
-                //         else
-                //         {
-                //             $('#branch').hide();
-                //         }
-                //     }
-                // });
+                $.get({
+                    url:'admin/add',
+                    success:function (data) {
+                        console.log(data);
+                        if(data==="admin_add")
+                        {
+                            $('#branch').show();
+                        }
+                        else
+                        {
+                            $('#branch').hide();
+                        }
+                    }
+                });
                 // console.log(data);
                 $("#stock a").addClass("active-si");
                 $("#stock").addClass("active2");

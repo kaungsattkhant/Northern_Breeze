@@ -1,0 +1,193 @@
+{
+    "transaction": {
+        "in_value": 135000,
+        "out_value": 100,
+        "in_value_MMK": 135000,
+        "out_value_MMK": 134530,
+        "changes": 470,
+        "member_id": 1,
+        "status": "other_MMK"
+    },
+    "groups": [
+        {
+            "id": 1,
+            "type": "buy",
+            "notes": [
+                {
+                    "group_note_id": 1,
+                    "note_name": "50",
+                    "total_sheet": 50,
+                    "class_sheet": [
+                        {
+                            "class_id": 2,
+                            "sheet": 50
+                        },
+                        {
+                            "class_id": 1,
+                            "sheet": 50
+                        }
+                    ]
+                },
+                {
+                    "group_note_id": 1,
+                    "note_name": "100",
+                    "total_sheet": 100,
+                    "class_sheet": [
+                        {
+                            "class_id": 1,
+                            "sheet": 50
+                        },
+                        {
+                            "class_id": 4,
+                            "sheet": 50
+                        }
+                    ]
+                }
+            ],
+            "currency_value": {
+                "id": 1
+            },
+            "class_currency_value": [
+                {
+                    "id": 0
+                },
+                {
+                    "id": 1
+                }
+            ],
+            "custom_currency_value": {
+                "value": "1350.5"
+            },
+            "class_custom_currency_value": [
+                {
+                    "value": "1300",
+                    "class_id": 1
+                },
+                {
+                    "value": "1400.4",
+                    "class_id": 4
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "type": "buy",
+            "notes": [
+                {
+                    "group_note_id": 2,
+                    "note_name": "100",
+                    "total_sheet": 100,
+                    "class_sheet": [
+                        {
+                            "class_id": 4,
+                            "sheet": 50
+                        },
+                        {
+                            "class_id": 1,
+                            "sheet": 50
+                        }
+                    ]
+                },
+                {
+                    "group_note_id": 2,
+                    "note_name": "100",
+                    "total_sheet": 100,
+                    "class_sheet": [
+                        {
+                            "class_id": 3,
+                            "sheet": 50
+                        },
+                        {
+                            "class_id": 2,
+                            "sheet": 50
+                        }
+                    ]
+                }
+            ],
+            "currency_value": {
+                "id": 1
+            },
+            "class_currency_value": [
+                {
+                    "id": 0
+                },
+                {
+                    "id": 1
+                }
+            ],
+            "custom_currency_value": {
+                "value": "1350.5"
+            },
+            "class_custom_currency_value": [
+                {
+                    "value": "1350.2",
+                    "class_id": 1
+                },
+                {
+                    "value": "1350.2",
+                    "class_id": 4
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "type": "sell",
+            "notes": [
+                {
+                    "group_note_id": 3,
+                    "note_name": "10000",
+                    "total_sheet": 150,
+                    "class_sheet": [
+                        {
+                            "class_id": 2,
+                            "sheet": 50
+                        },
+                        {
+                            "class_id": 1,
+                            "sheet": 50
+                        }
+                    ]
+                },
+                {
+                    "group_note_id": 3,
+                    "note_name": "100",
+                    "total_sheet": 100,
+                    "class_sheet": [
+                        {
+                            "class_id": 1,
+                            "sheet": 50
+                        },
+                        {
+                            "class_id": 4,
+                            "sheet": 50
+                        }
+                    ]
+                }
+            ],
+            "currency_value": {
+                "id": 1
+            },
+            "class_currency_value": [
+                {
+                    "id": 0
+                },
+                {
+                    "id": 1
+                }
+            ],
+            "custom_currency_value": {
+                "value": "1350.5"
+            },
+            "class_custom_currency_value": [
+                {
+                    "value": "1300",
+                    "class_id": 1
+                },
+                {
+                    "value": "1400.4",
+                    "class_id": 4
+                }
+            ]
+        }
+    ]
+}

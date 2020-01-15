@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Traits\CurrencyFilter;
 use App\Http\Traits\ToExchangeFilter;
+use App\InTransactionGroupNote;
 use App\Model\Branch;
 use App\Model\BuyClassGroupValue;
 use App\Model\BuyGroupValue;
@@ -13,8 +14,10 @@ use App\Model\ClassValue;
 use App\Model\Currency;
 use App\Model\Group;
 use App\Model\Note;
+use App\Model\SellClassGroupValue;
 use App\Model\SellGroupValue;
 use App\Model\Transaction;
+use App\OutTransactionGroupNote;
 use Carbon\Carbon;
 use Carbon\Exceptions\BadUnitException;
 use Illuminate\Http\Request;
@@ -134,10 +137,80 @@ class POSController extends Controller
                     $new,
             ]);
     }
-    public function non_member_to_exchange_filter($currency_id)
-    {
-        return $this->to_currency_filter($currency_id);
+    public function transaction_store(){
+        $data=file_get_contents(storage_path().'/Pos/transaction_store.json');
+        $decode_data=json_decode($data);
+        $t=$decode_data->transaction;
+        $transaction=new Transaction();
+        $transaction->in_value=$t->in_value;
+        $transaction->out_value=$t->out_value;
+        $transaction->in_value_MMK=$t->in_value_MMK;
+        $transaction->out_value_MMK=$t->out_value_MMK;
+        $transaction->changes=$t->changes;
+        $transaction->status=$t->status;
+        $transaction->date_time=now();
+        $transaction->save();
+        $groups=$decode_data->groups;
+        dd($groups);
+        foreach($groups as $group){
+//            dd($t);
+            foreach($group->notes as $note){
+                if($t->status=="MMK_other"){
+
+
+                    if($group->type=="buy"){
+                        $transaction->in_MMK_group_note()->attach($note->group_note_id,['sheet'=>$note->total_sheet]);
+                    }elseif($group->type=="sell"){
+                        $g=Group::find($group->id);
+                        foreach($note->class_sheet as $class_sheet){
+                            if($class_sheet->sheet!=null){
+                                $cg=DB::table('classification_group')->where('class_id',$class_sheet->id)
+                                    ->where('group_id',$group->id)->first();
+                                $sgv=SellClassGroupValue::find($cg->id);
+                                $out_transaction=new OutTransactionGroupNote();
+                                $out_transaction->transaction_id=$transaction->id;
+                                $out_transaction->group_note_id=$note->group_note_id;
+                                $out_transaction->sheet=$note->total_sheet;
+                                $sgv->sell_classes()->save($out_transaction);
+                            }
+                        }
+//                        $out_transaction=new OutTransactionGroupNote();
+//                        $out_transaction->transaction_id=$transaction->id;
+//                        $out_transaction->group_note_id=$note->group_note_id;
+//                        $out_transaction->sheet=$note->total_sheet;
+                    }
+                }elseif($t->status=="other_MMK"){
+                    if($group->type=="buy"){
+                        $in_transaction=new InTransactionGroupNote();
+                        $in_transaction->transaction_id=$transaction->id;
+                        $in_transaction->group_note_id=$note->group_note_id;
+                        $in_transaction->sheet=$note->total_sheet;
+                    }elseif($group->type=="sell"){
+                        $transaction->out_MMK_group_note()->attach($note->group_note_id,['sheet'=>$note->total_sheet]);
+                    }
+
+                }elseif($t->status=="other_other"){
+                    if($group->type=="buy"){
+                        $in_transaction=new InTransactionGroupNote();
+                        $in_transaction->transaction_id=$transaction->id;
+                        $in_transaction->group_note_id=$note->group_note_id;
+                        $in_transaction->sheet=$note->total_sheet;
+                    }elseif($group->type=="sell"){
+                        $out_transaction=new OutTransactionGroupNote();
+                        $out_transaction->transaction_id=$transaction->id;
+                        $out_transaction->group_note_id=$note->group_note_id;
+                        $out_transaction->sheet=$note->total_sheet;
+                    }
+                }
+            }
+
+        }
+//        dd($groups);
     }
+//    public function non_member_to_exchange_filter($currency_id)
+//    {
+//        return $this->to_currency_filter($currency_id);
+//    }
     public function total_currency_value(Request $request)
     {
 
@@ -164,6 +237,7 @@ class POSController extends Controller
         $value=BuyGroupValue::where('group_id',$group_id)->latest()->first();
         return $value->value;
     }
+
     public function non_member_store(Request $request )
     {
 //        dd($request->all());

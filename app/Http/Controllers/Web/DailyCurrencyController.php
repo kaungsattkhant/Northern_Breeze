@@ -32,21 +32,43 @@ class DailyCurrencyController extends Controller
             if($us_currency_id->id == $group->currency->id){
                 $classification_group=DB::table('classification_group')->where('group_id',$group->id)
                     ->where('classification_id',1)->first();
-                $buy_values=BuyClassGroupValue::where('classification_group_id',$classification_group->id)
-                    ->get();
-                $sell_values=SellClassGroupValue::where('classification_group_id',$classification_group->id)
-                    ->get();
+                if($classification_group!=null){
+                    $buy_values=BuyClassGroupValue::where('classification_group_id',$classification_group->id)
+                        ->get();
+                    $sell_values=SellClassGroupValue::where('classification_group_id',$classification_group->id)
+                        ->get();
+                }else{
+                    $buy_values="";
+                    $sell_values="";
+                }
+
             }
             else{
                 $buy_values = BuyGroupValue::where('group_id',$group->id)->get();
                 $sell_values = SellGroupValue::where('group_id',$group->id)->get();
 
             }
-            $lastest_buy_value = collect($buy_values)->last();
-            $group->detail_id=$lastest_buy_value['id'];
-            $group->lastest_buy_value = $lastest_buy_value['value'];
-            $lastest_sell_value = collect($sell_values)->last();
-            $group->lastest_sell_value = $lastest_sell_value['value'];
+//            $buy_values = BuyGroupValue::where('group_id',$group->id)->get();
+//            $sell_values = SellGroupValue::where('group_id',$group->id)->get();
+            if($buy_values!=null){
+                $lastest_buy_value = collect($buy_values)->last();
+                $group->detail_id=$lastest_buy_value['id'];
+                $group->lastest_buy_value = $lastest_buy_value['value'];
+
+            }else{
+                $group->lastest_buy_value="$buy_values";
+                }
+            if($sell_values!=null){
+                $lastest_sell_value = collect($sell_values)->last();
+                $group->lastest_sell_value = $lastest_sell_value['value'];
+            }else{
+                $group->lastest_sell_value=$sell_values;
+            }
+//            $lastest_buy_value = collect($buy_values)->last();
+//            $group->detail_id=$lastest_buy_value['id'];
+//            $group->lastest_buy_value = $lastest_buy_value['value'];
+//            $lastest_sell_value = collect($sell_values)->last();
+//            $group->lastest_sell_value = $lastest_sell_value['value'];
         }
         return view('DailyCurrency.dailyindex',compact('groups'));
     }

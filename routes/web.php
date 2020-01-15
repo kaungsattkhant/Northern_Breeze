@@ -12,6 +12,8 @@
 */
 use Illuminate\Support\Facades\Route;
 
+//Route::get('api/transaction','Api\PosController@transaction');
+
 Route::group(['middleware'=>['adminCheck']],function() {
     Route::group(['namespace'=>'Web'],function(){
 //        Route::post('currency_group','POSController@currency_group');
@@ -161,8 +163,9 @@ Route::group(['middleware'=>['frontmanCheck']],function() {
             Route::get('{id}/non_member_to_exchange_filter','POSController@non_member_to_exchange_filter');
             Route::get('total_currency_value','POSController@total_currency_value');
             Route::get('non_member/{group_id}/get_group_value','POSController@getGroupValue');
-            Route::post('non_member_store','POSController@non_member_store');
+//            Route::post('non_member_store','POSController@non_member_store');
             Route::post('currency_group','POSController@currency_group');
+            Route::get('transaction','POSController@transaction_store');
 
         });
         Route::group(['prefix'=>'member'],function(){
@@ -207,10 +210,10 @@ Route::group(['namespace'=>'Web'],function(){
 //    return view('Member.pos_member');
 //});
 //
-Route::get('/branch',function()
-{
-    return view('Branch.index');
-});
+//Route::get('/branch',function()
+//{
+//    return view('Branch.index');
+//});
 //
 //Route::get('/non_member2',function()
 //{

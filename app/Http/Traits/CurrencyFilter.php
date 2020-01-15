@@ -94,7 +94,6 @@ trait CurrencyFilter
 //                            return 'Empty buying value for this currency';
 //
 //                        }
-
                     }
 
                 }

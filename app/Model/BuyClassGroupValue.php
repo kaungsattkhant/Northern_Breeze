@@ -6,5 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class BuyClassGroupValue extends Model
 {
-    //
+    public function buy_classes(){
+        return $this->morphMany(BuyClassGroupValue::class,'buy_classable');
+    }
 }
