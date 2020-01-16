@@ -11,8 +11,8 @@ class SellGroupValue extends Model
     {
         return $this->belongsTo(Group::class);
     }
-    public function sells()
+    public function classes()
     {
-        return $this->morphTo(SellGroupValue::class,'classable');
+        return $this->morphMany(SellGroupValue::class,'out_classable');
     }
 }

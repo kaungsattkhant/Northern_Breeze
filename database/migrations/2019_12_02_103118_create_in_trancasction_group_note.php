@@ -17,13 +17,15 @@ class CreateInTrancasctionGroupNote extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('transaction_id')->nullable();
             $table->unsignedBigInteger('group_note_id')->nullable();
-            $table->unsignedBigInteger('buy_group_value_id')->nullable();
-            $table->string('out_group_transaction_noteable_type');
-            $table->unsignedBigInteger('out_group_transaction_noteable_id');
+//            $table->unsignedBigInteger('buy_group_value_id')->nullable();
+//            $table->morphs('in_classble');
+            $table->string('in_classable_type');
+            $table->unsignedBigInteger('in_classable_id');
             $table->integer('sheet');
             $table->foreign('transaction_id')->references('id')->on('transactions')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('buy_group_value_id')->references('id')->on('buy_group_values')->onDelete('cascade')->onUpdate('cascade');
+//            $table->foreign('buy_group_value_id')->references('id')->on('buy_group_values')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('group_note_id')->references('id')->on('group_note')->onDelete('cascade')->onUpdate('cascade');
+            $table->index(['in_classable_id','in_classable_type']);
         });
     }
 

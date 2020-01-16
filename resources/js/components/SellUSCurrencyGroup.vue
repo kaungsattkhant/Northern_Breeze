@@ -124,6 +124,8 @@
 
                     });
 
+                    this.$store.commit('isExceed',[this.buyTotal,this.sellTotal]);
+                    this.$store.commit('setTransactionDataFromSellGroups',[this.total,this.total_mmk]);
 
 
                     this.transaction.in_value=this.in_value;
@@ -131,11 +133,14 @@
                     this.transaction.out_value=this.total;
                     this.transaction.out_value_mmk=this.total_mmk;
                     this.transaction.changes=this.changes;
+                    this.$store.commit('setSellStatus',this.data.status);
+                    this.$store.commit('setStatus',[this.sell_status,this.buy_status]);
+                    this.transaction.status=this.status;
                     this.$store.commit('setTransaction',this.transaction);
                     this.$store.commit('setSellTotal',this.total_mmk);
 
                     this.$store.commit('setResults',[this.transaction,this.getGroups]);
-                    this.$store.commit('isExceed',[this.buyTotal,this.sellTotal]);
+
                     console.log(this.getResults);
 
 
@@ -217,6 +222,15 @@
             },
             in_value_mmk(){
                 return this.$store.state.in_value_mmk;
+            },
+            status(){
+                return this.$store.state.status;
+            },
+            sell_status(){
+                return this.$store.state.sell_status;
+            },
+            buy_status(){
+                return this.$store.state.buy_status;
             },
         },
     }
