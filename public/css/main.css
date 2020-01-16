@@ -494,7 +494,7 @@ input:focus{
     padding-top: 10px;
 
 }
-.img-branch:hover,.active-staff{
+.img-branch:hover,.active-branch{
     background-image: url("../image/icons8-merge-git-55 (1).png") ;
     width: 100%;
     height: 80%;
@@ -548,6 +548,9 @@ input:focus{
 }
 .text-color-mount{
     color: #555 !important;
+}
+.text-color-mount3{
+    color: #1b1e21!important;
 }
 .text-color-mount1235{
     color: #333333 !important;
@@ -904,3 +907,17 @@ input[type="text"].for-placeholder::placeholder{
 .for-quote:after{
     content: ")";
 }
+/*.shity{*/
+/*    width: 100px;*/
+/*    height: 40px;*/
+/*    background-color: white;*/
+/*    animation: mymove;*/
+/*    -webkit-transition-delay: 2s;*/
+    /*transition-duration: 1s;*/
+    /*transition-property: height;*/
+    /*transition-timing-function: ease-in-out;*/
+/*}*/
+/*.shity:hover{*/
+/*    height: 200px;*/
+/*}*/
+

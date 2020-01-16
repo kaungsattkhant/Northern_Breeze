@@ -11,8 +11,8 @@
         <div class="rounded-0 collapse border-0 mt-1" id="pos1" style="width: 100%">
 
             <div class="rounded-0 border-0 collap-menu-mount">
-                <a class="dropdown-item text-center pl-4 pt-3 pb-1 text-color-mount collap-mount fontsize-mount" href="{{url('pos/non_member')}}" style="border-bottom: 1px solid #dddddd">Non-Member</a>
-                <a class="dropdown-item text-center  pl-4 pt-1 pb-3 text-color-mount collap-mount fontsize-mount" href="{{url('pos/member')}}" >Member</a>
+                <a class="dropdown-item text-center pl-4 pt-3 pb-1 text-color-mount3 collap-mount fontsize-mount" href="{{url('pos/non_member')}}" style="border-bottom: 1px solid #dddddd">Non-Member</a>
+                <a class="dropdown-item text-center  pl-4 pt-1 pb-3 text-color-mount3 collap-mount fontsize-mount" href="{{url('pos/member')}}" >Member</a>
             </div>
         </div>
         <li class="nav-item btn-mount mx-auto mt-2" id="member">
@@ -20,7 +20,7 @@
                 <div class=" mt-0 px-auto "><p class="sb-text">Member</p></div>
             </a>
         </li>
-
+{{----}}
         <li class="nav-item btn-mount mx-auto " id="sr">
             <a class="nav-link p-0  sidebar-box-mount img-sale-record text-center" href="{{url('sale')}}">
                 <div class=" mt-0 px-auto "><p class="sb-text">Sale Record</p></div></a>
@@ -41,7 +41,7 @@
             <a class="nav-link p-0  sidebar-box-mount img-staff text-center " href="{{url('staff')}}">
                 <div class=" mt-0 px-auto "><p class="sb-text">Staff</p></div></a>
         </li>
-        <li class="nav-item btn-mount mx-auto" id="staff">
+        <li class="nav-item btn-mount mx-auto" id="branch">
             <a class="nav-link p-0  sidebar-box-mount img-branch text-center " href="{{url('branch')}}">
                 <div class=" mt-0 px-auto "><p class="sb-text">Branch</p></div></a>
         </li>

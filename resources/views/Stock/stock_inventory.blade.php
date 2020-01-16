@@ -3,7 +3,7 @@
 
     <div class="container-nb-mount">
 
-        <div class="row top-box-mount shadow-sm">
+        <div class="row mx-0 top-box-mount shadow-sm">
             <div  class="my-auto  col-5">
                 <select class="selectpicker " name="Branches" data-style="btn-white" data-width="auto" id="branch">
                     <option selected disabled>Branches</option>
@@ -48,6 +48,7 @@
             </div>
 
         </div>
+{{--        <div class="shity">jaalklfdjaa</div>--}}
          <div class="pt-2 mt-1">
              <div class="mb-1 pb-">
                  <p class="mb-3 fontsize-mount17 ml-1 d-inline text-shadow-mount">Total amount exchange :</p>
@@ -109,10 +110,9 @@
 
 {{--        });--}}
 {{--    </script>--}}
-    <script src="{{asset('js/transfer.js')}}">
+    <script src="{{asset('js/transfer.js')}}"></script>
 
-//
-    </script>
+    
 
 
     @include('Stock.detail_stock')
