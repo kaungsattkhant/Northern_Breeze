@@ -39,6 +39,7 @@
             return{
                 sheets: [],
                 current_value: [],
+                current_value_mmk: [],
                 groups: this.data.groups.length,
                 notes: 6, //maximum possible number of notes in a group
                 classes: 4,//maximum possible number of classes in a note
@@ -99,8 +100,9 @@
 
                 if(this.sheets[i][j][k]>=0 && this.sheets[i][j][k]<=note.class_sheet[k].sheet){
                     this.not_enough_msg = '';
-                    this.current_value[i][j][k] = class_value * note.note_name * this.sheets[i][j][k];
-                    this.total_mmk = this.arrSum(this.current_value);
+                    this.current_value_mmk[i][j][k] = class_value * note.note_name * this.sheets[i][j][k];
+                    this.current_value[i][j][k] = note.note_name * this.sheets[i][j][k];
+                    this.total_mmk = this.arrSum(this.current_value_mmk);
                     this.total = this.arrSum(this.current_value);
 
 
@@ -126,6 +128,7 @@
 
                     this.$store.commit('setBuyTotal',this.total_mmk);
                     this.$store.commit('isExceed',[this.buyTotal,this.sellTotal]);
+                    this.$store.commit('setTransactionDataFromBuyGroups',[this.total,this.total_mmk]);
 
                     // let data_for_transaction = {
                     //     in_value: this.total,
@@ -133,9 +136,9 @@
                     //     member_id: null,
                     // };
                     this.transaction.in_value=this.total;
-                    this.transaction.in_value_mmk=this.total_mmk;
+                    this.transaction.in_value_MMK=this.total_mmk;
                     this.transaction.out_value=this.out_value;
-                    this.transaction.out_value_mmk=this.out_value_mmk;
+                    this.transaction.out_value_MMK=this.out_value_MMK;
                     this.$store.commit('setBuyStatus',this.data.status);
                     this.$store.commit('setStatus',[this.sell_status,this.buy_status]);
                     this.transaction.status=this.status;
@@ -176,6 +179,7 @@
             };
 
             this.current_value = deepCopy(this.sheets);
+            this.current_value_mmk = deepCopy(this.sheets);
         },
         created(){
             for(let i=0; i<this.groups; i++){
@@ -209,8 +213,8 @@
             out_value(){
                 return this.$store.state.out_value;
             },
-            out_value_mmk(){
-                return this.$store.state.out_value_mmk;
+            out_value_MMK(){
+                return this.$store.state.out_value_MMK;
             },
             buy_status(){
                 return this.$store.state.buy_status;

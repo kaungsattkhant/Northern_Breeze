@@ -1978,8 +1978,8 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       notes: 10,
       //maximum possible number of notes in a group
       total_mmk: 0,
-      total: 0,
-      not_enough_msg: ''
+      total: 0 // not_enough_msg: '',
+
     };
   },
   methods: {
@@ -2043,9 +2043,9 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
         this.$store.commit('setTransactionDataFromBuyGroups', [this.total, this.total_mmk]); // this.$store.commit('setInValue',this.total_mmk);
 
         this.transaction.in_value = this.total;
-        this.transaction.in_value_mmk = this.total_mmk;
+        this.transaction.in_value_MMK = this.total_mmk;
         this.transaction.out_value = this.out_value;
-        this.transaction.out_value_mmk = this.out_value_mmk;
+        this.transaction.out_value_MMK = this.out_value_MMK;
         this.$store.commit('setBuyStatus', this.data.status);
         this.$store.commit('setStatus', [this.sell_status, this.buy_status]);
         this.transaction.status = this.status;
@@ -2107,8 +2107,8 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
     out_value: function out_value() {
       return this.$store.state.out_value;
     },
-    out_value_mmk: function out_value_mmk() {
-      return this.$store.state.out_value_mmk;
+    out_value_MMK: function out_value_MMK() {
+      return this.$store.state.out_value_MMK;
     },
     buy_status: function buy_status() {
       return this.$store.state.buy_status;
@@ -2178,6 +2178,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
     return {
       sheets: [],
       current_value: [],
+      current_value_mmk: [],
       groups: this.data.groups.length,
       notes: 6,
       //maximum possible number of notes in a group
@@ -2235,8 +2236,9 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
 
       if (this.sheets[i][j][k] >= 0 && this.sheets[i][j][k] <= note.class_sheet[k].sheet) {
         this.not_enough_msg = '';
-        this.current_value[i][j][k] = class_value * note.note_name * this.sheets[i][j][k];
-        this.total_mmk = this.arrSum(this.current_value);
+        this.current_value_mmk[i][j][k] = class_value * note.note_name * this.sheets[i][j][k];
+        this.current_value[i][j][k] = note.note_name * this.sheets[i][j][k];
+        this.total_mmk = this.arrSum(this.current_value_mmk);
         this.total = this.arrSum(this.current_value);
         var newClass = JSON.parse(JSON.stringify(note.class_sheet[k]));
         newClass.sheet = this.sheets[i][j][k];
@@ -2253,16 +2255,17 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
           }
         });
         this.$store.commit('setBuyTotal', this.total_mmk);
-        this.$store.commit('isExceed', [this.buyTotal, this.sellTotal]); // let data_for_transaction = {
+        this.$store.commit('isExceed', [this.buyTotal, this.sellTotal]);
+        this.$store.commit('setTransactionDataFromBuyGroups', [this.total, this.total_mmk]); // let data_for_transaction = {
         //     in_value: this.total,
         //     in_value_mmk: this.total_mmk,
         //     member_id: null,
         // };
 
         this.transaction.in_value = this.total;
-        this.transaction.in_value_mmk = this.total_mmk;
+        this.transaction.in_value_MMK = this.total_mmk;
         this.transaction.out_value = this.out_value;
-        this.transaction.out_value_mmk = this.out_value_mmk;
+        this.transaction.out_value_MMK = this.out_value_MMK;
         this.$store.commit('setBuyStatus', this.data.status);
         this.$store.commit('setStatus', [this.sell_status, this.buy_status]);
         this.transaction.status = this.status;
@@ -2295,6 +2298,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
     };
 
     this.current_value = deepCopy(this.sheets);
+    this.current_value_mmk = deepCopy(this.sheets);
   },
   created: function created() {
     for (var i = 0; i < this.groups; i++) {
@@ -2332,8 +2336,8 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
     out_value: function out_value() {
       return this.$store.state.out_value;
     },
-    out_value_mmk: function out_value_mmk() {
-      return this.$store.state.out_value_mmk;
+    out_value_MMK: function out_value_MMK() {
+      return this.$store.state.out_value_MMK;
     },
     buy_status: function buy_status() {
       return this.$store.state.buy_status;
@@ -2456,6 +2460,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
@@ -2471,6 +2476,9 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
     };
   },
   methods: {
+    refresh: function refresh() {
+      window.location.replace("/pos/non_member");
+    },
     submitForm: function submitForm() {
       // <<<<<<< HEAD
       //                 let data={};
@@ -2702,9 +2710,9 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
         // }
 
         this.transaction.in_value = this.in_value;
-        this.transaction.in_value_mmk = this.in_value_mmk;
+        this.transaction.in_value_MMK = this.in_value_MMK;
         this.transaction.out_value = this.total;
-        this.transaction.out_value_mmk = this.total_mmk;
+        this.transaction.out_value_MMK = this.total_mmk;
         this.transaction.changes = this.changes;
         this.$store.commit('setSellStatus', this.data.status);
         this.$store.commit('setStatus', [this.sell_status, this.buy_status]);
@@ -2754,8 +2762,8 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
     in_value: function in_value() {
       return this.$store.state.in_value;
     },
-    in_value_mmk: function in_value_mmk() {
-      return this.$store.state.in_value_mmk;
+    in_value_MMK: function in_value_MMK() {
+      return this.$store.state.in_value_MMK;
     },
     status: function status() {
       return this.$store.state.status;
@@ -2765,6 +2773,9 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
     },
     buy_status: function buy_status() {
       return this.$store.state.buy_status;
+    },
+    sell_not_enough_msg: function sell_not_enough_msg() {
+      return this.$store.state.not_enough_msg;
     },
     // exceed_msg(){
     //     return this.$store.state.exceed_msg;
@@ -2788,7 +2799,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
     //     return this.$store.state.changes;
     // },
     transaction: function transaction() {
-      return this.$store.state.transactionDataFromBuyCurrency;
+      return this.$store.state.transaction;
     },
     getGroups: function getGroups() {
       return this.$store.state.groups;
@@ -2864,16 +2875,17 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
     return {
       sheets: [],
       current_value: [],
+      current_value_mmk: [],
       groups: this.data.groups.length,
       notes: 6,
       //maximum possible number of notes in a group
       classes: 4,
       //maximum possible number of classes in a note
       total_mmk: 0,
-      total: 0,
-      // class_changes: 0,
+      total: 0 // class_changes: 0,
       // class_exceed_msg: '',
-      not_enough_msg: ''
+      // not_enough_msg: ''
+
     };
   },
   methods: {
@@ -2923,9 +2935,12 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       this.exceed_msg = '';
 
       if (this.sheets[i][j][k] >= 0 && this.sheets[i][j][k] <= note.class_sheet[k].sheet) {
-        this.not_enough_msg = '';
-        this.current_value[i][j][k] = class_value * note.note_name * this.sheets[i][j][k];
-        this.total_mmk = this.arrSum(this.current_value);
+        // this.not_enough_msg = '';
+        this.$store.commit('setSellNotEnoughMsg', '');
+        this.current_value_mmk[i][j][k] = class_value * note.note_name * this.sheets[i][j][k];
+        this.current_value[i][j][k] = note.note_name * this.sheets[i][j][k];
+        this.total_mmk = this.arrSum(this.current_value_mmk);
+        this.total = this.arrSum(this.current_value);
         var newClass = JSON.parse(JSON.stringify(note.class_sheet[k]));
         newClass.sheet = this.sheets[i][j][k];
         oldNote.class_sheet.push(newClass);
@@ -2943,9 +2958,9 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
         this.$store.commit('isExceed', [this.buyTotal, this.sellTotal]);
         this.$store.commit('setTransactionDataFromSellGroups', [this.total, this.total_mmk]);
         this.transaction.in_value = this.in_value;
-        this.transaction.in_value_mmk = this.in_value_mmk;
+        this.transaction.in_value_MMK = this.in_value_MMK;
         this.transaction.out_value = this.total;
-        this.transaction.out_value_mmk = this.total_mmk;
+        this.transaction.out_value_MMK = this.total_mmk;
         this.transaction.changes = this.changes;
         this.$store.commit('setSellStatus', this.data.status);
         this.$store.commit('setStatus', [this.sell_status, this.buy_status]);
@@ -2959,7 +2974,8 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
         //     this.exceed_msg = 'Error';
         // }
       } else {
-        this.not_enough_msg = 'Invalid Value!';
+        // this.not_enough_msg= 'Invalid Value!';
+        this.$store.commit('setSellNotEnoughMsg', 'Invalid Value!');
       }
     }
   },
@@ -2983,6 +2999,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
     };
 
     this.current_value = deepCopy(this.sheets);
+    this.current_value_mmk = deepCopy(this.sheets);
   },
   created: function created() {
     for (var i = 0; i < this.groups; i++) {
@@ -3026,8 +3043,8 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
     in_value: function in_value() {
       return this.$store.state.in_value;
     },
-    in_value_mmk: function in_value_mmk() {
-      return this.$store.state.in_value_mmk;
+    in_value_MMK: function in_value_MMK() {
+      return this.$store.state.in_value_MMK;
     },
     status: function status() {
       return this.$store.state.status;
@@ -38764,6 +38781,20 @@ var render = function() {
               attrs: { type: "button" },
               on: {
                 click: function($event) {
+                  return _vm.refresh()
+                }
+              }
+            },
+            [_vm._v("Refresh")]
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-nb-mount-save fontsize-mount",
+              attrs: { type: "button" },
+              on: {
+                click: function($event) {
                   return _vm.submitForm()
                 }
               }
@@ -52864,37 +52895,30 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   state: {
     buy_total_mmk: 0,
     sell_total_mmk: 0,
-    class_buy_total_mmk: 0,
-    class_sell_total_mmk: 0,
-    transactionDataFromBuyCurrency: {},
-    classTransactionDataFromBuyCurrency: {},
     transaction: {
       in_value: 0,
       out_value: 0,
-      in_value_mmk: 0,
-      out_value_mmk: 0,
+      in_value_MMK: 0,
+      out_value_MMK: 0,
       changes: 0,
       member_id: null,
       status: ''
     },
     in_value: 0,
     out_value: 0,
-    in_value_mmk: 0,
-    out_value_mmk: 0,
+    in_value_MMK: 0,
+    out_value_MMk: 0,
     // changes: 0,
     member_id: null,
     status: '',
     buy_status: '',
     sell_status: '',
-    class_transaction: {},
     groups: [],
-    class_groups: [],
     results: {},
-    class_results: {},
     exceed_msg: '',
-    class_exceed_msg: '',
     changes: 0,
-    class_changes: 0
+    buy_not_enough_msg: '',
+    sell_not_enough_msg: ''
   },
   getters: {
     exceed_msg: function exceed_msg(state) {
@@ -52905,17 +52929,25 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
     }
   },
   mutations: {
+    setBuyNotEnoughMsg: function setBuyNotEnoughMsg(state, data) {
+      state.buy_not_enough_msg = data;
+      this.buy_not_enough_msg = state.buy_not_enough_msg;
+    },
+    setSellNotEnoughMsg: function setSellNotEnoughMsg(state, data) {
+      state.sell_not_enough_msg = data;
+      this.sell_not_enough_msg = state.sell_not_enough_msg;
+    },
     setTransactionDataFromBuyGroups: function setTransactionDataFromBuyGroups(state, data) {
       state.in_value = data[0];
-      state.in_value_mmk = data[1];
+      state.in_value_MMK = data[1];
       this.in_value = state.in_value;
-      this.in_value_mmk = state.in_value_mmk;
+      this.in_value_MMK = state.in_value_MMK;
     },
     setTransactionDataFromSellGroups: function setTransactionDataFromSellGroups(state, data) {
       state.out_value = data[0];
-      state.out_value_mmk = data[1];
+      state.out_value_MMK = data[1];
       this.out_value = state.out_value;
-      this.out_value_mmk = state.out_value_mmk;
+      this.out_value_MMK = state.out_value_MMK;
     },
     setSellStatus: function setSellStatus(state, data) {
       state.sell_status = data;
@@ -52932,24 +52964,6 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
     setTransaction: function setTransaction(state, data) {
       state.transaction = data;
       this.transaction = state.transaction;
-    },
-    // setTransaction(state,data){
-    //     state.transaction = data;
-    //     this.transaction = state.transaction;
-    //     // state.transaction.in_value =Object.assign(state.transaction, data[0])
-    //     // this.transaction.in_value =Object.assign(this.transaction, state.transaction);
-    //     // state.transaction['in_value']= data[0];
-    //     // state.transaction['in_value_mmk']= data[1];
-    //     // this.transaction['in_value']=state.transaction['in_value'];
-    //     // this.transaction['in_value_mmk']=state.transaction['in_value_mmk'];
-    // },
-    setDataFromSellGroups: function setDataFromSellGroups(state, data) {
-      state.transaction['out_value'] = data[0];
-      state.transaction['out_value_mmk'] = data[1];
-      state.transaction['changes'] = data[2];
-      this.transaction['out_value'] = state.transaction['out_value'];
-      this.transaction['out_value_mmk'] = state.transaction['out_value_mmk'];
-      this.transaction['changes'] = state.transaction['changes'];
     },
     setBuyTotal: function setBuyTotal(state, data) {
       state.buy_total_mmk = data;
@@ -52970,25 +52984,6 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
       this.changes = state.changes;
       this.exceed_msg = state.exceed_msg;
     },
-    isClassExceed: function isClassExceed(state, data) {
-      if (data[0] >= data[1]) {
-        state.class_exceed_msg = '';
-        state.class_changes = data[0] - data[1];
-      } else {
-        state.class_exceed_msg = 'Error';
-      }
-
-      this.class_changes = state.class_changes;
-      this.class_exceed_msg = state.class_exceed_msg;
-    },
-    setClassBuyTotal: function setClassBuyTotal(state, data) {
-      state.class_buy_total_mmk = data;
-      this.class_buy_total_mmk = state.class_buy_total_mmk;
-    },
-    setClassSellTotal: function setClassSellTotal(state, data) {
-      state.class_sell_total_mmk = data;
-      this.class_sell_total_mmk = state.class_sell_total_mmk;
-    },
     transactionDataFromBuyCurrency: function transactionDataFromBuyCurrency(state, data) {
       state.transactionDataFromBuyCurrency = data;
       this.transactionDataFromBuyCurrency = state.transactionDataFromBuyCurrency;
@@ -53001,25 +52996,13 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
       state.transaction = data;
       this.transaction = state.transaction;
     },
-    allClassTransaction: function allClassTransaction(state, data) {
-      state.class_transaction = data;
-      this.class_transaction = state.class_transaction;
-    },
     setResults: function setResults(state, data) {
       state.results.transaction = data[0];
       state.results.groups = data[1];
       this.results = state.results;
     },
-    setClassResults: function setClassResults(state, data) {
-      state.class_results.transaction = data[0];
-      state.class_results.groups = data[1];
-      this.class_results = state.class_results;
-    },
     addGroup: function addGroup(state, data) {
       this.groups = state.groups.push(data);
-    },
-    addClassGroup: function addClassGroup(state, data) {
-      this.class_groups = state.class_groups.push(data);
     }
   }
 });

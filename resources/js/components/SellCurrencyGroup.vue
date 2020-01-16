@@ -128,9 +128,9 @@
                     // }
 
                     this.transaction.in_value=this.in_value;
-                    this.transaction.in_value_mmk=this.in_value_mmk;
+                    this.transaction.in_value_MMK=this.in_value_MMK;
                     this.transaction.out_value=this.total;
-                    this.transaction.out_value_mmk=this.total_mmk;
+                    this.transaction.out_value_MMK=this.total_mmk;
                     this.transaction.changes=this.changes;
                     this.$store.commit('setSellStatus',this.data.status);
                     this.$store.commit('setStatus',[this.sell_status,this.buy_status]);
@@ -188,8 +188,8 @@
             in_value(){
                 return this.$store.state.in_value;
             },
-            in_value_mmk(){
-                return this.$store.state.in_value_mmk;
+            in_value_MMK(){
+                return this.$store.state.in_value_MMK;
             },
             status(){
                 return this.$store.state.status;
@@ -199,6 +199,9 @@
             },
             buy_status(){
                 return this.$store.state.buy_status;
+            },
+            sell_not_enough_msg(){
+                return this.$store.state.not_enough_msg;
             },
 
 
@@ -226,7 +229,7 @@
             // },
 
             transaction(){
-                return this.$store.state.transactionDataFromBuyCurrency;
+                return this.$store.state.transaction;
             },
             getGroups(){
                 return this.$store.state.groups;

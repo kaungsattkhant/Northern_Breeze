@@ -42,6 +42,7 @@
             return{
                 sheets: [],
                 current_value: [],
+                current_value_mmk: [],
                 groups: this.data.groups.length,
                 notes: 6, //maximum possible number of notes in a group
                 classes: 4,//maximum possible number of classes in a note
@@ -49,7 +50,7 @@
                 total: 0,
                 // class_changes: 0,
                 // class_exceed_msg: '',
-                not_enough_msg: ''
+                // not_enough_msg: ''
 
             }
         },
@@ -102,10 +103,14 @@
 
                 this.exceed_msg = '';
                 if(this.sheets[i][j][k]>=0 && this.sheets[i][j][k]<=note.class_sheet[k].sheet){
-                    this.not_enough_msg = '';
+                    // this.not_enough_msg = '';
+                    this.$store.commit('setSellNotEnoughMsg','');
 
-                    this.current_value[i][j][k] = class_value * note.note_name * this.sheets[i][j][k];
-                    this.total_mmk = this.arrSum(this.current_value);
+
+                    this.current_value_mmk[i][j][k] = class_value * note.note_name * this.sheets[i][j][k];
+                    this.current_value[i][j][k] = note.note_name * this.sheets[i][j][k];
+                    this.total_mmk = this.arrSum(this.current_value_mmk);
+                    this.total = this.arrSum(this.current_value);
 
                     let newClass = JSON.parse(JSON.stringify(note.class_sheet[k]));
                     newClass.sheet=this.sheets[i][j][k];
@@ -129,9 +134,9 @@
 
 
                     this.transaction.in_value=this.in_value;
-                    this.transaction.in_value_mmk=this.in_value_mmk;
+                    this.transaction.in_value_MMK=this.in_value_MMK;
                     this.transaction.out_value=this.total;
-                    this.transaction.out_value_mmk=this.total_mmk;
+                    this.transaction.out_value_MMK=this.total_mmk;
                     this.transaction.changes=this.changes;
                     this.$store.commit('setSellStatus',this.data.status);
                     this.$store.commit('setStatus',[this.sell_status,this.buy_status]);
@@ -144,13 +149,16 @@
                     console.log(this.getResults);
 
 
+
                     // if(this.classBuyTotal>=this.total_mmk){
                     //     this.changes= this.classBuyTotal-this.total_mmk;
                     // }else{
                     //     this.exceed_msg = 'Error';
                     // }
                 }else{
-                    this.not_enough_msg= 'Invalid Value!';
+                    // this.not_enough_msg= 'Invalid Value!';
+                    this.$store.commit('setSellNotEnoughMsg','Invalid Value!');
+
                 }
 
 
@@ -178,6 +186,8 @@
             };
 
             this.current_value = deepCopy(this.sheets);
+            this.current_value_mmk = deepCopy(this.sheets);
+
         },
         created(){
             for(let i=0; i<this.groups; i++){
@@ -220,8 +230,8 @@
             in_value(){
                 return this.$store.state.in_value;
             },
-            in_value_mmk(){
-                return this.$store.state.in_value_mmk;
+            in_value_MMK(){
+                return this.$store.state.in_value_MMK;
             },
             status(){
                 return this.$store.state.status;
