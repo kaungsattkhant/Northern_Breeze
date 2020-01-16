@@ -1,0 +1,50 @@
+
+{
+    "class": null,
+    "groups": [
+        {
+            "group_id": 1,
+            "group_name": "Group 1",
+            "notes": [
+                {
+                    "group_note_id": 1,
+                    "note_name": 50,
+                    "total_sheet": 200,
+                    "class_sheet": null
+                },
+                {
+                    "group_note_id": 2,
+                    "note_name": 100,
+                    "total_sheet": 200,
+                    "class_sheet": null
+                },
+                {
+                    "group_note_id": 3,
+                    "note_name": 200,
+                    "total_sheet": 200,
+                    "class_sheet": null
+                },
+                {
+                    "group_note_id": 4,
+                    "note_name": 500,
+                    "total_sheet": 200,
+                    "class_sheet": null
+                },
+                {
+                    "group_note_id": 5,
+                    "note_name": 100,
+                    "total_sheet": 200,
+                    "class_sheet": null
+                },
+                 {
+                    "group_note_id": 6,
+                    "note_name": 1000,
+                    "total_sheet": 200,
+                    "class_sheet": null
+                }
+            ],
+            "currency_value": null,
+            "class_currency_value": null
+        }
+    ]
+}

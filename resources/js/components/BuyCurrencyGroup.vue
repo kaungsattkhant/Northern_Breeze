@@ -1,6 +1,6 @@
 <template>
 
-    <tbody class="rounded-table-mount " v-on:load="setInitialGroups()">
+    <tbody class="rounded-table-mount ">
         <tr v-for="(group,i) in data.groups" >
             <h3>{{group.group_name}}</h3>
             <td class="text-nb-mount border-top-0 pl-4 pt-4 fontsize-mount2" style="display: block" v-for="(note,j) in group.notes">
@@ -65,6 +65,7 @@
                 let targetGroup=this.getGroups.find(function(groupItem){
                     return groupItem.group_id===group.group_id && groupItem.type==='buy';
                 });
+
                 let oldNote = targetGroup.notes.find(function (noteItem) {
                     return noteItem.group_note_id === note.group_note_id;
                 });
@@ -72,9 +73,18 @@
                 if(index>-1){
                     targetGroup.notes.splice(index,1);
                 }
+
+
                 if(this.sheets[i][j] >=0 && this.sheets[i][j]<=note.total_sheet){
                     this.not_enough_msg = '';
-                    this.current_value_mmk[i][j] = group.currency_value.value * note.note_name * this.sheets[i][j];
+
+                    let currency_value;
+                    if(group.currency_value){
+                        currency_value=group.currency_value.value;
+                    }else{
+                        currency_value=1;
+                    }
+                    this.current_value_mmk[i][j] = currency_value * note.note_name * this.sheets[i][j];
                     this.current_value[i][j] = note.note_name*this.sheets[i][j];
                     this.total_mmk = this.current_value_mmk.reduce(function (a, b) {
                         return a.concat(b)
@@ -93,12 +103,16 @@
                     newNote.total_sheet = this.sheets[i][j];
                     targetGroup.notes.push(newNote);
                     this.$store.commit('setBuyTotal',this.total_mmk);
-                    let data_for_transaction = {
-                        in_value: this.total,
-                        in_value_mmk: this.total_mmk,
-                        member_id: null,
-                    };
-                    this.$store.commit('transactionDataFromBuyCurrency',data_for_transaction);
+                    this.$store.commit('isExceed',[this.buyTotal,this.sellTotal]);
+                    this.$store.commit('setTransactionDataFromBuyGroups',[this.total,this.total_mmk]);
+
+                    // this.$store.commit('setInValue',this.total_mmk);
+                    this.transaction.in_value=this.total;
+                    this.transaction.in_value_mmk=this.total_mmk;
+                    this.transaction.out_value=this.out_value;
+                    this.transaction.out_value_mmk=this.out_value_mmk;
+                    this.$store.commit('setTransaction',this.transaction);
+                    this.$store.commit('setResults',[this.transaction,this.getGroups]);
                 }else{
                     this.not_enough_msg = 'Invalid Value!'
                 }
@@ -140,6 +154,31 @@
             },
             getResults(){
                 return this.$store.state.results;
+            },
+            buyTotal() {
+                return this.$store.state.buy_total_mmk;
+            },
+            sellTotal() {
+                return this.$store.state.sell_total_mmk;
+            },
+            exceed_msg(){
+                return this.$store.state.exceed_msg;
+
+            },
+            changes(){
+                return this.$store.state.changes;
+            },
+            transaction(){
+                return this.$store.state.transaction;
+            },
+            out_value(){
+                return this.$store.state.out_value;
+            },
+            out_value_mmk(){
+                return this.$store.state.out_value_mmk;
+            },
+            status(){
+                return this.$store.state.status;
             }
 
         },

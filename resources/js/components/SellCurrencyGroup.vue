@@ -30,7 +30,7 @@
 </template>
 
 <script>
-    import Vuex from 'vuex'
+    import Vuex, {mapState} from 'vuex'
     Vue.use(Vuex);
     import Vue from 'vue';
 
@@ -45,8 +45,8 @@
                 notes: 10, //maximum possible number of notes in a group
                 total_mmk: 0,
                 total: 0,
-                changes: 0,
-                exceed_msg: '',
+                // changes: this.$store.state.changes,
+                // exceed_msg: this.$store.state.exceed_msg,
                 not_enough_msg: '',
 
             }
@@ -67,7 +67,6 @@
                 });
             },
             calculateTotalAndChanges(group,note,i,j){
-                console.log(this.getResults)
                 let targetGroup=this.getGroups.find(function(groupItem){
                     return groupItem.group_id===group.group_id && groupItem.type==='sell';
                 });
@@ -82,8 +81,14 @@
                 this.exceed_msg='';
                 if(this.sheets[i][j]>=0 && this.sheets[i][j]<=note.total_sheet){
                     this.not_enough_msg = '';
+                    let currency_value;
+                    if(group.currency_value){
+                        currency_value=group.currency_value.value;
+                    }else{
+                        currency_value=1;
+                    }
 
-                    this.current_value_mmk[i][j] = group.currency_value.value * note.note_name * this.sheets[i][j];
+                    this.current_value_mmk[i][j] = currency_value * note.note_name * this.sheets[i][j];
                     this.current_value[i][j] = note.note_name * this.sheets[i][j];
 
                     this.total_mmk = this.current_value_mmk.reduce(function (a, b) {
@@ -101,17 +106,37 @@
                     let newNote = JSON.parse(JSON.stringify(note));
                     newNote.total_sheet = this.sheets[i][j];
                     targetGroup.notes.push(newNote);
-                    if(this.buyTotal>=this.total_mmk){
-                        this.changes= this.buyTotal-this.total_mmk;
-                    }else{
-                        this.exceed_msg = 'Error';
-                    }
+                    this.$store.commit('setSellTotal',this.total_mmk);
+                    this.$store.commit('isExceed',[this.buyTotal,this.sellTotal]);
 
-                    this.transaction.out_value = this.total;
-                    this.transaction.out_value_mmk = this.total_mmk;
-                    this.transaction.changes = this.changes;
-                    this.$store.commit('allTransaction',this.transaction);
-                    this.$store.commit('setResults',[this.transaction,this.getGroups])
+                    // if(this.buyTotal>=this.total_mmk){
+                    //     this.changes = this.buyTotal-this.total_mmk;
+                    // }else{
+                    //     this.exceed_msg = 'Error';
+                    // }
+                    // if(this.buyTotal>=this.sellTotal){
+                    //     this.$store.commit('setChanges',this.buyTotal-this.sellTotal);
+                    // }else{
+                    //     this.$store.commit('setExceedMsg',"Error");
+                    // }
+
+                    // if(this.buyTotal>=this.total_mmk){
+                    //     this.changes= this.buyTotal-this.total_mmk;
+                    // }else{
+                    //     this.exceed_msg = 'Error';
+                    // }
+
+                    this.transaction.in_value=this.in_value;
+                    this.transaction.in_value_mmk=this.in_value_mmk;
+                    this.transaction.out_value=this.total;
+                    this.transaction.out_value_mmk=this.total_mmk;
+                    this.transaction.changes=this.changes;
+                    this.$store.commit('setTransaction',this.transaction);
+                    // this.$store.commit('setDataFromSellGroups',[this.total,this.total_mmk,this.changes]);
+
+                    this.$store.commit('setResults',[this.transaction,this.getGroups]);
+                    console.log(this.getResults);
+
                 }else{
                     this.not_enough_msg = 'Invalid Value!'
                 }
@@ -142,9 +167,48 @@
             }
         },
         computed: {
+
+            ...mapState({
+                exceed_msg: 'exceed_msg',
+                changes: 'changes'
+            }),
             buyTotal() {
                 return this.$store.state.buy_total_mmk;
             },
+            sellTotal() {
+                return this.$store.state.sell_total_mmk;
+            },
+
+            in_value(){
+                return this.$store.state.in_value;
+            },
+            in_value_mmk(){
+                return this.$store.state.in_value_mmk;
+            },
+
+            // exceed_msg(){
+            //     return this.$store.state.exceed_msg;
+            //
+            // },
+            // ...mapGetters({
+            //     exceed_msg: 'exceed_msg',
+            //     changes: 'changes'
+            // }),
+            // exceed_msg: {
+            //     get(){
+            //         return this.$store.state.exceed_msg;
+            //     }
+            // },
+            // changes: {
+            //     get(){
+            //         return this.$store.state.changes;
+            //     }
+            // },
+
+            // changes(){
+            //     return this.$store.state.changes;
+            // },
+
             transaction(){
                 return this.$store.state.transactionDataFromBuyCurrency;
             },

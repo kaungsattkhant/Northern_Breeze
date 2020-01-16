@@ -31,9 +31,33 @@ class POSController extends Controller
 
     public function currency_group(Request $request)
     {
-        $results = json_decode( file_get_contents(public_path().'/currency_group.json'));
+
+//        dd($request->currency_id);
+        if ($request->currency_id===12) {
+            $results = json_decode(file_get_contents(public_path().'/mm_currency_group.json'));
+            return response()->json([
+                'results'=> $results
+            ]);
+        }
+
+        if($request->currency_id===23) {
+            $results = json_decode( file_get_contents(public_path().'/us_currency_group.json'));
+            return response()->json([
+                'results'=> $results
+            ]);
+        } else{
+            $results = json_decode( file_get_contents(public_path().'/currency_group.json'));
+            return response()->json([
+                'results'=> $results
+            ]);
+        }
+
+    }
+
+    public function currency_results(Request $request)
+    {
         return response()->json([
-            'results' => $results
+            'results' => $request->data
         ]);
     }
 

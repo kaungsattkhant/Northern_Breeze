@@ -1,17 +1,17 @@
 <template>
 
     <div class="container-nb-mount">
-        <form method="post">
+        <form >
             <div class="d-flex justify-content-between top-box-mount shadow-sm">
                 <div class="my-auto ">
-                    <select class="selectpicker ml-4 show-menu-arrow currency_option" name="from_currency"
+                    <select class="selectpicker ml-4 show-menu-arrow buy_currency_option" name="from_currency"
                             v-on:change="fetch_currency_groups('buy')" data-style="btn-white" data-width="auto">
                         <option selected disabled>လဲလှယ်မည့်ငွေ</option>
                         <option :value="item.id" v-for="item in items">{{item.name}}</option>
 
                     </select>
 
-                    <select class="selectpicker pl-4 show-menu-arrow currency_option" name="to_currency"
+                    <select class="selectpicker pl-4 show-menu-arrow sell_currency_option" name="to_currency"
                             v-on:change="fetch_currency_groups('sell')" data-style="btn-white" data-width="auto">
                         <option selected disabled>ပြန်လည်ထုတ် ပေးမည့်ငွေ</option>
                         <option :value="item.id" v-for="item in items">{{item.name}}</option>
@@ -19,7 +19,7 @@
                     </select>
 
                 </div>
-                <button type="submit" class="btn btn-nb-mount-save fontsize-mount">သိမ်းမည်</button>
+                <button type="button" v-on:click="submitForm()" class="btn btn-nb-mount-save fontsize-mount">သိမ်းမည်</button>
             </div>
             <div class="row">
                 <div class="col currency-group-container" id="from-currency-group-container" >
@@ -54,7 +54,9 @@
 
 
 <script>
-
+    import Vuex from 'vuex'
+    Vue.use(Vuex);
+    import Vue from 'vue';
     export default {
         props: ['currencies'],
         data() {
@@ -68,9 +70,44 @@
         },
 
         methods: {
+
+            submitForm(){
+                let data={};
+               if($.isEmptyObject(this.getResults)){
+                    data.data=this.getClassGroups;
+
+               }else{
+                   data.data=this.getResults;
+               }
+                fetch('/currency_results', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    body: JSON.stringify(data)
+                })
+                    .then(response=>response.json())
+                    .then(data =>{
+                            console.log(data);
+                })
+
+
+            },
+
             fetch_currency_groups(status) {
+                let type;
+                let currency_id;
+
+                if(status==='buy'){
+                    type='buy';
+                }else{
+                    type='sell';
+                }
+                currency_id = parseInt($('.'+type+'_currency_option option:selected').val());
+
                 let data = {
-                    currency_id: $('.currency_option option:selected').val(),
+                    currency_id: currency_id ,
                     status: status,
                     is_member: true,
                 };
@@ -85,18 +122,18 @@
                     .then(response => response.json())
                     .then(data => {
                         if(status==='buy'){
-                            if(data.results.groups[0].currency_value){
-                                this.buy_currency_groups = data.results;
-                            }else{
+                            if(data.results.groups[0].class_currency_value){
                                 this.us_buy_currency_groups = data.results;
+                            }else{
+                                this.buy_currency_groups = data.results;
                             }
                         }else{
-
-                            if(data.results.groups[0].currency_value){
-                                this.sell_currency_groups = data.results;
-                            }else{
+                            if(data.results.groups[0].class_currency_value){
                                 this.us_sell_currency_groups = data.results;
+                            }else{
+                                this.sell_currency_groups = data.results;
                             }
+                            // console.log(this.sell_currency_groups)
                         }
 
 
@@ -104,6 +141,15 @@
             }
         },
         mounted() {
+        },
+        computed: {
+            getResults(){
+                return this.$store.state.results;
+            },
+            getClassResults(){
+                return this.$store.state.class_results;
+            },
+
         },
     }
 
