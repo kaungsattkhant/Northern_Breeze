@@ -1,23 +1,6 @@
 
 {
-    "class": [
-        {
-            "id": 1,
-            "name": "A"
-        },
-        {
-            "id": 2,
-            "name": "B"
-        },
-        {
-            "id": 3,
-            "name": "C"
-        },
-        {
-            "id": 4,
-            "name": "D"
-        }
-    ],
+    "class": null,
     "groups": [
         {
             "group_id": 1,
@@ -26,69 +9,21 @@
                 {
                     "group_note_id": 1,
                     "note_name": 1,
-                    "total_sheet": 100,
-                    "class_sheet": [
-                        {
-                            "class_id": 1,
-                            "sheet": 10
-                        },
-                        {
-                            "class_id": 2,
-                            "sheet": 20
-                        },
-                        {
-                            "class_id": 3,
-                            "sheet": 30
-                        },
-                        {
-                            "class_id": 4,
-                            "sheet": 40
-                        }
-
-                    ]
+                    "total_sheet": 200,
+                    "class_sheet": null
                 },
                 {
                     "group_note_id": 2,
                     "note_name": 5,
-                    "total_sheet": 100,
-                    "class_sheet": [
-                        {
-                            "class_id": 1,
-                            "sheet": 50
-                        },
-                        {
-                            "class_id": 3,
-                            "sheet": 50
-                        }
-                    ]
+                    "total_sheet": 200,
+                    "class_sheet": null
                 }
             ],
             "currency_value": {
                 "id": 1,
                 "value": 1350
             },
-            "class_currency_value": [
-                {
-                    "id": 1,
-                    "class_id": 1,
-                    "value": 1350
-                },
-                {
-                    "id": 2,
-                    "class_id": 2,
-                    "value": 1340
-                },
-                {
-                    "id": 3,
-                    "class_id": 3,
-                    "value": 1330
-                },
-                {
-                    "id": 4,
-                    "class_id": 4,
-                    "value": 1320
-                }
-            ]
+            "class_currency_value": null
         },
         {
             "group_id": 2,
@@ -97,54 +32,15 @@
                 {
                     "group_note_id": 3,
                     "note_name": 100,
-                    "total_sheet": 100,
-                    "class_sheet": [
-                        {
-                            "class_id": 1,
-                            "sheet": 10
-                        },
-                        {
-                            "class_id": 2,
-                            "sheet": 20
-                        },
-                         {
-                            "class_id": 3,
-                            "sheet": 30
-                        },
-                         {
-                            "class_id": 4,
-                            "sheet": 40
-                        }
-
-                    ]
+                    "total_sheet": 200,
+                    "class_sheet": null
                 }
             ],
             "currency_value": {
                 "id": 1,
                 "value": 1350
             },
-            "class_currency_value": [
-                {
-                    "id": 1,
-                    "class_id": 1,
-                    "value": 1500
-                },
-                {
-                    "id": 2,
-                    "class_id": 2,
-                    "value": 1490
-                },
-                {
-                    "id": 3,
-                    "class_id": 3,
-                    "value": 1480
-                },
-                {
-                    "id": 4,
-                    "class_id": 4,
-                    "value": 1470
-                }
-            ]
+            "class_currency_value": null
         }
     ]
 }

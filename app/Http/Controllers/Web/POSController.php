@@ -32,11 +32,37 @@ class POSController extends Controller
     use CurrencyFilter;
     use ToExchangeFilter;
 
-//    public function currency_group(Request $request)
+
+//    public function currency_groups(Request $request)
 //    {
-//        $results = json_decode( file_get_contents(public_path().'/currency_group.json'));
+//
+////        dd($request->currency_id);
+//        if ($request->currency_id===12) {
+//            $results = json_decode(file_get_contents(public_path().'/mm_currency_group.json'));
+//            return response()->json([
+//                'results'=> $results
+//            ]);
+//        }
+//
+//        if($request->currency_id===23) {
+//            $results = json_decode( file_get_contents(public_path().'/us_currency_group.json'));
+//            return response()->json([
+//                'results'=> $results
+//            ]);
+//        } else{
+//            $results = json_decode( file_get_contents(public_path().'/currency_group.json'));
+//            return response()->json([
+//                'results'=> $results
+//            ]);
+//        }
+//
+//    }
+
+//    public function currency_results(Request $request)
+//    {
+//
 //        return response()->json([
-//            'results' => $results
+//            'results' => $request->data
 //        ]);
 //    }
 
@@ -58,6 +84,11 @@ class POSController extends Controller
         $us_currency_id=Currency::where('name','United States dollar')->first();
         $myanmar_currency=Currency::where('name','Myanmar Kyat')->first();
         $groups=Group::with('notes')->where('currency_id',$currency_id)->get();
+        if($currency_id==$myanmar_currency->id){
+            $status="MMK";
+        }else{
+            $status="other";
+        }
         $branch_id = Auth::user()->branch_id ? Auth::user()->branch_id : 1;
         foreach($groups as $key=>$group){
             $new[$key]=new \stdClass();
@@ -137,15 +168,16 @@ class POSController extends Controller
         }
         return response()->json([
                 'class'=>$classification,
+                'status'=>$status,
                 'groups'=>
                     $new,
             ]);
     }
-    public function transaction_store(){
-//        $auth_branch=Auth::user()->branch_id;
-        $branch=Branch::whereId(Auth::user()->branch_id)->firstOrfail();
-        $data=file_get_contents(storage_path().'/Pos/transaction_store.json');
+    public function transaction_store(Request $request){
+        $data=json_encode($request->data);
         $decode_data=json_decode($data);
+        $branch=Branch::whereId(Auth::user()->branch_id)->firstOrfail();
+//        $data=file_get_contents(storage_path().'/Pos/transaction_store.json');
         $t=$decode_data->transaction;
         $transaction=new Transaction();
         $transaction->in_value=$t->in_value;

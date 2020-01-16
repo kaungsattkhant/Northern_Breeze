@@ -16,7 +16,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware'=>['adminCheck']],function() {
     Route::group(['namespace'=>'Web'],function(){
-//        Route::post('currency_group','POSController@currency_group');
+
+//        Route::post('currency_group','POSController@currency_groups');
+//        Route::post('transaction','POSController@currency_results');
+
         Route::group(['prefix'=>'admin'],function(){
             Route::get('/','AdminController@index');
             Route::post('/store','AdminController@store');
@@ -165,7 +168,7 @@ Route::group(['middleware'=>['frontmanCheck']],function() {
             Route::get('non_member/{group_id}/get_group_value','POSController@getGroupValue');
 //            Route::post('non_member_store','POSController@non_member_store');
             Route::post('currency_group','POSController@currency_group');
-            Route::get('transaction','POSController@transaction_store');
+            Route::post('transaction','POSController@transaction_store');
 
         });
         Route::group(['prefix'=>'member'],function(){

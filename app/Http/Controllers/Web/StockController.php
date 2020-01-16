@@ -166,6 +166,7 @@ class StockController extends Controller
                     $g[]=$group_note_id[0];
                     if($currency->name==="Myanmar Kyat")
                     {
+//                        dd('a');
                         $total_sheet=DB::table('branch_group_note')->where('group_note_id',$group_note_id[0])
                             ->where('branch_id',$branch_id)
                             ->sum('sheet');
