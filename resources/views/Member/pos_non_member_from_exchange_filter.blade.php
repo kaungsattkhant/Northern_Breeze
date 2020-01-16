@@ -7,11 +7,8 @@
             <td class="text-right border-top-0 pt-4 pb-4">
                 <input type="hidden" name="from_group[]" value="{{$note->group_id}}" class="from_group_id">
                 <input type="hidden" name="from_note_id[]" value="{{$note->id}}" class="from_note_id">
-
-                {{--            <input type="text" name=notes[] class="note_class border rounded-table-mount w-25 text-center fontsize-mount3 pt-1 "    placeholder=""   >--}}
-                <input type="text" name=from_notes[] class="from_note_class border rounded-table-mount w-25 text-center fontsize-mount3 pt-1 "    placeholder=""
-                       onchange=" return total_currency_value({{$note->group_id}},$(this).val(),{{$note->name}})"
-                >
+                <input type="text" name=from_notes[] class="from_note_class border rounded-table-mount w-25 text-center fontsize-mount3 pt-1" placeholder=""
+                       onchange="return total_currency_value({{$note->group_id}},$(this).val(),{{$note->name}})">
             </td>
         </tr>
     @endforeach

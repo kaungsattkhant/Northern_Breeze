@@ -14,6 +14,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware'=>['adminCheck']],function() {
     Route::group(['namespace'=>'Web'],function(){
+        Route::post('currency_group','POSController@currency_group');
+        Route::post('transaction','POSController@currency_results');
+
         Route::group(['prefix'=>'admin'],function(){
             Route::get('/','AdminController@index');
             Route::post('/store','AdminController@store');

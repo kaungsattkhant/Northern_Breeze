@@ -5,6 +5,7 @@
  */
 
 require('./bootstrap');
+import {store} from './store';
 
 window.Vue = require('vue');
 
@@ -20,6 +21,11 @@ window.Vue = require('vue');
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('non-member', require('./components/NonMember.vue').default);
+Vue.component('buy-currency-group', require('./components/BuyCurrencyGroup.vue').default);
+Vue.component('sell-us-currency-group', require('./components/SellUSCurrencyGroup.vue').default);
+Vue.component('sell-currency-group', require('./components/SellCurrencyGroup.vue').default);
+Vue.component('buy-us-currency-group', require('./components/BuyUSCurrencyGroup.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -29,4 +35,6 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 
 const app = new Vue({
     el: '#app',
+    store,
+
 });

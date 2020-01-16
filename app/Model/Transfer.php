@@ -22,4 +22,11 @@ class Transfer extends Model
     {
         return $this->belongsToMany(Group::class,'transfer_group','transfer_id','group_id')->withPivot('value');
     }
+    public function transfer_classification_group()
+    {
+        return $this->belongsToMany(ClassificationGroup::class,'transfer_class_group','transfer_id','classification_group_id')->withPivot('value');
+    }
+    public function transfer_group_note_class(){
+        return $this->belongsToMany(GroupNote::class,'transfer_group_note_class','transfer_id','group_note_id')->withPivot('class_id','sheet');
+    }
 }

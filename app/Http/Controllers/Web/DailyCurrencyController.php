@@ -27,11 +27,24 @@ class DailyCurrencyController extends Controller
             ->orderBy('currency_id','asc')->get();
 
         foreach ($groups as $group){
-            $buy_values = BuyGroupValue::where('group_id',$group->id)->get();
+//            dd($group->currency->id);
+            $us_currency_id=Currency::where('name','United States dollar')->first();
+            if($us_currency_id->id == $group->currency->id){
+                $classification_group=DB::table('classification_group')->where('group_id',$group->id)
+                    ->where('classification_id',1)->first();
+                $buy_values=BuyClassGroupValue::where('classification_group_id',$classification_group->id)
+                    ->get();
+                $sell_values=SellClassGroupValue::where('classification_group_id',$classification_group->id)
+                    ->get();
+            }
+            else{
+                $buy_values = BuyGroupValue::where('group_id',$group->id)->get();
+                $sell_values = SellGroupValue::where('group_id',$group->id)->get();
+
+            }
             $lastest_buy_value = collect($buy_values)->last();
             $group->detail_id=$lastest_buy_value['id'];
             $group->lastest_buy_value = $lastest_buy_value['value'];
-            $sell_values = SellGroupValue::where('group_id',$group->id)->get();
             $lastest_sell_value = collect($sell_values)->last();
             $group->lastest_sell_value = $lastest_sell_value['value'];
         }
@@ -110,7 +123,6 @@ class DailyCurrencyController extends Controller
                             $is_exist =$group->classifications()-> wherePivot('classification_id',$a)->exists();
                             if($is_exist  ==false)
                             {
-
                                 $group->classifications()->attach($a);
 //                        $all_classification= $group->classifications()->get();
 //                        $group_classification = collect($all_classification)->last();
@@ -120,7 +132,7 @@ class DailyCurrencyController extends Controller
                                 ->where('classification_id',$a)->pluck('id')->first();
                             $sell_class_value=new SellClassGroupValue();
                             $sell_class_value->value=$selling_class_value[$i][$key];
-                            $sell_class_value->date_time=now();
+                            $sell_class_value->date_time=now()->format('Y-m-d H:i');;
                             $sell_class_value->classification_group_id = $classification_group_id;
                             $sell_class_value->save();
                         }
@@ -146,15 +158,12 @@ class DailyCurrencyController extends Controller
                             if($is_exist  ==false)
                             {
                                 $group->classifications()->attach($a);
-//                        $all_classification= $group->classifications()->get();
-//                        $group_classification = collect($all_classification)->last();
-//                        $classification_group_id = $group_classification->pivot->id;
                             }
                             $classification_group_id=DB::table('classification_group')->where('group_id',$id)
                                 ->where('classification_id',$a)->pluck('id')->first();
                             $buy_class_values=new BuyClassGroupValue();
                             $buy_class_values->value=$class_value[$i][$key];
-                            $buy_class_values->date_time=now();
+                            $buy_class_values->date_time=now()->format('Y-m-d H:i');;
                             $buy_class_values->classification_group_id = $classification_group_id;
                             $buy_class_values->save();
                         }
@@ -174,15 +183,36 @@ class DailyCurrencyController extends Controller
     {
 
         $request_date=$request->date;
+//        dd($request_date);
         $groups=Group::with('currency','classifications','notes')
             ->orderBy('currency_id','asc')->get();
         if($groups->isNotEmpty()) {
             foreach ($groups as $group) {
-                $buy_values = BuyGroupValue::where('group_id', $group->id)->whereDate('date_time', $request_date)->get();
+                $us_currency_id=Currency::where('name','United States dollar')->first();
+                if($us_currency_id->id == $group->currency->id){
+                    $classification_group=DB::table('classification_group')->where('group_id',$group->id)
+                        ->where('classification_id',1)->first();
+                    $buy_values=BuyClassGroupValue::where('classification_group_id',$classification_group->id)
+                        ->whereDate('date_time', $request_date)
+                        ->get();
+                    $sell_values=SellClassGroupValue::where('classification_group_id',$classification_group->id)
+                        ->whereDate('date_time', $request_date)
+                        ->get();
+                }
+                else{
+                    $buy_values = BuyGroupValue::where('group_id', $group->id)->whereDate('date_time', $request_date)->get();
+                    $sell_values = SellGroupValue::where('group_id', $group->id)->whereDate('date_time', $request_date)->get();
+
+
+                }
+
+
+
+//                $buy_values = BuyGroupValue::where('group_id', $group->id)->whereDate('date_time', $request_date)->get();
                 $lastest_buy_value = collect($buy_values)->last();
 //                $group->detail_id = $lastest_buy_value['id'];
                 $group->lastest_buy_value = $lastest_buy_value['value'];
-                $sell_values = SellGroupValue::where('group_id', $group->id)->whereDate('date_time', $request_date)->get();
+//                $sell_values = SellGroupValue::where('group_id', $group->id)->whereDate('date_time', $request_date)->get();
                 $lastest_sell_value = collect($sell_values)->last();
                 $group->lastest_sell_value = $lastest_sell_value['value'];
             }
@@ -194,26 +224,54 @@ class DailyCurrencyController extends Controller
     }
     public function daily_detail($group_id,$detail_id)
     {
-        $detail_date=DB::table('buy_group_values')->whereId($detail_id)->pluck('date_time');
+        $us_currency_id=Currency::where('name','United States dollar')->first();
+        $group=Group::with('currency')->whereId($group_id)->firstOrfail();
+        if($us_currency_id->id == $group->currency->id) {
+            $detail_date=BuyClassGroupValue::whereId($detail_id)->pluck('date_time');
+
+        }else{
+            $detail_date=DB::table('buy_group_values')->whereId($detail_id)->pluck('date_time');
+
+        }
+        $t=date("Y-m-d", strtotime($detail_date[0]));
+
         if($detail_date->isNotEmpty())
         {
             $date=date("Y-m-d", strtotime($detail_date[0]));
-            $buy_values = BuyGroupValue::where('group_id',$group_id)->whereDate('date_time',$date)->orderBy('date_time','asc')
-                ->get();
-//            dd($buy_values);
-            foreach ($buy_values as $buy_value){
-                $buy_value->type = 'buy';
+//            $us_currency_id=Currency::where('name','United States dollar')->first();
+//            $group=Group::with('currency')->whereId($group_id)->first();
+//            dd($group);
+            if($us_currency_id->id == $group->currency->id) {
+//                dd('a');
+                $classification_group = DB::table('classification_group')->where('group_id', $group->id)
+                    ->where('classification_id', 1)->first();
+                $buy_values = BuyClassGroupValue::where('classification_group_id', $classification_group->id)
+                    ->whereDate('date_time', $date)
+                    ->orderBy('date_time', 'asc')
+                    ->get();
+                $sell_values=SellClassGroupValue::where('classification_group_id',$classification_group->id)
+                    ->whereDate('date_time', $date)
+                    ->orderBy('date_time', 'asc')
+                    ->get();
             }
-            $sell_values = SellGroupValue::where('group_id',$group_id)->whereDate('date_time',$date)->orderBy('date_time','asc')
-                ->get();
+            else{
+                $buy_values = BuyGroupValue::where('group_id', $group_id)->whereDate('date_time', $date)->orderBy('date_time', 'asc')
+                    ->get();
+                $sell_values = SellGroupValue::where('group_id',$group_id)->whereDate('date_time',$date)->orderBy('date_time','asc')
+                    ->get();
+
+            }
             foreach ($sell_values as $sell_value){
                 $sell_value->type = 'sell';
             }
+            foreach ($buy_values as $buy_value) {
+                $buy_value->type = 'buy';
+            }
 //            if(isset($buy_values->type) && isset($sell_values->type)){
             $buy_values = collect($buy_values);
-//            dd($buy_values);
             $sell_values = collect($sell_values);
             $values = $buy_values->merge($sell_values);
+//            dd($values);
             $grouped_values = $values->groupBy('date_time');
             foreach ($grouped_values as $key=>$grouped_value){
                 $v = new \stdClass();

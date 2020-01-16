@@ -55,7 +55,6 @@
                             {{$note->name}}
                             @endforeach
                     </td>
-
                     <td class="table-row-m text-info border-top-0">
                        {{$group->lastest_sell_value}}
                     </td>
@@ -77,8 +76,6 @@
 
         });
     </script>
-
-
     @include('DailyCurrency.detail')
 @endsection
 

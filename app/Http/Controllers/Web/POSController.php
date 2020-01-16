@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Web;
 use App\Http\Traits\CurrencyFilter;
 use App\Http\Traits\ToExchangeFilter;
 use App\Model\Branch;
+use App\Model\BuyClassGroupValue;
 use App\Model\BuyGroupValue;
 //use http\Exception\BadUrlException;
+use App\Model\Classification;
 use App\Model\ClassValue;
 use App\Model\Currency;
 use App\Model\Group;
@@ -26,20 +28,136 @@ class POSController extends Controller
 {
     use CurrencyFilter;
     use ToExchangeFilter;
+
+    public function currency_group(Request $request)
+    {
+
+//        dd($request->currency_id);
+        if ($request->currency_id===12) {
+            $results = json_decode(file_get_contents(public_path().'/mm_currency_group.json'));
+            return response()->json([
+                'results'=> $results
+            ]);
+        }
+
+        if($request->currency_id===23) {
+            $results = json_decode( file_get_contents(public_path().'/us_currency_group.json'));
+            return response()->json([
+                'results'=> $results
+            ]);
+        } else{
+            $results = json_decode( file_get_contents(public_path().'/currency_group.json'));
+            return response()->json([
+                'results'=> $results
+            ]);
+        }
+
+    }
+
+    public function currency_results(Request $request)
+    {
+//        dd(json_encode($request->all()) );
+        return response()->json([
+            'results' => $request->all()
+        ]);
+    }
+
     public function pos_member()
     {
         return view('Member.pos_member');
     }
     public function pos_non_member()
     {
-        return view('Member.non_member');
+        $currencies  = Currency::all();
+        return view('Member.non_member',compact('currencies'));
     }
     public function non_member_from_exchange_filter($currency_id)
-    {
-//        dd(Currency::all());
-//        dd($currency_id);
 
-        return $this->currency_filter($currency_id);
+    {
+        $classification=Classification::all('id','name');
+        $us_currency_id=Currency::where('name','United States dollar')->first();
+        $groups=Group::with('notes')->where('currency_id',$currency_id)->get();
+        $branch_id = Auth::user()->branch_id ? Auth::user()->branch_id : 1;
+        foreach($groups as $key=>$group){
+            $new[$key]=new \stdClass();
+            $new[$key]->group_id=$group->id;
+            $new[$key]->group_name=$group->name;
+
+            $note_id=DB::table('group_note')->where('group_id',$group->id)->orderBy('note_id','desc')->pluck('note_id');
+            foreach ($note_id as $i=>$id)
+            {
+                $note=Note::whereId($id)->first();
+                $group_note_id=DB::table('group_note')
+                    ->where('note_id',$id)
+                    ->where('group_id',$group->id)
+                    ->first();
+//                $a[]=$group_note_id-
+                $notes[$key][$i]=new \stdClass();
+                $notes[$key][$i]->group_note_id=$group_note_id->id;
+                  $notes[$key][$i]->note_name=$note->name;
+                if($us_currency_id->id == $currency_id) {
+                    $class_total_sheet=0;
+                    foreach($classification as $bc=>$class){
+                        $class_sheet[$bc]=new \stdClass();
+
+                        $branch_class_sheet=DB::table('branch_group_note_class')
+                            ->where('branch_id',$branch_id)
+                            ->where('class_id',$class->id)
+                            ->where('group_note_id',$group_note_id->id)->first();
+                        if($branch_class_sheet==null){
+                            $class_sheet[$bc]->class_id=$class->id;
+                            $class_sheet[$bc]->sheet=0;
+                        }else{
+                            $class_sheet[$bc]->class_id=$branch_class_sheet->class_id;
+                            $class_sheet[$bc]->sheet=$branch_class_sheet->sheet;
+                        }
+                        $class_total_sheet+=(int)$class_sheet[$bc]->sheet;
+                    }
+                    $notes[$key][$i]->class_sheet=$class_sheet;
+                    $notes[$key][$i]->total_sheet=$class_total_sheet;
+
+                }else{
+                    $total_sheet = DB::table('branch_group_note')->where('group_note_id', $group_note_id->id)
+                        ->where('branch_id', $branch_id)
+                        ->sum('sheet');
+                    $notes[$key][$i]->total_sheet = $total_sheet;
+                }
+            }
+            if($us_currency_id->id == $currency_id) {
+                foreach($classification as $c=>$class){
+                    $classification_group_id = \Illuminate\Support\Facades\DB::table('classification_group')->where('group_id', $group->id)
+                        ->where('classification_id', $class->id)->first();
+                    $buy_class_value= BuyClassGroupValue::where('classification_group_id', $classification_group_id->id)
+                        ->latest()
+                        ->first();
+                    $currency_value[]=new \stdClass();
+                    $currency_value[$c]->id=$buy_class_value->id;
+                    $currency_value[$c]->class_id=$class->id;
+                    $currency_value[$c]->value=$buy_class_value->value;
+                }
+                $new[$key]->class_currency_value=$currency_value;
+                $new[$key]->currency_value=null;
+
+            }else{
+                $currency_value=new \stdClass();
+                $group_currency_value=BuyGroupValue::where('group_id',$group->id)->latest()->first();
+                $currency_value->id=$group_currency_value->id;
+                $currency_value->value=$group_currency_value->value;
+                $new[$key]->currency_value=$currency_value;
+                $new[$key]->class_currency_value=null;
+
+
+            }
+        }
+        foreach($new as $k=>$n){
+            $new[$k]->notes=$notes[$k];
+        }
+//        dd($new);
+        return response()->json([
+                'class'=>$classification,
+                'group'=>
+                    $new,
+            ]);
     }
     public function non_member_to_exchange_filter($currency_id)
     {
@@ -73,7 +191,7 @@ class POSController extends Controller
     }
     public function non_member_store(Request $request )
     {
-//        dd($request->all());
+        dd($request->all());
         $b=array_unique($request->from_classification_id);
 //        $from_group_notes = array_combine($from_note_id, $request->from_group);
         $from_class_note=array_unique($request->from_class_note_id);
@@ -212,8 +330,6 @@ class POSController extends Controller
             }
 
         }
-
-
 //            ****************************start out value for  other currency ******************
         else{
             $to_note_id = $request->to_note_id;
@@ -279,7 +395,6 @@ class POSController extends Controller
             $branch = Branch::with('branch_group_note')->whereId(Auth::user()->branch_id)->first();
 
             if (intval($request->from_currency) === $myanmar_currency->id) {
-//            dd('same');
                 foreach ($from_group_notes as $note => $group_id) {
 //                    $group_note=DB::table('group_note')->where('group_id',$group_id)
 //                    ->where('note_id',$note)
