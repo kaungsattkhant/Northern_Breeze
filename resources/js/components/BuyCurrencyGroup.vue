@@ -108,9 +108,9 @@
 
                     // this.$store.commit('setInValue',this.total_mmk);
                     this.transaction.in_value=this.total;
-                    this.transaction.in_value_mmk=this.total_mmk;
+                    this.transaction.in_value_MMK=this.total_mmk;
                     this.transaction.out_value=this.out_value;
-                    this.transaction.out_value_mmk=this.out_value_mmk;
+                    this.transaction.out_value_MMK=this.out_value_MMK;
                     this.$store.commit('setBuyStatus',this.data.status);
                     this.$store.commit('setStatus',[this.sell_status,this.buy_status]);
                     this.transaction.status=this.status;
@@ -178,8 +178,8 @@
             out_value(){
                 return this.$store.state.out_value;
             },
-            out_value_mmk(){
-                return this.$store.state.out_value_mmk;
+            out_value_MMK(){
+                return this.$store.state.out_value_MMK;
             },
             buy_status(){
                 return this.$store.state.buy_status;
