@@ -26,6 +26,8 @@ export const store = new Vuex.Store({
         // changes: 0,
         member_id: null,
         status: '',
+        buy_status: '',
+        sell_status: '',
         class_transaction: {},
         groups: [],
         class_groups: [],
@@ -59,6 +61,23 @@ export const store = new Vuex.Store({
             this.out_value=state.out_value;
             this.out_value_mmk=state.out_value_mmk;
         },
+        setSellStatus(state,data){
+            state.sell_status = data;
+            this.sell_status = state.sell_status;
+        },
+        setBuyStatus(state,data){
+            state.buy_status = data;
+            this.buy_status = state.buy_status;
+        },
+        setStatus(state,data){
+            state.status = data[1]+'_'+data[0];
+            this.status = state.status;
+        },
+        setTransaction(state,data){
+            state.transaction = data;
+            this.transaction = state.transaction;
+        },
+
 
         // setTransaction(state,data){
         //     state.transaction = data;

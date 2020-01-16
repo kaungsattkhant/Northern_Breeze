@@ -72,20 +72,15 @@
         methods: {
 
             submitForm(){
-                let data={};
-               if($.isEmptyObject(this.getResults)){
-                    data.data=this.getClassGroups;
-
-               }else{
-                   data.data=this.getResults;
-               }
-                fetch('/currency_results', {
+                let data= {...this.getResults};
+                console.log(JSON.stringify(this.getResults));
+                fetch('/transaction', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    body: JSON.stringify(data)
+                    body: JSON.stringify(this.getResults)
                 })
                     .then(response=>response.json())
                     .then(data =>{
@@ -96,13 +91,20 @@
             },
 
             fetch_currency_groups(status) {
+
+
                 let type;
                 let currency_id;
 
                 if(status==='buy'){
                     type='buy';
+                    this.buy_currency_groups = '';
+                    this.us_buy_currency_groups = '';
                 }else{
                     type='sell';
+                    this.sell_currency_groups = '';
+                    this.us_sell_currency_groups = '';
+
                 }
                 currency_id = parseInt($('.'+type+'_currency_option option:selected').val());
 
@@ -146,9 +148,7 @@
             getResults(){
                 return this.$store.state.results;
             },
-            getClassResults(){
-                return this.$store.state.class_results;
-            },
+
 
         },
     }

@@ -56,8 +56,9 @@ class POSController extends Controller
 
     public function currency_results(Request $request)
     {
+//        dd(json_encode($request->all()) );
         return response()->json([
-            'results' => $request->data
+            'results' => $request->all()
         ]);
     }
 

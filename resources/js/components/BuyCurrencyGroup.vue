@@ -111,8 +111,12 @@
                     this.transaction.in_value_mmk=this.total_mmk;
                     this.transaction.out_value=this.out_value;
                     this.transaction.out_value_mmk=this.out_value_mmk;
+                    this.$store.commit('setBuyStatus',this.data.status);
+                    this.$store.commit('setStatus',[this.sell_status,this.buy_status]);
+                    this.transaction.status=this.status;
                     this.$store.commit('setTransaction',this.transaction);
                     this.$store.commit('setResults',[this.transaction,this.getGroups]);
+                    console.log(this.getResults)
                 }else{
                     this.not_enough_msg = 'Invalid Value!'
                 }
@@ -177,9 +181,16 @@
             out_value_mmk(){
                 return this.$store.state.out_value_mmk;
             },
+            buy_status(){
+                return this.$store.state.buy_status;
+            },
+            sell_status(){
+                return this.$store.state.sell_status;
+            },
+
             status(){
                 return this.$store.state.status;
-            }
+            },
 
         },
 
