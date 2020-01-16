@@ -50,7 +50,7 @@
                 total: 0,
                 // class_changes: 0,
                 // class_exceed_msg: '',
-                not_enough_msg: ''
+                // not_enough_msg: ''
 
             }
         },
@@ -103,7 +103,9 @@
 
                 this.exceed_msg = '';
                 if(this.sheets[i][j][k]>=0 && this.sheets[i][j][k]<=note.class_sheet[k].sheet){
-                    this.not_enough_msg = '';
+                    // this.not_enough_msg = '';
+                    this.$store.commit('setSellNotEnoughMsg','');
+
 
                     this.current_value_mmk[i][j][k] = class_value * note.note_name * this.sheets[i][j][k];
                     this.current_value[i][j][k] = note.note_name * this.sheets[i][j][k];
@@ -143,6 +145,7 @@
 
                     this.$store.commit('setResults',[this.transaction,this.getGroups]);
 
+                    console.log(this.getResults);
 
 
 
@@ -152,7 +155,9 @@
                     //     this.exceed_msg = 'Error';
                     // }
                 }else{
-                    this.not_enough_msg= 'Invalid Value!';
+                    // this.not_enough_msg= 'Invalid Value!';
+                    this.$store.commit('setSellNotEnoughMsg','Invalid Value!');
+
                 }
 
 
@@ -179,6 +184,8 @@
             };
 
             this.current_value = deepCopy(this.sheets);
+            this.current_value_mmk = deepCopy(this.sheets);
+
         },
         created(){
             for(let i=0; i<this.groups; i++){

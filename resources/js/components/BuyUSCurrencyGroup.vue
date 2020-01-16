@@ -179,6 +179,7 @@
             };
 
             this.current_value = deepCopy(this.sheets);
+            this.current_value_mmk = deepCopy(this.sheets);
         },
         created(){
             for(let i=0; i<this.groups; i++){

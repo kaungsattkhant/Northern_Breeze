@@ -43,7 +43,7 @@
                 notes: 10, //maximum possible number of notes in a group
                 total_mmk: 0,
                 total: 0,
-                not_enough_msg: '',
+                // not_enough_msg: '',
             }
         },
 

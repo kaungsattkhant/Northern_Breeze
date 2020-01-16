@@ -133,7 +133,6 @@
                     this.transaction.out_value_MMK=this.total_mmk;
                     this.transaction.changes=this.changes;
                     this.$store.commit('setSellStatus',this.data.status);
-                    console.log(this.buy_status)
                     this.$store.commit('setStatus',[this.sell_status,this.buy_status]);
                     this.transaction.status=this.status;
 
@@ -201,6 +200,9 @@
             buy_status(){
                 return this.$store.state.buy_status;
             },
+            sell_not_enough_msg(){
+                return this.$store.state.not_enough_msg;
+            },
 
 
             // exceed_msg(){
@@ -227,7 +229,7 @@
             // },
 
             transaction(){
-                return this.$store.state.transactionDataFromBuyCurrency;
+                return this.$store.state.transaction;
             },
             getGroups(){
                 return this.$store.state.groups;
