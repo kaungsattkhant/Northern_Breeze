@@ -12,7 +12,7 @@ class BuyGroupValue extends Model
     {
         return $this->belongsTo(Group::class);
     }
-    public function buy(){
+    public function buys(){
         return $this->morphTo(BuyGroupValue::class,'classable');
     }
 }
