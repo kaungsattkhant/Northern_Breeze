@@ -128,6 +128,7 @@
 
                     this.$store.commit('setBuyTotal',this.total_mmk);
                     this.$store.commit('isExceed',[this.buyTotal,this.sellTotal]);
+                    this.$store.commit('setTransactionDataFromBuyGroups',[this.total,this.total_mmk]);
 
                     // let data_for_transaction = {
                     //     in_value: this.total,

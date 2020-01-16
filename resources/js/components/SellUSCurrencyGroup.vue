@@ -127,7 +127,8 @@
 
                     });
 
-
+                    this.$store.commit('isExceed',[this.buyTotal,this.sellTotal]);
+                    this.$store.commit('setTransactionDataFromSellGroups',[this.total,this.total_mmk]);
 
                     this.transaction.in_value=this.in_value;
                     this.transaction.in_value_MMK=this.in_value_MMK;
@@ -141,8 +142,8 @@
                     this.$store.commit('setSellTotal',this.total_mmk);
 
                     this.$store.commit('setResults',[this.transaction,this.getGroups]);
-                    this.$store.commit('isExceed',[this.buyTotal,this.sellTotal]);
-                    console.log(this.getResults);
+
+
 
 
                     // if(this.classBuyTotal>=this.total_mmk){

@@ -2251,7 +2251,8 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
           }
         });
         this.$store.commit('setBuyTotal', this.total_mmk);
-        this.$store.commit('isExceed', [this.buyTotal, this.sellTotal]); // let data_for_transaction = {
+        this.$store.commit('isExceed', [this.buyTotal, this.sellTotal]);
+        this.$store.commit('setTransactionDataFromBuyGroups', [this.total, this.total_mmk]); // let data_for_transaction = {
         //     in_value: this.total,
         //     in_value_mmk: this.total_mmk,
         //     member_id: null,
@@ -2453,6 +2454,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
@@ -2468,6 +2470,9 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
     };
   },
   methods: {
+    refresh: function refresh() {
+      window.location.replace("/pos/non_member");
+    },
     submitForm: function submitForm() {
       var data = _objectSpread({}, this.getResults);
 
@@ -2670,7 +2675,8 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
         newNote.total_sheet = this.sheets[i][j];
         targetGroup.notes.push(newNote);
         this.$store.commit('setSellTotal', this.total_mmk);
-        this.$store.commit('isExceed', [this.buyTotal, this.sellTotal]); // if(this.buyTotal>=this.total_mmk){
+        this.$store.commit('isExceed', [this.buyTotal, this.sellTotal]);
+        this.$store.commit('setTransactionDataFromSellGroups', [this.total, this.total_mmk]); // if(this.buyTotal>=this.total_mmk){
         //     this.changes = this.buyTotal-this.total_mmk;
         // }else{
         //     this.exceed_msg = 'Error';
@@ -2929,6 +2935,8 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
             });
           }
         });
+        this.$store.commit('isExceed', [this.buyTotal, this.sellTotal]);
+        this.$store.commit('setTransactionDataFromSellGroups', [this.total, this.total_mmk]);
         this.transaction.in_value = this.in_value;
         this.transaction.in_value_MMK = this.in_value_MMK;
         this.transaction.out_value = this.total;
@@ -2939,9 +2947,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
         this.transaction.status = this.status;
         this.$store.commit('setTransaction', this.transaction);
         this.$store.commit('setSellTotal', this.total_mmk);
-        this.$store.commit('setResults', [this.transaction, this.getGroups]);
-        this.$store.commit('isExceed', [this.buyTotal, this.sellTotal]);
-        console.log(this.getResults); // if(this.classBuyTotal>=this.total_mmk){
+        this.$store.commit('setResults', [this.transaction, this.getGroups]); // if(this.classBuyTotal>=this.total_mmk){
         //     this.changes= this.classBuyTotal-this.total_mmk;
         // }else{
         //     this.exceed_msg = 'Error';
@@ -38744,6 +38750,20 @@ var render = function() {
               2
             )
           ]),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-nb-mount-save fontsize-mount",
+              attrs: { type: "button" },
+              on: {
+                click: function($event) {
+                  return _vm.refresh()
+                }
+              }
+            },
+            [_vm._v("Refresh")]
+          ),
           _vm._v(" "),
           _c(
             "button",

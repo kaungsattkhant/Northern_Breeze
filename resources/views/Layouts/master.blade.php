@@ -5,17 +5,23 @@
     <meta charset="utf-8">
     <meta name="csrf-token" content="{{ csrf_token() }}"/>
     <link href='http://fonts.googleapis.com/css?family=Merienda+One' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.css">
+
     <link rel="stylesheet" type="text/css" href="{{asset('css/ui.css')}}">
 {{--    <link rel="stylesheet" type="text/css" href="{{asset('css/bootstrap.css')}}">--}}
+{{--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.css">--}}
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.css">
 
     <link rel="stylesheet" type="text/css" href="{{asset('css/multiselect.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('css/multiselect-filter.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('fontawesome/css/all.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('css/main.css')}}">
+
     <script src="{{asset('js/jquery.js')}}"></script>
     <link rel="stylesheet" type="text/css" href="{{asset('css/selectboot.css')}}">
-{{--    <link href="{{asset('css/app.css')}}" rel="stylesheet" type="text/css">--}}
+
+
+    {{--    <link href="{{asset('css/app.css')}}" rel="stylesheet" type="text/css">--}}
 {{--    <script src="{{asset('js/app.js')}}"></script>--}}
 
 
@@ -37,7 +43,8 @@
     </div>
 </div>
 
-<script src="{{asset('js/bt.js')}}"></script>
+{{--<script src="{{asset('js/bt.js')}}"></script>--}}
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
 <script src="{{asset('js/jquery-ui.min.js')}}"></script>
 

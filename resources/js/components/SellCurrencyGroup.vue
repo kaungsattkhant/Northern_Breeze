@@ -108,6 +108,7 @@
                     targetGroup.notes.push(newNote);
                     this.$store.commit('setSellTotal',this.total_mmk);
                     this.$store.commit('isExceed',[this.buyTotal,this.sellTotal]);
+                    this.$store.commit('setTransactionDataFromSellGroups',[this.total,this.total_mmk]);
 
                     // if(this.buyTotal>=this.total_mmk){
                     //     this.changes = this.buyTotal-this.total_mmk;

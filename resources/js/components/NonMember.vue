@@ -19,6 +19,7 @@
                     </select>
 
                 </div>
+                <button type="button" v-on:click="refresh()" class="btn btn-nb-mount-save fontsize-mount">Refresh</button>
                 <button type="button" v-on:click="submitForm()" class="btn btn-nb-mount-save fontsize-mount">သိမ်းမည်</button>
             </div>
             <div class="row">
@@ -70,6 +71,10 @@
         },
 
         methods: {
+            refresh(){
+                window.location.replace("/pos/non_member");
+
+            },
 
             submitForm(){
                 let data= {...this.getResults};
