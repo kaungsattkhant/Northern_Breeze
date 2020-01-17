@@ -18,7 +18,7 @@
     <link rel="stylesheet" type="text/css" href="{{asset('css/main.css')}}">
 
     <script src="{{asset('js/jquery.js')}}"></script>
-    <link rel="stylesheet" type="text/css" href="{{asset('css/selectbooxt.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('css/selectboot.css')}}">
 
 
     {{--    <link href="{{asset('css/app.css')}}" rel="stylesheet" type="text/css">--}}
@@ -75,7 +75,7 @@
             }
         );
         // $('#datepicker').datepicker();
-        $('#datepicker').datepicker({
+        $('#datepicker').   datepicker({
             // altFormat:"dd-mm-YY",
             dateFormat:'yy-mm-dd',
             changeYear:true,
