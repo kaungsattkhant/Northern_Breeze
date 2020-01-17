@@ -4,6 +4,7 @@
     <title>Northern Breeze</title>
     <meta charset="utf-8">
     <meta name="csrf-token" content="{{ csrf_token() }}"/>
+
     <link href='http://fonts.googleapis.com/css?family=Merienda+One' rel='stylesheet' type='text/css'>
 
     <link rel="stylesheet" type="text/css" href="{{asset('css/ui.css')}}">
@@ -16,9 +17,13 @@
     <link rel="stylesheet" type="text/css" href="{{asset('css/multiselect-filter.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('fontawesome/css/all.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('css/main.css')}}">
+{{--    <script src="{{asset('js/jquery-ui.min.js')}}"></script>--}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js" ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js" ></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.js"></script>
 
-    <script src="{{asset('js/jquery.js')}}"></script>
     <link rel="stylesheet" type="text/css" href="{{asset('css/selectboot.css')}}">
+
 
 
     {{--    <link href="{{asset('css/app.css')}}" rel="stylesheet" type="text/css">--}}
@@ -44,11 +49,12 @@
 </div>
 
 {{--<script src="{{asset('js/bt.js')}}"></script>--}}
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.js"></script>
+{{--<script src="{{asset('js/jquery.js')}}"></script>--}}
 
-<script src="{{asset('js/jquery-ui.min.js')}}"></script>
 
-<script src="{{asset('js/bs.js')}}"></script>
+
+
+{{--<script src="{{asset('js/bs.js')}}"></script>--}}
 {{--<script src="{{asset('js/jquery_validation.js')}}"></script>--}}
 <script src="{{asset('js/multiselect.js')}}"></script>
 <script src="{{asset('js/multiselectfilter.js')}}"></script>
@@ -56,7 +62,11 @@
 <script src="{{asset('js/multi.js')}}"></script>
 <script src="{{asset('js/dailycurrency.js')}}"></script>
 <script src="{{asset('js/pos.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.12/js/bootstrap-select.js" ></script>
+
 <script src="{{ asset('js/app.js') . '?' .rand(0,99999) }}" defer></script>
+{{--<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.js"></script>--}}
+
 
 @yield('script')
 <script>
@@ -81,7 +91,7 @@
             hideIfNoPrevNext: true,
             yearRange: "1960:2030",
             duration:'slow',
-    });
+        });
 
     });
 
