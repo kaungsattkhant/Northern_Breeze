@@ -1,29 +1,29 @@
 <template>
 
     <tbody class="rounded-table-mount ">
-    <tr v-for="(group,i) in data.groups">
-        <h3>{{group.group_name}}</h3>
-        <td class="text-nb-mount border-top-0 pl-4 pt-4 fontsize-mount2" style="display: block"
-            v-for="(note,j) in group.notes">
-            {{note.note_name}}
-            <input type="number" v-model="sheets[i][j]" v-on:keyup="calculateTotalAndChanges(group,note,i,j)"
-                   v-on:change="calculateTotalAndChanges(group,note,i,j)"
-                   class="from_note_class border rounded-table-mount w-25 text-center fontsize-mount3 pt-1"
-                   placeholder=""
-                   onchange="">
-        </td>
-    </tr>
-    <span class="text-danger">{{sell_not_enough_msg}}</span>
+        <tr>
+            <td class="text-center border-top-0">
+                <p class="total-text-mount pl-5 mb-1">Total MMKs :<span class="total_value"></span><i>{{total_mmk}} </i></p>
+                <p class="total-text-mount pl-5 mb-1">Total :<span class="total_value"></span><i>{{total}}</i></p>
+                <p class=" total-text-mount fontsize-mount3 pl-5">ပြန်အမ်းငွေ : {{changes}} MMKs</p>
+                <span class="text-danger">{{exceed_msg}}</span>
+            </td>
+        </tr>
+        <tr v-for="(group,i) in data.groups" >
+            <h5 class="pt-3 text-center mb-0">{{group.group_name}}</h5>
+            <td class="text-nb-mount border-top-0 pl-4 pt-3 justify-content-between fontsize-mount2" style="display: flex" v-for="(note,j) in group.notes">
+                <span class="fontsize-mount22 span-number">{{note.note_name}}</span>
+                <div class="input-group-box">
+                    <input type="number" v-model="sheets[i][j]" v-on:keyup="calculateTotalAndChanges(group,note,i,j)" v-on:change="calculateTotalAndChanges(group,note,i,j)"
+                       class="from_note_class border float-right rounded-table-mount w-25 text-center fontsize-mount3 pt-1"
+                       placeholder=""
+                       onchange="">
+                </div>
+            </td>
+        </tr>
+        <span class="text-danger">{{sell_not_enough_msg}}</span>
 
-    <tr>
-        <td class="border-top-0 text-nb-mount" style="padding: 30px;"></td>
-        <td class="text-left border-top-0">
-            <p class="total-text-mount pl-5 ">Total MMKs :<span class="total_value"></span><i>{{total_mmk}} </i></p>
-            <p class="total-text-mount pl-5 ">Total :<span class="total_value"></span><i>{{total}}</i></p>
-            <p class=" total-text-mount fontsize-mount3 pl-5">ပြန်အမ်းငွေ : {{changes}} MMKs</p>
-            <span class="text-danger">{{exceed_msg}}</span>
-        </td>
-    </tr>
+
 
 
     </tbody>
@@ -104,7 +104,7 @@
                             return a + b
                         });
                     let newNote = JSON.parse(JSON.stringify(note));
-                    newNote.total_sheet = this.sheets[i][j];
+                    newNote.total_sheet = parseInt( this.sheets[i][j]);
                     targetGroup.notes.push(newNote);
                     this.$store.commit('setSellTotal', this.total_mmk);
                     this.$store.commit('isExceed', [this.buyTotal, this.sellTotal]);
@@ -120,7 +120,7 @@
                     this.$store.commit('setTransaction', this.transaction);
                     this.$store.commit('setResults', [this.transaction, this.getGroups]);
                 } else {
-                    this.$store.commit('setSellNotEnoughMsg', 'Invalid Value!');
+                    this.$store.commit('setSellNotEnoughMsg', 'Not enough sheet in the branch!');
 
                 }
             }

@@ -73,7 +73,7 @@ export const store = new Vuex.Store({
                 state.exceed_msg = '';
                 state.changes = data[0] - data[1];
             } else {
-                state.exceed_msg = 'Error'
+                state.exceed_msg = 'Sell value cannot exceed Buy value!'
             }
         },
         setResults(state, data) {
@@ -83,6 +83,18 @@ export const store = new Vuex.Store({
         addGroup(state, data) {
             state.groups.push(data);
         },
+        removeGroup(state,data){
+            let targetGroups= state.groups.filter(function(group){
+                return group.type === data;
+            });
+            targetGroups.forEach(function (group) {
+                let index= state.groups.indexOf(group);
+                if(index > -1){
+                    state.groups.splice(index,1);
+                }
+
+            })
+        }
     },
 
 });

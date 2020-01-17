@@ -49,10 +49,10 @@
                         <td scope="row" class="table-row-m fontsize-mount border-top-0">{{$st->name}}</td>
                         <td class="table-row-m fontsize-mount border-top-0">{{$st->role->name}}</td>
                         <td class="table-row-m text-center border-top-0">
-                            <a>
+                            <a href="#">
                                 <i class="far fa-edit mr-3 text-info"  onclick="edit({{$st->id}})"></i>
                             </a>
-                            <a >
+                            <a href="#">
                                 <i class="far fa-trash-alt text-danger" onclick="deleteStaff({{$st->id}})"></i>
                             </a>
                         </td>
