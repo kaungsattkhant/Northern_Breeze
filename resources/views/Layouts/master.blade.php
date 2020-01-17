@@ -18,9 +18,9 @@
     <link rel="stylesheet" type="text/css" href="{{asset('fontawesome/css/all.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('css/main.css')}}">
 {{--    <script src="{{asset('js/jquery-ui.min.js')}}"></script>--}}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js" ></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js" ></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js" ></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.js"></script>
 
     <link rel="stylesheet" type="text/css" href="{{asset('css/selectboot.css')}}">
 
@@ -52,6 +52,7 @@
 {{--<script src="{{asset('js/jquery.js')}}"></script>--}}
 
 
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.js"></script>
 
 
 
@@ -69,7 +70,7 @@
 <script src="{{ asset('js/app.js') . '?' .rand(0,99999) }}" defer></script>
 {{--<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.js"></script>--}}
 
-
+@yield('script')
 <script>
     $(function() {
 
