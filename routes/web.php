@@ -171,6 +171,10 @@ Route::group(['middleware'=>['frontmanCheck']],function() {
             Route::post('transaction','POSController@transaction_store');
 
         });
+//        Route::group(['prefix'=>'sale'],function(){
+//            Route::get('/','SaleController@index');
+//            Route::get('sale_record','SaleController@sale_record');
+//        });
         Route::group(['prefix'=>'member'],function(){
 //            Route::get('/','MemberController@index');
 //            Route::get('/non_member','MemberController@non_member');

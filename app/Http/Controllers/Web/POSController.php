@@ -177,7 +177,6 @@ class POSController extends Controller
     public function transaction_store(Request $request){
         $data=json_encode($request->all());
         $decode_data=json_decode($data);
-        dd($decode_data);
         $branch=Branch::whereId(Auth::user()->branch_id)->firstOrfail();
 //        $data=file_get_contents(storage_path().'/Pos/transaction_store.json');
         $t=$decode_data->transaction;

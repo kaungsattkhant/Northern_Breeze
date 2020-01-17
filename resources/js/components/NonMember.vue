@@ -21,7 +21,9 @@
 
                 </div>
                 <button type="button" v-on:click="refresh()" class="btn btn-nb-mount-save fontsize-mount">Refresh</button>
-                <button type="button" v-on:click="submitForm()" class="btn btn-nb-mount-save fontsize-mount">သိမ်းမည်</button>
+                <button type="button"
+                        :disabled="isDisable()"
+                        v-on:click="submitForm()" class="btn btn-nb-mount-save fontsize-mount">သိမ်းမည်</button>
             </div>
             <div class="row">
                 <div class="col currency-group-container" id="from-currency-group-container" >
@@ -75,6 +77,10 @@
             refresh(){
                 window.location.replace("/pos/non_member");
 
+            },
+
+            isDisable(){
+                return !!(this.exceed_msg || this.buy_not_enough_msg || this.sell_not_enough_msg);
             },
 
             submitForm(){
@@ -167,6 +173,15 @@
             getResults(){
                 return this.$store.state.results;
             },
+            exceed_msg(){
+                return this.$store.state.exceed_msg;
+            },
+            buy_not_enough_msg(){
+                return this.$store.state.buy_not_enough_msg;
+            },
+            sell_not_enough_msg(){
+                return this.$store.state.sell_not_enough_msg;
+            }
 
 
         },

@@ -18,7 +18,7 @@
     <link rel="stylesheet" type="text/css" href="{{asset('css/main.css')}}">
 
     <script src="{{asset('js/jquery.js')}}"></script>
-    <link rel="stylesheet" type="text/css" href="{{asset('css/selectboot.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('css/selectbooxt.css')}}">
 
 
     {{--    <link href="{{asset('css/app.css')}}" rel="stylesheet" type="text/css">--}}
@@ -44,23 +44,26 @@
 </div>
 
 {{--<script src="{{asset('js/bt.js')}}"></script>--}}
+{{--<script src="{{asset('js/jquery.js')}}"></script>--}}
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.js"></script>
 
-<script src="{{asset('js/jquery-ui.min.js')}}"></script>
 
 <script src="{{asset('js/bs.js')}}"></script>
+<script src="{{asset('js/jqueryui.min.js')}}"></script>
+
 {{--<script src="{{asset('js/jquery_validation.js')}}"></script>--}}
 <script src="{{asset('js/multiselect.js')}}"></script>
 <script src="{{asset('js/multiselectfilter.js')}}"></script>
 <script src="{{asset('js/tablefilter.js')}}"></script>
 <script src="{{asset('js/multi.js')}}"></script>
+
 <script src="{{asset('js/dailycurrency.js')}}"></script>
 <script src="{{asset('js/pos.js')}}"></script>
 <script src="{{ asset('js/app.js') . '?' .rand(0,99999) }}" defer></script>
 
-@yield('script')
 <script>
     $(function() {
+
         // $('select #currency').selectpicker();
 
         // $("select").multiselect();
@@ -71,6 +74,7 @@
                 $('.img-pos').removeClass('active-pos');
             }
         );
+        // $('#datepicker').datepicker();
         $('#datepicker').datepicker({
             // altFormat:"dd-mm-YY",
             dateFormat:'yy-mm-dd',

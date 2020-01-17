@@ -15,7 +15,7 @@
 <!--                   onchange="">-->
         </td>
     </tr>
-    <span class="text-danger">{{not_enough_msg}}</span>
+    <span class="text-danger">{{sell_not_enough_msg}}</span>
 
     <tr>
         <td class="border-top-0 text-nb-mount" style="padding: 30px;"></td>
@@ -101,9 +101,7 @@
                 }
 
 
-                this.exceed_msg = '';
                 if(this.sheets[i][j][k]>=0 && this.sheets[i][j][k]<=note.class_sheet[k].sheet){
-                    // this.not_enough_msg = '';
                     this.$store.commit('setSellNotEnoughMsg','');
 
 
@@ -128,6 +126,7 @@
                         }
 
                     });
+                    this.$store.commit('setSellTotal',this.total_mmk);
 
                     this.$store.commit('isExceed',[this.buyTotal,this.sellTotal]);
                     this.$store.commit('setTransactionDataFromSellGroups',[this.total,this.total_mmk]);
@@ -142,7 +141,6 @@
                     this.$store.commit('setStatus',[this.sell_status,this.buy_status]);
                     this.transaction.status=this.status;
                     this.$store.commit('setTransaction',this.transaction);
-                    this.$store.commit('setSellTotal',this.total_mmk);
 
                     this.$store.commit('setResults',[this.transaction,this.getGroups]);
 
@@ -242,6 +240,9 @@
             buy_status(){
                 return this.$store.state.buy_status;
             },
+            sell_not_enough_msg(){
+                return this.$store.state.sell_not_enough_msg;
+            }
         },
     }
 </script>

@@ -2011,7 +2011,8 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       }
 
       if (this.sheets[i][j] >= 0 && this.sheets[i][j] <= note.total_sheet) {
-        this.not_enough_msg = '';
+        // this.not_enough_msg = '';
+        this.$store.commit('setBuyNotEnoughMsg', '');
         var currency_value;
 
         if (group.currency_value) {
@@ -2053,7 +2054,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
         this.$store.commit('setResults', [this.transaction, this.getGroups]);
         console.log(this.getResults);
       } else {
-        this.not_enough_msg = 'Invalid Value!';
+        this.$store.commit('setBuyNotEnoughMsg', 'Invalid Value!');
       }
     }
   },
@@ -2115,6 +2116,9 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
     },
     sell_status: function sell_status() {
       return this.$store.state.sell_status;
+    },
+    buy_not_enough_msg: function buy_not_enough_msg() {
+      return this.$store.state.buy_not_enough_msg;
     },
     status: function status() {
       return this.$store.state.status;
@@ -2185,8 +2189,8 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       classes: 4,
       //maximum possible number of classes in a note
       total_mmk: 0,
-      total: 0,
-      not_enough_msg: '' // changes: 0
+      total: 0 // not_enough_msg: ''
+      // changes: 0
 
     };
   },
@@ -2219,6 +2223,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       return sum;
     },
     calculateTotalAndChanges: function calculateTotalAndChanges(group, note, class_value, i, j, k) {
+      this.$store.commit('setBuyNotEnoughMsg', '');
       var targetGroup = this.getGroups.find(function (groupItem) {
         return groupItem.group_id === group.group_id && groupItem.type === 'buy';
       });
@@ -2274,7 +2279,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
         this.$store.commit('setResults', [this.transaction, this.getGroups]);
         console.log(this.getResults);
       } else {
-        this.not_enough_msg = 'Invalid Value!';
+        this.$store.commit('setBuyNotEnoughMsg', 'Invalid Value!');
       }
     }
   },
@@ -2347,6 +2352,9 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
     },
     status: function status() {
       return this.$store.state.status;
+    },
+    buy_not_enough_msg: function buy_not_enough_msg() {
+      return this.$store.state.buy_not_enough_msg;
     }
   }
 });
@@ -2461,6 +2469,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
@@ -2478,6 +2488,9 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
   methods: {
     refresh: function refresh() {
       window.location.replace("/pos/non_member");
+    },
+    isDisable: function isDisable() {
+      return !!(this.exceed_msg || this.buy_not_enough_msg || this.sell_not_enough_msg);
     },
     submitForm: function submitForm() {
       // <<<<<<< HEAD
@@ -2560,6 +2573,15 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
   computed: {
     getResults: function getResults() {
       return this.$store.state.results;
+    },
+    exceed_msg: function exceed_msg() {
+      return this.$store.state.exceed_msg;
+    },
+    buy_not_enough_msg: function buy_not_enough_msg() {
+      return this.$store.state.buy_not_enough_msg;
+    },
+    sell_not_enough_msg: function sell_not_enough_msg() {
+      return this.$store.state.sell_not_enough_msg;
     }
   }
 });
@@ -2629,10 +2651,10 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       notes: 10,
       //maximum possible number of notes in a group
       total_mmk: 0,
-      total: 0,
-      // changes: this.$store.state.changes,
+      total: 0 // changes: this.$store.state.changes,
       // exceed_msg: this.$store.state.exceed_msg,
-      not_enough_msg: ''
+      // not_enough_msg: '',
+
     };
   },
   methods: {
@@ -2662,7 +2684,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
         targetGroup.notes.splice(index, 1);
       }
 
-      this.exceed_msg = '';
+      this.$store.commit('setSellNotEnoughMsg', '');
 
       if (this.sheets[i][j] >= 0 && this.sheets[i][j] <= note.total_sheet) {
         this.not_enough_msg = '';
@@ -2722,7 +2744,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
         this.$store.commit('setResults', [this.transaction, this.getGroups]);
         console.log(this.getResults);
       } else {
-        this.not_enough_msg = 'Invalid Value!';
+        this.$store.commit('setSellNotEnoughMsg', 'Invalid Value!');
       }
     }
   },
@@ -2775,7 +2797,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       return this.$store.state.buy_status;
     },
     sell_not_enough_msg: function sell_not_enough_msg() {
-      return this.$store.state.not_enough_msg;
+      return this.$store.state.sell_not_enough_msg;
     },
     // exceed_msg(){
     //     return this.$store.state.exceed_msg;
@@ -2932,10 +2954,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
         oldNote.class_sheet.splice(index, 1);
       }
 
-      this.exceed_msg = '';
-
       if (this.sheets[i][j][k] >= 0 && this.sheets[i][j][k] <= note.class_sheet[k].sheet) {
-        // this.not_enough_msg = '';
         this.$store.commit('setSellNotEnoughMsg', '');
         this.current_value_mmk[i][j][k] = class_value * note.note_name * this.sheets[i][j][k];
         this.current_value[i][j][k] = note.note_name * this.sheets[i][j][k];
@@ -2955,6 +2974,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
             });
           }
         });
+        this.$store.commit('setSellTotal', this.total_mmk);
         this.$store.commit('isExceed', [this.buyTotal, this.sellTotal]);
         this.$store.commit('setTransactionDataFromSellGroups', [this.total, this.total_mmk]);
         this.transaction.in_value = this.in_value;
@@ -2966,7 +2986,6 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
         this.$store.commit('setStatus', [this.sell_status, this.buy_status]);
         this.transaction.status = this.status;
         this.$store.commit('setTransaction', this.transaction);
-        this.$store.commit('setSellTotal', this.total_mmk);
         this.$store.commit('setResults', [this.transaction, this.getGroups]);
         console.log(this.getResults); // if(this.classBuyTotal>=this.total_mmk){
         //     this.changes= this.classBuyTotal-this.total_mmk;
@@ -3054,6 +3073,9 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
     },
     buy_status: function buy_status() {
       return this.$store.state.buy_status;
+    },
+    sell_not_enough_msg: function sell_not_enough_msg() {
+      return this.$store.state.sell_not_enough_msg;
     }
   })
 });
@@ -38489,7 +38511,7 @@ var render = function() {
       }),
       _vm._v(" "),
       _c("span", { staticClass: "text-danger" }, [
-        _vm._v(_vm._s(_vm.not_enough_msg))
+        _vm._v(_vm._s(_vm.buy_not_enough_msg))
       ]),
       _vm._v(" "),
       _c("tr", [
@@ -38614,7 +38636,7 @@ var render = function() {
       }),
       _vm._v(" "),
       _c("span", { staticClass: "text-danger" }, [
-        _vm._v(_vm._s(_vm.not_enough_msg))
+        _vm._v(_vm._s(_vm.buy_not_enough_msg))
       ]),
       _vm._v(" "),
       _c("tr", [
@@ -38792,7 +38814,7 @@ var render = function() {
             "button",
             {
               staticClass: "btn btn-nb-mount-save fontsize-mount",
-              attrs: { type: "button" },
+              attrs: { type: "button", disabled: _vm.isDisable() },
               on: {
                 click: function($event) {
                   return _vm.submitForm()
@@ -38972,7 +38994,7 @@ var render = function() {
       }),
       _vm._v(" "),
       _c("span", { staticClass: "text-danger" }, [
-        _vm._v(_vm._s(_vm.not_enough_msg))
+        _vm._v(_vm._s(_vm.sell_not_enough_msg))
       ]),
       _vm._v(" "),
       _c("tr", [
@@ -39105,7 +39127,7 @@ var render = function() {
       }),
       _vm._v(" "),
       _c("span", { staticClass: "text-danger" }, [
-        _vm._v(_vm._s(_vm.not_enough_msg))
+        _vm._v(_vm._s(_vm.sell_not_enough_msg))
       ]),
       _vm._v(" "),
       _c("tr", [
