@@ -1964,9 +1964,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+
 
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__["default"]);
-
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['data'],
   data: function data() {
@@ -1978,8 +1980,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       notes: 10,
       //maximum possible number of notes in a group
       total_mmk: 0,
-      total: 0 // not_enough_msg: '',
-
+      total: 0
     };
   },
   methods: {
@@ -2010,7 +2011,6 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       }
 
       if (this.sheets[i][j] >= 0 && this.sheets[i][j] <= note.total_sheet) {
-        // this.not_enough_msg = '';
         this.$store.commit('setBuyNotEnoughMsg', '');
         var currency_value;
 
@@ -2039,8 +2039,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
         targetGroup.notes.push(newNote);
         this.$store.commit('setBuyTotal', this.total_mmk);
         this.$store.commit('isExceed', [this.buyTotal, this.sellTotal]);
-        this.$store.commit('setTransactionDataFromBuyGroups', [this.total, this.total_mmk]); // this.$store.commit('setInValue',this.total_mmk);
-
+        this.$store.commit('setTransactionDataFromBuyGroups', [this.total, this.total_mmk]);
         this.transaction.in_value = this.total;
         this.transaction.in_value_MMK = this.total_mmk;
         this.transaction.out_value = this.out_value;
@@ -2050,7 +2049,6 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
         this.transaction.status = this.status;
         this.$store.commit('setTransaction', this.transaction);
         this.$store.commit('setResults', [this.transaction, this.getGroups]);
-        console.log(this.getResults);
       } else {
         this.$store.commit('setBuyNotEnoughMsg', 'Invalid Value!');
       }
@@ -2067,7 +2065,6 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       this.current_value[_i] = this.sheets[_i].slice();
     }
   },
-  updated: function updated() {},
   created: function created() {
     for (var i = 0; i < this.groups; i++) {
       var row = [];
@@ -2079,47 +2076,19 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       this.sheets.push(row);
     }
   },
-  computed: {
-    getGroups: function getGroups() {
-      return this.$store.state.groups;
-    },
-    getResults: function getResults() {
-      return this.$store.state.results;
-    },
-    buyTotal: function buyTotal() {
-      return this.$store.state.buy_total_mmk;
-    },
-    sellTotal: function sellTotal() {
-      return this.$store.state.sell_total_mmk;
-    },
-    exceed_msg: function exceed_msg() {
-      return this.$store.state.exceed_msg;
-    },
-    changes: function changes() {
-      return this.$store.state.changes;
-    },
-    transaction: function transaction() {
-      return this.$store.state.transaction;
-    },
-    out_value: function out_value() {
-      return this.$store.state.out_value;
-    },
-    out_value_MMK: function out_value_MMK() {
-      return this.$store.state.out_value_MMK;
-    },
-    buy_status: function buy_status() {
-      return this.$store.state.buy_status;
-    },
-    sell_status: function sell_status() {
-      return this.$store.state.sell_status;
-    },
-    buy_not_enough_msg: function buy_not_enough_msg() {
-      return this.$store.state.buy_not_enough_msg;
-    },
-    status: function status() {
-      return this.$store.state.status;
-    }
-  }
+  computed: Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])({
+    getGroups: 'groups',
+    getResults: 'results',
+    buyTotal: 'buy_total_mmk',
+    sellTotal: 'sell_total_mmk',
+    transaction: 'transaction',
+    out_value: 'out_value',
+    out_value_MMK: 'out_value_MMK',
+    buy_status: 'buy_status',
+    sell_status: 'sell_status',
+    buy_not_enough_msg: 'buy_not_enough_msg',
+    status: 'status'
+  })
 });
 
 /***/ }),
@@ -2167,11 +2136,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 //
 //
 //
-//
-//
+
 
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__["default"]);
-
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['data'],
   data: function data() {
@@ -2185,9 +2152,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       classes: 4,
       //maximum possible number of classes in a note
       total_mmk: 0,
-      total: 0 // not_enough_msg: ''
-      // changes: 0
-
+      total: 0
     };
   },
   methods: {
@@ -2257,12 +2222,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
         });
         this.$store.commit('setBuyTotal', this.total_mmk);
         this.$store.commit('isExceed', [this.buyTotal, this.sellTotal]);
-        this.$store.commit('setTransactionDataFromBuyGroups', [this.total, this.total_mmk]); // let data_for_transaction = {
-        //     in_value: this.total,
-        //     in_value_mmk: this.total_mmk,
-        //     member_id: null,
-        // };
-
+        this.$store.commit('setTransactionDataFromBuyGroups', [this.total, this.total_mmk]);
         this.transaction.in_value = this.total;
         this.transaction.in_value_MMK = this.total_mmk;
         this.transaction.out_value = this.out_value;
@@ -2270,10 +2230,8 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
         this.$store.commit('setBuyStatus', this.data.status);
         this.$store.commit('setStatus', [this.sell_status, this.buy_status]);
         this.transaction.status = this.status;
-        this.$store.commit('setTransaction', this.transaction); // this.$store.commit('classTransactionDataFromBuyCurrency',data_for_transaction);
-
+        this.$store.commit('setTransaction', this.transaction);
         this.$store.commit('setResults', [this.transaction, this.getGroups]);
-        console.log(this.getResults);
       } else {
         this.$store.commit('setBuyNotEnoughMsg', 'Invalid Value!');
       }
@@ -2318,41 +2276,19 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       this.sheets.push(row);
     }
   },
-  computed: {
-    getGroups: function getGroups() {
-      return this.$store.state.groups;
-    },
-    getResults: function getResults() {
-      return this.$store.state.results;
-    },
-    buyTotal: function buyTotal() {
-      return this.$store.state.buy_total_mmk;
-    },
-    sellTotal: function sellTotal() {
-      return this.$store.state.sell_total_mmk;
-    },
-    transaction: function transaction() {
-      return this.$store.state.transaction;
-    },
-    out_value: function out_value() {
-      return this.$store.state.out_value;
-    },
-    out_value_MMK: function out_value_MMK() {
-      return this.$store.state.out_value_MMK;
-    },
-    buy_status: function buy_status() {
-      return this.$store.state.buy_status;
-    },
-    sell_status: function sell_status() {
-      return this.$store.state.sell_status;
-    },
-    status: function status() {
-      return this.$store.state.status;
-    },
-    buy_not_enough_msg: function buy_not_enough_msg() {
-      return this.$store.state.buy_not_enough_msg;
-    }
-  }
+  computed: Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])({
+    getGroups: 'groups',
+    getResults: 'results',
+    buyTotal: 'buy_total_mmk',
+    sellTotal: 'sell_total_mmk',
+    transaction: 'transaction',
+    out_value: 'out_value',
+    out_value_MMK: 'out_value_MMK',
+    buy_status: 'buy_status',
+    sell_status: 'sell_status',
+    buy_not_enough_msg: 'buy_not_enough_msg',
+    status: 'status'
+  })
 });
 
 /***/ }),
@@ -2584,46 +2520,42 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_1__);
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__["default"]);
-
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['data'],
   data: function data() {
@@ -2635,10 +2567,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       notes: 10,
       //maximum possible number of notes in a group
       total_mmk: 0,
-      total: 0 // changes: this.$store.state.changes,
-      // exceed_msg: this.$store.state.exceed_msg,
-      // not_enough_msg: '',
-
+      total: 0
     };
   },
   methods: {
@@ -2699,22 +2628,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
         targetGroup.notes.push(newNote);
         this.$store.commit('setSellTotal', this.total_mmk);
         this.$store.commit('isExceed', [this.buyTotal, this.sellTotal]);
-        this.$store.commit('setTransactionDataFromSellGroups', [this.total, this.total_mmk]); // if(this.buyTotal>=this.total_mmk){
-        //     this.changes = this.buyTotal-this.total_mmk;
-        // }else{
-        //     this.exceed_msg = 'Error';
-        // }
-        // if(this.buyTotal>=this.sellTotal){
-        //     this.$store.commit('setChanges',this.buyTotal-this.sellTotal);
-        // }else{
-        //     this.$store.commit('setExceedMsg',"Error");
-        // }
-        // if(this.buyTotal>=this.total_mmk){
-        //     this.changes= this.buyTotal-this.total_mmk;
-        // }else{
-        //     this.exceed_msg = 'Error';
-        // }
-
+        this.$store.commit('setTransactionDataFromSellGroups', [this.total, this.total_mmk]);
         this.transaction.in_value = this.in_value;
         this.transaction.in_value_MMK = this.in_value_MMK;
         this.transaction.out_value = this.total;
@@ -2723,10 +2637,8 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
         this.$store.commit('setSellStatus', this.data.status);
         this.$store.commit('setStatus', [this.sell_status, this.buy_status]);
         this.transaction.status = this.status;
-        this.$store.commit('setTransaction', this.transaction); // this.$store.commit('setDataFromSellGroups',[this.total,this.total_mmk,this.changes]);
-
+        this.$store.commit('setTransaction', this.transaction);
         this.$store.commit('setResults', [this.transaction, this.getGroups]);
-        console.log(this.getResults);
       } else {
         this.$store.commit('setSellNotEnoughMsg', 'Invalid Value!');
       }
@@ -2743,7 +2655,6 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       this.current_value[_i] = this.sheets[_i].slice();
     }
   },
-  updated: function updated() {},
   created: function created() {
     for (var i = 0; i < this.groups; i++) {
       var row = [];
@@ -2755,64 +2666,20 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       this.sheets.push(row);
     }
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])({
+  computed: Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])({
+    getGroups: 'groups',
+    getResults: 'results',
+    buyTotal: 'buy_total_mmk',
+    sellTotal: 'sell_total_mmk',
+    transaction: 'transaction',
+    in_value: 'in_value',
+    in_value_MMK: 'in_value_MMK',
+    buy_status: 'buy_status',
+    sell_status: 'sell_status',
+    sell_not_enough_msg: 'sell_not_enough_msg',
+    status: 'status',
     exceed_msg: 'exceed_msg',
     changes: 'changes'
-  }), {
-    buyTotal: function buyTotal() {
-      return this.$store.state.buy_total_mmk;
-    },
-    sellTotal: function sellTotal() {
-      return this.$store.state.sell_total_mmk;
-    },
-    in_value: function in_value() {
-      return this.$store.state.in_value;
-    },
-    in_value_MMK: function in_value_MMK() {
-      return this.$store.state.in_value_MMK;
-    },
-    status: function status() {
-      return this.$store.state.status;
-    },
-    sell_status: function sell_status() {
-      return this.$store.state.sell_status;
-    },
-    buy_status: function buy_status() {
-      return this.$store.state.buy_status;
-    },
-    sell_not_enough_msg: function sell_not_enough_msg() {
-      return this.$store.state.sell_not_enough_msg;
-    },
-    // exceed_msg(){
-    //     return this.$store.state.exceed_msg;
-    //
-    // },
-    // ...mapGetters({
-    //     exceed_msg: 'exceed_msg',
-    //     changes: 'changes'
-    // }),
-    // exceed_msg: {
-    //     get(){
-    //         return this.$store.state.exceed_msg;
-    //     }
-    // },
-    // changes: {
-    //     get(){
-    //         return this.$store.state.changes;
-    //     }
-    // },
-    // changes(){
-    //     return this.$store.state.changes;
-    // },
-    transaction: function transaction() {
-      return this.$store.state.transaction;
-    },
-    getGroups: function getGroups() {
-      return this.$store.state.groups;
-    },
-    getResults: function getResults() {
-      return this.$store.state.results;
-    }
   })
 });
 
@@ -2830,18 +2697,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_1__);
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-//
-//
-//
-//
 //
 //
 //
@@ -2888,10 +2745,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       classes: 4,
       //maximum possible number of classes in a note
       total_mmk: 0,
-      total: 0 // class_changes: 0,
-      // class_exceed_msg: '',
-      // not_enough_msg: ''
-
+      total: 0
     };
   },
   methods: {
@@ -2971,13 +2825,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
         this.transaction.status = this.status;
         this.$store.commit('setTransaction', this.transaction);
         this.$store.commit('setResults', [this.transaction, this.getGroups]);
-        console.log(this.getResults); // if(this.classBuyTotal>=this.total_mmk){
-        //     this.changes= this.classBuyTotal-this.total_mmk;
-        // }else{
-        //     this.exceed_msg = 'Error';
-        // }
       } else {
-        // this.not_enough_msg= 'Invalid Value!';
         this.$store.commit('setSellNotEnoughMsg', 'Invalid Value!');
       }
     }
@@ -3021,46 +2869,20 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       this.sheets.push(row);
     }
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])({
+  computed: Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])({
+    getGroups: 'groups',
+    getResults: 'results',
+    buyTotal: 'buy_total_mmk',
+    sellTotal: 'sell_total_mmk',
+    transaction: 'transaction',
+    in_value: 'in_value',
+    in_value_MMK: 'in_value_MMK',
+    buy_status: 'buy_status',
+    sell_status: 'sell_status',
+    sell_not_enough_msg: 'sell_not_enough_msg',
+    status: 'status',
     exceed_msg: 'exceed_msg',
     changes: 'changes'
-  }), {
-    buyTotal: function buyTotal() {
-      return this.$store.state.buy_total_mmk;
-    },
-    sellTotal: function sellTotal() {
-      return this.$store.state.sell_total_mmk;
-    },
-    transaction: function transaction() {
-      return this.$store.state.transaction;
-    },
-    classTransaction: function classTransaction() {
-      return this.$store.state.classTransactionDataFromBuyCurrency;
-    },
-    getGroups: function getGroups() {
-      return this.$store.state.groups;
-    },
-    getResults: function getResults() {
-      return this.$store.state.results;
-    },
-    in_value: function in_value() {
-      return this.$store.state.in_value;
-    },
-    in_value_MMK: function in_value_MMK() {
-      return this.$store.state.in_value_MMK;
-    },
-    status: function status() {
-      return this.$store.state.status;
-    },
-    sell_status: function sell_status() {
-      return this.$store.state.sell_status;
-    },
-    buy_status: function buy_status() {
-      return this.$store.state.buy_status;
-    },
-    sell_not_enough_msg: function sell_not_enough_msg() {
-      return this.$store.state.sell_not_enough_msg;
-    }
   })
 });
 
@@ -38455,9 +38277,7 @@ var render = function() {
                   staticStyle: { display: "block" }
                 },
                 [
-                  _vm._v(
-                    "\n            " + _vm._s(note.note_name) + "\n            "
-                  ),
+                  _vm._v("\n        " + _vm._s(note.note_name) + "\n        "),
                   _c("input", {
                     directives: [
                       {
@@ -38563,9 +38383,7 @@ var render = function() {
                   staticStyle: { display: "block" }
                 },
                 [
-                  _vm._v(
-                    "\n            " + _vm._s(note.note_name) + "\n            "
-                  ),
+                  _vm._v("\n        " + _vm._s(note.note_name) + "\n        "),
                   _vm._l(group.class_currency_value, function(item, k) {
                     return _c("input", {
                       directives: [
@@ -38631,9 +38449,15 @@ var render = function() {
         _vm._v(" "),
         _c("td", { staticClass: "text-left border-top-0" }, [
           _c("p", { staticClass: "total-text-mount pl-5 " }, [
+            _vm._v("Total MMKs:"),
+            _c("span", { staticClass: "total_value" }),
+            _c("i", [_vm._v(_vm._s(_vm.total_mmk) + " ")])
+          ]),
+          _vm._v(" "),
+          _c("p", { staticClass: "total-text-mount pl-5 " }, [
             _vm._v("Total :"),
             _c("span", { staticClass: "total_value" }),
-            _c("i", [_vm._v(_vm._s(_vm.total_mmk) + " MMKs")])
+            _c("i", [_vm._v(_vm._s(_vm.total))])
           ])
         ])
       ])
@@ -38938,9 +38762,7 @@ var render = function() {
                   staticStyle: { display: "block" }
                 },
                 [
-                  _vm._v(
-                    "\n            " + _vm._s(note.note_name) + "\n            "
-                  ),
+                  _vm._v("\n        " + _vm._s(note.note_name) + "\n        "),
                   _c("input", {
                     directives: [
                       {
@@ -39054,9 +38876,7 @@ var render = function() {
                   staticStyle: { display: "block" }
                 },
                 [
-                  _vm._v(
-                    "\n            " + _vm._s(note.note_name) + "\n            "
-                  ),
+                  _vm._v("\n        " + _vm._s(note.note_name) + "\n        "),
                   _vm._l(group.class_currency_value, function(item, k) {
                     return _c("input", {
                       directives: [
@@ -39122,9 +38942,15 @@ var render = function() {
         _vm._v(" "),
         _c("td", { staticClass: "text-left border-top-0" }, [
           _c("p", { staticClass: "total-text-mount pl-5 " }, [
+            _vm._v("Total MMKs :"),
+            _c("span", { staticClass: "total_value" }),
+            _c("i", [_vm._v(_vm._s(_vm.total_mmk) + " ")])
+          ]),
+          _vm._v(" "),
+          _c("p", { staticClass: "total-text-mount pl-5 " }, [
             _vm._v("Total :"),
             _c("span", { staticClass: "total_value" }),
-            _c("i", [_vm._v(_vm._s(_vm.total_mmk) + " MMKs")])
+            _c("i", [_vm._v(_vm._s(_vm.total))])
           ]),
           _vm._v(" "),
           _c("p", { staticClass: " total-text-mount fontsize-mount3 pl-5" }, [
@@ -52899,8 +52725,6 @@ __webpack_require__.r(__webpack_exports__);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
 var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   state: {
-    buy_total_mmk: 0,
-    sell_total_mmk: 0,
     transaction: {
       in_value: 0,
       out_value: 0,
@@ -52910,74 +52734,55 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
       member_id: null,
       status: ''
     },
+    results: {},
+    groups: [],
+    buy_total_mmk: 0,
+    sell_total_mmk: 0,
     in_value: 0,
     out_value: 0,
     in_value_MMK: 0,
     out_value_MMk: 0,
-    // changes: 0,
+    changes: 0,
     member_id: null,
     status: '',
     buy_status: '',
     sell_status: '',
-    groups: [],
-    results: {},
     exceed_msg: '',
-    changes: 0,
     buy_not_enough_msg: '',
     sell_not_enough_msg: ''
-  },
-  getters: {
-    exceed_msg: function exceed_msg(state) {
-      return state.exceed_msg;
-    },
-    changes: function changes(state) {
-      return state.changes;
-    }
   },
   mutations: {
     setBuyNotEnoughMsg: function setBuyNotEnoughMsg(state, data) {
       state.buy_not_enough_msg = data;
-      this.buy_not_enough_msg = state.buy_not_enough_msg;
     },
     setSellNotEnoughMsg: function setSellNotEnoughMsg(state, data) {
       state.sell_not_enough_msg = data;
-      this.sell_not_enough_msg = state.sell_not_enough_msg;
     },
     setTransactionDataFromBuyGroups: function setTransactionDataFromBuyGroups(state, data) {
       state.in_value = data[0];
       state.in_value_MMK = data[1];
-      this.in_value = state.in_value;
-      this.in_value_MMK = state.in_value_MMK;
     },
     setTransactionDataFromSellGroups: function setTransactionDataFromSellGroups(state, data) {
       state.out_value = data[0];
       state.out_value_MMK = data[1];
-      this.out_value = state.out_value;
-      this.out_value_MMK = state.out_value_MMK;
     },
     setSellStatus: function setSellStatus(state, data) {
       state.sell_status = data;
-      this.sell_status = state.sell_status;
     },
     setBuyStatus: function setBuyStatus(state, data) {
       state.buy_status = data;
-      this.buy_status = state.buy_status;
     },
     setStatus: function setStatus(state, data) {
       state.status = data[1] + '_' + data[0];
-      this.status = state.status;
     },
     setTransaction: function setTransaction(state, data) {
       state.transaction = data;
-      this.transaction = state.transaction;
     },
     setBuyTotal: function setBuyTotal(state, data) {
       state.buy_total_mmk = data;
-      this.buy_total_mmk = state.buy_total_mmk;
     },
     setSellTotal: function setSellTotal(state, data) {
       state.sell_total_mmk = data;
-      this.sell_total_mmk = state.sell_total_mmk;
     },
     isExceed: function isExceed(state, data) {
       if (data[0] >= data[1]) {
@@ -52986,29 +52791,13 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
       } else {
         state.exceed_msg = 'Error';
       }
-
-      this.changes = state.changes;
-      this.exceed_msg = state.exceed_msg;
-    },
-    transactionDataFromBuyCurrency: function transactionDataFromBuyCurrency(state, data) {
-      state.transactionDataFromBuyCurrency = data;
-      this.transactionDataFromBuyCurrency = state.transactionDataFromBuyCurrency;
-    },
-    classTransactionDataFromBuyCurrency: function classTransactionDataFromBuyCurrency(state, data) {
-      state.classTransactionDataFromBuyCurrency = data;
-      this.classTransactionDataFromBuyCurrency = state.classTransactionDataFromBuyCurrency;
-    },
-    allTransaction: function allTransaction(state, data) {
-      state.transaction = data;
-      this.transaction = state.transaction;
     },
     setResults: function setResults(state, data) {
       state.results.transaction = data[0];
       state.results.groups = data[1];
-      this.results = state.results;
     },
     addGroup: function addGroup(state, data) {
-      this.groups = state.groups.push(data);
+      state.groups.push(data);
     }
   }
 });

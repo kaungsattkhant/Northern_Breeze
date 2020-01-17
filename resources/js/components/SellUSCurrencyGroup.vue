@@ -8,11 +8,6 @@
             <input type="number" v-model="sheets[i][j][k]"  v-for="(item,k) in group.class_currency_value"  placeholder="Class "
                    v-on:keyup="calculateTotalAndChanges(group,note,item.value,i,j,k)" v-on:change="calculateTotalAndChanges(group,note,item.value,i,j,k)"
                    class="border rounded-table-mount w-25 text-center fontsize-mount3 pt-1 ">
-
-<!--            <input type="number" v-model="sheets[i][j]" v-on:keyup="calculateTotalAndChanges(group,note,i,j)" v-on:change="calculateTotalAndChanges(group,note,i,j)"-->
-<!--                   class="from_note_class border rounded-table-mount w-25 text-center fontsize-mount3 pt-1"-->
-<!--                   placeholder=""-->
-<!--                   onchange="">-->
         </td>
     </tr>
     <span class="text-danger">{{sell_not_enough_msg}}</span>
@@ -20,7 +15,8 @@
     <tr>
         <td class="border-top-0 text-nb-mount" style="padding: 30px;"></td>
         <td class="text-left border-top-0">
-            <p class="total-text-mount pl-5 ">Total :<span class="total_value"></span><i>{{total_mmk}} MMKs</i></p>
+            <p class="total-text-mount pl-5 ">Total MMKs :<span class="total_value"></span><i>{{total_mmk}} </i></p>
+            <p class="total-text-mount pl-5 ">Total :<span class="total_value"></span><i>{{total}}</i></p>
             <p class=" total-text-mount fontsize-mount3 pl-5">ပြန်အမ်းငွေ : {{changes}} MMKs</p>
             <span class="text-danger">{{exceed_msg}}</span>
 
@@ -48,10 +44,6 @@
                 classes: 4,//maximum possible number of classes in a note
                 total_mmk: 0,
                 total: 0,
-                // class_changes: 0,
-                // class_exceed_msg: '',
-                // not_enough_msg: ''
-
             }
         },
         methods: {
@@ -143,17 +135,7 @@
 
                     this.$store.commit('setResults',[this.transaction,this.getGroups]);
 
-                    console.log(this.getResults);
-
-
-
-                    // if(this.classBuyTotal>=this.total_mmk){
-                    //     this.changes= this.classBuyTotal-this.total_mmk;
-                    // }else{
-                    //     this.exceed_msg = 'Error';
-                    // }
                 }else{
-                    // this.not_enough_msg= 'Invalid Value!';
                     this.$store.commit('setSellNotEnoughMsg','Invalid Value!');
 
                 }
@@ -198,49 +180,20 @@
                 this.sheets.push(row);
             }
         },
-        computed: {
-            ...mapState({
-                exceed_msg: 'exceed_msg',
-                changes: 'changes'
-            }),
-            buyTotal() {
-                return this.$store.state.buy_total_mmk;
-            },
-            sellTotal() {
-                return this.$store.state.sell_total_mmk;
-            },
-
-            transaction(){
-                return this.$store.state.transaction;
-            },
-
-            classTransaction(){
-                return this.$store.state.classTransactionDataFromBuyCurrency;
-            },
-            getGroups(){
-                return this.$store.state.groups;
-            },
-            getResults(){
-                return this.$store.state.results;
-            },
-            in_value(){
-                return this.$store.state.in_value;
-            },
-            in_value_MMK(){
-                return this.$store.state.in_value_MMK;
-            },
-            status(){
-                return this.$store.state.status;
-            },
-            sell_status(){
-                return this.$store.state.sell_status;
-            },
-            buy_status(){
-                return this.$store.state.buy_status;
-            },
-            sell_not_enough_msg(){
-                return this.$store.state.sell_not_enough_msg;
-            }
-        },
+        computed: mapState({
+            getGroups: 'groups',
+            getResults: 'results',
+            buyTotal: 'buy_total_mmk',
+            sellTotal: 'sell_total_mmk',
+            transaction: 'transaction',
+            in_value: 'in_value',
+            in_value_MMK: 'in_value_MMK',
+            buy_status: 'buy_status',
+            sell_status: 'sell_status',
+            sell_not_enough_msg: 'sell_not_enough_msg',
+            status: 'status',
+            exceed_msg: 'exceed_msg',
+            changes: 'changes'
+        }),
     }
 </script>
