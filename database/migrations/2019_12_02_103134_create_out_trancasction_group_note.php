@@ -24,7 +24,7 @@ class CreateOutTrancasctionGroupNote extends Migration
             $table->foreign('transaction_id')->references('id')->on('transactions')->onDelete('cascade')->onUpdate('cascade');
 //            $table->foreign('sell_group_value_id')->references('id')->on('sell_group_values')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('group_note_id')->references('id')->on('group_note')->onDelete('cascade')->onUpdate('cascade');
-            $table->index(['out_classable_id','out_classable_type']);
+//            $table->index(['out_classable_id','out_classable_type']);
 
         });
     }

@@ -25,7 +25,7 @@ class CreateInTrancasctionGroupNote extends Migration
             $table->foreign('transaction_id')->references('id')->on('transactions')->onDelete('cascade')->onUpdate('cascade');
 //            $table->foreign('buy_group_value_id')->references('id')->on('buy_group_values')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('group_note_id')->references('id')->on('group_note')->onDelete('cascade')->onUpdate('cascade');
-            $table->index(['in_classable_id','in_classable_type']);
+//            $table->index(['in_classable_id','in_classable_type']);
         });
     }
 
