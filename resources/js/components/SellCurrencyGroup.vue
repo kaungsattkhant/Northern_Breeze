@@ -11,7 +11,7 @@
                        onchange="">
             </td>
         </tr>
-        <span class="text-danger">{{not_enough_msg}}</span>
+        <span class="text-danger">{{sell_not_enough_msg}}</span>
 
         <tr>
             <td class="border-top-0 text-nb-mount" style="padding: 30px;"></td>
@@ -47,7 +47,7 @@
                 total: 0,
                 // changes: this.$store.state.changes,
                 // exceed_msg: this.$store.state.exceed_msg,
-                not_enough_msg: '',
+                // not_enough_msg: '',
 
             }
         },
@@ -78,7 +78,8 @@
                     targetGroup.notes.splice(index,1);
                 }
 
-                this.exceed_msg='';
+                this.$store.commit('setSellNotEnoughMsg','');
+
                 if(this.sheets[i][j]>=0 && this.sheets[i][j]<=note.total_sheet){
                     this.not_enough_msg = '';
                     let currency_value;
@@ -144,7 +145,8 @@
                     console.log(this.getResults);
 
                 }else{
-                    this.not_enough_msg = 'Invalid Value!'
+                    this.$store.commit('setSellNotEnoughMsg','Invalid Value!');
+
                 }
 
 
@@ -201,7 +203,7 @@
                 return this.$store.state.buy_status;
             },
             sell_not_enough_msg(){
-                return this.$store.state.not_enough_msg;
+                return this.$store.state.sell_not_enough_msg;
             },
 
 

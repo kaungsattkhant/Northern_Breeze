@@ -15,7 +15,7 @@
 <!--                   onchange="">-->
         </td>
     </tr>
-    <span class="text-danger">{{not_enough_msg}}</span>
+    <span class="text-danger">{{buy_not_enough_msg}}</span>
     <tr>
         <td class="border-top-0 text-nb-mount" style="padding: 30px;"></td>
         <td class="text-left border-top-0">
@@ -45,7 +45,7 @@
                 classes: 4,//maximum possible number of classes in a note
                 total_mmk: 0,
                 total: 0,
-                not_enough_msg: ''
+                // not_enough_msg: ''
                 // changes: 0
             }
         },
@@ -80,6 +80,7 @@
                 return sum;
             },
             calculateTotalAndChanges(group,note,class_value,i,j,k){
+                this.$store.commit('setBuyNotEnoughMsg','');
 
                 let targetGroup=this.getGroups.find(function(groupItem){
                     return groupItem.group_id===group.group_id && groupItem.type==='buy';
@@ -100,6 +101,7 @@
 
                 if(this.sheets[i][j][k]>=0 && this.sheets[i][j][k]<=note.class_sheet[k].sheet){
                     this.not_enough_msg = '';
+
                     this.current_value_mmk[i][j][k] = class_value * note.note_name * this.sheets[i][j][k];
                     this.current_value[i][j][k] = note.note_name * this.sheets[i][j][k];
                     this.total_mmk = this.arrSum(this.current_value_mmk);
@@ -152,7 +154,8 @@
 
 
                 }else{
-                    this.not_enough_msg= 'Invalid Value!';
+                    this.$store.commit('setBuyNotEnoughMsg','Invalid Value!');
+
                 }
 
 
@@ -226,6 +229,9 @@
             status(){
                 return this.$store.state.status;
             },
+            buy_not_enough_msg(){
+                return this.$store.state.buy_not_enough_msg;
+            }
 
 
         },

@@ -6,6 +6,7 @@ export const store = new Vuex.Store({
     state: {
         buy_total_mmk: 0,
         sell_total_mmk: 0,
+
         transaction: {
             in_value: 0,
             out_value: 0,

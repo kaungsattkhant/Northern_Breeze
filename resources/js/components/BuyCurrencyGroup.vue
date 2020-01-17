@@ -12,7 +12,7 @@
             </td>
         </tr>
 
-        <span class="text-danger">{{not_enough_msg}}</span>
+        <span class="text-danger">{{buy_not_enough_msg}}</span>
         <tr>
             <td class="border-top-0 text-nb-mount" style="padding: 30px;"></td>
             <td class="text-left border-top-0">
@@ -76,7 +76,9 @@
 
 
                 if(this.sheets[i][j] >=0 && this.sheets[i][j]<=note.total_sheet){
-                    this.not_enough_msg = '';
+                    // this.not_enough_msg = '';
+                    this.$store.commit('setBuyNotEnoughMsg','');
+
 
                     let currency_value;
                     if(group.currency_value){
@@ -118,7 +120,8 @@
                     this.$store.commit('setResults',[this.transaction,this.getGroups]);
                     console.log(this.getResults)
                 }else{
-                    this.not_enough_msg = 'Invalid Value!'
+                    this.$store.commit('setBuyNotEnoughMsg','Invalid Value!');
+
                 }
 
 
@@ -186,6 +189,9 @@
             },
             sell_status(){
                 return this.$store.state.sell_status;
+            },
+            buy_not_enough_msg(){
+                return this.$store.state.buy_not_enough_msg;
             },
 
             status(){
