@@ -617,17 +617,10 @@ class StockController extends Controller
     }
     public function transfer_datepicker(Request $request)
     {
-//        return response()->json($request->all());
         $branch_id=Auth::user()->branch_id;
         $date=$request->date;
-//        $transfers=Transfer::with('currency','group_note')
-//            ->where('from_branch_id',$branch_id)
-//            ->where('to_branch_id',$branch_id)
-//            ->whereDate('date_time',$request->date)
-//            ->orderBy('id','desc')
-//            ->paginate(10);
+
         $transfers=$this->transfers($date);
-//        dd($transfers);
         $transfer_total_value=0;
         if($transfers->isNotEmpty())
         {
@@ -674,21 +667,15 @@ class StockController extends Controller
 
             $transfer->total_transfer_value= $this->total_transfer_value($transfer->id);
             $transfer_total_value+=$this->total_transfer_value($transfer->id);
-//            array_push($total,$transfer_total_value);
 
-
-//            $total_value=array_sum($total);
         }
         $data=view('Stock.branch_filter_view',compact('transfers','total_value'));
         return $data;
-//        dd($transfers);
     }
     public function transfer_status_filter($value)
     {
-//        return response()->json($value);
         $branch_id=Auth::user()->branch_id;
 
-//        $transfers=Transfer::all();
         $transfer_total_value=0;
         if($value==1)
         {
