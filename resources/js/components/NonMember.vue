@@ -22,7 +22,7 @@
                 <div class="my-auto">
 <!--                    refresh btn use mx-0-->
                     <button type="button" v-on:click="refresh()" class="btn btn-nb-mount-save mx-0 fontsize-mount">Refresh</button>
-                    <button type="button" v-on:click="submitForm()" class="btn disable fontsize-mount font-weight-bold">သိမ်းမည်</button>
+                    <button type="button" v-on:click="submitForm()" disabled class="btn btn-nb-mount-save fontsize-mount font-weight-bold">သိမ်းမည်</button>
                 </div>
             </div>
             <div class="row">

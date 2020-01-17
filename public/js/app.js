@@ -38795,8 +38795,9 @@ var render = function() {
             _c(
               "button",
               {
-                staticClass: "btn disable fontsize-mount font-weight-bold",
-                attrs: { type: "button" },
+                staticClass:
+                  "btn btn-nb-mount-save fontsize-mount font-weight-bold",
+                attrs: { type: "button", disabled: "" },
                 on: {
                   click: function($event) {
                     return _vm.submitForm()

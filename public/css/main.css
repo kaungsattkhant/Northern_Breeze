@@ -301,10 +301,16 @@ input:focus{
     box-shadow: 2px 2px 5px #f6477286,1px 1px 3px #aaa;
     border-radius: 8px !important;
 }
-.btn-nb-mount-save:hover{
+.btn-nb-mount-save:not(:disabled):hover{
 
     transform: scale(1.01);
 
+}
+.btn-nb-mount-save:disabled{
+    opacity: 0.5!important;
+    /*transform: none!important;*/
+    cursor: not-allowed!important;
+    /*box-shadow: none;*/
 }
 .btn-dropdown-mount{
     /*background-color: #fff !important;*/
@@ -920,20 +926,4 @@ input[type="text"].for-placeholder::placeholder{
 .span-number{
     width: 60px;
 }
-.disable{
-
-    margin: auto 50px;
-    background: linear-gradient( to bottom right,#f98244,#f64782);
-    opacity: 0.5!important;
-    height: 40px;
-    color: #fff !important;
-    box-shadow: 0px 0px 1px #f6477286,0px 1px 1px #aaa8;
-    border-radius: 8px !important;
-}
-.disable:hover{
-    cursor: not-allowed!important;
-    /*box-shadow: none;*/
-}
-
-
 
