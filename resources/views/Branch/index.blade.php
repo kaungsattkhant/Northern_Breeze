@@ -55,11 +55,15 @@
     @include('Branch.destroy')
 
 @endsection
+
 @section('script')
-    <script src="{{asset('js/staff.js')}}"></script>
-    <script src="{{asset('js/staffedit.js')}}"></script>
-    {{--    <script src="{{asset('js/delete.js')}}"></script>--}}
-    {{--    <script src="{{asset('js/multi.js')}}"></script>--}}
-    {{--    <script src="--}}
+    <script>
+        $(function(){
+            $("#branch a").addClass("active-branch");
+
+            $("#branch").addClass("active2");
+
+        });
+    </script>
 
 @endsection
