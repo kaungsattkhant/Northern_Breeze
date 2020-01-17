@@ -19,8 +19,11 @@
                     </select>
 
                 </div>
-                <button type="button" v-on:click="refresh()" class="btn btn-nb-mount-save fontsize-mount">Refresh</button>
-                <button type="button" v-on:click="submitForm()" class="btn btn-nb-mount-save fontsize-mount">သိမ်းမည်</button>
+                <div class="my-auto">
+<!--                    refresh btn use mx-0-->
+                    <button type="button" v-on:click="refresh()" class="btn btn-nb-mount-save mx-0 fontsize-mount">Refresh</button>
+                    <button type="button" v-on:click="submitForm()" class="btn disable fontsize-mount font-weight-bold">သိမ်းမည်</button>
+                </div>
             </div>
             <div class="row">
                 <div class="col currency-group-container" id="from-currency-group-container" >
