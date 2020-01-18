@@ -27,7 +27,6 @@ class StockController extends Controller
     use CurrencyFilter;
     public function index()
     {
-//        dd('a');
         $branches = Branch::all();
         $branch_id = Auth::user()->branch_id;
         $date = Carbon::today();

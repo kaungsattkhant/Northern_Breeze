@@ -15,21 +15,18 @@ class SaleController extends Controller
 {
     public function index()
     {
-        $userId=Auth::user()->id;
-        $roleId=Auth::user()->role_id;
-//        dd(Transaction::query());
-//        dd(Transaction::with('latestPost')->get());
-        if($roleId == 1)
+        $userId = Auth::user()->id;
+        $checkRole=Auth::user()->role_name(Auth::user()->role_id);
+        if ($checkRole == "Admin")
         {
             $transactions=Transaction::with('staff')->get();
 
             if($transactions->isNotEmpty())
             {
                 $transactions=$this->transaction($transactions);
-
             }
         }
-        elseif($roleId==2)
+        elseif($checkRole== "Manager")
         {
 //            $transactions=$this->transaction($userId);
             $branch_id=Auth::user()->branch_id;
@@ -44,7 +41,7 @@ class SaleController extends Controller
             }
             $transactions=$this->transaction($transaction);
         }
-        elseif($roleId == 3)
+        elseif($checkRole == "Front Man")
         {
             $transactions=Transaction::whereHas('staff', function  ($q) use ($userId) {
                 $q->whereId($userId);

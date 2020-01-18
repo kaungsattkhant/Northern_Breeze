@@ -1,13 +1,13 @@
 @extends('Layouts.master')
 @section('content')
 
-{{--<<<<<<< HEAD--}}
 
-
-{{--=======--}}
-{{-->>>>>>> origin/medium--}}
-
+{{--@if(\Illuminate\Support\Facades\Auth::user()->isFrontMan())--}}
     <non-member currencies="{{$currencies}}"></non-member>
+{{--    @else--}}
+{{--      <h2>Your role can't access this page</h2>--}}
+{{--      @endif--}}
+
 
 {{--<<<<<<< HEAD--}}
 {{--=======--}}

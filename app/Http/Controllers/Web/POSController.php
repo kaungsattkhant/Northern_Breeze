@@ -176,13 +176,16 @@ class POSController extends Controller
             ]);
     }
     public function transaction_store(Request $request){
+//        if(Auth::user()->isFrontMan()){
+//            return dd('FrontMan');
+//        }else{
+//            return dd('admin');
+//        }
         $data=json_encode($request->all());
         $decode_data=json_decode($data);
-//        dd($decode_data);
         $branch=Branch::whereId(Auth::user()->branch_id)->firstOrfail();
 //        $data=file_get_contents(storage_path().'/Pos/transaction_store.json');
         $t=$decode_data->transaction;
-//        dd($t);
         $transaction=new Transaction();
         $transaction->in_value=$t->in_value;
         $transaction->out_value=$t->out_value;
@@ -278,13 +281,11 @@ class POSController extends Controller
 
                                         $bcgn = $this->getBranchClassGroupNote($branch->id, $note->group_note_id, $class_sheet->class_id);
                                         if($bcgn!=null){
-                                            if((int)$bcgn->sheet>= (int)$class_sheet->sheet){
                                                 $result=(int)$bcgn->sheet+(int)$class_sheet->sheet;
                                                 $branch->branch_group_note_class()->wherePivot('branch_id',$branch->id)
                                                     ->wherePivot('group_note_id',$note->group_note_id)
                                                     ->wherePivot('class_id',$class_sheet->class_id)->detach();
                                                 $branch->branch_group_note_class()->attach($branch->id,['group_note_id' => $note->group_note_id,'class_id'=>$class_sheet->class_id, 'sheet' => $result]);
-                                            }
                                         }
                                     }
 
@@ -340,13 +341,11 @@ class POSController extends Controller
 
                                         $bcgn = $this->getBranchClassGroupNote($branch->id, $note->group_note_id, $class_sheet->class_id);
                                         if($bcgn!=null){
-                                            if((int)$bcgn->sheet>= (int)$class_sheet->sheet){
                                                 $result=(int)$bcgn->sheet+(int)$class_sheet->sheet;
                                                 $branch->branch_group_note_class()->wherePivot('branch_id',$branch->id)
                                                     ->wherePivot('group_note_id',$note->group_note_id)
                                                     ->wherePivot('class_id',$class_sheet->class_id)->detach();
                                                 $branch->branch_group_note_class()->attach($branch->id,['group_note_id' => $note->group_note_id,'class_id'=>$class_sheet->class_id, 'sheet' => $result]);
-                                            }
                                         }
                                     }
 
