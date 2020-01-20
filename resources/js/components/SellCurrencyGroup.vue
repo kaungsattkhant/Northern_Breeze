@@ -7,6 +7,7 @@
                 <p class="total-text-mount pl-5 mb-1">Total :<span class="total_value"></span><i>{{total}}</i></p>
                 <p class=" total-text-mount fontsize-mount3 pl-5">ပြန်အမ်းငွေ : {{changes}} MMKs</p>
                 <span class="text-danger">{{exceed_msg}}</span>
+                <br>
                 <span class="text-danger">{{sell_not_enough_msg}}</span>
             </td>
         </tr>
