@@ -2,14 +2,12 @@
 
     <tbody class="rounded-table-mount ">
         <tr>
-
-            <!--        <td class="border-top-0 text-nb-mount d-none" style="padding: 30px;"></td>-->
             <td class="text-center border-top-0">
                 <p class="total-text-mount pl-5 ">Total MMKs :<span class="total_value"></span><i>{{total_mmk}} </i></p>
                 <p class="total-text-mount pl-5 ">Total :<span class="total_value"></span><i>{{total}}</i></p>
                 <p class=" total-text-mount fontsize-mount3 pl-5">ပြန်အမ်းငွေ : {{changes}} MMKs</p>
                 <span class="text-danger">{{exceed_msg}}</span>
-
+                <span class="text-danger">{{sell_not_enough_msg}}</span>
             </td>
         </tr>
         <tr v-for="(group,i) in data.groups">
@@ -18,7 +16,7 @@
                 v-for="(note,j) in group.notes">
                 <span class="fontsize-mount22 span-number">{{note.note_name}}</span>
                 <div class="input-group-box">
-                    <input type="number" v-model="sheets[i][j][k]" v-for="(item,k) in group.class_currency_value"
+                    <input type="number" min="0" v-model="sheets[i][j][k]" v-for="(item,k) in group.class_currency_value"
                            placeholder="Class "
                            v-on:keyup="calculateTotalAndChanges(group,note,item.value,i,j,k)"
                            v-on:change="calculateTotalAndChanges(group,note,item.value,i,j,k)"
@@ -26,7 +24,6 @@
                 </div>
             </td>
         </tr>
-        <span class="text-danger">{{sell_not_enough_msg}}</span>
 
 
     </tbody>
@@ -54,8 +51,10 @@
         },
         methods: {
 
-            setInitialGroups() {
+            setInitialGroupsAndResetStore() {
                 let _this = this;
+                this.$store.commit('removeGroup','sell');
+
                 let newGroup = JSON.parse(JSON.stringify(this.data));
                 newGroup.groups.forEach(function (group) {
                     group.type = 'sell';
@@ -71,6 +70,12 @@
                     });
                     _this.$store.commit('addGroup', group);
                 });
+                this.$store.commit('setOutValues', [this.total, this.total_mmk]);
+                this.$store.commit('isExceed', [this.in_value_MMK, this.out_value_MMK]);
+                this.$store.commit('setSellStatus', this.data.status);
+                this.$store.commit('setStatus', [this.sell_status, this.buy_status]);
+                this.$store.commit('setTransaction',[this.in_value,this.in_value_MMK,this.out_value,this.out_value_MMK,this.status,this.changes]);
+                this.$store.commit('setResults', [this.transaction, this.getGroups]);
             },
 
             arrSum(arr) {
@@ -109,7 +114,7 @@
                     this.total = this.arrSum(this.current_value);
 
                     let newClass = JSON.parse(JSON.stringify(note.class_sheet[k]));
-                    newClass.sheet = this.sheets[i][j][k];
+                    newClass.sheet = parseInt(this.sheets[i][j][k]) ;
                     oldNote.class_sheet.push(newClass);
 
                     this.getGroups.forEach(function (groupItem) {
@@ -124,21 +129,11 @@
                         }
 
                     });
-                    this.$store.commit('setSellTotal', this.total_mmk);
-
-                    this.$store.commit('isExceed', [this.buyTotal, this.sellTotal]);
-                    this.$store.commit('setTransactionDataFromSellGroups', [this.total, this.total_mmk]);
-
-                    this.transaction.in_value = this.in_value;
-                    this.transaction.in_value_MMK = this.in_value_MMK;
-                    this.transaction.out_value = this.total;
-                    this.transaction.out_value_MMK = this.total_mmk;
-                    this.transaction.changes = this.changes;
+                    this.$store.commit('setOutValues', [this.total, this.total_mmk]);
+                    this.$store.commit('isExceed', [this.in_value_MMK, this.out_value_MMK]);
                     this.$store.commit('setSellStatus', this.data.status);
                     this.$store.commit('setStatus', [this.sell_status, this.buy_status]);
-                    this.transaction.status = this.status;
-                    this.$store.commit('setTransaction', this.transaction);
-
+                    this.$store.commit('setTransaction',[this.in_value,this.in_value_MMK,this.out_value,this.out_value_MMK,this.status,this.changes]);
                     this.$store.commit('setResults', [this.transaction, this.getGroups]);
 
                 } else {
@@ -152,7 +147,7 @@
         },
         mounted() {
 
-            this.setInitialGroups();
+            this.setInitialGroupsAndResetStore();
             const deepCopy = (arr) => {
                 let copy = [];
                 arr.forEach(elem => {
@@ -191,9 +186,11 @@
             getResults: 'results',
             buyTotal: 'buy_total_mmk',
             sellTotal: 'sell_total_mmk',
-            transaction: 'transaction',
             in_value: 'in_value',
             in_value_MMK: 'in_value_MMK',
+            out_value: 'out_value',
+            out_value_MMK: 'out_value_MMK',
+            transaction: 'transaction',
             buy_status: 'buy_status',
             sell_status: 'sell_status',
             sell_not_enough_msg: 'sell_not_enough_msg',

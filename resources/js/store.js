@@ -21,7 +21,7 @@ export const store = new Vuex.Store({
         in_value: 0,
         out_value: 0,
         in_value_MMK: 0,
-        out_value_MMk: 0,
+        out_value_MMK: 0,
         changes: 0,
         member_id: null,
         status: '',
@@ -39,12 +39,12 @@ export const store = new Vuex.Store({
             state.sell_not_enough_msg = data;
         },
 
-        setTransactionDataFromBuyGroups(state, data) {
+        setInValues(state, data) {
             state.in_value = data[0];
             state.in_value_MMK = data[1];
         },
 
-        setTransactionDataFromSellGroups(state, data) {
+        setOutValues(state, data) {
             state.out_value = data[0];
             state.out_value_MMK = data[1];
         },
@@ -58,8 +58,18 @@ export const store = new Vuex.Store({
             state.status = data[1] + '_' + data[0];
         },
         setTransaction(state, data) {
-            state.transaction = data;
+            state.transaction.in_value = data[0];
+            state.transaction.in_value_MMK = data[1];
+            state.transaction.out_value = data[2];
+            state.transaction.out_value_MMK = data[3];
+            state.transaction.status = data[4];
+            if(data[5]){
+                state.transaction.changes = data[5];
+            }
         },
+        // setTransaction(state, data) {
+        //     state.transaction = data;
+        // },
 
         setBuyTotal(state, data) {
             state.buy_total_mmk = data;
@@ -88,9 +98,15 @@ export const store = new Vuex.Store({
                 return group.type === data;
             });
             targetGroups.forEach(function (group) {
-
+                let index = state.groups.indexOf(group);
+                if(index > -1) {
+                    state.groups.splice(index,1);
+                }
+                // let item = state.results.indexOf(group);
+                // if(item > -1){
+                //     state.results.splice(index,1);
+                // }
             });
-            console.log(targetGroup);
         }
     },
 

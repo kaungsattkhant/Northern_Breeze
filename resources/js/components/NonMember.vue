@@ -7,23 +7,27 @@
                     <select class="selectpicker ml-4 show-menu-arrow buy_currency_option" name="from_currency"
                             v-on:change="fetch_currency_groups('buy')" data-style="btn-white" data-width="auto">
                         <option selected disabled>လဲလှယ်မည့်ငွေ</option>
-                        <option :value="item.id" v-for="item in items">{{item.name}}</option>
+                        <option :value="item.id"
+                                v-bind:disabled="item.id === current_currency"
+                                v-for="item in items">{{item.name}}</option>
 
                     </select>
                     <select class="selectpicker pl-4 show-menu-arrow sell_currency_option" name="to_currency"
                             v-on:change="fetch_currency_groups('sell')" data-style="btn-white" data-width="auto">
-                        <option selected disabled>ပြန်လည်ထုတ် ပေးမည့်ငွေ</option>
-                        <option :value="item.id" v-for="item in items">{{item.name}}</option>
+                        <option selected disabled>ပြန်လည်ထုတ်ပေးမည့်ငွေ</option>
+                        <option :value="item.id"
+                                v-bind:disabled="item.id === current_currency"
+                                v-for="item in items" >{{item.name}}</option>
 
                     </select>
                 </div>
 
                 <div class="my-auto">
-                    <button type="button" v-on:click="refresh()" class="btn btn-nb-mount-save mx-0 fontsize-mount">
-                        Refresh
-                    </button>
-                    <button type="button"
-                            :disabled="isDisable()"
+<!--                    <button type="button" v-on:click="refresh()" class="btn btn-nb-mount-save mx-0 fontsize-mount">-->
+<!--                        Refresh-->
+<!--                    </button>-->
+                    <button type="button" v-bind:class="{'disable': isSaveDisable()}"
+                            :disabled="isSaveDisable()"
                             v-on:click="submitForm()" class="btn btn-nb-mount-save fontsize-mount font-weight-bold">
                         သိမ်းမည်
                     </button>
@@ -67,7 +71,7 @@
 
 
 <script>
-    import Vuex from 'vuex'
+    import Vuex, {mapState} from 'vuex'
     import Vue from 'vue';
 
     Vue.use(Vuex);
@@ -80,18 +84,25 @@
                 us_sell_currency_groups: '',
                 buy_currency_groups: '',
                 us_buy_currency_groups: '',
+                current_currency: '',
             }
         },
 
         methods: {
-            refresh() {
-                window.location.replace("/pos/non_member");
+            // refresh() {
+            //     window.location.replace("/pos/non_member");
+            // },
 
-            },
-
-            isDisable() {
+            isSaveDisable() {
                 return !!(this.exceed_msg || this.buy_not_enough_msg || this.sell_not_enough_msg);
             },
+            // isOptionDisable(first_choice_currency,current_currency){
+            //     return first_choice_currency === current_currency;
+            // },
+            // isValidStatus(){
+            //     return !!(this.status === 'other_MMK' || this.status === 'MMK_other' || this.status === 'other_other');
+            //
+            // },
 
             submitForm() {
                 let data = {...this.getResults};
@@ -128,6 +139,8 @@
                 }
                 currency_id = parseInt($('.' + type + '_currency_option option:selected').val());
 
+                this.current_currency = currency_id;
+                $('.selectpicker').selectpicker('refresh');
                 let data = {
                     currency_id: currency_id,
                     status: status,
@@ -163,22 +176,13 @@
         },
         mounted() {
         },
-        computed: {
-            getResults() {
-                return this.$store.state.results;
-            },
-            exceed_msg() {
-                return this.$store.state.exceed_msg;
-            },
-            buy_not_enough_msg() {
-                return this.$store.state.buy_not_enough_msg;
-            },
-            sell_not_enough_msg() {
-                return this.$store.state.sell_not_enough_msg;
-            }
-
-
-        },
+        computed: mapState({
+            getResults: 'results',
+            sell_not_enough_msg: 'sell_not_enough_msg',
+            buy_not_enough_msg: 'buy_not_enough_msg',
+            status: 'status',
+            exceed_msg: 'exceed_msg',
+        }),
     }
 
 </script>
