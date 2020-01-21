@@ -33,6 +33,8 @@
 <script>
     import Vuex, {mapState} from 'vuex'
     import Vue from 'vue';
+    import {helpers} from '../helpers.js'
+
 
     Vue.use(Vuex);
     export default {
@@ -50,7 +52,16 @@
             }
         },
         methods: {
-            setInitialGroupsAndResetStore() {
+
+            resetStore(){
+                this.$store.commit('setInValues', [this.total, this.total_mmk]);
+                this.$store.commit('isExceed', [this.in_value_MMK, this.out_value_MMK]);
+                this.$store.commit('setBuyStatus', this.data.status);
+                this.$store.commit('setStatus', [this.sell_status, this.buy_status]);
+                this.$store.commit('setTransaction',[this.in_value,this.in_value_MMK,this.out_value,this.out_value_MMK,this.status]);
+                this.$store.commit('setResults', [this.transaction, this.getGroups]);
+            },
+            setInitialGroups() {
                 let _this = this;
                 this.$store.commit('removeGroup','buy');
                 let newGroup = JSON.parse(JSON.stringify(this.data));
@@ -68,24 +79,10 @@
                     });
                     _this.$store.commit('addGroup', group);
                 });
-                this.$store.commit('setInValues', [this.total, this.total_mmk]);
-                this.$store.commit('isExceed', [this.in_value_MMK, this.out_value_MMK]);
-                this.$store.commit('setBuyStatus', this.data.status);
-                this.$store.commit('setStatus', [this.sell_status, this.buy_status]);
-                this.$store.commit('setTransaction',[this.in_value,this.in_value_MMK,this.out_value,this.out_value_MMK,this.status]);
-                this.$store.commit('setResults', [this.transaction, this.getGroups]);
-            },
 
-            arrSum(arr) {
-                let sum = 0;
-                for (let i = 0; i < arr.length; i++) {
-                    if (typeof arr[i] == 'object')
-                        sum += this.arrSum(arr[i]);
-                    else
-                        sum += arr[i];
-                }
-                return sum;
             },
+            sum: helpers.sumOfAllContentsOfArray,
+
             calculateTotalAndChanges(group, note, class_value, i, j, k) {
                 this.$store.commit('setBuyNotEnoughMsg', '');
 
@@ -112,8 +109,8 @@
 
                     this.current_value_mmk[i][j][k] = class_value * note.note_name * this.sheets[i][j][k];
                     this.current_value[i][j][k] = note.note_name * this.sheets[i][j][k];
-                    this.total_mmk = this.arrSum(this.current_value_mmk);
-                    this.total = this.arrSum(this.current_value);
+                    this.total_mmk = this.sum(this.current_value_mmk);
+                    this.total = this.sum(this.current_value);
 
 
                     let newClass = JSON.parse(JSON.stringify(note.class_sheet[k]));
@@ -146,25 +143,29 @@
 
         },
         mounted() {
-            this.setInitialGroupsAndResetStore();
-            const deepCopy = (arr) => {
-                let copy = [];
-                arr.forEach(elem => {
-                    if (Array.isArray(elem)) {
-                        copy.push(deepCopy(elem))
-                    } else {
-                        if (typeof elem === 'object') {
-                            copy.push(deepCopyObject(elem))
-                        } else {
-                            copy.push(elem)
-                        }
-                    }
-                });
-                return copy;
-            };
+            this.setInitialGroups();
+            this.resetStore();
+            // const deepCopy = (arr) => {
+            //     let copy = [];
+            //     arr.forEach(elem => {
+            //         if (Array.isArray(elem)) {
+            //             copy.push(deepCopy(elem))
+            //         } else {
+            //             if (typeof elem === 'object') {
+            //                 copy.push(deepCopyObject(elem))
+            //             } else {
+            //                 copy.push(elem)
+            //             }
+            //         }
+            //     });
+            //     return copy;
+            // };
+            //
+            // this.current_value = deepCopy(this.sheets);
+            // this.current_value_mmk = deepCopy(this.sheets);
 
-            this.current_value = deepCopy(this.sheets);
-            this.current_value_mmk = deepCopy(this.sheets);
+            this.current_value_mmk = JSON.parse(JSON.stringify(this.sheets));
+            this.current_value = JSON.parse(JSON.stringify(this.sheets));
         },
         created() {
             for (let i = 0; i < this.groups; i++) {

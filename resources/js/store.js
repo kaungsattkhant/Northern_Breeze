@@ -32,6 +32,7 @@ export const store = new Vuex.Store({
         sell_not_enough_msg: '',
     },
     mutations: {
+
         setBuyNotEnoughMsg(state, data) {
             state.buy_not_enough_msg = data;
         },
@@ -83,6 +84,7 @@ export const store = new Vuex.Store({
                 state.exceed_msg = '';
                 state.changes = data[0] - data[1];
             } else {
+                state.changes = data[0] - data[1];
                 state.exceed_msg = 'Sell value cannot exceed Buy value!'
             }
         },

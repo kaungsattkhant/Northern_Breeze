@@ -98,6 +98,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _helpers_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../helpers.js */ "./resources/js/helpers.js");
 //
 //
 //
@@ -131,6 +132,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__["default"]);
@@ -149,7 +151,16 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
     };
   },
   methods: {
-    setInitialGroupsAndResetStore: function setInitialGroupsAndResetStore() {
+    resetStore: function resetStore() {
+      this.$store.commit('setInValues', [this.total, this.total_mmk]);
+      this.$store.commit('isExceed', [this.in_value_MMK, this.out_value_MMK]);
+      this.$store.commit('setBuyStatus', this.data.status);
+      this.$store.commit('setStatus', [this.sell_status, this.buy_status]);
+      this.$store.commit('setTransaction', [this.in_value, this.in_value_MMK, this.out_value, this.out_value_MMK, this.status]);
+      this.$store.commit('setResults', [this.transaction, this.getGroups]);
+    },
+    // setValueAndStatus: helpers.setValuesAndStatus,
+    setInitialGroups: function setInitialGroups() {
       var _this = this;
 
       this.$store.commit('removeGroup', 'buy');
@@ -162,13 +173,8 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
 
         _this.$store.commit('addGroup', group);
       });
-      this.$store.commit('setInValues', [this.total, this.total_mmk]);
-      this.$store.commit('isExceed', [this.in_value_MMK, this.out_value_MMK]);
-      this.$store.commit('setBuyStatus', this.data.status);
-      this.$store.commit('setStatus', [this.sell_status, this.buy_status]);
-      this.$store.commit('setTransaction', [this.in_value, this.in_value_MMK, this.out_value, this.out_value_MMK, this.status]);
-      this.$store.commit('setResults', [this.transaction, this.getGroups]);
     },
+    sum: _helpers_js__WEBPACK_IMPORTED_MODULE_2__["helpers"].sumOfAllContentsOfArray,
     calculateTotalAndChanges: function calculateTotalAndChanges(group, note, i, j) {
       var targetGroup = this.getGroups.find(function (groupItem) {
         return groupItem.group_id === group.group_id && groupItem.type === 'buy';
@@ -194,18 +200,8 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
 
         this.current_value_mmk[i][j] = currency_value * note.note_name * this.sheets[i][j];
         this.current_value[i][j] = note.note_name * this.sheets[i][j];
-        this.total_mmk = this.current_value_mmk.reduce(function (a, b) {
-          return a.concat(b);
-        }) // flatten array
-        .reduce(function (a, b) {
-          return a + b;
-        });
-        this.total = this.current_value.reduce(function (a, b) {
-          return a.concat(b);
-        }) // flatten array
-        .reduce(function (a, b) {
-          return a + b;
-        });
+        this.total = this.sum(this.current_value);
+        this.total_mmk = this.sum(this.current_value_mmk);
         var newNote = JSON.parse(JSON.stringify(note));
         newNote.total_sheet = parseInt(this.sheets[i][j]);
         targetGroup.notes.push(newNote);
@@ -221,15 +217,16 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
     }
   },
   mounted: function mounted() {
-    this.setInitialGroupsAndResetStore();
+    this.setInitialGroups();
+    this.resetStore(); // for (let i = 0; i < this.sheets.length; i++) {
+    //     this.current_value_mmk[i] = this.sheets[i].slice();
+    // }
+    // for (let i = 0; i < this.sheets.length; i++) {
+    //     this.current_value[i] = this.sheets[i].slice();
+    // }
 
-    for (var i = 0; i < this.sheets.length; i++) {
-      this.current_value_mmk[i] = this.sheets[i].slice();
-    }
-
-    for (var _i = 0; _i < this.sheets.length; _i++) {
-      this.current_value[_i] = this.sheets[_i].slice();
-    }
+    this.current_value_mmk = JSON.parse(JSON.stringify(this.sheets));
+    this.current_value = JSON.parse(JSON.stringify(this.sheets));
   },
   created: function created() {
     for (var i = 0; i < this.groups; i++) {
@@ -273,40 +270,40 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_1__);
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+/* harmony import */ var _helpers_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../helpers.js */ "./resources/js/helpers.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__["default"]);
@@ -327,7 +324,15 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
     };
   },
   methods: {
-    setInitialGroupsAndResetStore: function setInitialGroupsAndResetStore() {
+    resetStore: function resetStore() {
+      this.$store.commit('setInValues', [this.total, this.total_mmk]);
+      this.$store.commit('isExceed', [this.in_value_MMK, this.out_value_MMK]);
+      this.$store.commit('setBuyStatus', this.data.status);
+      this.$store.commit('setStatus', [this.sell_status, this.buy_status]);
+      this.$store.commit('setTransaction', [this.in_value, this.in_value_MMK, this.out_value, this.out_value_MMK, this.status]);
+      this.$store.commit('setResults', [this.transaction, this.getGroups]);
+    },
+    setInitialGroups: function setInitialGroups() {
       var _this = this;
 
       this.$store.commit('removeGroup', 'buy');
@@ -345,22 +350,8 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
 
         _this.$store.commit('addGroup', group);
       });
-      this.$store.commit('setInValues', [this.total, this.total_mmk]);
-      this.$store.commit('isExceed', [this.in_value_MMK, this.out_value_MMK]);
-      this.$store.commit('setBuyStatus', this.data.status);
-      this.$store.commit('setStatus', [this.sell_status, this.buy_status]);
-      this.$store.commit('setTransaction', [this.in_value, this.in_value_MMK, this.out_value, this.out_value_MMK, this.status]);
-      this.$store.commit('setResults', [this.transaction, this.getGroups]);
     },
-    arrSum: function arrSum(arr) {
-      var sum = 0;
-
-      for (var i = 0; i < arr.length; i++) {
-        if (_typeof(arr[i]) == 'object') sum += this.arrSum(arr[i]);else sum += arr[i];
-      }
-
-      return sum;
-    },
+    sum: _helpers_js__WEBPACK_IMPORTED_MODULE_2__["helpers"].sumOfAllContentsOfArray,
     calculateTotalAndChanges: function calculateTotalAndChanges(group, note, class_value, i, j, k) {
       this.$store.commit('setBuyNotEnoughMsg', '');
       var targetGroup = this.getGroups.find(function (groupItem) {
@@ -382,8 +373,8 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
         this.$store.commit('setBuyNotEnoughMsg', '');
         this.current_value_mmk[i][j][k] = class_value * note.note_name * this.sheets[i][j][k];
         this.current_value[i][j][k] = note.note_name * this.sheets[i][j][k];
-        this.total_mmk = this.arrSum(this.current_value_mmk);
-        this.total = this.arrSum(this.current_value);
+        this.total_mmk = this.sum(this.current_value_mmk);
+        this.total = this.sum(this.current_value);
         var newClass = JSON.parse(JSON.stringify(note.class_sheet[k]));
         newClass.sheet = parseInt(this.sheets[i][j][k]);
         oldNote.class_sheet.push(newClass);
@@ -410,26 +401,28 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
     }
   },
   mounted: function mounted() {
-    this.setInitialGroupsAndResetStore();
+    this.setInitialGroups();
+    this.resetStore(); // const deepCopy = (arr) => {
+    //     let copy = [];
+    //     arr.forEach(elem => {
+    //         if (Array.isArray(elem)) {
+    //             copy.push(deepCopy(elem))
+    //         } else {
+    //             if (typeof elem === 'object') {
+    //                 copy.push(deepCopyObject(elem))
+    //             } else {
+    //                 copy.push(elem)
+    //             }
+    //         }
+    //     });
+    //     return copy;
+    // };
+    //
+    // this.current_value = deepCopy(this.sheets);
+    // this.current_value_mmk = deepCopy(this.sheets);
 
-    var deepCopy = function deepCopy(arr) {
-      var copy = [];
-      arr.forEach(function (elem) {
-        if (Array.isArray(elem)) {
-          copy.push(deepCopy(elem));
-        } else {
-          if (_typeof(elem) === 'object') {
-            copy.push(deepCopyObject(elem));
-          } else {
-            copy.push(elem);
-          }
-        }
-      });
-      return copy;
-    };
-
-    this.current_value = deepCopy(this.sheets);
-    this.current_value_mmk = deepCopy(this.sheets);
+    this.current_value_mmk = JSON.parse(JSON.stringify(this.sheets));
+    this.current_value = JSON.parse(JSON.stringify(this.sheets));
   },
   created: function created() {
     for (var i = 0; i < this.groups; i++) {
@@ -512,6 +505,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _helpers_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../helpers.js */ "./resources/js/helpers.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -592,6 +586,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 
 
+
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__["default"]);
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['currencies'],
@@ -606,6 +601,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
     };
   },
   methods: {
+    test: _helpers_js__WEBPACK_IMPORTED_MODULE_2__["helpers"].testConsole,
     isSaveDisable: function isSaveDisable() {
       return !!(this.exceed_msg || this.buy_not_enough_msg || this.sell_not_enough_msg || !this.in_value_MMK || !this.out_value_MMK);
     },
@@ -680,7 +676,9 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       });
     }
   },
-  mounted: function mounted() {},
+  mounted: function mounted() {
+    this.test('ok');
+  },
   computed: Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])({
     getResults: 'results',
     sell_not_enough_msg: 'sell_not_enough_msg',
@@ -706,6 +704,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _helpers_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../helpers.js */ "./resources/js/helpers.js");
 //
 //
 //
@@ -740,6 +739,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__["default"]);
@@ -758,7 +758,15 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
     };
   },
   methods: {
-    setInitialGroupsAndResetStore: function setInitialGroupsAndResetStore() {
+    resetStore: function resetStore() {
+      this.$store.commit('setOutValues', [this.total, this.total_mmk]);
+      this.$store.commit('isExceed', [this.in_value_MMK, this.out_value_MMK]);
+      this.$store.commit('setSellStatus', this.data.status);
+      this.$store.commit('setStatus', [this.sell_status, this.buy_status]);
+      this.$store.commit('setTransaction', [this.in_value, this.in_value_MMK, this.out_value, this.out_value_MMK, this.status, this.changes]);
+      this.$store.commit('setResults', [this.transaction, this.getGroups]);
+    },
+    setInitialGroups: function setInitialGroups() {
       var _this = this;
 
       this.$store.commit('removeGroup', 'sell');
@@ -771,13 +779,8 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
 
         _this.$store.commit('addGroup', group);
       });
-      this.$store.commit('setOutValues', [this.total, this.total_mmk]);
-      this.$store.commit('isExceed', [this.in_value_MMK, this.out_value_MMK]);
-      this.$store.commit('setSellStatus', this.data.status);
-      this.$store.commit('setStatus', [this.sell_status, this.buy_status]);
-      this.$store.commit('setTransaction', [this.in_value, this.in_value_MMK, this.out_value, this.out_value_MMK, this.status, this.changes]);
-      this.$store.commit('setResults', [this.transaction, this.getGroups]);
     },
+    sum: _helpers_js__WEBPACK_IMPORTED_MODULE_2__["helpers"].sumOfAllContentsOfArray,
     calculateTotalAndChanges: function calculateTotalAndChanges(group, note, i, j) {
       var targetGroup = this.getGroups.find(function (groupItem) {
         return groupItem.group_id === group.group_id && groupItem.type === 'sell';
@@ -805,18 +808,8 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
 
         this.current_value_mmk[i][j] = currency_value * note.note_name * this.sheets[i][j];
         this.current_value[i][j] = note.note_name * this.sheets[i][j];
-        this.total_mmk = this.current_value_mmk.reduce(function (a, b) {
-          return a.concat(b);
-        }) // flatten array
-        .reduce(function (a, b) {
-          return a + b;
-        });
-        this.total = this.current_value.reduce(function (a, b) {
-          return a.concat(b);
-        }) // flatten array
-        .reduce(function (a, b) {
-          return a + b;
-        });
+        this.total = this.sum(this.current_value);
+        this.total_mmk = this.sum(this.current_value_mmk);
         var newNote = JSON.parse(JSON.stringify(note));
         newNote.total_sheet = parseInt(this.sheets[i][j]);
         targetGroup.notes.push(newNote);
@@ -832,15 +825,16 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
     }
   },
   mounted: function mounted() {
-    this.setInitialGroupsAndResetStore();
+    this.setInitialGroups();
+    this.resetStore(); // for (let i = 0; i < this.sheets.length; i++) {
+    //     this.current_value_mmk[i] = this.sheets[i].slice();
+    // }
+    // for (let i = 0; i < this.sheets.length; i++) {
+    //     this.current_value[i] = this.sheets[i].slice();
+    // }
 
-    for (var i = 0; i < this.sheets.length; i++) {
-      this.current_value_mmk[i] = this.sheets[i].slice();
-    }
-
-    for (var _i = 0; _i < this.sheets.length; _i++) {
-      this.current_value[_i] = this.sheets[_i].slice();
-    }
+    this.current_value_mmk = JSON.parse(JSON.stringify(this.sheets));
+    this.current_value = JSON.parse(JSON.stringify(this.sheets));
   },
   created: function created() {
     for (var i = 0; i < this.groups; i++) {
@@ -886,40 +880,40 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_1__);
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+/* harmony import */ var _helpers_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../helpers.js */ "./resources/js/helpers.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__["default"]);
@@ -940,7 +934,15 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
     };
   },
   methods: {
-    setInitialGroupsAndResetStore: function setInitialGroupsAndResetStore() {
+    resetStore: function resetStore() {
+      this.$store.commit('setOutValues', [this.total, this.total_mmk]);
+      this.$store.commit('isExceed', [this.in_value_MMK, this.out_value_MMK]);
+      this.$store.commit('setSellStatus', this.data.status);
+      this.$store.commit('setStatus', [this.sell_status, this.buy_status]);
+      this.$store.commit('setTransaction', [this.in_value, this.in_value_MMK, this.out_value, this.out_value_MMK, this.status, this.changes]);
+      this.$store.commit('setResults', [this.transaction, this.getGroups]);
+    },
+    setInitialGroups: function setInitialGroups() {
       var _this = this;
 
       this.$store.commit('removeGroup', 'sell');
@@ -958,22 +960,8 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
 
         _this.$store.commit('addGroup', group);
       });
-      this.$store.commit('setOutValues', [this.total, this.total_mmk]);
-      this.$store.commit('isExceed', [this.in_value_MMK, this.out_value_MMK]);
-      this.$store.commit('setSellStatus', this.data.status);
-      this.$store.commit('setStatus', [this.sell_status, this.buy_status]);
-      this.$store.commit('setTransaction', [this.in_value, this.in_value_MMK, this.out_value, this.out_value_MMK, this.status, this.changes]);
-      this.$store.commit('setResults', [this.transaction, this.getGroups]);
     },
-    arrSum: function arrSum(arr) {
-      var sum = 0;
-
-      for (var i = 0; i < arr.length; i++) {
-        if (_typeof(arr[i]) == 'object') sum += this.arrSum(arr[i]);else sum += arr[i];
-      }
-
-      return sum;
-    },
+    sum: _helpers_js__WEBPACK_IMPORTED_MODULE_2__["helpers"].sumOfAllContentsOfArray,
     calculateTotalAndChanges: function calculateTotalAndChanges(group, note, class_value, i, j, k) {
       var targetGroup = this.getGroups.find(function (groupItem) {
         return groupItem.group_id === group.group_id && groupItem.type === 'sell';
@@ -994,8 +982,8 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
         this.$store.commit('setSellNotEnoughMsg', '');
         this.current_value_mmk[i][j][k] = class_value * note.note_name * this.sheets[i][j][k];
         this.current_value[i][j][k] = note.note_name * this.sheets[i][j][k];
-        this.total_mmk = this.arrSum(this.current_value_mmk);
-        this.total = this.arrSum(this.current_value);
+        this.total_mmk = this.sum(this.current_value_mmk);
+        this.total = this.sum(this.current_value);
         var newClass = JSON.parse(JSON.stringify(note.class_sheet[k]));
         newClass.sheet = parseInt(this.sheets[i][j][k]);
         oldNote.class_sheet.push(newClass);
@@ -1022,26 +1010,28 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
     }
   },
   mounted: function mounted() {
-    this.setInitialGroupsAndResetStore();
+    this.setInitialGroups();
+    this.resetStore(); // const deepCopy = (arr) => {
+    //     let copy = [];
+    //     arr.forEach(elem => {
+    //         if (Array.isArray(elem)) {
+    //             copy.push(deepCopy(elem))
+    //         } else {
+    //             if (typeof elem === 'object') {
+    //                 copy.push(deepCopyObject(elem))
+    //             } else {
+    //                 copy.push(elem)
+    //             }
+    //         }
+    //     });
+    //     return copy;
+    // };
+    //
+    // this.current_value = deepCopy(this.sheets);
+    // this.current_value_mmk = deepCopy(this.sheets);
 
-    var deepCopy = function deepCopy(arr) {
-      var copy = [];
-      arr.forEach(function (elem) {
-        if (Array.isArray(elem)) {
-          copy.push(deepCopy(elem));
-        } else {
-          if (_typeof(elem) === 'object') {
-            copy.push(deepCopyObject(elem));
-          } else {
-            copy.push(elem);
-          }
-        }
-      });
-      return copy;
-    };
-
-    this.current_value = deepCopy(this.sheets);
-    this.current_value_mmk = deepCopy(this.sheets);
+    this.current_value_mmk = JSON.parse(JSON.stringify(this.sheets));
+    this.current_value = JSON.parse(JSON.stringify(this.sheets));
   },
   created: function created() {
     for (var i = 0; i < this.groups; i++) {
@@ -19916,6 +19906,7 @@ var render = function() {
                       attrs: {
                         type: "number",
                         min: "0",
+                        max: note.total_sheet,
                         placeholder: "",
                         onchange: ""
                       },
@@ -20040,6 +20031,7 @@ var render = function() {
                         attrs: {
                           type: "number",
                           min: "0",
+                          max: note.class_sheet[k].sheet,
                           placeholder: "Class "
                         },
                         domProps: { value: _vm.sheets[i][j][k] },
@@ -33753,6 +33745,35 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/helpers.js":
+/*!*********************************!*\
+  !*** ./resources/js/helpers.js ***!
+  \*********************************/
+/*! exports provided: helpers */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "helpers", function() { return helpers; });
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+var helpers = {
+  testConsole: function testConsole(param) {
+    console.log(param);
+  },
+  sumOfAllContentsOfArray: function sumOfAllContentsOfArray(arr) {
+    var sum = 0;
+
+    for (var i = 0; i < arr.length; i++) {
+      if (_typeof(arr[i]) == 'object') sum += helpers.sumOfAllContentsOfArray(arr[i]);else sum += arr[i];
+    }
+
+    return sum;
+  }
+};
+
+/***/ }),
+
 /***/ "./resources/js/store.js":
 /*!*******************************!*\
   !*** ./resources/js/store.js ***!
@@ -33846,6 +33867,7 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
         state.exceed_msg = '';
         state.changes = data[0] - data[1];
       } else {
+        state.changes = data[0] - data[1];
         state.exceed_msg = 'Sell value cannot exceed Buy value!';
       }
     },

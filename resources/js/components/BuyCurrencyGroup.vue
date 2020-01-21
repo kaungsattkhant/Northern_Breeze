@@ -34,6 +34,8 @@
 <script>
     import Vuex, {mapState} from 'vuex'
     import Vue from 'vue';
+    import {helpers} from '../helpers.js'
+
 
     Vue.use(Vuex);
 
@@ -52,7 +54,16 @@
         },
 
         methods: {
-            setInitialGroupsAndResetStore() {
+            resetStore(){
+                this.$store.commit('setInValues', [this.total, this.total_mmk]);
+                this.$store.commit('isExceed', [this.in_value_MMK, this.out_value_MMK]);
+                this.$store.commit('setBuyStatus', this.data.status);
+                this.$store.commit('setStatus', [this.sell_status, this.buy_status]);
+                this.$store.commit('setTransaction', [this.in_value, this.in_value_MMK, this.out_value, this.out_value_MMK, this.status]);
+                this.$store.commit('setResults', [this.transaction, this.getGroups]);
+            },
+            // setValueAndStatus: helpers.setValuesAndStatus,
+            setInitialGroups() {
                 let _this = this;
                 this.$store.commit('removeGroup', 'buy');
                 let newGroup = JSON.parse(JSON.stringify(this.data));
@@ -63,13 +74,9 @@
                     });
                     _this.$store.commit('addGroup', group);
                 });
-                this.$store.commit('setInValues', [this.total, this.total_mmk]);
-                this.$store.commit('isExceed', [this.in_value_MMK, this.out_value_MMK]);
-                this.$store.commit('setBuyStatus', this.data.status);
-                this.$store.commit('setStatus', [this.sell_status, this.buy_status]);
-                this.$store.commit('setTransaction', [this.in_value, this.in_value_MMK, this.out_value, this.out_value_MMK, this.status]);
-                this.$store.commit('setResults', [this.transaction, this.getGroups]);
+
             },
+            sum: helpers.sumOfAllContentsOfArray,
 
             calculateTotalAndChanges(group, note, i, j) {
                 let targetGroup = this.getGroups.find(function (groupItem) {
@@ -95,18 +102,8 @@
                     }
                     this.current_value_mmk[i][j] = currency_value * note.note_name * this.sheets[i][j];
                     this.current_value[i][j] = note.note_name * this.sheets[i][j];
-                    this.total_mmk = this.current_value_mmk.reduce(function (a, b) {
-                        return a.concat(b)
-                    }) // flatten array
-                        .reduce(function (a, b) {
-                            return a + b
-                        });
-                    this.total = this.current_value.reduce(function (a, b) {
-                        return a.concat(b)
-                    }) // flatten array
-                        .reduce(function (a, b) {
-                            return a + b
-                        });
+                    this.total= this.sum(this.current_value);
+                    this.total_mmk= this.sum(this.current_value_mmk);
 
                     let newNote = JSON.parse(JSON.stringify(note));
                     newNote.total_sheet = parseInt(this.sheets[i][j]);
@@ -127,13 +124,16 @@
         mounted() {
 
 
-            this.setInitialGroupsAndResetStore();
-            for (let i = 0; i < this.sheets.length; i++) {
-                this.current_value_mmk[i] = this.sheets[i].slice();
-            }
-            for (let i = 0; i < this.sheets.length; i++) {
-                this.current_value[i] = this.sheets[i].slice();
-            }
+            this.setInitialGroups();
+            this.resetStore();
+            // for (let i = 0; i < this.sheets.length; i++) {
+            //     this.current_value_mmk[i] = this.sheets[i].slice();
+            // }
+            // for (let i = 0; i < this.sheets.length; i++) {
+            //     this.current_value[i] = this.sheets[i].slice();
+            // }
+            this.current_value_mmk = JSON.parse(JSON.stringify(this.sheets));
+            this.current_value = JSON.parse(JSON.stringify(this.sheets));
 
 
         },
@@ -164,7 +164,7 @@
             buy_status: 'buy_status',
             sell_status: 'sell_status',
             buy_not_enough_msg: 'buy_not_enough_msg',
-            status: 'status'
+            status: 'status',
         }),
 
     }
