@@ -73,7 +73,6 @@
 <script>
     import Vuex, {mapState} from 'vuex'
     import Vue from 'vue';
-    import {helpers} from '../helpers.js'
 
     Vue.use(Vuex);
     export default {
@@ -90,7 +89,6 @@
         },
 
         methods: {
-            test: helpers.testConsole,
             isSaveDisable() {
                 return !!(this.exceed_msg || this.buy_not_enough_msg || this.sell_not_enough_msg || !this.in_value_MMK || !this.out_value_MMK);
             },
@@ -164,7 +162,6 @@
             }
         },
         mounted() {
-            this.test('ok');
         },
         computed: mapState({
             getResults: 'results',
