@@ -40,7 +40,7 @@ class POSController extends Controller
             ]);
         }
 
-        if($request->currency_id===23) {
+        if($request->currency_id===18) {
             $results = json_decode( file_get_contents(public_path().'/us_currency_group.json'));
             return response()->json([
                 'results'=> $results

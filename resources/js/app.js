@@ -5,7 +5,7 @@
  */
 
 require('bootstrap');
-// require('bootstrap-select');
+
 import {store} from './store';
 
 window.Vue = require('vue');

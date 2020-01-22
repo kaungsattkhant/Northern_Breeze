@@ -17,7 +17,7 @@
     position: absolute;
     top: 30%;
     left: 39%;
-    height: 260px;
+    /*height: 260px;*/
     min-height: max-content;
     width: 300px;
     border: 1px solid rgba(55,55,55,0.6);

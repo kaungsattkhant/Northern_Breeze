@@ -32,6 +32,7 @@ export const store = new Vuex.Store({
         sell_not_enough_msg: '',
     },
     mutations: {
+
         setBuyNotEnoughMsg(state, data) {
             state.buy_not_enough_msg = data;
         },
@@ -63,7 +64,7 @@ export const store = new Vuex.Store({
             state.transaction.out_value = data[2];
             state.transaction.out_value_MMK = data[3];
             state.transaction.status = data[4];
-            if(data[5]){
+            if (data[5]) {
                 state.transaction.changes = data[5];
             }
         },
@@ -83,6 +84,7 @@ export const store = new Vuex.Store({
                 state.exceed_msg = '';
                 state.changes = data[0] - data[1];
             } else {
+                state.changes = data[0] - data[1];
                 state.exceed_msg = 'Sell value cannot exceed Buy value!'
             }
         },
@@ -93,14 +95,14 @@ export const store = new Vuex.Store({
         addGroup(state, data) {
             state.groups.push(data);
         },
-        removeGroup(state,data){
-            let targetGroups= state.groups.filter(function(group){
+        removeGroup(state, data) {
+            let targetGroups = state.groups.filter(function (group) {
                 return group.type === data;
             });
             targetGroups.forEach(function (group) {
                 let index = state.groups.indexOf(group);
-                if(index > -1) {
-                    state.groups.splice(index,1);
+                if (index > -1) {
+                    state.groups.splice(index, 1);
                 }
                 // let item = state.results.indexOf(group);
                 // if(item > -1){
