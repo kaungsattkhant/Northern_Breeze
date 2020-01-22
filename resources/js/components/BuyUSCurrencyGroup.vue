@@ -57,7 +57,6 @@
             setInitialGroups: helpers.setInitialGroups,
             sum: helpers.sumOfAllContentsOfArray,
             refreshGroup: helpers.removeOldElementAndAddNew,
-            setTotalSheet: helpers.calculateClassTotalSheet,
             setInitialSheets: helpers.setInitialSheets,
 
             resetStore() {
@@ -77,7 +76,6 @@
                     this.total_mmk = this.sum(this.current_value_mmk);
                     this.total = this.sum(this.current_value);
                     this.refreshGroup('buy', this.getGroups, this.sheets[i][j][k], group, note, k);
-                    this.setTotalSheet('buy', this.getGroups);
                     this.$store.commit('setInValues', [this.total, this.total_mmk]);
                     this.$store.commit('isExceed', [this.in_value_MMK, this.out_value_MMK]);
                     this.$store.commit('setBuyStatus', this.data.status);

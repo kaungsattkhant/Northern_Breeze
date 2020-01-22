@@ -36,23 +36,23 @@ export const helpers = {
             let newClass = JSON.parse(JSON.stringify(note.class_sheet[k]));
             newClass.sheet = parseInt(sheet);
             oldNote.class_sheet.push(newClass);
+
+            storeGroup.forEach(function (groupItem) {
+                if (groupItem.type === type) {
+                    groupItem.notes.forEach(function (noteItem) {
+                        let total_sheet = 0;
+                        noteItem.class_sheet.forEach(function (classItem) {
+                            total_sheet = total_sheet + parseInt(classItem.sheet);
+                        });
+                        noteItem.total_sheet = total_sheet;
+                    });
+                }
+
+            });
         }
 
     },
-    calculateClassTotalSheet: function (type, storeGroup) {
-        storeGroup.forEach(function (groupItem) {
-            if (groupItem.type === type) {
-                groupItem.notes.forEach(function (noteItem) {
-                    let total_sheet = 0;
-                    noteItem.class_sheet.forEach(function (classItem) {
-                        total_sheet = total_sheet + parseInt(classItem.sheet);
-                    });
-                    noteItem.total_sheet = total_sheet;
-                });
-            }
 
-        });
-    },
     setInitialSheets(lengths, sheet, isClass) {
         if (isClass) {
             for (let i = 0; i < lengths.groups; i++) {
