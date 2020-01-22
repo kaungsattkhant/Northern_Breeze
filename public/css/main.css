@@ -812,6 +812,7 @@ li .dropdown-menu.show{
     background-color: #FFFFFF!important;
     font-size: 15px;
 
+
 }
 .bootstrap-select > .dropdown-toggle:hover{
      background-color: #f8f8f8!important;
@@ -844,6 +845,14 @@ li .dropdown-menu.show{
     padding-bottom: 0;
     color: #777777;
     font-size: 15px;
+}
+/*.fs-select6 .bootstrap-select > .dropdown-toggle {*/
+/*    border: none;*/
+/*    color: #444444!important;*/
+/*    font-size: 15px;*/
+/*}*/
+.fs-select6 .bootstrap-select .dropdown-toggle .filter-option-inner-inner{
+    color: #444444;
 }
 .bootstrap-select .dropdown-menu li a{
     font-size: 15px;
