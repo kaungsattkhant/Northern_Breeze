@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Transfer extends Model
 {
+    protected $with='currency';
     public function group_note()
     {
         return $this->belongsToMany(GroupNote::class)->withPivot('sheet');
