@@ -26,15 +26,16 @@
                                v-on:keyup="calculateTotalAndChanges(group,note,i,j)"
                                v-on:change="calculateTotalAndChanges(group,note,i,j)"
                                class="from_note_class border float-right rounded-table-mount w-25 text-center fontsize-mount3 pt-1"
-                               placeholder=""
-                               onchange="">
+                               :placeholder="value_string+group.currency_value.value.toString()"
+                               :title="value_string+group.currency_value.value.toString()">
 
                         <input v-if="data.class" type="number" min="0" v-model="sheets[i][j][k]"
                                v-for="(item,k) in group.class_currency_value"
-                               placeholder="Class "
+                               :placeholder="class_string+data.class[k].name"
+                               :title="class_string+data.class[k].name"
                                v-on:keyup="calculateTotalAndChanges(group,note,i,j,k,item.value)"
                                v-on:change="calculateTotalAndChanges(group,note,i,j,k,item.value)"
-                               class="border rounded-table-mount float-right w-25 text-center font-color fontsize-mount3 pt-1 ">
+                               class="border rounded-table-mount w-25 text-center font-color fontsize-mount3 pt-1 ">
 
                     </div>
                 </td>
@@ -70,6 +71,8 @@
                 classes: 10,//maximum possible number of classes in a note
                 total_mmk: 0,
                 total: 0,
+                class_string: 'Class ',
+                value_string: 'Value : '
             }
         },
 

@@ -151,6 +151,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 
@@ -168,7 +169,9 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       classes: 10,
       //maximum possible number of classes in a note
       total_mmk: 0,
-      total: 0
+      total: 0,
+      class_string: 'Class ',
+      value_string: 'Value : '
     };
   },
   methods: {
@@ -695,7 +698,9 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       classes: 10,
       //maximum possible number of classes in a note
       total_mmk: 0,
-      total: 0
+      total: 0,
+      class_string: 'Class ',
+      value_string: 'Value '
     };
   },
   methods: {
@@ -19288,8 +19293,12 @@ var render = function() {
                                     attrs: {
                                       type: "number",
                                       min: "0",
-                                      placeholder: "",
-                                      onchange: ""
+                                      placeholder:
+                                        _vm.value_string +
+                                        group.currency_value.value.toString(),
+                                      title:
+                                        _vm.value_string +
+                                        group.currency_value.value.toString()
                                     },
                                     domProps: { value: _vm.sheets[i][j] },
                                     on: {
@@ -19338,11 +19347,16 @@ var render = function() {
                                         }
                                       ],
                                       staticClass:
-                                        "border rounded-table-mount float-right w-25 text-center font-color fontsize-mount3 pt-1 ",
+                                        "border rounded-table-mount w-25 text-center font-color fontsize-mount3 pt-1 ",
                                       attrs: {
                                         type: "number",
                                         min: "0",
-                                        placeholder: "Class "
+                                        placeholder:
+                                          _vm.class_string +
+                                          _vm.data.class[k].name,
+                                        title:
+                                          _vm.class_string +
+                                          _vm.data.class[k].name
                                       },
                                       domProps: { value: _vm.sheets[i][j][k] },
                                       on: {
@@ -19854,8 +19868,7 @@ var render = function() {
                                       type: "number",
                                       min: "0",
                                       max: note.total_sheet,
-                                      placeholder: "",
-                                      onchange: ""
+                                      placeholder: ""
                                     },
                                     domProps: { value: _vm.sheets[i][j] },
                                     on: {
@@ -19904,12 +19917,17 @@ var render = function() {
                                         }
                                       ],
                                       staticClass:
-                                        "border rounded-table-mount float-right w-25 text-center fontsize-mount3 pt-1 ",
+                                        "border rounded-table-mount w-25 text-center fontsize-mount3 pt-1 ",
                                       attrs: {
                                         type: "number",
                                         min: "0",
                                         max: note.class_sheet[k].sheet,
-                                        placeholder: "Class "
+                                        placeholder:
+                                          _vm.class_string +
+                                          _vm.data.class[k].name,
+                                        title:
+                                          _vm.class_string +
+                                          _vm.data.class[k].name
                                       },
                                       domProps: { value: _vm.sheets[i][j][k] },
                                       on: {
