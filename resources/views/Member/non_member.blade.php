@@ -1,5 +1,8 @@
 @extends('Layouts.master')
 @section('content')
-    <non-member currencies="{{$currencies}}"></non-member>
+    @php
+      $is_admin=\Illuminate\Support\Facades\Auth::user()->isAdmin()
+    @endphp
+    <non-member is_admin="{{$is_admin}}" currencies="{{$currencies}}"></non-member>
 @endsection
 

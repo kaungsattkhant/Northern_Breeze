@@ -79,7 +79,6 @@ class POSController extends Controller
     }
     public function currency_group(Request $request)
     {
-//        return response()->json($request->all());
 //        dd($request->all());
         $currency_id=$request->currency_id;
         $classification=Classification::all('id','name');
@@ -168,17 +167,28 @@ class POSController extends Controller
         foreach($new as $k=>$n){
             $new[$k]->notes=$notes[$k];
         }
-        return response()->json([
+        if($currency_id==$us_currency_id->id){
+            return response()->json([
                 'class'=>$classification,
                 'status'=>$status,
                 'groups'=>
                     $new,
             ]);
+        }else{
+            return response()->json([
+                'class'=>null,
+                'status'=>$status,
+                'groups'=>
+                    $new,
+            ]);
+        }
+
     }
     public function transaction_store(Request $request){
-        if(Auth::user()->isFrontMan()){
+//        if(Auth::user()->isFrontMan()){
             $data=json_encode($request->all());
             $decode_data=json_decode($data);
+
             $branch=Branch::whereId(Auth::user()->branch_id)->firstOrfail();
 //        $data=file_get_contents(storage_path().'/Pos/transaction_store.json');
             $t=$decode_data->transaction;
@@ -415,12 +425,12 @@ class POSController extends Controller
             return response()->json([
                 'is_success'=>true,
             ]);
-        }else{
-            dd('cannot accept ');
-//            return response()->json([
-//                'error_message'=>"Your role can't access "
-//            ]);
-        }
+//        }else{
+//            dd('cannot accept ');
+////            return response()->json([
+////                'error_message'=>"Your role can't access "
+////            ]);
+//        }
 
     }
     protected function getBranchClassGroupNote($branch,$group_note_id,$class_id){

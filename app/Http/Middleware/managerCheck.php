@@ -18,7 +18,7 @@ class managerCheck
     {
         if(Auth::check())
         {
-            if(Auth::user()->role_id == 1 || Auth::user()->role_id == 2 || Auth::user()->role_id == 3)
+            if(Auth::user()->role_id == 1 || Auth::user()->role_id == 2  || Auth::user()->role_id === 3 )
             {
                         return $next($request);
             }

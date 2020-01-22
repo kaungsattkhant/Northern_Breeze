@@ -37,7 +37,7 @@ class LoginController extends Controller
             }
             elseif(Auth::user()->role_id== 3)
             {
-                return redirect ('/daily_currency');
+                return redirect ('/pos/non_member');
             }
 
         }

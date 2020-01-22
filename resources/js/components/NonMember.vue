@@ -4,61 +4,65 @@
 
         <form>
             <div class="d-flex justify-content-between top-box-mount shadow-sm">
-                <div class="my-auto ">
+                <div class="my-auto fs-select6">
                     <select class="selectpicker ml-4 show-menu-arrow buy_currency_option" name="from_currency"
                             v-on:change="fetch_currency_groups('buy')" data-style="btn-white" data-width="auto">
                         <option selected disabled>လဲလှယ်မည့်ငွေ</option>
-                        <option :value="item.id" v-for="item in items">{{item.name}}</option>
+                        <option :value="item.id"
+                                v-bind:disabled="item.id === current_currency"
+                                v-for="item in items">{{item.name}}
+                        </option>
 
                     </select>
                     <select class="selectpicker pl-4 show-menu-arrow sell_currency_option" name="to_currency"
                             v-on:change="fetch_currency_groups('sell')" data-style="btn-white" data-width="auto">
-                        <option selected disabled>ပြန်လည်ထုတ် ပေးမည့်ငွေ</option>
-                        <option :value="item.id" v-for="item in items">{{item.name}}</option>
+                        <option selected disabled>ပြန်လည်ထုတ်ပေးမည့်ငွေ</option>
+                        <option :value="item.id"
+                                v-bind:disabled="item.id === current_currency"
+                                v-for="item in items">{{item.name}}
+                        </option>
 
                     </select>
                 </div>
 
                 <div class="my-auto">
-                    <button type="button" v-on:click="refresh()" class="btn btn-nb-mount-save mx-0 fontsize-mount">
-                        Refresh
-                    </button>
-                    <button type="button"
-                            :disabled="isDisable()"
+
+                    <button v-if="!is_admin" type="button" v-bind:class="{'disable': isSaveDisable()}"
+                            :disabled="isSaveDisable()"
                             v-on:click="submitForm()" class="btn btn-nb-mount-save fontsize-mount font-weight-bold">
                         သိမ်းမည်
                     </button>
                 </div>
             </div>
             <div class="row">
-                <div class="col currency-group-container" id="from-currency-group-container">
-                    <p class="border-top-radius-mount text-nb-mount mt-3 pl-3 fontsize-mount4 bg-white mb-0 pt-1 pb-2 w-25 ">
-                        လဲလှယ်မည့်ငွေ</p>
-                    <table class="table border-0 bg-white box-shadow-mount border-tab-radius-mount currency-group-table"
-                           id="from-currency-group-table">
+                <buy-currency-group v-if="buy_currency_groups" :data="buy_currency_groups"></buy-currency-group>
 
-                        <buy-currency-group v-if="buy_currency_groups" :data="buy_currency_groups"></buy-currency-group>
-                        <buy-us-currency-group v-if="us_buy_currency_groups"
-                                               :data="us_buy_currency_groups"></buy-us-currency-group>
+<!--                <div class="col currency-group-container" id="from-currency-group-container">-->
+<!--                    <p class="border-top-radius-mount text-nb-mount mt-3 pl-3 fontsize-mount4 bg-white mb-0 pt-1 pb-2 w-25 buy-banner "-->
+<!--                       style="display: none;">-->
+<!--                        လဲလှယ်မည့်ငွေ</p>-->
+<!--                    <table class="table border-0 bg-white box-shadow-mount border-tab-radius-mount currency-group-table"-->
+<!--                           id="from-currency-group-table">-->
 
-                    </table>
-                </div>
-                <div class="col currency-group-container" id="to-currency-group-container">
-                    <p class="border-top-radius-mount text-nb-mount mt-3 pl-3 fontsize-mount4 bg-white mb-0 pt-1 pb-2"
-                       style="width: 27%">ပြန်လည်ပေးအပ်ငွေ</p>
+<!--                        <buy-currency-group v-if="buy_currency_groups" :data="buy_currency_groups"></buy-currency-group>-->
 
-                    <table class="table border-0 bg-white box-shadow-mount border-tab-radius-mount currency-group-table"
-                           id="to-currency-group-table">
+<!--                    </table>-->
+<!--                </div>-->
+                <sell-currency-group v-if="sell_currency_groups" :data="sell_currency_groups"></sell-currency-group>
+<!--                <div class="col currency-group-container" id="to-currency-group-container">-->
+<!--                    <p class="border-top-radius-mount text-nb-mount mt-3 pl-3 fontsize-mount4 bg-white mb-0 pt-1 pb-2 sell-banner"-->
+<!--                       style="width: 27%; display: none;">ပြန်လည်ပေးအပ်ငွေ</p>-->
+
+<!--                    <table class="table border-0 bg-white box-shadow-mount border-tab-radius-mount currency-group-table"-->
+<!--                           id="to-currency-group-table">-->
 
 
-                        <sell-currency-group v-if="sell_currency_groups"
-                                             :data="sell_currency_groups"></sell-currency-group>
-                        <sell-us-currency-group v-if="us_sell_currency_groups"
-                                                :data="us_sell_currency_groups"></sell-us-currency-group>
+<!--                        <sell-currency-group v-if="sell_currency_groups"-->
+<!--                                             :data="sell_currency_groups"></sell-currency-group>-->
 
-                    </table>
+<!--                    </table>-->
 
-                </div>
+<!--                </div>-->
             </div>
         </form>
     </div>
@@ -68,35 +72,27 @@
 
 
 <script>
-    import Vuex from 'vuex'
+    import Vuex, {mapState} from 'vuex'
     import Vue from 'vue';
 
     Vue.use(Vuex);
     export default {
-        props: ['currencies'],
+        props: ['currencies','is_admin'],
         data() {
             return {
                 items: JSON.parse(this.currencies),
                 sell_currency_groups: '',
-                us_sell_currency_groups: '',
                 buy_currency_groups: '',
-                us_buy_currency_groups: '',
+                current_currency: '',
             }
         },
 
         methods: {
-            refresh() {
-                window.location.replace("/pos/non_member");
-
+            isSaveDisable() {
+                return !!(this.exceed_msg || this.buy_not_enough_msg || this.sell_not_enough_msg || !this.in_value_MMK || !this.out_value_MMK);
             },
-
-            isDisable() {
-                return !!(this.exceed_msg || this.buy_not_enough_msg || this.sell_not_enough_msg);
-            },
-
 
             submitForm() {
-                let data = {...this.getResults};
                 fetch('/pos/transaction', {
                     method: 'POST',
                     headers: {
@@ -118,21 +114,18 @@
             },
 
             fetch_currency_groups(status) {
-
-
                 let type;
                 let currency_id;
-
                 if (status === 'buy') {
                     type = 'buy';
                     this.buy_currency_groups = '';
-                    this.us_buy_currency_groups = '';
                 } else {
                     type = 'sell';
                     this.sell_currency_groups = '';
-                    this.us_sell_currency_groups = '';
                 }
                 currency_id = parseInt($('.' + type + '_currency_option option:selected').val());
+
+                this.current_currency = currency_id;
 
                 let data = {
                     currency_id: currency_id,
@@ -150,44 +143,31 @@
                     .then(response => response.json())
                     .then(data => {
 
-                        if(status==='buy'){
-
-                            if(data.groups[0].class_currency_value){
-                                this.us_buy_currency_groups = data;
-                            }else{
-                                this.buy_currency_groups = data;
-                            }
-                        }else{
-                            if(data.groups[0].class_currency_value){
-                                this.us_sell_currency_groups = data;
-                            }else{
-                                this.sell_currency_groups = data;
-
-                            }
+                        if (status === 'buy') {
+                            // $('.buy-banner').css('display', 'block');
+                            this.buy_currency_groups = data;
+                        } else {
+                            // $('.sell-banner').css('display', 'block');
+                            this.sell_currency_groups = data;
                         }
+                        $('.selectpicker').selectpicker('refresh');
 
 
                     });
             }
         },
         mounted() {
+            console.log(this.is_admin);
         },
-        computed: {
-            getResults() {
-                return this.$store.state.results;
-            },
-            exceed_msg() {
-                return this.$store.state.exceed_msg;
-            },
-            buy_not_enough_msg() {
-                return this.$store.state.buy_not_enough_msg;
-            },
-            sell_not_enough_msg() {
-                return this.$store.state.sell_not_enough_msg;
-            }
-
-
-        },
+        computed: mapState({
+            getResults: 'results',
+            sell_not_enough_msg: 'sell_not_enough_msg',
+            buy_not_enough_msg: 'buy_not_enough_msg',
+            in_value_MMK: 'in_value_MMK',
+            out_value_MMK: 'out_value_MMK',
+            status: 'status',
+            exceed_msg: 'exceed_msg',
+        }),
     }
 
 </script>
