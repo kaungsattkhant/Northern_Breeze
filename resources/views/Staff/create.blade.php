@@ -16,7 +16,6 @@
                         <div class="mb-3 {{$errors->has('name') ? 'has:error':''}}">
                             <label for="#name123" class="w-25">Name</label>
                             <input type="text" id="name" class="border-top-0 border-right-0 border-left-0 rounded-0 mount-input">
-
                         </div>
                         <span class="text-danger">
                                     <strong id="name_error"></strong>

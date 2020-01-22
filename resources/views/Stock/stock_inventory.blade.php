@@ -5,6 +5,7 @@
 
         <div class="row mx-0 top-box-mount shadow-sm">
             <div  class="my-auto  col-5">
+                @if(\Illuminate\Support\Facades\Auth::user()->isAdmin())
                 <select class="selectpicker " name="Branches" data-style="btn-white" data-width="auto" id="branch">
                     <option selected disabled>Branches</option>
                     @php
@@ -14,7 +15,9 @@
                         <option value="{{$branch->id}}" >{{$branch->name}}</option>
                     @endforeach
                 </select>
-
+                    @else
+                    <input type="hidden" id="branch" value="{{\Illuminate\Support\Facades\Auth::user()->branch_id}}">
+                @endif
                 <select id="transfer_status_filter" class="selectpicker"  name="In/Out/All" data-style="btn-white" data-width="auto">
                     <option selected disabled>In/Out/All</option>
                     <option value="1">In</option>
@@ -33,7 +36,6 @@
                 <div class="input-group-append">
                     <button class="btn btn-nb-mount-filter" id="transfer_datefilter"><i class="fas fa-filter"></i></button>
                 </div>
-
             </div>
             <div class="pr-0 mr-0 my-auto col-3">
                 <form class="d-inline" action="{{url('stock/create_stock')}}" method="get">
@@ -112,7 +114,7 @@
 {{--    </script>--}}
     <script src="{{asset('js/transfer.js')}}"></script>
 
-    
+
 
 
     @include('Stock.detail_stock')

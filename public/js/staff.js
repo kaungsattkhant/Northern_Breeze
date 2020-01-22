@@ -30,7 +30,6 @@ $(document).ready(function(){
         var name=$('#name').val();
         var role=$('#role').val();
         role===1 ? branch=null :branch=$('#b').val();
-        // var branch=$('#branch').val();
         event.preventDefault();
         $.ajax({
             url:'/staff/store',

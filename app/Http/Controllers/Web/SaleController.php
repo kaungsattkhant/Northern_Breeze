@@ -43,6 +43,7 @@ class SaleController extends Controller
         }
         elseif($checkRole == "Front Man")
         {
+//            dd('Front_Man');
             $transactions=Transaction::whereHas('staff', function  ($q) use ($userId) {
                 $q->whereId($userId);
             })->get();

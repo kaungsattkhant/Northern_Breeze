@@ -51,13 +51,14 @@
 
 {{--            *********************************************Start Manager************************************************--}}
             @elseif(\Illuminate\Support\Facades\Auth::user()->isManager())
-            <li class="nav-item btn-mount mx-auto " id="sr">
-                <a class="nav-link p-0  sidebar-box-mount img-sale-record text-center" href="{{url('sale')}}">
-                    <div class=" mt-0 px-auto "><p class="sb-text">Sale Record</p></div></a>
-            </li>
+
             <li class="nav-item btn-mount mx-auto" id="stock">
                 <a class="nav-link p-0  sidebar-box-mount img-stock-inventory text-center" href="{{url('stock')}}">
                     <div class=" mt-0 px-auto "><p class="sb-text">Stock Inventory</p></div></a>
+            </li>
+            <li class="nav-item btn-mount mx-auto " id="sr">
+                <a class="nav-link p-0  sidebar-box-mount img-sale-record text-center" href="{{url('sale')}}">
+                    <div class=" mt-0 px-auto "><p class="sb-text">Sale Record</p></div></a>
             </li>
             <li class="nav-item btn-mount mx-auto" id="daily">
                 <a class="nav-link p-0  sidebar-box-mount img-daily text-center " href="{{url('daily_currency')}}">
