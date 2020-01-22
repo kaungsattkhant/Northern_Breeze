@@ -29,7 +29,7 @@ $(document).ready(function(){
         var email=$('#email').val();
         var name=$('#name').val();
         var role=$('#role').val();
-        role===1 ? branch=null :branch=$('#branch').val();
+        role===1 ? branch=null :branch=$('#b').val();
         // var branch=$('#branch').val();
         event.preventDefault();
         $.ajax({

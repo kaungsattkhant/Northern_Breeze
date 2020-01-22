@@ -203,7 +203,9 @@ class StockController extends Controller
                             $buying_value=BuyGroupValue::where('group_id',$group->id)
                                 ->orderBy('date_time','DESC')
                                 ->first();
-                            $total_sheet=DB::table('branch_group_note')->where('group_note_id',$group_note_id[0])
+                            $total_sheet=DB::table('
+
+                            ')->where('group_note_id',$group_note_id[0])
                                 ->where('branch_id',$branch_id)
                                 ->sum('sheet');
                             $n->total_sheet=$total_sheet;
@@ -225,14 +227,12 @@ class StockController extends Controller
 //                        }
 
                     }
-
                 }
             }
         }
         asort($stock_notes);
         $c=collect($stock_notes);
         $stock_notes=$c->groupBy('group_id');
-//        dd($stock_notes);
             $data=view('Stock.stock_currency_filter',compact('stock_notes','total','currency_id'));
         return $data;
     }

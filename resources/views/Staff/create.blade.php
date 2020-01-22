@@ -61,7 +61,7 @@
 
                         <div class="branch_div mb-3 row fs-select4 {{$errors->has('branch') ? 'has:error':''}}" id="branch_div">
                             <label for="#role" class="w-25" style="padding-left: 16px;">Branch</label>
-                            <select name="branch" class="selectpicker show-menu-arrow ml-1 bd-bottom-mount" data-width="300px" id="branch">
+                            <select name="branch" class="selectpicker show-menu-arrow ml-1 bd-bottom-mount" data-width="300px" id="b">
                                 <option selected disabled>--None--</option>
                                 @php
                                 $branches=\App\Model\Branch::all();
