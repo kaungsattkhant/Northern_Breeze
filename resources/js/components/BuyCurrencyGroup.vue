@@ -1,6 +1,6 @@
 <template>
 
-    <div class="col currency-group-container" id="from-currency-group-container"  >
+    <div class="col-6 currency-group-container" id="from-currency-group-container"  >
         <p class="border-top-radius-mount text-nb-mount mt-3 pl-3 fontsize-mount4 bg-white mb-0 pt-1 pb-2 w-25 buy-banner">
             လဲလှယ်မည့်ငွေ</p>
         <table class="table border-0 bg-white box-shadow-mount border-tab-radius-mount currency-group-table"
@@ -17,6 +17,8 @@
             </tr>
             <tr v-for="(group,i) in data.groups">
                 <h5 class="pt-3 text-center mb-0">{{group.group_name}}</h5>
+<!--                <span v-if="group.currency_value">({{group.currency_value.value}}MMK)</span>-->
+
                 <td class="text-nb-mount border-top-0 pl-4 pt-3 fontsize-mount2 justify-content-between"
                     style="display: flex"
                     v-for="(note,j) in group.notes">
@@ -25,9 +27,7 @@
                         <input v-if="!data.class" type="number" min="0" v-model="sheets[i][j]"
                                v-on:keyup="calculateTotalAndChanges(group,note,i,j)"
                                v-on:change="calculateTotalAndChanges(group,note,i,j)"
-                               class="from_note_class border float-right rounded-table-mount w-25 text-center fontsize-mount3 pt-1"
-                               :placeholder="value_string+group.currency_value.value.toString()"
-                               :title="value_string+group.currency_value.value.toString()">
+                               class="from_note_class border float-right rounded-table-mount w-25 text-center fontsize-mount3 pt-1">
 
                         <input v-if="data.class" type="number" min="0" v-model="sheets[i][j][k]"
                                v-for="(item,k) in group.class_currency_value"
@@ -35,12 +35,17 @@
                                :title="class_string+data.class[k].name"
                                v-on:keyup="calculateTotalAndChanges(group,note,i,j,k,item.value)"
                                v-on:change="calculateTotalAndChanges(group,note,i,j,k,item.value)"
-                               class="border rounded-table-mount w-25 text-center font-color fontsize-mount3 pt-1 ">
+                               class="border rounded-table-mount  w-25 text-center font-color fontsize-mount3 pt-1 ">
 
                     </div>
                 </td>
             </tr>
+            <!--                    tr for space-->
+            <tr>
+                <td class="text-nb-mount border-top-0 pl-4 pt-3 justify-content-between fontsize-mount2">
 
+                </td>
+            </tr>
 
             </tbody>
 
@@ -72,7 +77,6 @@
                 total_mmk: 0,
                 total: 0,
                 class_string: 'Class ',
-                value_string: 'Value : '
             }
         },
 

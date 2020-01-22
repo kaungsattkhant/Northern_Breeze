@@ -3,7 +3,7 @@
     <div class="container-nb-mount">
         <form>
             <div class="d-flex justify-content-between top-box-mount shadow-sm">
-                <div class="my-auto ">
+                <div class="my-auto fs-select6">
                     <select class="selectpicker ml-4 show-menu-arrow buy_currency_option" name="from_currency"
                             v-on:change="fetch_currency_groups('buy')" data-style="btn-white" data-width="auto">
                         <option selected disabled>လဲလှယ်မည့်ငွေ</option>
@@ -25,6 +25,7 @@
                 </div>
 
                 <div class="my-auto">
+
                     <button type="button" v-bind:class="{'disable': isSaveDisable()}"
                             :disabled="isSaveDisable()"
                             v-on:click="submitForm()" class="btn btn-nb-mount-save fontsize-mount font-weight-bold">
@@ -143,6 +144,7 @@
                             this.sell_currency_groups = data.results;
                         }
                         $('.selectpicker').selectpicker('refresh');
+
 
                     });
             }

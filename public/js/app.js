@@ -152,6 +152,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -170,8 +175,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       //maximum possible number of classes in a note
       total_mmk: 0,
       total: 0,
-      class_string: 'Class ',
-      value_string: 'Value : '
+      class_string: 'Class '
     };
   },
   methods: {
@@ -525,6 +529,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__["default"]);
@@ -681,6 +686,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -699,8 +710,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       //maximum possible number of classes in a note
       total_mmk: 0,
       total: 0,
-      class_string: 'Class ',
-      value_string: 'Value '
+      class_string: 'Class '
     };
   },
   methods: {
@@ -19201,7 +19211,7 @@ var render = function() {
   return _c(
     "div",
     {
-      staticClass: "col currency-group-container",
+      staticClass: "col-6 currency-group-container",
       attrs: { id: "from-currency-group-container" }
     },
     [
@@ -19211,7 +19221,7 @@ var render = function() {
           staticClass:
             "border-top-radius-mount text-nb-mount mt-3 pl-3 fontsize-mount4 bg-white mb-0 pt-1 pb-2 w-25 buy-banner"
         },
-        [_vm._v("\n        လဲလှယ်မည့်ငွေ")]
+        [_vm._v("\n            လဲလှယ်မည့်ငွေ")]
       ),
       _vm._v(" "),
       _c(
@@ -19290,16 +19300,7 @@ var render = function() {
                                     ],
                                     staticClass:
                                       "from_note_class border float-right rounded-table-mount w-25 text-center fontsize-mount3 pt-1",
-                                    attrs: {
-                                      type: "number",
-                                      min: "0",
-                                      placeholder:
-                                        _vm.value_string +
-                                        group.currency_value.value.toString(),
-                                      title:
-                                        _vm.value_string +
-                                        group.currency_value.value.toString()
-                                    },
+                                    attrs: { type: "number", min: "0" },
                                     domProps: { value: _vm.sheets[i][j] },
                                     on: {
                                       keyup: function($event) {
@@ -19347,7 +19348,7 @@ var render = function() {
                                         }
                                       ],
                                       staticClass:
-                                        "border rounded-table-mount w-25 text-center font-color fontsize-mount3 pt-1 ",
+                                        "border rounded-table-mount  w-25 text-center font-color fontsize-mount3 pt-1 ",
                                       attrs: {
                                         type: "number",
                                         min: "0",
@@ -19403,7 +19404,9 @@ var render = function() {
                   ],
                   2
                 )
-              })
+              }),
+              _vm._v(" "),
+              _vm._m(0)
             ],
             2
           )
@@ -19412,7 +19415,19 @@ var render = function() {
     ]
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("td", {
+        staticClass:
+          "text-nb-mount border-top-0 pl-4 pt-3 justify-content-between fontsize-mount2"
+      })
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -19625,7 +19640,7 @@ var render = function() {
           staticClass: "d-flex justify-content-between top-box-mount shadow-sm"
         },
         [
-          _c("div", { staticClass: "my-auto " }, [
+          _c("div", { staticClass: "my-auto fs-select6" }, [
             _c(
               "select",
               {
@@ -19767,7 +19782,8 @@ var render = function() {
   return _c(
     "div",
     {
-      staticClass: "col currency-group-container",
+      staticClass: "col-6 currency-group-container",
+      staticStyle: { position: "absolute", right: "-1.2%" },
       attrs: { id: "to-currency-group-container" }
     },
     [
@@ -19809,17 +19825,17 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "p",
-                    { staticClass: " total-text-mount fontsize-mount3 pl-5" },
+                    {
+                      staticClass: " total-text-mount fontsize-mount3 pl-5 mb-1"
+                    },
                     [_vm._v("ပြန်အမ်းငွေ : " + _vm._s(_vm.changes) + " MMKs")]
                   ),
                   _vm._v(" "),
-                  _c("span", { staticClass: "text-danger" }, [
+                  _c("span", { staticClass: "text-danger mb-1 d-block" }, [
                     _vm._v(_vm._s(_vm.exceed_msg))
                   ]),
                   _vm._v(" "),
-                  _c("br"),
-                  _vm._v(" "),
-                  _c("span", { staticClass: "text-danger" }, [
+                  _c("span", { staticClass: "text-danger mb-1 d-block" }, [
                     _vm._v(_vm._s(_vm.sell_not_enough_msg))
                   ])
                 ])
@@ -19867,8 +19883,7 @@ var render = function() {
                                     attrs: {
                                       type: "number",
                                       min: "0",
-                                      max: note.total_sheet,
-                                      placeholder: ""
+                                      max: note.total_sheet
                                     },
                                     domProps: { value: _vm.sheets[i][j] },
                                     on: {
@@ -19974,7 +19989,9 @@ var render = function() {
                   ],
                   2
                 )
-              })
+              }),
+              _vm._v(" "),
+              _vm._m(0)
             ],
             2
           )
@@ -19983,7 +20000,19 @@ var render = function() {
     ]
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("td", {
+        staticClass:
+          "text-nb-mount border-top-0 pl-4 pt-3 justify-content-between fontsize-mount2"
+      })
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -33339,11 +33368,7 @@ __webpack_require__.r(__webpack_exports__);
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
-__webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.js"); // window.$ = window.jQuery = require('jquery');
-// require('bootstrap-select');
-// require('./bootstrap');
-// require("bootstrap-select");
-
+__webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.js");
 
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");

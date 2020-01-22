@@ -1,6 +1,6 @@
 <template>
 
-    <div class="col currency-group-container" id="to-currency-group-container">
+    <div class="col-6 currency-group-container" id="to-currency-group-container" style="position: absolute;right: -1.2%">
         <p class="border-top-radius-mount text-nb-mount mt-3 pl-3 fontsize-mount4 bg-white mb-0 pt-1 pb-2 sell-banner"
            style="width: 27%;">ပြန်လည်ပေးအပ်ငွေ</p>
 
@@ -12,14 +12,15 @@
                     <p class="total-text-mount pl-5 mb-1">Total MMKs :<span
                         class="total_value"></span><i>{{total_mmk}} </i></p>
                     <p class="total-text-mount pl-5 mb-1">Total :<span class="total_value"></span><i>{{total}}</i></p>
-                    <p class=" total-text-mount fontsize-mount3 pl-5">ပြန်အမ်းငွေ : {{changes}} MMKs</p>
-                    <span class="text-danger">{{exceed_msg}}</span>
-                    <br>
-                    <span class="text-danger">{{sell_not_enough_msg}}</span>
+                    <p class=" total-text-mount fontsize-mount3 pl-5 mb-1">ပြန်အမ်းငွေ : {{changes}} MMKs</p>
+                    <span class="text-danger mb-1 d-block">{{exceed_msg}}</span>
+                    <span class="text-danger mb-1 d-block">{{sell_not_enough_msg}}</span>
                 </td>
             </tr>
             <tr v-for="(group,i) in data.groups">
                 <h5 class="pt-3 text-center mb-0">{{group.group_name}}</h5>
+<!--                <span v-if="group.currency_value">({{group.currency_value.value}}MMK)</span>-->
+
                 <td class="text-nb-mount border-top-0 pl-4 pt-3 justify-content-between fontsize-mount2"
                     style="display: flex"
                     v-for="(note,j) in group.notes">
@@ -28,8 +29,7 @@
                         <input v-if="!data.class" type="number" min="0" :max="note.total_sheet" v-model="sheets[i][j]"
                                v-on:keyup="calculateTotalAndChanges(group,note,i,j)"
                                v-on:change="calculateTotalAndChanges(group,note,i,j)"
-                               class="from_note_class border float-right rounded-table-mount w-25 text-center fontsize-mount3 pt-1"
-                               placeholder="">
+                               class="from_note_class border float-right rounded-table-mount w-25 text-center fontsize-mount3 pt-1">
                         <input v-if="data.class" type="number" min="0" :max="note.class_sheet[k].sheet"
                                v-model="sheets[i][j][k]"
                                v-for="(item,k) in group.class_currency_value"
@@ -39,6 +39,12 @@
                                v-on:change="calculateTotalAndChanges(group,note,i,j,k,item.value)"
                                class="border rounded-table-mount w-25 text-center fontsize-mount3 pt-1 ">
                     </div>
+                </td>
+            </tr>
+<!--                    tr for space-->
+            <tr>
+                <td class="text-nb-mount border-top-0 pl-4 pt-3 justify-content-between fontsize-mount2">
+
                 </td>
             </tr>
 
@@ -74,7 +80,7 @@
                 total_mmk: 0,
                 total: 0,
                 class_string: 'Class ',
-                value_string: 'Value '
+
             }
         },
 
