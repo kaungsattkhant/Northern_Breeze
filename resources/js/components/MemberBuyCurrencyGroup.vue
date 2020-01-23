@@ -18,20 +18,27 @@
             <tr v-for="(group,i) in data.groups">
                 <h5 class="pt-3 text-center mb-0">{{group.group_name}}</h5>
 
+                <!--                <td class="text-nb-mount border-top-0 pl-4 pt-3 fontsize-mount2 justify-content-end pb-0" style="display: flex">-->
+                <!--                    <div style="width: 90%;float: right;text-align: center">-->
+                <!--                        <span v-if="group.currency_value" class="fontsize-mount3 w-25 float-right">({{group.currency_value.value}}MMK)</span>-->
+                <!--                        <span v-if="group.class_currency_value" class="fontsize-mount3 w-25 float-right" v-for="value in group.class_currency_value">({{value.value}}MMK)</span>-->
+                <!--                    </div>-->
+                <!--                </td>-->
                 <td class="text-nb-mount border-top-0 pl-4 pt-3 fontsize-mount2 justify-content-end pb-0" style="display: flex">
-                    <div style="width: 90%;float: right;text-align: center">
-                        <span v-if="group.currency_value" class="fontsize-mount3 w-25 float-right">({{group.currency_value.value}}MMK)</span>
-                        <span v-if="group.class_currency_value" class="fontsize-mount3 w-25 float-right" v-for="value in group.class_currency_value">({{value.value}}MMK)</span>
+                    <div style="width: 88.6%;">
+                        <input v-if="!data.class" type="number"
+                               v-model="sheet_values[i]"
+                               v-on:keyup="calculateTotalAndChangesForCustom(group,i)"
+                               v-on:change="calculateTotalAndChangesForCustom(group,i)"
+                               class="from_note_class border w-25 float-right rounded-table-mount text-center fontsize-mount3 pt-1 mb-1">
+                        <input v-if="data.class" type="number"
+                               v-for="(item,m) in group.class_currency_value"
+                               v-model="sheet_values[i][m]"
+                               v-on:keyup="calculateTotalAndChangesForCustom(group,i)"
+                               v-on:change="calculateTotalAndChangesForCustom(group,i)"
+                               class="border rounded-table-mount  w-25 float-left text-center font-color fontsize-mount3 pt-1 mb-1">
                     </div>
                 </td>
-<!--                <td class="text-nb-mount border-top-0 pl-4 pt-3 fontsize-mount2 justify-content-end pb-0" style="display: flex">-->
-<!--                    <div style="width: 88.6%;">-->
-<!--                        <input v-if="!data.class" type="number"-->
-<!--                               class="from_note_class border w-25 float-right rounded-table-mount text-center fontsize-mount3 pt-1 mb-1">-->
-<!--                        <input v-if="data.class" type="number" v-for="(item,k) in group.class_currency_value"-->
-<!--                               class="border rounded-table-mount  w-25 float-left text-center font-color fontsize-mount3 pt-1 mb-1">-->
-<!--                    </div>-->
-<!--                </td>-->
                 <td class="text-nb-mount border-top-0 pl-4 pt-2 fontsize-mount2 justify-content-between"
                     style="display: flex"
                     v-for="(note,j) in group.notes">
@@ -106,10 +113,9 @@
         },
 
         methods: {
-
             setInitialGroups: helpers.setInitialGroups,
             sum: helpers.sumOfAllContentsOfArray,
-            refreshGroup: helpers.removeOldElementAndAddNew,
+            refreshGroup: helpers.removeOldElementAndAddNewForMember,
             setInitialSheets: helpers.setInitialSheets,
             setInitialSheetValues: helpers.setInitialSheetValues,
 
@@ -133,6 +139,35 @@
                 return 1;
             },
 
+            custom_currency_value(group,i){
+                if(group.currency_value){
+                    return this.sheet_values[i];
+                }
+                return 1;
+            },
+            calculateTotalAndChangesForCustom(group,i){
+                if(this.isClass()){
+                    for(let note in group.notes){
+                        for(let value in group.notes[note].class_sheet){
+                            this.current_value_mmk[i][note][value] = this.sheet_values[i][value]*group.notes[note].note_name*this.sheets[i][note][value];
+                        }
+                    }
+                }else{
+                    for(let note in group.notes){
+                        this.current_value_mmk[i][note]=this.sheet_values[i]*group.notes[note].note_name*this.sheets[i][note];
+                    }
+                }
+                this.total = this.sum(this.current_value);
+                this.total_mmk = this.sum(this.current_value_mmk);
+                this.$store.commit('setInValues', [this.total, this.total_mmk]);
+                this.$store.commit('isExceed', [this.in_value_MMK, this.out_value_MMK]);
+                this.$store.commit('setBuyStatus', this.data.status);
+                this.$store.commit('setStatus', [this.sell_status, this.buy_status]);
+                this.$store.commit('setTransaction', [this.in_value, this.in_value_MMK, this.out_value, this.out_value_MMK, this.status,this.changes]);
+                this.$store.commit('setResults', [this.transaction, this.getGroups]);
+
+            },
+
             calculateTotalAndChanges(group, note, i, j, k = null, class_value = null) {
                 let sheets;
                 if (this.isClass()) {
@@ -143,14 +178,14 @@
                 if (sheets >= 0) {
                     this.$store.commit('setBuyNotEnoughMsg', '');
                     if (this.isClass()) {
-                        this.current_value_mmk[i][j][k] = class_value * note.note_name * sheets;
+                        this.current_value_mmk[i][j][k] = this.sheet_values[i][k] * note.note_name * sheets;
                         this.current_value[i][j][k] = note.note_name * sheets;
-                        this.refreshGroup('buy', this.getGroups, sheets, group, note, k);
+                        this.refreshGroup('buy',this.sheet_values[i], this.getGroups, sheets, group, note, k);
 
                     } else {
-                        this.current_value_mmk[i][j] = this.currency_value(group) * note.note_name * sheets;
+                        this.current_value_mmk[i][j] = this.custom_currency_value(group,i) * note.note_name * sheets;
                         this.current_value[i][j] = note.note_name * sheets;
-                        this.refreshGroup('buy', this.getGroups, sheets, group, note);
+                        this.refreshGroup('buy', this.sheet_values[i], this.getGroups, sheets, group, note);
 
                     }
 
@@ -168,7 +203,6 @@
             }
         },
         mounted() {
-
             this.setInitialGroups('buy', this.data, this.isClass());
             this.resetStore();
             this.current_value_mmk = JSON.parse(JSON.stringify(this.sheets));
@@ -191,8 +225,6 @@
             this.setInitialSheets(lengths, this.sheets, this.isClass());
             this.setInitialSheetValues(this.groups, this.sheet_values, this.isClass());
 
-
-
         },
 
 
@@ -210,7 +242,7 @@
             sell_status: 'sell_status',
             buy_not_enough_msg: 'buy_not_enough_msg',
             status: 'status',
-            changes: 'changes'
+            changes: 'changes',
         }),
 
     }

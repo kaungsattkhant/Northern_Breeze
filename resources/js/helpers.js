@@ -25,6 +25,7 @@ export const helpers = {
             let newNote = JSON.parse(JSON.stringify(note));
             newNote.total_sheet = parseInt(sheet);
             targetGroup.notes.push(newNote);
+            // targetGroup.currency_value.value=sheet_value;
         } else {
             let oldClass = oldNote.class_sheet.find(function (classItem) {
                 return classItem.class_id === note.class_sheet[k].class_id;
@@ -46,12 +47,65 @@ export const helpers = {
                         });
                         noteItem.total_sheet = total_sheet;
                     });
+                    // for(let value in groupItem.class_currency_value){
+                    //     groupItem.class_currency_value[value].value= sheet_value[value];
+                    // }
+
                 }
 
             });
         }
 
     },
+    removeOldElementAndAddNewForMember: function (type, sheet_value,storeGroup, sheet, group, note, k = null) {
+        let targetGroup = storeGroup.find(function (groupItem) {
+            return groupItem.group_id === group.group_id && groupItem.type === type;
+        });
+        let oldNote = targetGroup.notes.find(function (noteItem) {
+            return noteItem.group_note_id === note.group_note_id;
+        });
+        if (k === null) {
+            let index = targetGroup.notes.indexOf(oldNote);
+            if (index > -1) {
+                targetGroup.notes.splice(index, 1);
+            }
+            let newNote = JSON.parse(JSON.stringify(note));
+            newNote.total_sheet = parseInt(sheet);
+            targetGroup.notes.push(newNote);
+            targetGroup.currency_value.value=sheet_value;
+        } else {
+            let oldClass = oldNote.class_sheet.find(function (classItem) {
+                return classItem.class_id === note.class_sheet[k].class_id;
+            });
+            let index = oldNote.class_sheet.indexOf(oldClass);
+            if (index > -1) {
+                oldNote.class_sheet.splice(index, 1);
+            }
+            let newClass = JSON.parse(JSON.stringify(note.class_sheet[k]));
+            newClass.sheet = parseInt(sheet);
+            oldNote.class_sheet.push(newClass);
+
+            storeGroup.forEach(function (groupItem) {
+                if (groupItem.type === type) {
+                    groupItem.notes.forEach(function (noteItem) {
+                        let total_sheet = 0;
+                        noteItem.class_sheet.forEach(function (classItem) {
+                            total_sheet = total_sheet + parseInt(classItem.sheet);
+                        });
+                        noteItem.total_sheet = total_sheet;
+                    });
+                    for(let value in groupItem.class_currency_value){
+                        groupItem.class_currency_value[value].value= sheet_value[value];
+                    }
+
+                }
+
+            });
+        }
+
+    },
+
+
 
     setInitialSheets(lengths, sheet, isClass) {
         if (isClass) {
@@ -76,6 +130,22 @@ export const helpers = {
             }
         }
     },
+
+    setInitialSheetValues(groups,sheet_values,isClass){
+        if(isClass){
+            groups.forEach(function (groupItem) {
+                let row=[];
+                    for(let value in groupItem.class_currency_value){
+                        row.push(groupItem.class_currency_value[value].value );
+                    }
+                sheet_values.push(row);
+            })
+        }else{
+            groups.forEach(function (groupItem) {
+                sheet_values.push(groupItem.currency_value.value);
+            })
+        }
+    },
     setInitialGroups: function (type, data, isClass) {
         let _this = this;
         this.$store.commit('removeGroup', type);
@@ -97,5 +167,6 @@ export const helpers = {
             });
             _this.$store.commit('addGroup', group);
         });
-    }
+    },
+
 };
