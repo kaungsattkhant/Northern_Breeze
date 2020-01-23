@@ -66,7 +66,6 @@ class POSController extends Controller
             'results' => $request->all()
         ]);
     }
-
     public function pos_member()
     {
         return view('Member.pos_member');
@@ -78,9 +77,8 @@ class POSController extends Controller
     }
     public function currency_group(Request $request)
     {
-//        dd($request->all());
         $currency_id=$request->currency_id;
-        $classification=Classification::all('id','name');
+        $classification=Classification::orderBy('id','asc')->get('id','name');
         $us_currency_id=Currency::where('name','United States dollar')->first();
         $myanmar_currency=Currency::where('name','Myanmar Kyat')->first();
         $groups=Group::with('notes')->where('currency_id',$currency_id)->get();

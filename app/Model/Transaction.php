@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Transaction extends Model
 {
+
     public function in_transaction_group_note()
     {
         return $this->belongsToMany(InTransactionGroupNote::class,'in_transaction_group_note','transaction_id','group_note_id')->withPivot('buy_group_value_id','sheet');
