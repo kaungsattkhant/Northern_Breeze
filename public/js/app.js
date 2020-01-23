@@ -177,6 +177,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 
@@ -19260,36 +19263,64 @@ var render = function() {
                       _vm._v(_vm._s(group.group_name))
                     ]),
                     _vm._v(" "),
+                    _c(
+                      "td",
+                      {
+                        staticClass:
+                          "text-nb-mount border-top-0 pl-4 pt-3 fontsize-mount2 justify-content-end pb-0",
+                        staticStyle: { display: "flex" }
+                      },
+                      [
+                        _c(
+                          "div",
+                          { staticStyle: { width: "88.6%" } },
+                          [
+                            !_vm.data.class
+                              ? _c("input", {
+                                  staticClass:
+                                    "from_note_class border w-25 float-right rounded-table-mount text-center fontsize-mount3 pt-1 mb-1",
+                                  attrs: { type: "number" }
+                                })
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _vm._l(group.class_currency_value, function(
+                              item,
+                              k
+                            ) {
+                              return _vm.data.class
+                                ? _c("input", {
+                                    staticClass:
+                                      "border rounded-table-mount  w-25 float-left text-center font-color fontsize-mount3 pt-1 mb-1",
+                                    attrs: { type: "number" }
+                                  })
+                                : _vm._e()
+                            })
+                          ],
+                          2
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
                     _vm._l(group.notes, function(note, j) {
                       return _c(
                         "td",
                         {
                           staticClass:
-                            "text-nb-mount border-top-0 pl-4 pt-3 fontsize-mount2 justify-content-between",
+                            "text-nb-mount border-top-0 pl-4 pt-2 fontsize-mount2 justify-content-between",
                           staticStyle: { display: "flex" }
                         },
                         [
-                          _c("div", { staticClass: "span-number" }, [
-                            _c("br"),
-                            _vm._v(" "),
-                            _c("span", { staticClass: "fontsize-mount22 " }, [
-                              _vm._v(_vm._s(note.note_name))
-                            ])
-                          ]),
+                          _c(
+                            "span",
+                            { staticClass: "fontsize-mount22 span-number" },
+                            [_vm._v(_vm._s(note.note_name))]
+                          ),
                           _vm._v(" "),
                           _c(
                             "div",
                             { staticClass: "input-group-box" },
                             [
                               _c("div", { staticClass: "w-25 float-right" }, [
-                                !_vm.data.class
-                                  ? _c("input", {
-                                      staticClass:
-                                        "from_note_class border  rounded-table-mount w-100 text-center fontsize-mount3 pt-1 mb-1",
-                                      attrs: { type: "number" }
-                                    })
-                                  : _vm._e(),
-                                _vm._v(" "),
                                 !_vm.data.class
                                   ? _c("input", {
                                       directives: [
@@ -19344,14 +19375,6 @@ var render = function() {
                                   "div",
                                   { staticClass: "w-25 float-left" },
                                   [
-                                    _vm.data.class
-                                      ? _c("input", {
-                                          staticClass:
-                                            "border rounded-table-mount  w-100 text-center font-color fontsize-mount3 pt-1 mb-1",
-                                          attrs: { type: "number" }
-                                        })
-                                      : _vm._e(),
-                                    _vm._v(" "),
                                     _vm.data.class
                                       ? _c("input", {
                                           directives: [

@@ -1,7 +1,7 @@
 
 <div class="sidebar-nb-mount shadow mr-0" >
 
-    <ul class="nav flex-column mr-0 pt-3" id="myDIV" style="position: relative;height: 100%;">
+    <ul class="nav flex-column mr-0 pt-3" id="myDIV" style="position: relative;height: 100%;min-height: 100vh">
         <li class="nav-item dropdown btn-mount mx-auto mb-0" id="pos" data-toggle="collapse" href="#pos1">
             <a class="nav-link p-0  sidebar-box-mount img-pos text-center" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                 <div class=" mt-0 px-auto "><p class="sb-text">POS &nbsp; <i class="fas fa-chevron-down"></i></p></div>
