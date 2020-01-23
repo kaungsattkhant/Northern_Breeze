@@ -64,9 +64,7 @@ export const store = new Vuex.Store({
             state.transaction.out_value = data[2];
             state.transaction.out_value_MMK = data[3];
             state.transaction.status = data[4];
-            if (data[5]) {
-                state.transaction.changes = data[5];
-            }
+            state.transaction.changes = data[5];
         },
         // setTransaction(state, data) {
         //     state.transaction = data;
@@ -81,8 +79,8 @@ export const store = new Vuex.Store({
 
         isExceed(state, data) {
             if (data[0] >= data[1]) {
-                state.exceed_msg = '';
                 state.changes = data[0] - data[1];
+                state.exceed_msg = '';
             } else {
                 state.changes = data[0] - data[1];
                 state.exceed_msg = 'Sell value cannot exceed Buy value!'

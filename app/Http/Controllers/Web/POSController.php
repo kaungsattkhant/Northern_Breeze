@@ -58,13 +58,14 @@ class POSController extends Controller
     {
 //        dd(json_encode($request->all()) );
         return response()->json([
-            'results' => $request->all()
+            'is_success' => true
         ]);
     }
 
     public function pos_member()
     {
-        return view('Member.pos_member');
+        $currencies  = Currency::all();
+        return view('Member.pos_member',compact('currencies'));
     }
     public function pos_non_member()
     {

@@ -1,47 +1,67 @@
 <template>
-
     <div class="container-nb-mount">
+        <div>
+            <table class="table bg-white border-bottom-radius-mount mb-4">
+                <thead>
+                <tr>
+                    <th scope="col" class="border-bottom-0 border-top-0 fontsize-mount6 pl-4" >Name</th>
+                    <th scope="col" class="border-bottom-0 border-top-0 fontsize-mount6 text-center">Member Role</th>
+                    <th scope="col" class="border-bottom-0 border-top-0 fontsize-mount6 text-right pr-5">Point</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td scope="row" class="table-row-m fontsize-mount2 border-top-0 pl-4 text-color-mount">Khant</td>
+                    <td class="table-row-m fontsize-mount2 border-top-0 text-center text-color-mount">Diamond</td>
+                    <td class="table-row-m fontsize-mount2 border-top-0 text-right pr-5 text-color-mount">10000</td>
+
+                </tr>
+                </tbody>
+            </table>
+        </div>
         <form>
-            <div class="d-flex justify-content-between top-box-mount shadow-sm">
-                <div class="my-auto fs-select6">
-                    <select class="selectpicker ml-4 show-menu-arrow buy_currency_option" name="from_currency"
-                            v-on:change="fetch_currency_groups('buy')" data-style="btn-white" data-width="auto">
-                        <option selected disabled>လဲလှယ်မည့်ငွေ</option>
-                        <option :value="item.id"
-                                v-bind:disabled="item.id === current_currency"
-                                v-for="item in items">{{item.name}}
-                        </option>
 
-                    </select>
-                    <select class="selectpicker pl-4 show-menu-arrow sell_currency_option" name="to_currency"
-                            v-on:change="fetch_currency_groups('sell')" data-style="btn-white" data-width="auto">
-                        <option selected disabled>ပြန်လည်ထုတ်ပေးမည့်ငွေ</option>
-                        <option :value="item.id"
-                                v-bind:disabled="item.id === current_currency"
-                                v-for="item in items">{{item.name}}
-                        </option>
-                    </select>
-                </div>
+            <div>
+                <div class="d-flex justify-content-between  top-box-mount shadow-sm border-top-radius-mount">
+                    <div class="my-auto fs-select2">
 
-                <div class="my-auto">
+                        <select class="selectpicker ml-4 show-menu-arrow buy_currency_option" name="from_currency"
+                                v-on:change="fetch_currency_groups('buy')" data-style="btn-white" data-width="auto">
+                            <option selected disabled>လဲလှယ်မည့်ငွေ</option>
+                            <option :value="item.id"
+                                    v-bind:disabled="item.id === current_currency"
+                                    v-for="item in items">{{item.name}}
+                            </option>
 
-                    <button type="button" v-bind:class="{'disable': isSaveDisable()}" id="save-btn"
+                        </select>
+
+                        <select class="selectpicker pl-4 show-menu-arrow sell_currency_option" name="to_currency"
+                                v-on:change="fetch_currency_groups('sell')" data-style="btn-white" data-width="auto">
+                            <option selected disabled>ပြန်လည်ထုတ်ပေးမည့်ငွေ</option>
+                            <option :value="item.id"
+                                    v-bind:disabled="item.id === current_currency"
+                                    v-for="item in items">{{item.name}}
+                            </option>
+                        </select>
+
+                    </div>
+                    <button type="button" v-bind:class="{'disable': isSaveDisable()}"
                             :disabled="isSaveDisable()"
                             v-on:click="submitForm()" class="btn btn-nb-mount-save fontsize-mount font-weight-bold">
                         သိမ်းမည်
                     </button>
                 </div>
             </div>
-            <div class="row">
-                <buy-currency-group v-if="buy_currency_groups" :data="buy_currency_groups"></buy-currency-group>
-                <sell-currency-group v-if="sell_currency_groups" :data="sell_currency_groups"></sell-currency-group>
+
+            <div class="row ">
+                <member-buy-currency-group v-if="buy_currency_groups" :data="buy_currency_groups"></member-buy-currency-group>
+                <member-sell-currency-group v-if="sell_currency_groups" :data="sell_currency_groups"></member-sell-currency-group>
+
             </div>
         </form>
     </div>
-
-
 </template>
-
 
 <script>
     import Vuex, {mapState} from 'vuex'
@@ -64,9 +84,6 @@
                 return !!(this.exceed_msg || this.buy_not_enough_msg || this.sell_not_enough_msg || !this.in_value_MMK || !this.out_value_MMK);
             },
             submitForm() {
-                $('#save-btn').append(`
-                    <i class="fa fa-spinner fa-spin"></i>
-                `).prop('disabled',true);
                 fetch('/transaction', {
                     method: 'POST',
                     headers: {
@@ -77,12 +94,7 @@
                 })
                     .then(response => response.json())
                     .then(data => {
-                        if(data.is_success){
-
-                        }else{
-                            $("#save-btn").children("i:first").remove();
-                            $('#save-btn').prop('disabled',false);
-                        }
+                        console.log(data);
                     })
             },
 
