@@ -57,11 +57,11 @@
                     <div class=" mt-0 px-auto "><p class="sb-text">Stock Inventory</p></div></a>
             </li>
             <li class="nav-item btn-mount mx-auto " id="sr">
-                <a class="nav-link p-0  sidebar-box-mount img-sale-record text-center" href="{{url('sale')}}">
+                <a class="nav-link p-0  sidebar-box-mount img-sale-record text-center" href="{{url('sale/manager')}}">
                     <div class=" mt-0 px-auto "><p class="sb-text">Sale Record</p></div></a>
             </li>
             <li class="nav-item btn-mount mx-auto" id="daily">
-                <a class="nav-link p-0  sidebar-box-mount img-daily text-center " href="{{url('daily_currency')}}">
+                <a class="nav-link p-0  sidebar-box-mount img-daily text-center " href="{{url('daily_currency/manager')}}">
                     <div class=" mt-0 px-auto "><p class="sb-text">Daily Currency</p></div></a>
             </li>
 

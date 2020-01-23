@@ -8,7 +8,6 @@ use App\InTransactionGroupNote;
 use App\Model\Branch;
 use App\Model\BuyClassGroupValue;
 use App\Model\BuyGroupValue;
-//use http\Exception\BadUrlException;
 use App\Model\Classification;
 use App\Model\ClassValue;
 use App\Model\Currency;
@@ -167,6 +166,7 @@ class POSController extends Controller
         foreach($new as $k=>$n){
             $new[$k]->notes=$notes[$k];
         }
+//        dd($new);
         if($currency_id==$us_currency_id->id){
             return response()->json([
                 'class'=>$classification,
@@ -216,10 +216,13 @@ class POSController extends Controller
                                 $bgn = $this->getBranchGroupNote($branch->id, $note->group_note_id);
                                 if ($bgn != null) {
                                     $result = (intval($bgn->sheet) + intval($note->total_sheet));
+                                }else {
+                                    $result = $note->total_sheet;
+                                        }
                                     $branch->branch_group_note()->wherePivot('branch_id', $branch->id)
                                         ->wherePivot('group_note_id', $note->group_note_id)->detach();
                                     $branch->branch_group_note()->attach($branch->id, ['group_note_id' => $note->group_note_id, 'sheet' => $result]);
-                                }
+//                                }
                             }
                         } elseif ($group->type == "sell") {
                             if ($check_currency->currency->id == $us_currency->id) {
@@ -284,15 +287,17 @@ class POSController extends Controller
                                         $in_transaction->group_note_id = $note->group_note_id;
                                         $in_transaction->sheet = $note->total_sheet;
                                         $sg->buy_classes()->save($in_transaction);
-
+//                                        dd($class_sheet->class_id);
                                         $bcgn = $this->getBranchClassGroupNote($branch->id, $note->group_note_id, $class_sheet->class_id);
-                                        if($bcgn!=null){
-                                            $result=(int)$bcgn->sheet+(int)$class_sheet->sheet;
+                                        if($bcgn!=null) {
+                                            $result = (int)$bcgn->sheet + (int)$class_sheet->sheet;
+                                        }else{
+                                            $result=$class_sheet->sheet;
+                                        }
                                             $branch->branch_group_note_class()->wherePivot('branch_id',$branch->id)
                                                 ->wherePivot('group_note_id',$note->group_note_id)
                                                 ->wherePivot('class_id',$class_sheet->class_id)->detach();
                                             $branch->branch_group_note_class()->attach($branch->id,['group_note_id' => $note->group_note_id,'class_id'=>$class_sheet->class_id, 'sheet' => $result]);
-                                        }
                                     }
 
 
@@ -309,10 +314,13 @@ class POSController extends Controller
                                     $bgn = $this->getBranchGroupNote($branch->id, $note->group_note_id);
                                     if ($bgn != null) {
                                         $result = (intval($bgn->sheet) + intval($note->total_sheet));
+                                    }else{
+                                        $result=$note->total_sheet;
+                                    }
                                         $branch->branch_group_note()->wherePivot('branch_id', $branch->id)
                                             ->wherePivot('group_note_id', $bgn->group_note_id)->detach();
                                         $branch->branch_group_note()->attach($branch->id, ['group_note_id' => $bgn->group_note_id, 'sheet' => $result]);
-                                    }
+//                                    }
                                 }
 
                             }
@@ -346,13 +354,16 @@ class POSController extends Controller
                                         $sg->buy_classes()->save($in_transaction);
 
                                         $bcgn = $this->getBranchClassGroupNote($branch->id, $note->group_note_id, $class_sheet->class_id);
-                                        if($bcgn!=null){
-                                            $result=(int)$bcgn->sheet+(int)$class_sheet->sheet;
+                                        if($bcgn!=null) {
+                                            $result = (int)$bcgn->sheet + (int)$class_sheet->sheet;
+                                        }else{
+                                            $result=$class_sheet->sheet;
+                                        }
                                             $branch->branch_group_note_class()->wherePivot('branch_id',$branch->id)
                                                 ->wherePivot('group_note_id',$note->group_note_id)
                                                 ->wherePivot('class_id',$class_sheet->class_id)->detach();
                                             $branch->branch_group_note_class()->attach($branch->id,['group_note_id' => $note->group_note_id,'class_id'=>$class_sheet->class_id, 'sheet' => $result]);
-                                        }
+//                                        }
                                     }
 
                                 }
@@ -367,12 +378,12 @@ class POSController extends Controller
                                 $bgn = $this->getBranchGroupNote($branch->id, $note->group_note_id);
                                 if ($bgn != null) {
                                     $result = (intval($bgn->sheet) + intval($note->total_sheet));
+                                }else{
+                                    $result=$note->total_sheet;
+                                }
                                     $branch->branch_group_note()->wherePivot('branch_id', $branch->id)
                                         ->wherePivot('group_note_id', $bgn->group_note_id)->detach();
                                     $branch->branch_group_note()->attach($branch->id, ['group_note_id' => $bgn->group_note_id, 'sheet' => $result]);
-
-
-                                }
                             }
                         } elseif ($group->type == "sell") {
                             if ($check_currency->currency->id == $us_currency->id) {
@@ -436,6 +447,7 @@ class POSController extends Controller
     protected function getBranchClassGroupNote($branch,$group_note_id,$class_id){
         $bcgn=DB::table('branch_group_note_class')->where('branch_id',$branch)
             ->where('group_note_id',$group_note_id)
+            ->where('class_id',$class_id)
             ->first();
         return $bcgn;
     }

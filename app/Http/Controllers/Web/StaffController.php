@@ -22,7 +22,7 @@ class StaffController extends Controller
     }
     public function store(Request $request)
     {
-        return response()->json($request->all());
+//        return response()->json($request->all());
         $vData=Validator::make($request->all(),[
             'name'=>"required",
             'email'=>"required|unique:staff|email",
