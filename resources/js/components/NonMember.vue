@@ -20,7 +20,6 @@
                                 v-bind:disabled="item.id === current_currency"
                                 v-for="item in items">{{item.name}}
                         </option>
-
                     </select>
                 </div>
 
@@ -35,33 +34,7 @@
             </div>
             <div class="row">
                 <buy-currency-group v-if="buy_currency_groups" :data="buy_currency_groups"></buy-currency-group>
-
-<!--                <div class="col currency-group-container" id="from-currency-group-container">-->
-<!--                    <p class="border-top-radius-mount text-nb-mount mt-3 pl-3 fontsize-mount4 bg-white mb-0 pt-1 pb-2 w-25 buy-banner "-->
-<!--                       style="display: none;">-->
-<!--                        လဲလှယ်မည့်ငွေ</p>-->
-<!--                    <table class="table border-0 bg-white box-shadow-mount border-tab-radius-mount currency-group-table"-->
-<!--                           id="from-currency-group-table">-->
-
-<!--                        <buy-currency-group v-if="buy_currency_groups" :data="buy_currency_groups"></buy-currency-group>-->
-
-<!--                    </table>-->
-<!--                </div>-->
                 <sell-currency-group v-if="sell_currency_groups" :data="sell_currency_groups"></sell-currency-group>
-<!--                <div class="col currency-group-container" id="to-currency-group-container">-->
-<!--                    <p class="border-top-radius-mount text-nb-mount mt-3 pl-3 fontsize-mount4 bg-white mb-0 pt-1 pb-2 sell-banner"-->
-<!--                       style="width: 27%; display: none;">ပြန်လည်ပေးအပ်ငွေ</p>-->
-
-<!--                    <table class="table border-0 bg-white box-shadow-mount border-tab-radius-mount currency-group-table"-->
-<!--                           id="to-currency-group-table">-->
-
-
-<!--                        <sell-currency-group v-if="sell_currency_groups"-->
-<!--                                             :data="sell_currency_groups"></sell-currency-group>-->
-
-<!--                    </table>-->
-
-<!--                </div>-->
             </div>
         </form>
     </div>
@@ -103,8 +76,6 @@
                     .then(data => {
                         console.log(data);
                     })
-
-
             },
 
             fetch_currency_groups(status) {
@@ -137,10 +108,8 @@
                     .then(response => response.json())
                     .then(data => {
                         if (status === 'buy') {
-                            // $('.buy-banner').css('display', 'block');
                             this.buy_currency_groups = data.results;
                         } else {
-                            // $('.sell-banner').css('display', 'block');
                             this.sell_currency_groups = data.results;
                         }
                         $('.selectpicker').selectpicker('refresh');

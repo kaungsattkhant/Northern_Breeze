@@ -17,7 +17,8 @@
             </tr>
             <tr v-for="(group,i) in data.groups">
                 <h5 class="pt-3 text-center mb-0">{{group.group_name}}</h5>
-<!--                <span v-if="group.currency_value">({{group.currency_value.value}}MMK)</span>-->
+                <span v-if="group.currency_value">({{group.currency_value.value}}MMK)</span>
+                <span v-if="group.class_currency_value" v-for="value in group.class_currency_value">({{value.value}}MMK)</span>
 
                 <td class="text-nb-mount border-top-0 pl-4 pt-3 fontsize-mount2 justify-content-between"
                     style="display: flex"
@@ -28,7 +29,6 @@
                                v-on:keyup="calculateTotalAndChanges(group,note,i,j)"
                                v-on:change="calculateTotalAndChanges(group,note,i,j)"
                                class="from_note_class border float-right rounded-table-mount w-25 text-center fontsize-mount3 pt-1">
-
                         <input v-if="data.class" type="number" min="0" v-model="sheets[i][j][k]"
                                v-for="(item,k) in group.class_currency_value"
                                :placeholder="class_string+data.class[k].name"

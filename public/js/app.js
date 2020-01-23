@@ -503,33 +503,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__["default"]);
@@ -593,10 +566,8 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
         return response.json();
       }).then(function (data) {
         if (status === 'buy') {
-          // $('.buy-banner').css('display', 'block');
           _this.buy_currency_groups = data.results;
         } else {
-          // $('.sell-banner').css('display', 'block');
           _this.sell_currency_groups = data.results;
         }
 
@@ -19221,7 +19192,7 @@ var render = function() {
           staticClass:
             "border-top-radius-mount text-nb-mount mt-3 pl-3 fontsize-mount4 bg-white mb-0 pt-1 pb-2 w-25 buy-banner"
         },
-        [_vm._v("\n            လဲလှယ်မည့်ငွေ")]
+        [_vm._v("\n        လဲလှယ်မည့်ငွေ")]
       ),
       _vm._v(" "),
       _c(
@@ -19268,6 +19239,22 @@ var render = function() {
                     _c("h5", { staticClass: "pt-3 text-center mb-0" }, [
                       _vm._v(_vm._s(group.group_name))
                     ]),
+                    _vm._v(" "),
+                    group.currency_value
+                      ? _c("span", [
+                          _vm._v(
+                            "(" + _vm._s(group.currency_value.value) + "MMK)"
+                          )
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm._l(group.class_currency_value, function(value) {
+                      return group.class_currency_value
+                        ? _c("span", [
+                            _vm._v("(" + _vm._s(value.value) + "MMK)")
+                          ])
+                        : _vm._e()
+                    }),
                     _vm._v(" "),
                     _vm._l(group.notes, function(note, j) {
                       return _c(
@@ -19669,7 +19656,7 @@ var render = function() {
                       attrs: { disabled: item.id === _vm.current_currency },
                       domProps: { value: item.id }
                     },
-                    [_vm._v(_vm._s(item.name) + "\n                        ")]
+                    [_vm._v(_vm._s(item.name) + "\n                    ")]
                   )
                 })
               ],
@@ -19704,7 +19691,7 @@ var render = function() {
                       attrs: { disabled: item.id === _vm.current_currency },
                       domProps: { value: item.id }
                     },
-                    [_vm._v(_vm._s(item.name) + "\n                        ")]
+                    [_vm._v(_vm._s(item.name) + "\n                    ")]
                   )
                 })
               ],
@@ -19726,11 +19713,7 @@ var render = function() {
                   }
                 }
               },
-              [
-                _vm._v(
-                  "\n                        သိမ်းမည်\n                    "
-                )
-              ]
+              [_vm._v("\n                    သိမ်းမည်\n                ")]
             )
           ])
         ]
