@@ -17,9 +17,13 @@
             </tr>
             <tr v-for="(group,i) in data.groups">
                 <h5 class="pt-3 text-center mb-0">{{group.group_name}}</h5>
-                <span v-if="group.currency_value">({{group.currency_value.value}}MMK)</span>
-                <span v-if="group.class_currency_value" v-for="value in group.class_currency_value">({{value.value}}MMK)</span>
 
+                <td class="text-nb-mount border-top-0 pl-4 pt-3 fontsize-mount2 justify-content-end pb-0" style="display: flex">
+                    <div style="width: 90%;float: right;text-align: center">
+                        <span v-if="group.currency_value" class="fontsize-mount3 w-25 float-right">({{group.currency_value.value}}MMK)</span>
+                        <span v-if="group.class_currency_value" class="fontsize-mount3 w-25 float-right" v-for="value in group.class_currency_value">({{value.value}}MMK)</span>
+                    </div>
+                </td>
                 <td class="text-nb-mount border-top-0 pl-4 pt-3 fontsize-mount2 justify-content-between"
                     style="display: flex"
                     v-for="(note,j) in group.notes">

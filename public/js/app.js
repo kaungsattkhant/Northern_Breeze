@@ -157,6 +157,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -19240,21 +19244,58 @@ var render = function() {
                       _vm._v(_vm._s(group.group_name))
                     ]),
                     _vm._v(" "),
-                    group.currency_value
-                      ? _c("span", [
-                          _vm._v(
-                            "(" + _vm._s(group.currency_value.value) + "MMK)"
-                          )
-                        ])
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _vm._l(group.class_currency_value, function(value) {
-                      return group.class_currency_value
-                        ? _c("span", [
-                            _vm._v("(" + _vm._s(value.value) + "MMK)")
-                          ])
-                        : _vm._e()
-                    }),
+                    _c(
+                      "td",
+                      {
+                        staticClass:
+                          "text-nb-mount border-top-0 pl-4 pt-3 fontsize-mount2 justify-content-end pb-0",
+                        staticStyle: { display: "flex" }
+                      },
+                      [
+                        _c(
+                          "div",
+                          {
+                            staticStyle: {
+                              width: "90%",
+                              float: "right",
+                              "text-align": "center"
+                            }
+                          },
+                          [
+                            group.currency_value
+                              ? _c(
+                                  "span",
+                                  {
+                                    staticClass:
+                                      "fontsize-mount3 w-25 float-right"
+                                  },
+                                  [
+                                    _vm._v(
+                                      "(" +
+                                        _vm._s(group.currency_value.value) +
+                                        "MMK)"
+                                    )
+                                  ]
+                                )
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _vm._l(group.class_currency_value, function(value) {
+                              return group.class_currency_value
+                                ? _c(
+                                    "span",
+                                    {
+                                      staticClass:
+                                        "fontsize-mount3 w-25 float-right"
+                                    },
+                                    [_vm._v("(" + _vm._s(value.value) + "MMK)")]
+                                  )
+                                : _vm._e()
+                            })
+                          ],
+                          2
+                        )
+                      ]
+                    ),
                     _vm._v(" "),
                     _vm._l(group.notes, function(note, j) {
                       return _c(
@@ -34065,8 +34106,8 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/tinmaungzin/PhpstormProjects/NorthernBreeze-master/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/tinmaungzin/PhpstormProjects/NorthernBreeze-master/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /home/single/PhpstormProjects/NorthernBreeze/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/single/PhpstormProjects/NorthernBreeze/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
