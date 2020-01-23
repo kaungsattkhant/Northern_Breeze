@@ -188,7 +188,7 @@ class POSController extends Controller
 //        if(Auth::user()->isFrontMan()){
             $data=json_encode($request->all());
             $decode_data=json_decode($data);
-
+//            dd($decode_data);
             $branch=Branch::whereId(Auth::user()->branch_id)->firstOrfail();
 //        $data=file_get_contents(storage_path().'/Pos/transaction_store.json');
             $t=$decode_data->transaction;
@@ -318,8 +318,8 @@ class POSController extends Controller
                                         $result=$note->total_sheet;
                                     }
                                         $branch->branch_group_note()->wherePivot('branch_id', $branch->id)
-                                            ->wherePivot('group_note_id', $bgn->group_note_id)->detach();
-                                        $branch->branch_group_note()->attach($branch->id, ['group_note_id' => $bgn->group_note_id, 'sheet' => $result]);
+                                            ->wherePivot('group_note_id', $note->group_note_id)->detach();
+                                        $branch->branch_group_note()->attach($branch->id, ['group_note_id' => $note->group_note_id, 'sheet' => $result]);
 //                                    }
                                 }
 
@@ -332,8 +332,8 @@ class POSController extends Controller
                                     if($bgn->sheet>=$note->total_sheet){
                                         $result = (intval($bgn->sheet) - intval($note->total_sheet));
                                         $branch->branch_group_note()->wherePivot('branch_id', $branch->id)
-                                            ->wherePivot('group_note_id', $bgn->group_note_id)->detach();
-                                        $branch->branch_group_note()->attach($branch->id, ['group_note_id' => $bgn->group_note_id, 'sheet' => $result]);
+                                            ->wherePivot('group_note_id', $note->group_note_id)->detach();
+                                        $branch->branch_group_note()->attach($branch->id, ['group_note_id' => $note->group_note_id, 'sheet' => $result]);
                                     }
                                 }
                             }
@@ -376,14 +376,15 @@ class POSController extends Controller
                                 $sv->classes()->save($in_transaction);
 //                                        dd('success');
                                 $bgn = $this->getBranchGroupNote($branch->id, $note->group_note_id);
+//                                dd($bgn);
                                 if ($bgn != null) {
                                     $result = (intval($bgn->sheet) + intval($note->total_sheet));
                                 }else{
                                     $result=$note->total_sheet;
                                 }
                                     $branch->branch_group_note()->wherePivot('branch_id', $branch->id)
-                                        ->wherePivot('group_note_id', $bgn->group_note_id)->detach();
-                                    $branch->branch_group_note()->attach($branch->id, ['group_note_id' => $bgn->group_note_id, 'sheet' => $result]);
+                                        ->wherePivot('group_note_id', $note->group_note_id)->detach();
+                                    $branch->branch_group_note()->attach($branch->id, ['group_note_id' => $note->group_note_id, 'sheet' => $result]);
                             }
                         } elseif ($group->type == "sell") {
                             if ($check_currency->currency->id == $us_currency->id) {

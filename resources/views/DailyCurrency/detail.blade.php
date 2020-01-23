@@ -11,20 +11,14 @@
             </div>
             <div class="modal-body mx-5 px-3">
                 <div class="pt-3">
-
-
                     <table class="table bg-white  rounded-table-mount "  id="myTable">
                         <thead>
                         <tr id="daily_row">
-
                             <th scope="col" class="border-bottom-0 border-top-0 fontsize-mount6" >Date</th>
-
                             <th scope="col" class="border-bottom-0 border-top-0 fontsize-mount6" >Selling </th>
                             <th scope="col" class="border-bottom-0 border-top-0 fontsize-mount6">Buying</th>
-
                             {{--                            <th scope="col" class="border-bottom-0 border-top-0 fontsize-mount6">Buying Value</th>--}}
 {{--                            <th scope="col" class="border-bottom-0 border-top-0 fontsize-mount6">Selling Value</th>--}}
-
                         </tr>
                         </thead>
                         <tbody id="dailycurrency_detail">
