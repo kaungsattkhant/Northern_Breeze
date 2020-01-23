@@ -119,6 +119,7 @@
             }
         },
         mounted() {
+
         },
         computed: mapState({
             getResults: 'results',

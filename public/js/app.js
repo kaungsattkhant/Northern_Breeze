@@ -157,6 +157,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -166,12 +179,14 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
   data: function data() {
     return {
       sheets: [],
+      sheet_values: [],
       current_value_mmk: [],
       current_value: [],
-      groups: this.data.groups.length,
-      notes: 10,
+      groups: this.data.groups,
+      groups_length: this.data.groups.length,
+      notes_length: 10,
       //maximum possible number of notes in a group
-      classes: 10,
+      classes_length: 10,
       //maximum possible number of classes in a note
       total_mmk: 0,
       total: 0,
@@ -183,6 +198,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
     sum: _helpers_js__WEBPACK_IMPORTED_MODULE_2__["helpers"].sumOfAllContentsOfArray,
     refreshGroup: _helpers_js__WEBPACK_IMPORTED_MODULE_2__["helpers"].removeOldElementAndAddNew,
     setInitialSheets: _helpers_js__WEBPACK_IMPORTED_MODULE_2__["helpers"].setInitialSheets,
+    setInitialSheetValues: _helpers_js__WEBPACK_IMPORTED_MODULE_2__["helpers"].setInitialSheetValues,
     isClass: function isClass() {
       return !!this.data["class"];
     },
@@ -201,6 +217,13 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
 
       return 1;
     },
+    custom_currency_value: function custom_currency_value(group, i) {
+      if (group.currency_value) {
+        return this.sheet_values[i];
+      }
+
+      return 1;
+    },
     calculateTotalAndChanges: function calculateTotalAndChanges(group, note, i, j) {
       var k = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : null;
       var class_value = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : null;
@@ -213,14 +236,24 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       }
 
       if (sheets >= 0) {
-        this.$store.commit('setBuyNotEnoughMsg', '');
+        this.$store.commit('setBuyNotEnoughMsg', ''); // if (this.isClass()) {
+        //     this.current_value_mmk[i][j][k] = class_value * note.note_name * sheets;
+        //     this.current_value[i][j][k] = note.note_name * sheets;
+        //     this.refreshGroup('buy', this.getGroups, sheets, group, note, k);
+        //
+        // } else {
+        //     this.current_value_mmk[i][j] = this.currency_value(group) * note.note_name * sheets;
+        //     this.current_value[i][j] = note.note_name * sheets;
+        //     this.refreshGroup('buy', this.getGroups, sheets, group, note);
+        //
+        // }
 
         if (this.isClass()) {
-          this.current_value_mmk[i][j][k] = class_value * note.note_name * sheets;
+          this.current_value_mmk[i][j][k] = this.sheet_values[i][j] * note.note_name * sheets;
           this.current_value[i][j][k] = note.note_name * sheets;
           this.refreshGroup('buy', this.getGroups, sheets, group, note, k);
         } else {
-          this.current_value_mmk[i][j] = this.currency_value(group) * note.note_name * sheets;
+          this.current_value_mmk[i][j] = this.custom_currency_value(group, i) * note.note_name * sheets;
           this.current_value[i][j] = note.note_name * sheets;
           this.refreshGroup('buy', this.getGroups, sheets, group, note);
         }
@@ -249,18 +282,19 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
 
     if (this.isClass()) {
       lengths = {
-        groups: this.groups,
-        notes: this.notes,
-        classes: this.classes
+        groups: this.groups_length,
+        notes: this.notes_length,
+        classes: this.classes_length
       };
     } else {
       lengths = {
-        groups: this.groups,
-        notes: this.notes
+        groups: this.groups_length,
+        notes: this.notes_length
       };
     }
 
     this.setInitialSheets(lengths, this.sheets, this.isClass());
+    this.setInitialSheetValues(this.groups, this.sheet_values, this.isClass());
   },
   computed: Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])({
     getGroups: 'groups',
@@ -19240,7 +19274,7 @@ var render = function() {
                       _vm._v(_vm._s(group.group_name))
                     ]),
                     _vm._v(" "),
-                    group.currency_value
+                    !_vm.data.class
                       ? _c("span", [
                           _vm._v(
                             "(" + _vm._s(group.currency_value.value) + "MMK)"
@@ -19248,11 +19282,67 @@ var render = function() {
                         ])
                       : _vm._e(),
                     _vm._v(" "),
+                    !_vm.data.class
+                      ? _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.sheet_values[i],
+                              expression: "sheet_values[i]"
+                            }
+                          ],
+                          staticClass:
+                            "from_note_class border float-right rounded-table-mount w-25 text-center fontsize-mount3 pt-1",
+                          attrs: { type: "number", min: "0" },
+                          domProps: { value: _vm.sheet_values[i] },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(_vm.sheet_values, i, $event.target.value)
+                            }
+                          }
+                        })
+                      : _vm._e(),
+                    _vm._v(" "),
                     _vm._l(group.class_currency_value, function(value) {
-                      return group.class_currency_value
+                      return _vm.data.class
                         ? _c("span", [
                             _vm._v("(" + _vm._s(value.value) + "MMK)")
                           ])
+                        : _vm._e()
+                    }),
+                    _vm._v(" "),
+                    _vm._l(group.class_currency_value, function(value, m) {
+                      return _vm.data.class
+                        ? _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.sheet_values[i][m],
+                                expression: "sheet_values[i][m]"
+                              }
+                            ],
+                            staticClass:
+                              "from_note_class border float-right rounded-table-mount w-25 text-center fontsize-mount3 pt-1",
+                            attrs: { type: "number", min: "0" },
+                            domProps: { value: _vm.sheet_values[i][m] },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.sheet_values[i],
+                                  m,
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
                         : _vm._e()
                     }),
                     _vm._v(" "),
@@ -19335,7 +19425,7 @@ var render = function() {
                                         }
                                       ],
                                       staticClass:
-                                        "border rounded-table-mount  w-25 text-center font-color fontsize-mount3 pt-1 ",
+                                        "border rounded-table-mount  w-25 text-center font-color fontsize-mount3 pt-1",
                                       attrs: {
                                         type: "number",
                                         min: "0",
@@ -33893,6 +33983,23 @@ var helpers = {
 
         sheet.push(_row);
       }
+    }
+  },
+  setInitialSheetValues: function setInitialSheetValues(groups, sheet_values, isClass) {
+    if (isClass) {
+      groups.forEach(function (groupItem) {
+        var row = [];
+
+        for (var value in groupItem.class_currency_value) {
+          row.push(groupItem.class_currency_value[value].value);
+        }
+
+        sheet_values.push(row);
+      });
+    } else {
+      groups.forEach(function (groupItem) {
+        sheet_values.push(groupItem.currency_value.value);
+      });
     }
   },
   setInitialGroups: function setInitialGroups(type, data, isClass) {

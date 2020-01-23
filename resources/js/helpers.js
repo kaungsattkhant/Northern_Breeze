@@ -76,12 +76,32 @@ export const helpers = {
             }
         }
     },
+
+    setInitialSheetValues(groups,sheet_values,isClass){
+        if(isClass){
+            groups.forEach(function (groupItem) {
+                let row=[];
+                    for(let value in groupItem.class_currency_value){
+                        row.push(groupItem.class_currency_value[value].value );
+                    }
+                sheet_values.push(row);
+            })
+        }else{
+            groups.forEach(function (groupItem) {
+                sheet_values.push(groupItem.currency_value.value);
+            })
+        }
+    },
     setInitialGroups: function (type, data, isClass) {
         let _this = this;
         this.$store.commit('removeGroup', type);
         let newGroup = JSON.parse(JSON.stringify(data));
         newGroup.groups.forEach(function (group) {
             group.type = type;
+
+
+
+
             group.notes.forEach(function (note) {
                 if (isClass) {
                     let total_sheet = 0;
