@@ -92,8 +92,9 @@ Route::group(['middleware'=>['adminCheck']],function() {
         Route::group(['prefix'=>'daily_currency'],function(){
             Route::get('/','DailyCurrencyController@index');
             Route::get('/create','DailyCurrencyController@create');
-            Route::post('store','DailyCurrencyController@store');
-            Route::get('{id}/filter','DailyCurrencyController@daily_currency_filter');
+            Route::get('store','DailyCurrencyController@store');
+//            Route::post('store','DailyCurrencyController@store');
+            Route::get('currency_filter','DailyCurrencyController@daily_currency_filter');
             Route::post('/datefilter','DailyCurrencyController@daily_currency_datefilter');
             Route::get('/{group_id}/detail/{detail_id}','DailyCurrencyController@daily_detail');
         });

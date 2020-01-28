@@ -27,7 +27,7 @@
                 <div class="my-auto">
 
 
-                    <button type="button" v-bind:class="{'disable': isSaveDisable()}" id="save-btn"
+                <button type="button" v-bind:class="{'disable': isSaveDisable()}" id="save-btn"
                             :disabled="isSaveDisable()"
                             v-on:click="submitForm()" class="btn btn-nb-mount-save fontsize-mount font-weight-bold">
                         သိမ်းမည်

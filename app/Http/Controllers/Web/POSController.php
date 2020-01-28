@@ -189,7 +189,7 @@ class POSController extends Controller
             $decode_data=json_decode($data);
 //            dd($decode_data);
             $branch=Branch::whereId(Auth::user()->branch_id)->firstOrfail();
-//        $data=file_get_contents(storage_path().'/Pos/transaction_store.json');
+//        $data=file_get_contents(storage_path().'/api/transaction_store.json');
             $t=$decode_data->transaction;
             $transaction=new Transaction();
             $transaction->in_value=$t->in_value;

@@ -9,15 +9,12 @@
                 {{$note->name}}
             @endforeach
         </td>
-
         <td class="table-row-m text-info">
             {{$group->lastest_sell_value}}
         </td>
         <td class="table-row-m text-info">
             {{$group->lastest_buy_value}}
         </td>
-{{--        <td>{{$request_date}}</td>--}}
         <td class="table-row-m "><a href="#" class="text-a-mount" onclick="dailyDetail({{$group->id}},{{$group->detail_id}})" >Detail</a></td>
     </tr>
 @endforeach
-{{--</tbody>--}}

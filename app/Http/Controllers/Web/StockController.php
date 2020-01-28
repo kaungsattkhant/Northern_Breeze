@@ -139,6 +139,7 @@ class StockController extends Controller
     }
     public function currency_filter($id)
     {
+//        dd('a');
         $currency_id=$id;
         $groups=Group::with('notes')->where('currency_id',$currency_id)->get();
         $currency=Currency::find($currency_id);
@@ -200,9 +201,7 @@ class StockController extends Controller
                             $buying_value=BuyGroupValue::where('group_id',$group->id)
                                 ->orderBy('date_time','DESC')
                                 ->first();
-                            $total_sheet=DB::table('
-
-                            ')->where('group_note_id',$group_note_id[0])
+                            $total_sheet=DB::table('branch_group_note')->where('group_note_id',$group_note_id[0])
                                 ->where('branch_id',$branch_id)
                                 ->sum('sheet');
                             $n->total_sheet=$total_sheet;
@@ -218,7 +217,7 @@ class StockController extends Controller
                             array_push($stock_notes,$n);
 //                        }
 //                        else
-//                        {
+//                        {dail
 //                            return 'Empty buying value for this currency';
 //
 //                        }
@@ -227,6 +226,7 @@ class StockController extends Controller
                 }
             }
         }
+//        dd($stock_notes);
         asort($stock_notes);
         $c=collect($stock_notes);
         $stock_notes=$c->groupBy('group_id');
@@ -634,8 +634,9 @@ class StockController extends Controller
     {
         $branch_id=Auth::user()->branch_id;
         $date=$request->date;
-
-        $transfers=$this->transfers($date);
+//        $transfers=$this->transfers($date);
+        $transfers=Transfer::whereDate('date_time',$date)->get();
+//        dd($transfers);
         $transfer_total_value=0;
         if($transfers->isNotEmpty())
         {
@@ -643,6 +644,7 @@ class StockController extends Controller
             {
                 if($transfer->to_branch_id == $branch_id && $transfer->from_branch_id ==$branch_id)
                 {
+//                    dd('add');
                     $transfer->transfer_status="Add";
                 }
                 elseif($transfer->to_branch_id== $branch_id  && $transfer->from_branch_id != $branch_id)
@@ -661,6 +663,8 @@ class StockController extends Controller
 
 
     }
+//    public function transfers($date){
+//    }
     public function stock_branch_filter($branch)
     {
         $transfer_total_value=0;
@@ -826,6 +830,7 @@ class StockController extends Controller
 
 
     }
+
     public function get_branch()
     {
         $branch=Auth::user()->branch_id ? Auth::user()->branch_id : "admin_add";

@@ -21,6 +21,7 @@ class managerCheck
 //            dd(Auth::user()->isManager());
             if(Auth::user()->role_id == 2 || Auth::user()->role_id == 1 )
             {
+//                dd('manager');
                         return $next($request);
             }
         }

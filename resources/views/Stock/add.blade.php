@@ -31,9 +31,8 @@
                                     @endforeach
                                 </select>
                             </div>
+                            @if(\Illuminate\Support\Facades\Auth::user()->isAdmin())
                             <div class="col" id="branch">
-
-
                                 <select class="selectpicker mt-4" name="branch" data-style="btn-white" data-width="auto" id="to_branch">
                                     <option  disabled selected>Choose Branch</option>
                                     @php
@@ -45,6 +44,8 @@
                                     @endforeach
                                 </select>
                             </div>
+                            @endif
+
 {{--                            <button type="submit" id="stock_filter" class="btn btn-danger">Filter</button>--}}
                         </div>
             <div class="row" id="stock_table_filter">

@@ -9,7 +9,7 @@ class PosController extends Controller
 {
 
     public function transaction(){
-        $data=file_get_contents(storage_path().'/Pos/transaction_store.json');
+        $data=file_get_contents(storage_path().'/api/transaction_store.json');
         $decode_data=json_decode($data);
 //        dd($decode_data);
         return response()->json($decode_data);

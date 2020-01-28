@@ -16,7 +16,7 @@ class LoginController extends Controller
     {
 //        dd($request->all());
         $vData=$request->validate([
-            'email'=>'required|exists:staff,email',
+            'email'=>'required|string|email|max:255|exists:staff,email',
             'password'=>'required',
         ]);
         if(Auth::attempt([
@@ -25,21 +25,18 @@ class LoginController extends Controller
         ]))
         {
 
-//            dd('a');
             if(Auth::user()->role_id== 1)
             {
                 return redirect('/staff');
             }
             elseif(Auth::user()->role_id == 2)
             {
-//                dd(Auth::user()->role_id);
                 return redirect ('/stock');
             }
             elseif(Auth::user()->role_id== 3)
             {
                 return redirect ('/pos/non_member');
             }
-
         }
         else
             return redirect('login');
