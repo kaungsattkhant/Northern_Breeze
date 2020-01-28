@@ -8,13 +8,11 @@ $(function(){
 
     $('#daily_currency_filter').on('change',function(){
         var currency_id=$(this).val();
-        // alert(currency_id);
         $.ajax({
            url:currency_id+'/filter',
             type:'get',
             success:function(data)
             {
-                // console.log(data);
                 $('#create_button').fadeIn();
 
                 $('#daily #group').html(data);
@@ -58,7 +56,7 @@ function dailyDetail($group_id,$detail_id) {
         $('#daily_detail').modal('show');
 
         $('table #dailycurrency_detail').html(
-            "<tr><td>Empty</td> <td>Empty</td> <td>Empty</td> </tr>");
+            "<tr><td></td><td>Empty</td> <td>Empty</td> <td>Empty</td> </tr>");
     }else{
         $.ajax({
             url:'/daily_currency/'+$group_id+'/detail/'+$detail_id,
@@ -69,7 +67,6 @@ function dailyDetail($group_id,$detail_id) {
             },
         });
     }
-
 }
 
 

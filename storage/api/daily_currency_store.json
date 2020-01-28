@@ -40,7 +40,7 @@
             ]
         },
         {
-            "group_id": 2,
+            "group_id": 11,
             "name":"Group2",
             "type":"buy",
             "class_group_value":[
@@ -117,7 +117,7 @@
             ]
         },
         {
-            "group_id": 2,
+            "group_id":11,
             "name":"Group1",
             "type":"sell",
             "class_group_value":[
@@ -136,6 +136,158 @@
                 {
                     "class_id":4,
                     "value":1020
+                }
+            ],
+            "notes":[
+                {
+                    "id":1,
+                    "name":"1"
+                },
+                {
+                    "id":2,
+                    "name":"2"
+                },
+                {
+                    "id":3,
+                    "name":"5"
+                }
+            ]
+        },
+        {
+            "group_id": 1,
+            "name":"Group1",
+            "type":"buy",
+            "class_group_value":[
+                {
+                    "class_id":1,
+                    "value":"1400"
+                },
+                {
+                    "class_id":2,
+                    "value":null
+                },
+
+                {
+                    "class_id":3,
+                    "value":null
+                },
+                {
+                    "class_id":4,
+                    "value":null
+                }
+            ],
+            "notes":[
+                {
+                    "id":1,
+                    "name":"1"
+                },
+                {
+                    "id":2,
+                    "name":"2"
+                },
+                {
+                    "id":3,
+                    "name":"5"
+                }
+            ]
+        },
+        {
+            "group_id": 5,
+            "name":"Group1",
+            "type":"buy",
+            "class_group_value":[
+                {
+                    "class_id":1,
+                    "value":"1500"
+                },
+                {
+                    "class_id":2,
+                    "value":null
+                },
+
+                {
+                    "class_id":3,
+                    "value":null
+                },
+                {
+                    "class_id":4,
+                    "value":null
+                }
+            ],
+            "notes":[
+                {
+                    "id":1,
+                    "name":"1"
+                },
+                {
+                    "id":2,
+                    "name":"2"
+                },
+                {
+                    "id":3,
+                    "name":"5"
+                }
+            ]
+        },
+        {
+            "group_id": 1,
+            "name":"Group1",
+            "type":"sell",
+            "class_group_value":[
+                {
+                    "class_id":1,
+                    "value":"1200"
+                },
+                {
+                    "class_id":2,
+                    "value":null
+                },
+
+                {
+                    "class_id":3,
+                    "value":null
+                },
+                {
+                    "class_id":4,
+                    "value":null
+                }
+            ],
+            "notes":[
+                {
+                    "id":1,
+                    "name":"1"
+                },
+                {
+                    "id":2,
+                    "name":"2"
+                },
+                {
+                    "id":3,
+                    "name":"5"
+                }
+            ]
+        },
+        {
+            "group_id": 5,
+            "name":"Group1",
+            "type":"sell",
+            "class_group_value":[
+                {
+                    "class_id":1,
+                    "value":"1300"
+                },
+                {
+                    "class_id":2,
+                    "value":null
+                },
+
+                {
+                    "class_id":3,
+                    "value":null
+                },
+                {
+                    "class_id":4,
+                    "value":null
                 }
             ],
             "notes":[

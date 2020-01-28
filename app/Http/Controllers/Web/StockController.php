@@ -60,7 +60,6 @@ class StockController extends Controller
                         $transfer->transfer_status = "In";
                     } elseif ($transfer->from_branch_id == $branch->id && $transfer->to_branch_id != $branch->id)
                         $transfer->transfer_status = "Out";
-
                     $transfer->total_transfer_value = $this->total_transfer_value($transfer->id);
                     $transfer_total_value += $this->total_transfer_value($transfer->id);
                 }
@@ -133,9 +132,7 @@ class StockController extends Controller
     {
     }
     public function currency_branch_filter($currency_id,$branch_id){
-//        dd($branch_id);
         return $this->currency_filter($currency_id,$branch_id);
-
     }
     public function currency_filter($id)
     {
@@ -211,10 +208,10 @@ class StockController extends Controller
 //                        if($buying_value!=null )
 //                        {
 
-                            $n->group_id=$group->id;
-                            $n->daily_value=$buying_value->value;
+                        $n->group_id=$group->id;
+                        $n->daily_value=$buying_value->value;
 //                            $total+=intval($total_sheet)*$buying_value->value;
-                            array_push($stock_notes,$n);
+                        array_push($stock_notes,$n);
 //                        }
 //                        else
 //                        {dail
@@ -230,263 +227,115 @@ class StockController extends Controller
         asort($stock_notes);
         $c=collect($stock_notes);
         $stock_notes=$c->groupBy('group_id');
-            $data=view('Stock.stock_currency_filter',compact('stock_notes','total','currency_id'));
+        $data=view('Stock.stock_currency_filter',compact('stock_notes','total','currency_id'));
         return $data;
+    }
+
+    public function currency_filters(){
+//        $currency_id=$request->currency_id;
+//        $b_id=$currency_id->branch_id;
+        $b_id="1";
+        $currency_id="4";
+        $classification=Classification::orderBy('id','asc')->get('id','name');
+        $us_currency_id=Currency::where('name','United States dollar')->first();
+        $myanmar_currency=Currency::where('name','Myanmar Kyat')->first();
+        $groups=Group::with('notes')->where('currency_id',$currency_id)->get();
+        if($currency_id==$myanmar_currency->id){
+            $status="MMK";
+        }else{
+            $status="other";
+        }
+        $branch_id = Auth::user()->branch_id ? Auth::user()->branch_id : $b_id;
+        if($groups->isNotEmpty()){
+            foreach($groups as $key=>$group){
+                $new[$key]=new \stdClass();
+                $new[$key]->group_id=$group->id;
+                $new[$key]->group_name=$group->name;
+
+                $note_id=DB::table('group_note')->where('group_id',$group->id)->orderBy('note_id','desc')->pluck('note_id');
+                foreach ($note_id as $i=>$id)
+                {
+                    $note=Note::whereId($id)->first();
+                    $group_note_id=DB::table('group_note')
+                        ->where('note_id',$id)
+                        ->where('group_id',$group->id)
+                        ->first();
+                    $notes[$key][$i]=new \stdClass();
+                    $notes[$key][$i]->group_note_id=$group_note_id->id;
+                    $notes[$key][$i]->note_name=$note->name;
+//                if($us_currency_id->id == $currency_id)
+//                {
+                    $class_total_sheet=0;
+                    foreach($classification as $bc=>$class){
+                        $class_sheet[$bc]=new \stdClass();
+
+                        $branch_class_sheet=DB::table('branch_group_note_class')
+                            ->where('branch_id',$branch_id)
+                            ->where('class_id',$class->id)
+                            ->where('group_note_id',$group_note_id->id)->first();
+                        if($branch_class_sheet!=null){
+                            $class_sheet[$bc]->class_id=$branch_class_sheet->class_id;
+                            $class_sheet[$bc]->sheet=$branch_class_sheet->sheet;
+                            $class_total_sheet+=(int)$class_sheet[$bc]->sheet;
+                        }
+                        if($branch_class_sheet==null){
+                            $class_sheet[$bc]->class_id=$class->id;
+                            $class_sheet[$bc]->sheet=0;
+                        }else{
+                            $class_sheet[$bc]->class_id=$branch_class_sheet->class_id;
+                            $class_sheet[$bc]->sheet=$branch_class_sheet->sheet;
+                        }
+                    }
+                    $notes[$key][$i]->class_sheet=$class_sheet;
+                    $notes[$key][$i]->total_sheet=$class_total_sheet;
+//                }
+                }
+//            if($currency_id== $myanmar_currency->id){
+//            $currency_value=new \stdClass();
+//            $currency_value->id="null";
+//            $currency_value->value="null";
+//        } else{
+                foreach($classification as $c=>$class){
+                    $classification_group_id = \Illuminate\Support\Facades\DB::table('classification_group')->where('group_id', $group->id)
+                        ->where('classification_id', $class->id)->first();
+                    if($classification_group_id!=null){
+                        $buy_class_value= BuyClassGroupValue::where('classification_group_id', $classification_group_id->id)
+                            ->latest()
+                            ->first();
+                        $currency_value[$c]=new \stdClass();
+                        $currency_value[$c]->id=$buy_class_value->id;
+                        $currency_value[$c]->class_id=$class->id;
+                        $currency_value[$c]->value=$buy_class_value->value;
+                    }
+                }
+                $new[$key]->class_currency_value=$currency_value;
+//            }
+            }
+            foreach($new as $k=>$n){
+                $new[$k]->notes=$notes[$k];
+            }
+            if($currency_id==$us_currency_id->id){
+                return response()->json([
+                    'class'=>$classification,
+                    'status'=>$status,
+                    'groups'=> $new,
+                ]);
+            }else{
+                return response()->json([
+                    'class'=>null,
+                    'status'=>$status,
+                    'groups'=> $new,
+                ]);
+            }
+        }else{
+            return response()->json([
+                'error'=>'First,you should do notes as a group',
+            ]);
+        }
     }
     public function stock_transfer()
     {
         return view('Stock.transfer');
-    }
-    public function check_input(Request $request)
-    {
-//        return response()->json()
-        $vData=Validator::make($request->all(),[
-            "value"=> ['nullable',
-            'numeric',
-            'integer',
-            'regex:/^\d+$/']
-        ]);
-        if($vData->fails())
-        {
-            return response()->json([
-                'errors'=>$vData->errors(),
-            ]);
-        }
-    }
-
-    public function store(StockInventoryCreateValidation $request)
-    {
-//        dd($request->all());
-//        dd(Auth::user()->branch_id);
-        if($request->branch == null && Auth::user()->branch_id != null)
-        {
-//            dd('add');
-            $branch_id=Auth::user()->branch_id;
-        }
-        elseif($request->branch != null && Auth::user()->branch_id !=null)
-        {
-//            dd('transfer');
-            $branch_id=Auth::user()->branch_id;
-        }
-        elseif($request->branch !=null && Auth::user()->branch_id == null){
-//            dd('admin add');
-            $branch_id=$request->branch;
-        }
-        elseif($request->from_branch != null && Auth::user()->branch_id == null){
-//            dd('admin transfer');
-            $from_branch_id=$request->from_branch;
-            $branch_id=$request->branch_id;
-        }
-//        dd($branch_id);
-//        $branch=Bra   nch::find($branch_id);
-        if($request->from_branch !=null)
-        {
-            $from_branch=Branch::find($request->from_branch);
-        }
-        $transfer=new Transfer();
-        $transfer->from_branch_id=$branch_id;
-        $transfer->currency_id=$request->currency;
-        $request->branch != null ? $transfer->to_branch_id=$request->branch : $transfer->to_branch_id=$branch_id;
-        $transfer->date_time=now();
-        $transfer->save();
-        if($request->group==null)
-        {
-            return redirect('stock')->with('error','Please add currency group !');
-        }
-        $groups=array_unique($request->group);
-
-             $branch=Branch::find($branch_id);
-             $us_currency=Currency::where('name','United States dollar')->first();
-             $classification=Classification::all();
-//             dd($branch);
-        foreach($groups as $group)
-        {
-
-            if($us_currency->id == (int) $request->currency)
-            {
-                $note_name=array_unique($request->note_name);
-                $notes_id=array_unique($request->note_id);
-                $classification_id=array_unique($request->classification_id);
-                $class_group_value=array_combine($classification_id,$request->input('group_classification_value'.'_'.$group));
-                foreach($class_group_value as $cid=>$cgv){
-                    if($cgv!=null){
-                        $class_group=ClassificationGroup::where('group_id',$group)
-                            ->where('classification_id',$cid)->first();
-                        $transfer->transfer_classification_group()->attach($class_group->id,['value'=>$cgv]);
-                    }
-                }
-//                dd($notes_id);
-                foreach($note_name as $name){
-                    $note_class_value=array_combine($classification_id,$request->input('note_classification_value'.'_'.$name));
-//                    dd($note_class_value);
-                    if($note_class_value!=null){
-//                        dd($note_class_value);
-                        $note=Note::where('name',$name)->first();
-                        $group_note=GroupNote::where('group_id',$group)
-                            ->where('note_id',$note->id)->first();
-//                        $branch_note=
-                        if($group_note!=null){
-                            foreach($note_class_value as $key=>$ncv){
-                                if($ncv!=null){
-                                    $transfer->transfer_group_note_class()->attach($transfer->id,['group_note_id'=>$group_note->id,'class_id'=>$key,'sheet'=>$ncv]);
-
-//   *******************************************Admin and Manager Level add sheet with classification to his branch**************************************
-                                    if(  $branch!=null ) {
-//                                        dd($key);
-                                        $branch_note=DB::table('branch_group_note_class')->where('group_note_id',$group_note->id)
-                                            ->where('branch_id',$branch_id)
-                                            ->where('class_id',$key)
-                                            ->first();
-                                        if($branch_note==null){
-                                            $total_sheet=(int)$ncv;
-                                        }else{
-                                            $total_sheet=$branch_note->sheet+(int)$ncv;
-                                        }
-                                        if($branch!=null){
-                                            $branch->branch_group_note_class()->wherePivot('group_note_id',$group_note->id)
-                                                ->wherePivot('class_id',$key)->detach();
-                                        }
-                                        $branch->branch_group_note_class()->attach($branch_id,['group_note_id'=>$group_note->id,'class_id'=>$key,'sheet'=>$total_sheet]);
-                                    }
-
-
-                                }
-                            }
-                        }
-                    }
-                }
-
-            }else{
-                $note_id=$request->note_id;
-                $note_array=array_combine($note_id,$request->notes);
-                foreach($note_array as $id=>$value)
-                {
-
-                    foreach($request->group_value as $gp_value)
-                    {
-                        if($gp_value!=null)
-                        {
-                            $transfer->transfer_group()->attach($group,['value'=>$gp_value]);
-
-                        }
-                    }
-                    if($value==null)
-                    {
-                        $value=0;
-                    }
-                    $group_note=GroupNote::where('note_id',$id)
-                        ->where('group_id',$group)
-                        ->pluck('id');
-                    if(isset($group_note[0]) && $group_note!=null)
-                    {
-                        $transfer->group_note()->attach($group_note[0],['sheet'=>$value]);
-                        $branch_note=DB::table('branch_group_note')->where('group_note_id',$group_note[0])
-                            ->where('branch_id',$branch_id)
-                            ->pluck('sheet');
-//                    dd($request->from_branch);
-//                    dd($group_note[0]);
-                        $from_branch_note=DB::table('branch_group_note')->where('group_note_id',$group_note[0])
-                            ->where('branch_id',$request->from_branch)
-                            ->pluck('sheet');
-//            *******************Manager add sheet to his branch******************************************
-
-
-                        if( $request->branch==null && Auth::user()->branch_id != null ) {
-//                        dd('add');
-                            if ($branch_note->isEmpty()) {
-                                $branch_note[0] = 0;
-                                $result = $branch_note[0] + intval($value);
-                            } else {
-                                $result = $branch_note[0] + intval($value);
-                            }
-                            if ($branch != null) {
-                                $branch->branch_group_note()->wherePivot('group_note_id', $group_note[0])->detach();
-                            }
-                            $branch->branch_group_note()->attach($group_note[0], ['sheet' => $result]);
-
-
-                        }
-
-
-//          *****************************End Manager add sheet to his branch**********************************
-
-
-//          **************************Manager transfers sheet from branch to branch***************************
-                        elseif( isset($branch_note[0]) && $request->branch != null && Auth::user()->branch_id != null) {
-//                        dd('transfer');
-//                        dd($branch_note[0]);
-//                        dd($value);
-                            if ($branch_note[0] < intval($value)) {
-                                return redirect('stock')->with('error', 'Not Enough!Your remaining balance is low.');
-                            } else {
-                                $result = $branch_note[0] - intval($value);
-                                $branch->branch_group_note()->wherePivot('group_note_id', $group_note[0])->detach();
-                                $branch->branch_group_note()->attach($group_note[0], ['sheet' => $result]);
-                            }
-                            if ($request->branch) {
-                                $to_branch = $this->to_branch_store($request->branch, $group_note[0], $value);
-
-                            }
-                        }
-//           **************************End Manager transfers sheet from branch to branch***************************
-
-//           **************************Admin add sheet to branch *************************************************
-                        elseif($request->branch !=null && Auth::user()->branch_id == null && $request->from_branch == null){
-                            if($branch_note->isEmpty())
-                            {
-                                $branch_note[0]=0;
-                                $result=$branch_note[0]+intval($value);
-                            }
-                            else {
-                                $result=$branch_note[0]+intval($value);
-                            }
-                            if($branch!=null)
-                            {
-
-                                $branch->branch_group_note()->wherePivot('group_note_id',$group_note[0])->detach();
-                            }
-                            $branch->branch_group_note()->attach($group_note[0],['sheet'=>$result]);
-
-                        }
-
-//                 **************************End Admin add sheet to branch *************************************************
-
-
-//                 ****************************Admin transfers sheet from branch to branch**********************************
-                        elseif($request->from_branch != null && $request->branch != null && Auth::user()->branch_id==null){
-                            if($from_branch_note[0]<intval($value))
-                            {
-                                return redirect('stock')->with('error','Not Enough!Your remaining balance is low.');
-                            }
-                            else
-                            {
-                                $result=$from_branch_note[0]-intval($value);
-                                $from_branch->branch_group_note()->wherePivot('group_note_id',$group_note[0])
-                                    ->wherePivot('branch_id',$from_branch->id)
-                                    ->detach();
-                                $from_branch->branch_group_note()->attach($group_note[0],['sheet'=>$result]);
-                            }
-                            if($request->branch)
-                            {
-                                $to_branch=$this->to_branch_store($request->branch,$group_note[0],$value);
-
-                            }
-                        }
-
-//              ****************************Admin transfers sheet from branch to branch**********************************
-
-                        else
-                        {
-                            dd('Something Wrong!');
-                        }
-                    }
-
-                }
-            }
-
-
-        }
-        return  redirect('stock');
     }
     public function stock_detail($transfer_id)
     {
@@ -513,11 +362,11 @@ class StockController extends Controller
         $total_value=0;
         $t=Transfer::find($transfer_id);
         if($t->currency->name==="United States dollar"){
+//            dd('us');
 //            dd($t->transfer_group_note_class);
 
 //            $group=Group::find($t->currency->id);
             $tgnc=DB::table('transfer_group_note_class')->where('transfer_id',$transfer_id)->get();
-
             foreach($tgnc as $tg){
                     $group_note=GroupNote::whereId($tg->group_note_id)->first();
                 $note=Note::find($group_note->note_id);
@@ -525,7 +374,6 @@ class StockController extends Controller
                 $cg=DB::table('classification_group')->where('group_id',$group_note->group_id)
                         ->where('classification_id',$tg->class_id)
                         ->first();
-//                    dd($tg->transfer_id);
                 $tcg=DB::table('transfer_class_group')
                     ->where('transfer_id',$tg->transfer_id)
                     ->where('classification_group_id',$cg->id)
@@ -533,8 +381,6 @@ class StockController extends Controller
                 if($tcg!=null){
                     $total_value+=$tcg->value*(intval($note->name)*$tg->sheet);
                 }
-
-
             }
         }else{
             $group_note_transfer=DB::table('group_note_transfer')->where('transfer_id',$transfer_id)->get();

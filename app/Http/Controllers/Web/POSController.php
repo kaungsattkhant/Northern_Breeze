@@ -105,7 +105,7 @@ class POSController extends Controller
 //                $a[]=$group_note_id-
                 $notes[$key][$i]=new \stdClass();
                 $notes[$key][$i]->group_note_id=$group_note_id->id;
-                  $notes[$key][$i]->note_name=$note->name;
+                $notes[$key][$i]->note_name=$note->name;
                 if($us_currency_id->id == $currency_id) {
                     $class_total_sheet=0;
                     foreach($classification as $bc=>$class){
@@ -154,7 +154,7 @@ class POSController extends Controller
             }
             else{
                 $currency_value=new \stdClass();
-                    $group_currency_value=BuyGroupValue::where('group_id',$group->id)->latest()->first();
+                $group_currency_value=BuyGroupValue::where('group_id',$group->id)->latest()->first();
                 $currency_value->id=$group_currency_value->id;
                 $currency_value->value=$group_currency_value->value;
                 $new[$key]->currency_value=$currency_value;
