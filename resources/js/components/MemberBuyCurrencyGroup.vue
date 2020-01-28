@@ -26,7 +26,7 @@
                 <!--                </td>-->
                 <td class="text-nb-mount border-top-0 pl-4 pt-3 fontsize-mount2 justify-content-end pb-0" style="display: flex">
                     <div style="width: 88.6%;">
-                        <input v-if="!data.class" type="number"
+                        <input v-if="!data.class && data.currency_value" type="number"
                                v-model="sheet_values[i]"
                                v-on:keyup="calculateTotalAndChangesForCustom(group,i)"
                                v-on:change="calculateTotalAndChangesForCustom(group,i)"
@@ -115,7 +115,7 @@
         methods: {
             setInitialGroups: helpers.setInitialGroups,
             sum: helpers.sumOfAllContentsOfArray,
-            refreshGroup: helpers.removeOldElementAndAddNewForMember,
+            refreshGroup: helpers.removeOldElementAndAddNew,
             setInitialSheets: helpers.setInitialSheets,
             setInitialSheetValues: helpers.setInitialSheetValues,
 
@@ -180,12 +180,12 @@
                     if (this.isClass()) {
                         this.current_value_mmk[i][j][k] = this.sheet_values[i][k] * note.note_name * sheets;
                         this.current_value[i][j][k] = note.note_name * sheets;
-                        this.refreshGroup('buy',this.sheet_values[i], this.getGroups, sheets, group, note, k);
+                        this.refreshGroup('buy', this.getGroups, sheets, group, note, k,this.sheet_values[i]);
 
                     } else {
                         this.current_value_mmk[i][j] = this.custom_currency_value(group,i) * note.note_name * sheets;
                         this.current_value[i][j] = note.note_name * sheets;
-                        this.refreshGroup('buy', this.sheet_values[i], this.getGroups, sheets, group, note);
+                        this.refreshGroup('buy', this.getGroups, sheets, group, note,null, this.sheet_values[i]);
 
                     }
 

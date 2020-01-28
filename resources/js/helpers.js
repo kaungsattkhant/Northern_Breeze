@@ -10,102 +10,80 @@ export const helpers = {
         return sum;
     },
 
-    removeOldElementAndAddNew: function (type, storeGroup, sheet, group, note, k = null) {
-        let targetGroup = storeGroup.find(function (groupItem) {
+    getTargetGroup: function(type,storeGroup,group){
+        return storeGroup.find(function (groupItem) {
             return groupItem.group_id === group.group_id && groupItem.type === type;
         });
-        let oldNote = targetGroup.notes.find(function (noteItem) {
-            return noteItem.group_note_id === note.group_note_id;
-        });
-        if (k === null) {
-            let index = targetGroup.notes.indexOf(oldNote);
-            if (index > -1) {
-                targetGroup.notes.splice(index, 1);
-            }
-            let newNote = JSON.parse(JSON.stringify(note));
-            newNote.total_sheet = parseInt(sheet);
-            targetGroup.notes.push(newNote);
-            // targetGroup.currency_value.value=sheet_value;
-        } else {
-            let oldClass = oldNote.class_sheet.find(function (classItem) {
-                return classItem.class_id === note.class_sheet[k].class_id;
-            });
-            let index = oldNote.class_sheet.indexOf(oldClass);
-            if (index > -1) {
-                oldNote.class_sheet.splice(index, 1);
-            }
-            let newClass = JSON.parse(JSON.stringify(note.class_sheet[k]));
-            newClass.sheet = parseInt(sheet);
-            oldNote.class_sheet.push(newClass);
-
-            storeGroup.forEach(function (groupItem) {
-                if (groupItem.type === type) {
-                    groupItem.notes.forEach(function (noteItem) {
-                        let total_sheet = 0;
-                        noteItem.class_sheet.forEach(function (classItem) {
-                            total_sheet = total_sheet + parseInt(classItem.sheet);
-                        });
-                        noteItem.total_sheet = total_sheet;
-                    });
-                    // for(let value in groupItem.class_currency_value){
-                    //     groupItem.class_currency_value[value].value= sheet_value[value];
-                    // }
-
-                }
-
-            });
-        }
-
     },
-    removeOldElementAndAddNewForMember: function (type, sheet_value,storeGroup, sheet, group, note, k = null) {
-        let targetGroup = storeGroup.find(function (groupItem) {
-            return groupItem.group_id === group.group_id && groupItem.type === type;
-        });
-        let oldNote = targetGroup.notes.find(function (noteItem) {
+    getOldNote: function(targetGroup,note){
+        return targetGroup.notes.find(function (noteItem) {
             return noteItem.group_note_id === note.group_note_id;
         });
-        if (k === null) {
-            let index = targetGroup.notes.indexOf(oldNote);
-            if (index > -1) {
-                targetGroup.notes.splice(index, 1);
-            }
-            let newNote = JSON.parse(JSON.stringify(note));
-            newNote.total_sheet = parseInt(sheet);
-            targetGroup.notes.push(newNote);
+    },
+    getOldClass: function(oldNote,note,k){
+        return oldNote.class_sheet.find(function (classItem) {
+            return classItem.class_id === note.class_sheet[k].class_id;
+        });
+    },
+    removeOldNote: function(targetGroup,oldNote){
+        let index = targetGroup.notes.indexOf(oldNote);
+        if (index > -1) {
+            targetGroup.notes.splice(index, 1);
+        }
+    },
+    addNewNote: function(targetGroup,note,sheet,sheet_value){
+        let newNote = JSON.parse(JSON.stringify(note));
+        newNote.total_sheet = parseInt(sheet);
+        targetGroup.notes.push(newNote);
+        if(targetGroup.currency_value && sheet_value!==null){
             targetGroup.currency_value.value=sheet_value;
-        } else {
-            let oldClass = oldNote.class_sheet.find(function (classItem) {
-                return classItem.class_id === note.class_sheet[k].class_id;
-            });
-            let index = oldNote.class_sheet.indexOf(oldClass);
-            if (index > -1) {
-                oldNote.class_sheet.splice(index, 1);
-            }
-            let newClass = JSON.parse(JSON.stringify(note.class_sheet[k]));
-            newClass.sheet = parseInt(sheet);
-            oldNote.class_sheet.push(newClass);
+        }
+    },
+    removeOldClass: function(oldNote,oldClass){
+        let index = oldNote.class_sheet.indexOf(oldClass);
+        if (index > -1) {
+            oldNote.class_sheet.splice(index, 1);
+        }
+    },
+    addNewClass: function(note,oldNote,sheet,k){
+        let newClass = JSON.parse(JSON.stringify(note.class_sheet[k]));
+        newClass.sheet = parseInt(sheet);
+        oldNote.class_sheet.push(newClass);
+    },
 
-            storeGroup.forEach(function (groupItem) {
-                if (groupItem.type === type) {
-                    groupItem.notes.forEach(function (noteItem) {
-                        let total_sheet = 0;
-                        noteItem.class_sheet.forEach(function (classItem) {
-                            total_sheet = total_sheet + parseInt(classItem.sheet);
-                        });
-                        noteItem.total_sheet = total_sheet;
+    calculateTotalSheet: function(storeGroup,type,sheet_value){
+        storeGroup.forEach(function (groupItem) {
+            if (groupItem.type === type) {
+                groupItem.notes.forEach(function (noteItem) {
+                    let total_sheet = 0;
+                    noteItem.class_sheet.forEach(function (classItem) {
+                        total_sheet = total_sheet + parseInt(classItem.sheet);
                     });
+                    noteItem.total_sheet = total_sheet;
+                });
+                if(sheet_value!==null){
                     for(let value in groupItem.class_currency_value){
                         groupItem.class_currency_value[value].value= sheet_value[value];
                     }
-
                 }
 
-            });
-        }
-
+            }
+        });
     },
 
-
+    removeOldElementAndAddNew: function (type, storeGroup, sheet, group, note, k,sheet_value) {
+        let targetGroup = helpers.getTargetGroup(type,storeGroup,group);
+        let oldNote = helpers.getOldNote(targetGroup,note);
+        if (k === null) {
+            helpers.removeOldNote(targetGroup,oldNote);
+            helpers.addNewNote(targetGroup,note,sheet,sheet_value);
+        } else {
+            let oldClass = helpers.getOldClass(oldNote,note,k);
+            helpers.removeOldClass(oldNote,oldClass);
+            helpers.addNewClass(note,oldNote,sheet,k);
+            helpers.calculateTotalSheet(storeGroup,type,sheet_value);
+        }
+    },
 
     setInitialSheets(lengths, sheet, isClass) {
         if (isClass) {
@@ -142,7 +120,9 @@ export const helpers = {
             })
         }else{
             groups.forEach(function (groupItem) {
-                sheet_values.push(groupItem.currency_value.value);
+                if(groupItem.currency_value){
+                    sheet_values.push(groupItem.currency_value.value);
+                }
             })
         }
     },

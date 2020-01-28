@@ -23,13 +23,6 @@
         </div>
 
         <div class="pt-5">
-    {{--            @if(session()->has('error'))--}}
-    {{--                <div class="alert alert-danger" style="width:700px">--}}
-    {{--                    <button type="button" class="close" data-dismiss="alert">×</button>--}}
-    {{--                    {{ session()->get('error') }}--}}
-    {{--                </div>--}}
-    {{--            @endif--}}
-
             <table class="table bg-white box-shadow-mount rounded-table-mount "  id="myTable">
                 <thead>
                 <tr>
