@@ -2,7 +2,7 @@
 @section('content')
 
 
-    <stock-inventory currencies="{{$currencies}}" branches="{{$branches}}" auth_id="auth_id" total_value="{{$branch_total_value}}"></stock-inventory>
+    <stock-inventory is_admin="{{$is_admin}}" currencies="{{$currencies}}" branches="{{$branches}}" auth_id="auth_id" total_value="{{$branch_total_value}}"></stock-inventory>
 {{--        <div class="container-nb-mount">--}}
 {{--                <form id="stockForm">--}}
 
@@ -51,6 +51,7 @@
 {{--                            </div>--}}
 {{--                        </div>--}}
 {{--            <div class="row" id="stock_table_filter">--}}
+
 
 
 
@@ -290,6 +291,7 @@
 {{--                });--}}
 {{--            }--}}
 {{--        </script>--}}
+
 
 
 @endsection

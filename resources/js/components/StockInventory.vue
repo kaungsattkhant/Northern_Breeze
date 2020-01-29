@@ -11,14 +11,14 @@
             <div class="row">
                 <div class="col">
                     <select class="selectpicker  mt-4" name="currency" data-style="btn-white" data-width="auto"
-                            data-live-search="true" id="stock_currency_filter">
-                        <option disabled selected>Currency Value</option>
+                            data-live-search="true">
+                        <option disabled selected>Choose Currency</option>
                         <option :value="item.id"
                                 v-for="item in items">{{item.name}}
                         </option>
                     </select>
                 </div>
-                <div class="col" id="branch">
+                <div v-if="is_admin" class="col" id="branch">
                     <select class="selectpicker mt-4" name="branch" data-style="btn-white" data-width="auto"
                             id="to_branch">
                         <option disabled selected>Choose Branch</option>
@@ -30,6 +30,7 @@
                 </div>
             </div>
             <div class="row" id="stock_table_filter">
+
             </div>
         </form>
 
@@ -43,7 +44,7 @@
     Vue.use(Vuex);
 
     export default {
-        props: ['currencies', 'branches', 'auth_id', 'total_value'],
+        props: ['currencies', 'branches', 'auth_id', 'total_value','is_admin'],
         data() {
             return {
                 items: JSON.parse(this.currencies),

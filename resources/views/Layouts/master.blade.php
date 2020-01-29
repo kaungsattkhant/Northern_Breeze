@@ -28,11 +28,6 @@
 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.js"></script>
 <script src="{{asset('js/tablefilter.js')}}"></script>
-<<<<<<< HEAD
-
-{{--<script src="{{asset('js/multi.js')}}"></script>--}}
-=======
->>>>>>> origin/medium
 <script src="{{asset('js/dailycurrency.js')}}"></script>
 <script src="{{asset('js/pos.js')}}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.12/js/bootstrap-select.js" ></script>
