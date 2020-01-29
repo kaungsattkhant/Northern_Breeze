@@ -120,7 +120,7 @@ export const helpers = {
         let oldClass = helpers.getOldClass(oldNote,note,k);
         helpers.removeOldClass(oldNote,oldClass);
         helpers.addNewClass(note,oldNote,sheet,k);
-        helpers.calculateTotalSheetForStock(storeGroup,type,sheet_value);
+        helpers.switchCustomValue(storeGroup,group,sheet_value);
     },
 
 

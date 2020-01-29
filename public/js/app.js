@@ -1940,18 +1940,18 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
         currency_id: this.currency_id,
         groups: this.stock_groups
       };
-      fetch('/add_currency', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        body: JSON.stringify(data)
-      }).then(function (response) {
-        return response.json();
-      }).then(function (data) {
-        console.log(data);
-      });
+      console.log(data); // fetch('/add_currency', {
+      //     method: 'POST',
+      //     headers: {
+      //         'Content-Type': 'application/json',
+      //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      //     },
+      //     body: JSON.stringify(data)
+      // })
+      //     .then(response => response.json())
+      //     .then(data => {
+      //         console.log(data);
+      //     })
     }
   },
   mounted: function mounted() {},
@@ -36956,7 +36956,7 @@ var helpers = {
     var oldClass = helpers.getOldClass(oldNote, note, k);
     helpers.removeOldClass(oldNote, oldClass);
     helpers.addNewClass(note, oldNote, sheet, k);
-    helpers.calculateTotalSheetForStock(storeGroup, type, sheet_value);
+    helpers.switchCustomValue(storeGroup, group, sheet_value);
   },
   setInitialSheets: function setInitialSheets(lengths, sheet, isClass) {
     if (isClass) {
