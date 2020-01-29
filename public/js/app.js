@@ -318,6 +318,9 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_1__);
 //
 //
 //
@@ -344,11 +347,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
+
+
+vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__["default"]);
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['currencies'],
   data: function data() {
@@ -365,8 +366,7 @@ __webpack_require__.r(__webpack_exports__);
     fetch_currency_groups: function fetch_currency_groups() {
       var _this = this;
 
-      this.groups = ''; // let currency_id;
-
+      this.groups = '';
       this.currency_id = parseInt($('#currency_filter option:selected').val());
       var data = {
         currency_id: this.currency_id
@@ -383,9 +383,26 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (data) {
         _this.groups = data.results;
       });
+    },
+    submitForm: function submitForm() {
+      fetch('/daily_currency/store', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        body: JSON.stringify(this.daily_currency_data)
+      }).then(function (response) {
+        return response.json();
+      }).then(function (data) {
+        console.log(data);
+      });
     }
   },
-  mounted: function mounted() {}
+  mounted: function mounted() {},
+  computed: Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])({
+    daily_currency_data: 'daily_currency_data'
+  })
 });
 
 /***/ }),
@@ -432,6 +449,9 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_1__);
 //
 //
 //
@@ -517,6 +537,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
+
+vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__["default"]);
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['data', 'isUs', 'currency_id'],
   data: function data() {
@@ -566,6 +589,7 @@ __webpack_require__.r(__webpack_exports__);
         return classItem.class_id === class_id;
       });
       targetClass.value = value;
+      this.$store.commit('setDailyCurrencyData', this.final_data);
     }
   },
   mounted: function mounted() {
@@ -589,7 +613,10 @@ __webpack_require__.r(__webpack_exports__);
         this.buy_value.push(0);
       }
     }
-  }
+  },
+  computed: Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])({
+    daily_currency_data: 'daily_currency_data'
+  })
 });
 
 /***/ }),
@@ -20219,83 +20246,85 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container-nb-mount" }, [
     _c("div", {}, [
-      _c("form", [
-        _c("div", { staticClass: "border-bottom-radius-mount " }, [
-          _c(
-            "div",
-            {
-              staticClass:
-                "mb-0 pt-4 pb-4 px-2 d-flex justify-content-between fs-select bg-white border-bottom-radius-mount box-shadow-mount2"
-            },
-            [
-              _c(
-                "select",
-                {
-                  staticClass: "selectpicker ml-4 pl-2 ",
-                  attrs: {
-                    name: "currency",
-                    "data-width": "auto",
-                    id: "currency_filter"
-                  },
-                  on: {
-                    change: function($event) {
-                      return _vm.fetch_currency_groups()
-                    }
+      _c("div", { staticClass: "border-bottom-radius-mount " }, [
+        _c(
+          "div",
+          {
+            staticClass:
+              "mb-0 pt-4 pb-4 px-2 d-flex justify-content-between fs-select bg-white border-bottom-radius-mount box-shadow-mount2"
+          },
+          [
+            _c(
+              "select",
+              {
+                staticClass: "selectpicker ml-4 pl-2 ",
+                attrs: {
+                  name: "currency",
+                  "data-width": "auto",
+                  id: "currency_filter"
+                },
+                on: {
+                  change: function($event) {
+                    return _vm.fetch_currency_groups()
                   }
-                },
-                [
-                  _c(
-                    "option",
-                    {
-                      staticStyle: { "background-color": "#e8e8e8" },
-                      attrs: { selected: "", disabled: "" }
-                    },
-                    [_vm._v("Currency")]
-                  ),
-                  _vm._v(" "),
-                  _vm._l(_vm.items, function(item) {
-                    return _c("option", { domProps: { value: item.id } }, [
-                      _vm._v(_vm._s(item.name) + "\n                        ")
-                    ])
-                  })
-                ],
-                2
-              ),
-              _vm._v(" "),
-              _c(
-                "button",
-                {
-                  staticClass:
-                    "btn btn-nb-mount px-4 my-auto mr-5 fontsize-mount2",
-                  attrs: { type: "submit" }
-                },
-                [_vm._v(" Add\n                    ")]
-              )
-            ]
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass:
-                "container bg-white rounded-table-mount box-shadow-mount pr-4",
-              staticStyle: { "margin-top": "2.3rem" },
-              attrs: { id: "daily" }
-            },
-            [
-              _vm.groups
-                ? _c("group-value", {
-                    attrs: {
-                      data: _vm.groups,
-                      currency_id: _vm.currency_id,
-                      isUs: _vm.isUs()
-                    }
-                  })
-                : _vm._e()
-            ],
-            1
-          )
-        ])
+                }
+              },
+              [
+                _c(
+                  "option",
+                  {
+                    staticStyle: { "background-color": "#e8e8e8" },
+                    attrs: { selected: "", disabled: "" }
+                  },
+                  [_vm._v("Currency")]
+                ),
+                _vm._v(" "),
+                _vm._l(_vm.items, function(item) {
+                  return _c("option", { domProps: { value: item.id } }, [
+                    _vm._v(_vm._s(item.name) + "\n                    ")
+                  ])
+                })
+              ],
+              2
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass:
+                  "btn btn-nb-mount px-4 my-auto mr-5 fontsize-mount2",
+                on: {
+                  click: function($event) {
+                    return _vm.submitForm()
+                  }
+                }
+              },
+              [_vm._v("Add\n                ")]
+            )
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass:
+              "container bg-white rounded-table-mount box-shadow-mount pr-4",
+            staticStyle: { "margin-top": "2.3rem" },
+            attrs: { id: "daily" }
+          },
+          [
+            _vm.groups
+              ? _c("group-value", {
+                  attrs: {
+                    data: _vm.groups,
+                    currency_id: _vm.currency_id,
+                    isUs: _vm.isUs()
+                  }
+                })
+              : _vm._e()
+          ],
+          1
+        )
       ])
     ])
   ])
@@ -36220,7 +36249,8 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
     sell_status: '',
     exceed_msg: '',
     buy_not_enough_msg: '',
-    sell_not_enough_msg: ''
+    sell_not_enough_msg: '',
+    daily_currency_data: ''
   },
   mutations: {
     setBuyNotEnoughMsg: function setBuyNotEnoughMsg(state, data) {
@@ -36294,6 +36324,9 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
         // }
 
       });
+    },
+    setDailyCurrencyData: function setDailyCurrencyData(state, data) {
+      state.daily_currency_data = data;
     }
   }
 });

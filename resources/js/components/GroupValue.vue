@@ -84,6 +84,9 @@
 </template>
 
 <script>
+    import Vuex, {mapState} from 'vuex'
+    import Vue from 'vue';
+    Vue.use(Vuex);
 
     export default {
         props: ['data', 'isUs','currency_id'],
@@ -140,6 +143,7 @@
                     return classItem.class_id===class_id;
                 });
                 targetClass.value = value;
+                this.$store.commit('setDailyCurrencyData', this.final_data);
             }
         },
 
@@ -163,7 +167,10 @@
                     this.buy_value.push(0);
                 }
             }
-        }
+        },
+        computed: mapState({
+            daily_currency_data: 'daily_currency_data'
+        }),
 
     }
 
