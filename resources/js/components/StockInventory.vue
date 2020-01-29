@@ -73,6 +73,7 @@
                     .then(response => response.json())
                     .then(data => {
                         this.groups = data.results;
+                        // console.log(data);
                     });
             },
 
