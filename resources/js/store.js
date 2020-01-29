@@ -31,6 +31,7 @@ export const store = new Vuex.Store({
         buy_not_enough_msg: '',
         sell_not_enough_msg: '',
         daily_currency_data: '',
+        stock_groups: [],
     },
     mutations: {
 
@@ -94,21 +95,22 @@ export const store = new Vuex.Store({
         addGroup(state, data) {
             state.groups.push(data);
         },
+        addStockGroup(state,data){
+            state.stock_groups.push(data)
+        },
         removeGroup(state, data) {
             let targetGroups = state.groups.filter(function (group) {
                 return group.type === data;
             });
             targetGroups.forEach(function (group) {
-
                 let index = state.groups.indexOf(group);
                 if (index > -1) {
                     state.groups.splice(index, 1);
                 }
-                // let item = state.results.indexOf(group);
-                // if(item > -1){
-                //     state.results.splice(index,1);
-                // }
             });
+        },
+        resetStockGroup(state){
+            state.stock_groups = [];
         },
         setDailyCurrencyData(state,data){
             state.daily_currency_data = data;

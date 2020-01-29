@@ -25,6 +25,8 @@ use Illuminate\Support\Facades\Validator;
 class StockController extends Controller
 {
     use CurrencyFilter;
+
+
     public function index()
     {
         $branches = Branch::all();
@@ -235,9 +237,10 @@ class StockController extends Controller
 //        return $data;
 //    }
     public function currency_filter(Request $request){
-//        dd($request->all());
+//       dd($request->all());
         $currency_id=$request->currency_id;
         $b_id=$request->branch;
+
         $classification=Classification::orderBy('id','asc')->get('id','name');
         $us_currency_id=Currency::where('name','United States dollar')->first();
         $myanmar_currency=Currency::where('name','Myanmar Kyat')->first();
@@ -280,18 +283,23 @@ class StockController extends Controller
                                 ->where('branch_id',$branch_id)
                                 ->where('class_id',$class->id)
                                 ->where('group_note_id',$group_note_id->id)->first();
-                            if($branch_class_sheet!=null){
-                                $class_sheet[$bc]->class_id=$branch_class_sheet->class_id;
-                                $class_sheet[$bc]->sheet=$branch_class_sheet->sheet;
-                                $class_total_sheet+=(int)$class_sheet[$bc]->sheet;
-                            }
+                            $cg_id = \Illuminate\Support\Facades\DB::table('classification_group')->where('group_id', $group->id)
+                                ->where('classification_id', $class->id)->first();
+//                            if($branch_class_sheet!=null){
+//                                $class_sheet[$bc]->class_id=$branch_class_sheet->class_id;
+//                                $class_sheet[$bc]->sheet=$branch_class_sheet->sheet;
+//                                $class_total_sheet+=(int)$class_sheet[$bc]->sheet;
+//                            }
                             if($branch_class_sheet==null){
                                 $class_sheet[$bc]->class_id=$class->id;
                                 $class_sheet[$bc]->sheet=0;
                             }else{
                                 $class_sheet[$bc]->class_id=$branch_class_sheet->class_id;
                                 $class_sheet[$bc]->sheet=$branch_class_sheet->sheet;
+                                $class_total_sheet+=(int)$class_sheet[$bc]->sheet;
                             }
+
+
                         }
                         $notes[$key][$i]->class_sheet=$class_sheet;
                         $notes[$key][$i]->total_sheet=$class_total_sheet;

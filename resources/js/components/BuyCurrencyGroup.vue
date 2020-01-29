@@ -168,7 +168,6 @@
             }
         },
         mounted() {
-
             this.setInitialGroups('buy', this.data, this.isClass());
             this.resetStore();
             this.current_value_mmk = JSON.parse(JSON.stringify(this.sheets));
