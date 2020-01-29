@@ -1951,18 +1951,18 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
         groups: this.stock_groups,
         status: this.stock_currency.status
       };
-      fetch('/stock/add_currency', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        body: JSON.stringify(data)
-      }).then(function (response) {
-        return response.json();
-      }).then(function (data) {
-        console.log(data);
-      });
+      console.log(data); // fetch('/stock/add_currency', {
+      //     method: 'POST',
+      //     headers: {
+      //         'Content-Type': 'application/json',
+      //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      //     },
+      //     body: JSON.stringify(data)
+      // })
+      //     .then(response => response.json())
+      //     .then(data => {
+      //         console.log(data);
+      //     })
     }
   },
   mounted: function mounted() {},
