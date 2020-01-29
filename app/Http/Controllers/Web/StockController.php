@@ -131,8 +131,9 @@ class StockController extends Controller
         $currencies = Currency::all();
         $branches = Branch::all();
         $auth_id = Auth::user()->branch_id;
+        $is_admin=Auth::user()->isAdmin();
         $branch_total_value=$this->branch_total_value(Auth::user()->branch_id);
-        return view('Stock.add',compact('branch_total_value','currencies','branches','auth_id'));
+        return view('Stock.add',compact('branch_total_value','currencies','branches','auth_id','is_admin'));
     }
     public function transfer()
     {
