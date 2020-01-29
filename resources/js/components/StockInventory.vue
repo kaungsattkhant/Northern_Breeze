@@ -6,7 +6,7 @@
                 <div class="my-auto">
                     <p style="margin-left: 20px"><b>Total values:</b><i> {{total_value}}MMKs</i></p>
                 </div>
-                <button type="submit" class="btn btn-nb-mount-save fontsize-mount px-4 stock_create">Add</button>
+                <button type="button" v-on:click="handleSubmit()" class="btn btn-nb-mount-save fontsize-mount px-4 stock_create">Add</button>
             </div>
             <div class="row">
                 <div class="col">
@@ -89,25 +89,32 @@
                     });
             },
 
-            // submitForm() {
-            //     fetch('/daily_currency/store', {
-            //         method: 'POST',
-            //         headers: {
-            //             'Content-Type': 'application/json',
-            //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            //         },
-            //         body: JSON.stringify(this.daily_currency_data)
-            //     })
-            //         .then(response => response.json())
-            //         .then(data => {
-            //             console.log(data);
-            //         })
-            // },
+            handleSubmit() {
+                let data = {
+                    branch: this.branch,
+                    currency_id: this.currency_id,
+                    groups: this.stock_groups
+                };
+                fetch('/add_currency', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    body: JSON.stringify(data)
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                    })
+            },
         },
         mounted() {
 
         },
-        computed: mapState({}),
+        computed: mapState({
+            stock_groups: 'stock_groups'
+        }),
 
 
     }

@@ -1776,6 +1776,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 
@@ -1795,10 +1797,12 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
     setInitialSheets: _helpers_js__WEBPACK_IMPORTED_MODULE_2__["helpers"].setInitialSheets,
     setInitialGroups: _helpers_js__WEBPACK_IMPORTED_MODULE_2__["helpers"].setInitialGroups,
     refreshGroup: _helpers_js__WEBPACK_IMPORTED_MODULE_2__["helpers"].removeOldElementAndAddNewForStock,
-    handleValues: function handleValues() {},
+    switchToCustomValue: _helpers_js__WEBPACK_IMPORTED_MODULE_2__["helpers"].switchCustomValue,
+    handleValues: function handleValues(group, i) {
+      this.switchToCustomValue(this.stock_groups, group, this.group_value[i]);
+    },
     handleSheets: function handleSheets(group, note, i, j, k) {
-      this.refreshGroup(null, this.stock_groups, this.note_sheets[i][j][k], group, note, k, this.group_value[i][k]);
-      console.log(this.stock_groups);
+      this.refreshGroup(null, this.stock_groups, this.note_sheets[i][j][k], group, note, k, this.group_value[i]);
     }
   },
   mounted: function mounted() {
@@ -1929,24 +1933,31 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
         _this.stock_currency = data;
         console.log(data);
       });
-    } // submitForm() {
-    //     fetch('/daily_currency/store', {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    //         },
-    //         body: JSON.stringify(this.daily_currency_data)
-    //     })
-    //         .then(response => response.json())
-    //         .then(data => {
-    //             console.log(data);
-    //         })
-    // },
-
+    },
+    handleSubmit: function handleSubmit() {
+      var data = {
+        branch: this.branch,
+        currency_id: this.currency_id,
+        groups: this.stock_groups
+      };
+      fetch('/add_currency', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        body: JSON.stringify(data)
+      }).then(function (response) {
+        return response.json();
+      }).then(function (data) {
+        console.log(data);
+      });
+    }
   },
   mounted: function mounted() {},
-  computed: Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])({})
+  computed: Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])({
+    stock_groups: 'stock_groups'
+  })
 });
 
 /***/ }),
@@ -22563,6 +22574,12 @@ var render = function() {
                       attrs: { type: "number" },
                       domProps: { value: _vm.group_value[i][k] },
                       on: {
+                        change: function($event) {
+                          return _vm.handleValues(group, i)
+                        },
+                        keyup: function($event) {
+                          return _vm.handleValues(group, i)
+                        },
                         input: function($event) {
                           if ($event.target.composing) {
                             return
@@ -22645,7 +22662,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "div-p-mount2" }, [
-      _c("p", [_vm._v("Total : MMKs ")])
+      _c("p", [_vm._v(" Total : MMKs ")])
     ])
   },
   function() {
@@ -22653,7 +22670,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "div-p-mount2 text-center" }, [
-      _c("p", [_vm._v("Total :")])
+      _c("p", [_vm._v(" Total : MMKs ")])
     ])
   }
 ]
@@ -22701,7 +22718,12 @@ var render = function() {
               {
                 staticClass:
                   "btn btn-nb-mount-save fontsize-mount px-4 stock_create",
-                attrs: { type: "submit" }
+                attrs: { type: "button" },
+                on: {
+                  click: function($event) {
+                    return _vm.handleSubmit()
+                  }
+                }
               },
               [_vm._v("Add")]
             )
@@ -36907,6 +36929,13 @@ var helpers = {
       }
     });
   },
+  switchCustomValue: function switchCustomValue(storeGroup, group, sheet_value) {
+    var targetGroup = helpers.getTargetGroup(null, storeGroup, group);
+
+    for (var value in targetGroup.class_currency_value) {
+      targetGroup.class_currency_value[value].value = sheet_value[value];
+    }
+  },
   removeOldElementAndAddNew: function removeOldElementAndAddNew(type, storeGroup, sheet, group, note, k, sheet_value) {
     var targetGroup = helpers.getTargetGroup(type, storeGroup, group);
     var oldNote = helpers.getOldNote(targetGroup, note);
@@ -36923,15 +36952,11 @@ var helpers = {
   },
   removeOldElementAndAddNewForStock: function removeOldElementAndAddNewForStock(type, storeGroup, sheet, group, note, k, sheet_value) {
     var targetGroup = helpers.getTargetGroup(type, storeGroup, group);
-    var oldNote = helpers.getOldNote(targetGroup, note); // if (k === null) {
-    //     helpers.removeOldNote(targetGroup,oldNote);
-    //     helpers.addNewNote(targetGroup,note,sheet,sheet_value);
-    // } else {
-
+    var oldNote = helpers.getOldNote(targetGroup, note);
     var oldClass = helpers.getOldClass(oldNote, note, k);
     helpers.removeOldClass(oldNote, oldClass);
     helpers.addNewClass(note, oldNote, sheet, k);
-    helpers.calculateTotalSheetForStock(storeGroup, type, sheet_value); // }
+    helpers.calculateTotalSheetForStock(storeGroup, type, sheet_value);
   },
   setInitialSheets: function setInitialSheets(lengths, sheet, isClass) {
     if (isClass) {

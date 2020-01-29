@@ -25,7 +25,7 @@
                 </tbody>
             </table>
             <div class="div-p-mount2">
-                <p>Total : MMKs </p>
+                <p> Total : MMKs </p>
             </div>
         </div>
 
@@ -40,7 +40,9 @@
                     </td>
                     <td class="text-right border-top-0 pt-4 pb-4">
                         <input v-for="(item,k) in group.class_currency_value"
-                                type="number"
+                               type="number"
+                               v-on:change="handleValues(group,i)"
+                               v-on:keyup="handleValues(group,i)"
                                v-model="group_value[i][k]"
                                class="note_class border rounded-table-mount w-21 text-center fontsize-mount3 pt-1">
                     </td>
@@ -50,7 +52,7 @@
                     <td class="text-right border-top-0 pt-4 pb-4">
 
                         <input v-for="(item,k) in group.class_currency_value"
-                                type="number"
+                               type="number"
                                v-on:change="handleSheets(group,note,i,j,k)"
                                v-on:keyup="handleSheets(group,note,i,j,k)"
                                v-model="note_sheets[i][j][k]"  class="note_class border rounded-table-mount w-21 text-center fontsize-mount3 pt-1">
@@ -59,7 +61,7 @@
                 </tbody>
             </table>
             <div class="div-p-mount2 text-center">
-                <p>Total :</p>
+                <p> Total : MMKs </p>
             </div>
         </div>
 
@@ -90,18 +92,14 @@
             setInitialSheets: helpers.setInitialSheets,
             setInitialGroups: helpers.setInitialGroups,
             refreshGroup: helpers.removeOldElementAndAddNewForStock,
+            switchToCustomValue: helpers.switchCustomValue,
 
-
-            handleValues(){
-
+            handleValues(group,i){
+                this.switchToCustomValue(this.stock_groups,group,this.group_value[i]);
             },
             handleSheets(group,note,i,j,k){
-                this.refreshGroup(null, this.stock_groups, this.note_sheets[i][j][k], group, note, k,this.group_value[i][k]);
-                console.log(this.stock_groups);
+                this.refreshGroup(null, this.stock_groups, this.note_sheets[i][j][k], group, note, k,this.group_value[i]);
             },
-
-
-
         },
         mounted() {
             this.setInitialGroups(null, this.data, this.isUS);
