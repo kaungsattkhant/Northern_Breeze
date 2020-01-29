@@ -145,12 +145,12 @@
                     if (this.isClass()) {
                         this.current_value_mmk[i][j][k] = class_value * note.note_name * sheets;
                         this.current_value[i][j][k] = note.note_name * sheets;
-                        this.refreshGroup('buy', this.getGroups, sheets, group, note, k);
+                        this.refreshGroup('buy', this.getGroups, sheets, group, note, k,null);
 
                     } else {
                         this.current_value_mmk[i][j] = this.currency_value(group) * note.note_name * sheets;
                         this.current_value[i][j] = note.note_name * sheets;
-                        this.refreshGroup('buy', this.getGroups, sheets, group, note);
+                        this.refreshGroup('buy', this.getGroups, sheets, group, note, null,null);
 
                     }
 

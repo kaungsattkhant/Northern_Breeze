@@ -244,11 +244,11 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
         if (this.isClass()) {
           this.current_value_mmk[i][j][k] = class_value * note.note_name * sheets;
           this.current_value[i][j][k] = note.note_name * sheets;
-          this.refreshGroup('buy', this.getGroups, sheets, group, note, k);
+          this.refreshGroup('buy', this.getGroups, sheets, group, note, k, null);
         } else {
           this.current_value_mmk[i][j] = this.currency_value(group) * note.note_name * sheets;
           this.current_value[i][j] = note.note_name * sheets;
-          this.refreshGroup('buy', this.getGroups, sheets, group, note);
+          this.refreshGroup('buy', this.getGroups, sheets, group, note, null, null);
         }
 
         this.total = this.sum(this.current_value);
@@ -309,6 +309,87 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/DailyCurrency.vue?vue&type=script&lang=js&":
+/*!************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/DailyCurrency.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['currencies'],
+  data: function data() {
+    return {
+      items: JSON.parse(this.currencies),
+      groups: '',
+      currency_id: ''
+    };
+  },
+  methods: {
+    isUs: function isUs() {
+      return this.groups.currency_type === 'us_currency';
+    },
+    fetch_currency_groups: function fetch_currency_groups() {
+      var _this = this;
+
+      this.groups = ''; // let currency_id;
+
+      this.currency_id = parseInt($('#currency_filter option:selected').val());
+      var data = {
+        currency_id: this.currency_id
+      };
+      fetch('/daily_currency/currency_filter', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        body: JSON.stringify(data)
+      }).then(function (response) {
+        return response.json();
+      }).then(function (data) {
+        _this.groups = data.results;
+      });
+    }
+  },
+  mounted: function mounted() {}
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ExampleComponent.vue?vue&type=script&lang=js&":
 /*!***************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ExampleComponent.vue?vue&type=script&lang=js& ***!
@@ -337,6 +418,177 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     console.log('Component mounted.');
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/GroupValue.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/GroupValue.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['data', 'isUs', 'currency_id'],
+  data: function data() {
+    return {
+      sell_value: [],
+      buy_value: [],
+      groups: [],
+      final_data: {}
+    };
+  },
+  methods: {
+    setInitialData: function setInitialData() {
+      var _this = this;
+
+      this.groups = JSON.parse(JSON.stringify(this.data.groups));
+      var class_value = [{
+        "class_id": 1,
+        "value": 0
+      }, {
+        "class_id": 2,
+        "value": 0
+      }, {
+        "class_id": 3,
+        "value": 0
+      }, {
+        "class_id": 4,
+        "value": 0
+      }];
+      this.groups.forEach(function (groupItem) {
+        groupItem.class_group_value = class_value;
+        groupItem.type = 'sell';
+        delete groupItem['name'];
+        delete groupItem['notes'];
+        var newItem = JSON.parse(JSON.stringify(groupItem));
+        newItem.type = 'buy';
+
+        _this.groups.push(newItem);
+      });
+      this.final_data.currency_id = this.currency_id;
+      this.final_data.daily_value = this.groups;
+    },
+    handleValue: function handleValue(type, group, value, class_id) {
+      var targetGroup = this.groups.find(function (groupItem) {
+        return groupItem.group_id === group.group_id && groupItem.type === type;
+      });
+      var targetClass = targetGroup.class_group_value.find(function (classItem) {
+        return classItem.class_id === class_id;
+      });
+      targetClass.value = value;
+    }
+  },
+  mounted: function mounted() {
+    this.setInitialData();
+  },
+  created: function created() {
+    if (this.isUs) {
+      for (var i = 0; i < this.data.groups.length; i++) {
+        var row = [];
+
+        for (var j = 0; j < this.data["class"].length; j++) {
+          row.push(0);
+        }
+
+        this.sell_value.push(row);
+        this.buy_value.push(row);
+      }
+    } else {
+      for (var _i = 0; _i < this.data.groups.length; _i++) {
+        this.sell_value.push(0);
+        this.buy_value.push(0);
+      }
+    }
   }
 });
 
@@ -632,7 +884,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
   methods: {
     setInitialGroups: _helpers_js__WEBPACK_IMPORTED_MODULE_2__["helpers"].setInitialGroups,
     sum: _helpers_js__WEBPACK_IMPORTED_MODULE_2__["helpers"].sumOfAllContentsOfArray,
-    refreshGroup: _helpers_js__WEBPACK_IMPORTED_MODULE_2__["helpers"].removeOldElementAndAddNewForMember,
+    refreshGroup: _helpers_js__WEBPACK_IMPORTED_MODULE_2__["helpers"].removeOldElementAndAddNew,
     setInitialSheets: _helpers_js__WEBPACK_IMPORTED_MODULE_2__["helpers"].setInitialSheets,
     setInitialSheetValues: _helpers_js__WEBPACK_IMPORTED_MODULE_2__["helpers"].setInitialSheetValues,
     isClass: function isClass() {
@@ -699,11 +951,11 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
         if (this.isClass()) {
           this.current_value_mmk[i][j][k] = this.sheet_values[i][k] * note.note_name * sheets;
           this.current_value[i][j][k] = note.note_name * sheets;
-          this.refreshGroup('buy', this.sheet_values[i], this.getGroups, sheets, group, note, k);
+          this.refreshGroup('buy', this.getGroups, sheets, group, note, k, this.sheet_values[i]);
         } else {
           this.current_value_mmk[i][j] = this.custom_currency_value(group, i) * note.note_name * sheets;
           this.current_value[i][j] = note.note_name * sheets;
-          this.refreshGroup('buy', this.sheet_values[i], this.getGroups, sheets, group, note);
+          this.refreshGroup('buy', this.getGroups, sheets, group, note, null, this.sheet_values[i]);
         }
 
         this.total = this.sum(this.current_value);
@@ -896,7 +1148,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
   methods: {
     setInitialGroups: _helpers_js__WEBPACK_IMPORTED_MODULE_2__["helpers"].setInitialGroups,
     sum: _helpers_js__WEBPACK_IMPORTED_MODULE_2__["helpers"].sumOfAllContentsOfArray,
-    refreshGroup: _helpers_js__WEBPACK_IMPORTED_MODULE_2__["helpers"].removeOldElementAndAddNewForMember,
+    refreshGroup: _helpers_js__WEBPACK_IMPORTED_MODULE_2__["helpers"].removeOldElementAndAddNew,
     setInitialSheets: _helpers_js__WEBPACK_IMPORTED_MODULE_2__["helpers"].setInitialSheets,
     setInitialSheetValues: _helpers_js__WEBPACK_IMPORTED_MODULE_2__["helpers"].setInitialSheetValues,
     isClass: function isClass() {
@@ -966,11 +1218,11 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
         if (this.isClass()) {
           this.current_value_mmk[i][j][k] = this.sheet_values[i][k] * note.note_name * sheets;
           this.current_value[i][j][k] = note.note_name * this.sheets[i][j][k];
-          this.refreshGroup('sell', this.sheet_values[i], this.getGroups, sheets, group, note, k);
+          this.refreshGroup('sell', this.getGroups, sheets, group, note, k, this.sheet_values[i]);
         } else {
           this.current_value_mmk[i][j] = this.custom_currency_value(group, i) * note.note_name * sheets;
           this.current_value[i][j] = note.note_name * this.sheets[i][j];
-          this.refreshGroup('sell', this.sheet_values[i], this.getGroups, sheets, group, note);
+          this.refreshGroup('sell', this.getGroups, sheets, group, note, null, this.sheet_values[i]);
         }
 
         this.total = this.sum(this.current_value);
@@ -1346,11 +1598,11 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
         if (this.isClass()) {
           this.current_value_mmk[i][j][k] = class_value * note.note_name * sheets;
           this.current_value[i][j][k] = note.note_name * this.sheets[i][j][k];
-          this.refreshGroup('sell', this.getGroups, sheets, group, note, k);
+          this.refreshGroup('sell', this.getGroups, sheets, group, note, k, null);
         } else {
           this.current_value_mmk[i][j] = this.currency_value(group) * note.note_name * sheets;
           this.current_value[i][j] = note.note_name * this.sheets[i][j];
-          this.refreshGroup('sell', this.getGroups, sheets, group, note);
+          this.refreshGroup('sell', this.getGroups, sheets, group, note, null, null);
         }
 
         this.total = this.sum(this.current_value);
@@ -19954,6 +20206,111 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/DailyCurrency.vue?vue&type=template&id=117e6fef&":
+/*!****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/DailyCurrency.vue?vue&type=template&id=117e6fef& ***!
+  \****************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container-nb-mount" }, [
+    _c("div", {}, [
+      _c("form", [
+        _c("div", { staticClass: "border-bottom-radius-mount " }, [
+          _c(
+            "div",
+            {
+              staticClass:
+                "mb-0 pt-4 pb-4 px-2 d-flex justify-content-between fs-select bg-white border-bottom-radius-mount box-shadow-mount2"
+            },
+            [
+              _c(
+                "select",
+                {
+                  staticClass: "selectpicker ml-4 pl-2 ",
+                  attrs: {
+                    name: "currency",
+                    "data-width": "auto",
+                    id: "currency_filter"
+                  },
+                  on: {
+                    change: function($event) {
+                      return _vm.fetch_currency_groups()
+                    }
+                  }
+                },
+                [
+                  _c(
+                    "option",
+                    {
+                      staticStyle: { "background-color": "#e8e8e8" },
+                      attrs: { selected: "", disabled: "" }
+                    },
+                    [_vm._v("Currency")]
+                  ),
+                  _vm._v(" "),
+                  _vm._l(_vm.items, function(item) {
+                    return _c("option", { domProps: { value: item.id } }, [
+                      _vm._v(_vm._s(item.name) + "\n                        ")
+                    ])
+                  })
+                ],
+                2
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass:
+                    "btn btn-nb-mount px-4 my-auto mr-5 fontsize-mount2",
+                  attrs: { type: "submit" }
+                },
+                [_vm._v(" Add\n                    ")]
+              )
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass:
+                "container bg-white rounded-table-mount box-shadow-mount pr-4",
+              staticStyle: { "margin-top": "2.3rem" },
+              attrs: { id: "daily" }
+            },
+            [
+              _vm.groups
+                ? _c("group-value", {
+                    attrs: {
+                      data: _vm.groups,
+                      currency_id: _vm.currency_id,
+                      isUs: _vm.isUs()
+                    }
+                  })
+                : _vm._e()
+            ],
+            1
+          )
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ExampleComponent.vue?vue&type=template&id=299e239e&":
 /*!*******************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ExampleComponent.vue?vue&type=template&id=299e239e& ***!
@@ -19992,6 +20349,387 @@ var staticRenderFns = [
           ])
         ])
       ])
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/GroupValue.vue?vue&type=template&id=2eb325dd&":
+/*!*************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/GroupValue.vue?vue&type=template&id=2eb325dd& ***!
+  \*************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { attrs: { id: "group" } }, [
+    _c(
+      "div",
+      { staticClass: "row pl-1 pt-5" },
+      [
+        _vm._m(0),
+        _vm._v(" "),
+        _vm._l(_vm.data.groups, function(group) {
+          return _c("div", { staticClass: "col col-item " }, [
+            _c("p", { staticClass: "text-color-mount fontsize-mount17 pt-1" }, [
+              _vm._v(_vm._s(group.name))
+            ])
+          ])
+        })
+      ],
+      2
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "row mb-4 pl-1" },
+      [
+        _c("div", { staticClass: "col-4" }),
+        _vm._v(" "),
+        _vm._l(_vm.data.groups, function(group) {
+          return _c("div", { staticClass: "col" }, [
+            _c(
+              "p",
+              {
+                staticClass:
+                  "text-color-mount fontsize-mount2 pt-1 text-center for-quote"
+              },
+              _vm._l(group.notes, function(note) {
+                return _c("span", [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(note.name) +
+                      ",\n                "
+                  )
+                ])
+              }),
+              0
+            )
+          ])
+        })
+      ],
+      2
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "row pt-3  pl-1" },
+      [
+        _vm._m(1),
+        _vm._v(" "),
+        _vm._l(_vm.data.groups, function(group, i) {
+          return _c("div", [
+            _vm.isUs
+              ? _c(
+                  "div",
+                  { staticClass: "col" },
+                  _vm._l(_vm.data.class, function(item, j) {
+                    return _c(
+                      "div",
+                      {
+                        staticClass:
+                          "col-item-mini text-color-mount fontsize-mount2"
+                      },
+                      [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.sell_value[i][j],
+                              expression: "sell_value[i][j]"
+                            }
+                          ],
+                          staticClass: "pl-3",
+                          staticStyle: {
+                            width: "100%",
+                            border: "none",
+                            "background-color": "transparent"
+                          },
+                          attrs: {
+                            type: "number",
+                            min: "0",
+                            placeholder: item.name
+                          },
+                          domProps: { value: _vm.sell_value[i][j] },
+                          on: {
+                            change: function($event) {
+                              return _vm.handleValue(
+                                "sell",
+                                group,
+                                _vm.sell_value[i][j],
+                                item.id
+                              )
+                            },
+                            keyup: function($event) {
+                              return _vm.handleValue(
+                                "sell",
+                                group,
+                                _vm.sell_value[i][j],
+                                item.id
+                              )
+                            },
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.sell_value[i],
+                                j,
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ]
+                    )
+                  }),
+                  0
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            !_vm.isUs
+              ? _c("div", { staticClass: "col col-item " }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.sell_value[i],
+                        expression: "sell_value[i]"
+                      }
+                    ],
+                    staticClass: "text-center text-box-mount",
+                    attrs: {
+                      type: "number",
+                      min: "0",
+                      placeholder: group.name
+                    },
+                    domProps: { value: _vm.sell_value[i] },
+                    on: {
+                      change: function($event) {
+                        return _vm.handleValue(
+                          "sell",
+                          group,
+                          _vm.sell_value[i],
+                          1
+                        )
+                      },
+                      keyup: function($event) {
+                        return _vm.handleValue(
+                          "sell",
+                          group,
+                          _vm.sell_value[i],
+                          1
+                        )
+                      },
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.sell_value, i, $event.target.value)
+                      }
+                    }
+                  })
+                ])
+              : _vm._e()
+          ])
+        })
+      ],
+      2
+    ),
+    _vm._v(" "),
+    _vm._m(2),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "row mb-1 pl-1 pt-3 pb-5" },
+      [
+        _vm._m(3),
+        _vm._v(" "),
+        _vm._l(_vm.data.groups, function(group, i) {
+          return _c("div", [
+            _vm.isUs
+              ? _c(
+                  "div",
+                  { staticClass: "col" },
+                  _vm._l(_vm.data.class, function(item, j) {
+                    return _c(
+                      "div",
+                      {
+                        staticClass:
+                          "col-item-mini text-color-mount fontsize-mount2"
+                      },
+                      [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.buy_value[i][j],
+                              expression: "buy_value[i][j]"
+                            }
+                          ],
+                          staticClass: "pl-3",
+                          staticStyle: {
+                            width: "100%",
+                            border: "none",
+                            "background-color": "transparent"
+                          },
+                          attrs: {
+                            type: "number",
+                            min: "0",
+                            placeholder: item.name
+                          },
+                          domProps: { value: _vm.buy_value[i][j] },
+                          on: {
+                            change: function($event) {
+                              return _vm.handleValue(
+                                "buy",
+                                group,
+                                _vm.buy_value[i][j],
+                                item.id
+                              )
+                            },
+                            keyup: function($event) {
+                              return _vm.handleValue(
+                                "buy",
+                                group,
+                                _vm.buy_value[i][j],
+                                item.id
+                              )
+                            },
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(_vm.buy_value[i], j, $event.target.value)
+                            }
+                          }
+                        })
+                      ]
+                    )
+                  }),
+                  0
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            !_vm.isUs
+              ? _c("div", { staticClass: "col col-item " }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.buy_value[i],
+                        expression: "buy_value[i]"
+                      }
+                    ],
+                    staticClass: "text-center text-box-mount",
+                    attrs: {
+                      type: "number",
+                      min: "0",
+                      placeholder: group.name
+                    },
+                    domProps: { value: _vm.buy_value[i] },
+                    on: {
+                      change: function($event) {
+                        return _vm.handleValue(
+                          "buy",
+                          group,
+                          _vm.buy_value[i],
+                          1
+                        )
+                      },
+                      keyup: function($event) {
+                        return _vm.handleValue(
+                          "buy",
+                          group,
+                          _vm.buy_value[i],
+                          1
+                        )
+                      },
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.buy_value, i, $event.target.value)
+                      }
+                    }
+                  })
+                ])
+              : _vm._e()
+          ])
+        })
+      ],
+      2
+    ),
+    _vm._v(" "),
+    _vm._m(4)
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-4" }, [
+      _c(
+        "label",
+        { staticClass: "pl-3 text-color-mount fontsize-mount pr-4 my-auto" },
+        [_vm._v("Group Name")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-4" }, [
+      _c(
+        "label",
+        { staticClass: "pl-3 text-color-mount fontsize-mount pr-4 my-auto" },
+        [_vm._v("Selling Value")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row mb-3 pl-1" }, [
+      _c("div", { staticClass: "col-4" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-4" }, [
+      _c(
+        "label",
+        { staticClass: "pl-3 text-color-mount fontsize-mount pr-4 my-auto" },
+        [_vm._v("Buying Value")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row mb-3 pl-1" }, [
+      _c("div", { staticClass: "col-4" })
     ])
   }
 ]
@@ -20314,7 +21052,7 @@ var render = function() {
                           "div",
                           { staticStyle: { width: "88.6%" } },
                           [
-                            !_vm.data.class
+                            !_vm.data.class && _vm.data.currency_value
                               ? _c("input", {
                                   directives: [
                                     {
@@ -20678,7 +21416,7 @@ var render = function() {
                           "div",
                           { staticStyle: { width: "88.6%" } },
                           [
-                            !_vm.data.class
+                            !_vm.data.class && _vm.data.currency_value
                               ? _c("input", {
                                   directives: [
                                     {
@@ -34630,6 +35368,8 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 
 Vue.component('example-component', __webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue")["default"]);
 Vue.component('non-member', __webpack_require__(/*! ./components/NonMember.vue */ "./resources/js/components/NonMember.vue")["default"]);
+Vue.component('daily-currency', __webpack_require__(/*! ./components/DailyCurrency.vue */ "./resources/js/components/DailyCurrency.vue")["default"]);
+Vue.component('group-value', __webpack_require__(/*! ./components/GroupValue.vue */ "./resources/js/components/GroupValue.vue")["default"]);
 Vue.component('member', __webpack_require__(/*! ./components/Member.vue */ "./resources/js/components/Member.vue")["default"]);
 Vue.component('buy-currency-group', __webpack_require__(/*! ./components/BuyCurrencyGroup.vue */ "./resources/js/components/BuyCurrencyGroup.vue")["default"]);
 Vue.component('member-buy-currency-group', __webpack_require__(/*! ./components/MemberBuyCurrencyGroup.vue */ "./resources/js/components/MemberBuyCurrencyGroup.vue")["default"]);
@@ -34717,6 +35457,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/DailyCurrency.vue":
+/*!***************************************************!*\
+  !*** ./resources/js/components/DailyCurrency.vue ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _DailyCurrency_vue_vue_type_template_id_117e6fef___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DailyCurrency.vue?vue&type=template&id=117e6fef& */ "./resources/js/components/DailyCurrency.vue?vue&type=template&id=117e6fef&");
+/* harmony import */ var _DailyCurrency_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DailyCurrency.vue?vue&type=script&lang=js& */ "./resources/js/components/DailyCurrency.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _DailyCurrency_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _DailyCurrency_vue_vue_type_template_id_117e6fef___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _DailyCurrency_vue_vue_type_template_id_117e6fef___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/DailyCurrency.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/DailyCurrency.vue?vue&type=script&lang=js&":
+/*!****************************************************************************!*\
+  !*** ./resources/js/components/DailyCurrency.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DailyCurrency_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./DailyCurrency.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/DailyCurrency.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DailyCurrency_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/DailyCurrency.vue?vue&type=template&id=117e6fef&":
+/*!**********************************************************************************!*\
+  !*** ./resources/js/components/DailyCurrency.vue?vue&type=template&id=117e6fef& ***!
+  \**********************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DailyCurrency_vue_vue_type_template_id_117e6fef___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./DailyCurrency.vue?vue&type=template&id=117e6fef& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/DailyCurrency.vue?vue&type=template&id=117e6fef&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DailyCurrency_vue_vue_type_template_id_117e6fef___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DailyCurrency_vue_vue_type_template_id_117e6fef___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/ExampleComponent.vue":
 /*!******************************************************!*\
   !*** ./resources/js/components/ExampleComponent.vue ***!
@@ -34781,6 +35590,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ExampleComponent_vue_vue_type_template_id_299e239e___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ExampleComponent_vue_vue_type_template_id_299e239e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/GroupValue.vue":
+/*!************************************************!*\
+  !*** ./resources/js/components/GroupValue.vue ***!
+  \************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _GroupValue_vue_vue_type_template_id_2eb325dd___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GroupValue.vue?vue&type=template&id=2eb325dd& */ "./resources/js/components/GroupValue.vue?vue&type=template&id=2eb325dd&");
+/* harmony import */ var _GroupValue_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./GroupValue.vue?vue&type=script&lang=js& */ "./resources/js/components/GroupValue.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _GroupValue_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _GroupValue_vue_vue_type_template_id_2eb325dd___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _GroupValue_vue_vue_type_template_id_2eb325dd___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/GroupValue.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/GroupValue.vue?vue&type=script&lang=js&":
+/*!*************************************************************************!*\
+  !*** ./resources/js/components/GroupValue.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_GroupValue_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./GroupValue.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/GroupValue.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_GroupValue_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/GroupValue.vue?vue&type=template&id=2eb325dd&":
+/*!*******************************************************************************!*\
+  !*** ./resources/js/components/GroupValue.vue?vue&type=template&id=2eb325dd& ***!
+  \*******************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GroupValue_vue_vue_type_template_id_2eb325dd___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./GroupValue.vue?vue&type=template&id=2eb325dd& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/GroupValue.vue?vue&type=template&id=2eb325dd&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GroupValue_vue_vue_type_template_id_2eb325dd___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_GroupValue_vue_vue_type_template_id_2eb325dd___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -35153,103 +36031,80 @@ var helpers = {
 
     return sum;
   },
-  removeOldElementAndAddNew: function removeOldElementAndAddNew(type, storeGroup, sheet, group, note) {
-    var k = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : null;
-    var targetGroup = storeGroup.find(function (groupItem) {
+  getTargetGroup: function getTargetGroup(type, storeGroup, group) {
+    return storeGroup.find(function (groupItem) {
       return groupItem.group_id === group.group_id && groupItem.type === type;
     });
-    var oldNote = targetGroup.notes.find(function (noteItem) {
+  },
+  getOldNote: function getOldNote(targetGroup, note) {
+    return targetGroup.notes.find(function (noteItem) {
       return noteItem.group_note_id === note.group_note_id;
     });
+  },
+  getOldClass: function getOldClass(oldNote, note, k) {
+    return oldNote.class_sheet.find(function (classItem) {
+      return classItem.class_id === note.class_sheet[k].class_id;
+    });
+  },
+  removeOldNote: function removeOldNote(targetGroup, oldNote) {
+    var index = targetGroup.notes.indexOf(oldNote);
 
-    if (k === null) {
-      var index = targetGroup.notes.indexOf(oldNote);
-
-      if (index > -1) {
-        targetGroup.notes.splice(index, 1);
-      }
-
-      var newNote = JSON.parse(JSON.stringify(note));
-      newNote.total_sheet = parseInt(sheet);
-      targetGroup.notes.push(newNote); // targetGroup.currency_value.value=sheet_value;
-    } else {
-      var oldClass = oldNote.class_sheet.find(function (classItem) {
-        return classItem.class_id === note.class_sheet[k].class_id;
-      });
-
-      var _index = oldNote.class_sheet.indexOf(oldClass);
-
-      if (_index > -1) {
-        oldNote.class_sheet.splice(_index, 1);
-      }
-
-      var newClass = JSON.parse(JSON.stringify(note.class_sheet[k]));
-      newClass.sheet = parseInt(sheet);
-      oldNote.class_sheet.push(newClass);
-      storeGroup.forEach(function (groupItem) {
-        if (groupItem.type === type) {
-          groupItem.notes.forEach(function (noteItem) {
-            var total_sheet = 0;
-            noteItem.class_sheet.forEach(function (classItem) {
-              total_sheet = total_sheet + parseInt(classItem.sheet);
-            });
-            noteItem.total_sheet = total_sheet;
-          }); // for(let value in groupItem.class_currency_value){
-          //     groupItem.class_currency_value[value].value= sheet_value[value];
-          // }
-        }
-      });
+    if (index > -1) {
+      targetGroup.notes.splice(index, 1);
     }
   },
-  removeOldElementAndAddNewForMember: function removeOldElementAndAddNewForMember(type, sheet_value, storeGroup, sheet, group, note) {
-    var k = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : null;
-    var targetGroup = storeGroup.find(function (groupItem) {
-      return groupItem.group_id === group.group_id && groupItem.type === type;
-    });
-    var oldNote = targetGroup.notes.find(function (noteItem) {
-      return noteItem.group_note_id === note.group_note_id;
-    });
+  addNewNote: function addNewNote(targetGroup, note, sheet, sheet_value) {
+    var newNote = JSON.parse(JSON.stringify(note));
+    newNote.total_sheet = parseInt(sheet);
+    targetGroup.notes.push(newNote);
 
-    if (k === null) {
-      var index = targetGroup.notes.indexOf(oldNote);
-
-      if (index > -1) {
-        targetGroup.notes.splice(index, 1);
-      }
-
-      var newNote = JSON.parse(JSON.stringify(note));
-      newNote.total_sheet = parseInt(sheet);
-      targetGroup.notes.push(newNote);
+    if (targetGroup.currency_value && sheet_value !== null) {
       targetGroup.currency_value.value = sheet_value;
-    } else {
-      var oldClass = oldNote.class_sheet.find(function (classItem) {
-        return classItem.class_id === note.class_sheet[k].class_id;
-      });
+    }
+  },
+  removeOldClass: function removeOldClass(oldNote, oldClass) {
+    var index = oldNote.class_sheet.indexOf(oldClass);
 
-      var _index2 = oldNote.class_sheet.indexOf(oldClass);
-
-      if (_index2 > -1) {
-        oldNote.class_sheet.splice(_index2, 1);
-      }
-
-      var newClass = JSON.parse(JSON.stringify(note.class_sheet[k]));
-      newClass.sheet = parseInt(sheet);
-      oldNote.class_sheet.push(newClass);
-      storeGroup.forEach(function (groupItem) {
-        if (groupItem.type === type) {
-          groupItem.notes.forEach(function (noteItem) {
-            var total_sheet = 0;
-            noteItem.class_sheet.forEach(function (classItem) {
-              total_sheet = total_sheet + parseInt(classItem.sheet);
-            });
-            noteItem.total_sheet = total_sheet;
+    if (index > -1) {
+      oldNote.class_sheet.splice(index, 1);
+    }
+  },
+  addNewClass: function addNewClass(note, oldNote, sheet, k) {
+    var newClass = JSON.parse(JSON.stringify(note.class_sheet[k]));
+    newClass.sheet = parseInt(sheet);
+    oldNote.class_sheet.push(newClass);
+  },
+  calculateTotalSheet: function calculateTotalSheet(storeGroup, type, sheet_value) {
+    storeGroup.forEach(function (groupItem) {
+      if (groupItem.type === type) {
+        groupItem.notes.forEach(function (noteItem) {
+          var total_sheet = 0;
+          noteItem.class_sheet.forEach(function (classItem) {
+            total_sheet = total_sheet + parseInt(classItem.sheet);
           });
+          noteItem.total_sheet = total_sheet;
+        });
 
+        if (sheet_value !== null) {
           for (var value in groupItem.class_currency_value) {
             groupItem.class_currency_value[value].value = sheet_value[value];
           }
         }
-      });
+      }
+    });
+  },
+  removeOldElementAndAddNew: function removeOldElementAndAddNew(type, storeGroup, sheet, group, note, k, sheet_value) {
+    var targetGroup = helpers.getTargetGroup(type, storeGroup, group);
+    var oldNote = helpers.getOldNote(targetGroup, note);
+
+    if (k === null) {
+      helpers.removeOldNote(targetGroup, oldNote);
+      helpers.addNewNote(targetGroup, note, sheet, sheet_value);
+    } else {
+      var oldClass = helpers.getOldClass(oldNote, note, k);
+      helpers.removeOldClass(oldNote, oldClass);
+      helpers.addNewClass(note, oldNote, sheet, k);
+      helpers.calculateTotalSheet(storeGroup, type, sheet_value);
     }
   },
   setInitialSheets: function setInitialSheets(lengths, sheet, isClass) {
@@ -35294,7 +36149,9 @@ var helpers = {
       });
     } else {
       groups.forEach(function (groupItem) {
-        sheet_values.push(groupItem.currency_value.value);
+        if (groupItem.currency_value) {
+          sheet_values.push(groupItem.currency_value.value);
+        }
       });
     }
   },

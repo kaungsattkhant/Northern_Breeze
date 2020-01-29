@@ -21,6 +21,14 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 class DailyCurrencyController extends Controller
 {
+
+    public function test(){
+        $results = json_decode(file_get_contents(public_path().'/daily-currency.json'));
+        return response()->json([
+            'results'=> $results
+        ]);
+    }
+
     public function index()
     {
         $date = now()->format('Y-m-d');

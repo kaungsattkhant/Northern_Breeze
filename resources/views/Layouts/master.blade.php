@@ -4,9 +4,9 @@
     <title>Northern Breeze</title>
     <meta charset="utf-8">
     <meta name="csrf-token" content="{{ csrf_token() }}"/>
-
     <link href='http://fonts.googleapis.com/css?family=Merienda+One' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="{{asset('css/ui.css')}}">
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="{{asset('css/multiselect.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('css/multiselect-filter.css')}}">
@@ -27,12 +27,12 @@
 
 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.js"></script>
-{{--<script src="{{asset('js/multiselect.js')}}"></script>--}}
-{{--<script src="{{asset('js/multiselectfilter.js')}}"></script>--}}
-
 <script src="{{asset('js/tablefilter.js')}}"></script>
+<<<<<<< HEAD
 
 {{--<script src="{{asset('js/multi.js')}}"></script>--}}
+=======
+>>>>>>> origin/medium
 <script src="{{asset('js/dailycurrency.js')}}"></script>
 <script src="{{asset('js/pos.js')}}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.12/js/bootstrap-select.js" ></script>

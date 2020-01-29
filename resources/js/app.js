@@ -23,6 +23,8 @@ window.Vue = require('vue');
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('non-member', require('./components/NonMember.vue').default);
+Vue.component('daily-currency', require('./components/DailyCurrency.vue').default);
+Vue.component('group-value', require('./components/GroupValue.vue').default);
 Vue.component('member', require('./components/Member.vue').default);
 Vue.component('buy-currency-group', require('./components/BuyCurrencyGroup.vue').default);
 Vue.component('member-buy-currency-group', require('./components/MemberBuyCurrencyGroup.vue').default);

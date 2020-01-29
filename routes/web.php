@@ -92,6 +92,7 @@ Route::group(['middleware'=>['adminCheck']],function() {
             Route::post('destroy','CurrencyGroupController@destroy');
         });
         Route::group(['prefix'=>'daily_currency'],function(){
+            Route::post('/currency_filter','DailyCurrencyController@test');
             Route::get('/','DailyCurrencyController@index');
             Route::get('/create','DailyCurrencyController@create');
             Route::get('store','DailyCurrencyController@store');
