@@ -1928,8 +1928,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
 
       var data = {
         currency_id: this.currency_id,
-        branch: this.branch,
-        status: this.stock_currency.status
+        branch: this.branch
       };
       fetch('/stock/currency_filter', {
         method: 'POST',
@@ -1949,7 +1948,8 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       var data = {
         branch: this.branch,
         currency_id: this.currency_id,
-        groups: this.stock_groups
+        groups: this.stock_groups,
+        status: this.stock_currency.status
       };
       fetch('/stock/add_currency', {
         method: 'POST',
