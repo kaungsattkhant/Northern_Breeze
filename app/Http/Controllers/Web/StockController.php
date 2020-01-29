@@ -230,19 +230,20 @@ class StockController extends Controller
         $data=view('Stock.stock_currency_filter',compact('stock_notes','total','currency_id'));
         return $data;
     }
-
     public function currency_filters(){
 //        $currency_id=$request->currency_id;
 //        $b_id=$currency_id->branch_id;
         $b_id="1";
-        $currency_id="4";
+        $currency_id="23";
         $classification=Classification::orderBy('id','asc')->get('id','name');
         $us_currency_id=Currency::where('name','United States dollar')->first();
         $myanmar_currency=Currency::where('name','Myanmar Kyat')->first();
         $groups=Group::with('notes')->where('currency_id',$currency_id)->get();
         if($currency_id==$myanmar_currency->id){
             $status="MMK";
-        }else{
+        }elseif($currency_id==$us_currency_id->id) {
+            $status="us_currency";
+            }else{
             $status="other";
         }
         $branch_id = Auth::user()->branch_id ? Auth::user()->branch_id : $b_id;
@@ -327,10 +328,32 @@ class StockController extends Controller
                     'groups'=> $new,
                 ]);
             }
-        }else{
-            return response()->json([
-                'error'=>'First,you should do notes as a group',
-            ]);
+        }
+//        else{
+//            return response()->json([
+//                'error'=>'First,you should do notes as a group',
+//            ]);
+//        }
+    }
+    public function stock_add(Request $request){
+        $data=file_get_contents(storage_path().'/api/stock_inv_store.json');
+        $stock_stores=json_decode($data);
+//        dd($stock_stores->from_branch_id);
+        if($request->branch == null && Auth::user()->branch_id != null)
+        {
+//            dd('manager_add');
+            $branch_id=Auth::user()->branch_id;
+        }elseif($request->branch !=null && Auth::user()->branch_id == null){
+//            dd('admin add');
+            $branch_id=$request->branch;
+        }
+
+        $branch=Branch::find($branch_id);
+//        foreach
+        foreach($stock_stores->class_group_value as $cgv){
+            if($cgv->value!=null){
+//                $tcgv=Transfer
+            }
         }
     }
     public function stock_transfer()
@@ -381,6 +404,9 @@ class StockController extends Controller
                 if($tcg!=null){
                     $total_value+=$tcg->value*(intval($note->name)*$tg->sheet);
                 }
+//                else{
+//                    dd('does not have class group value ');
+//                }
             }
         }else{
             $group_note_transfer=DB::table('group_note_transfer')->where('transfer_id',$transfer_id)->get();

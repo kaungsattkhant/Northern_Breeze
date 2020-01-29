@@ -1,0 +1,205 @@
+{
+    "transfer": {
+        "from_branch_id": 1,
+        "to_branch_id": 1,
+        "currency_id": 23,
+       "date_time": "2020-01-29 12:01:28"
+    },
+    "class_group_value": [
+        {
+            "class_id": 1,
+            "value": 1000
+        },
+        {
+            "class_id": 2,
+            "value": 1100
+        },
+        {
+            "class_id": 3,
+            "value": 1400
+        },
+        {
+            "class_id": 4,
+            "value": 1600
+        }
+    ],
+    "groups": [
+        {
+            "id": 1,
+            "notes": [
+                {
+                    "group_note_id": 1,
+                    "note_name": "50",
+                    "total_sheet": 50,
+                    "class_sheet": [
+                        {
+                            "class_id": 2,
+                            "sheet": 50
+                        },
+                        {
+                            "class_id": 1,
+                            "sheet": 50
+                        }
+                    ]
+                },
+                {
+                    "group_note_id": 1,
+                    "note_name": "100",
+                    "total_sheet": 100,
+                    "class_sheet": [
+                        {
+                            "class_id": 1,
+                            "sheet": 50
+                        },
+                        {
+                            "class_id": 4,
+                            "sheet": 50
+                        }
+                    ]
+                }
+            ],
+            "currency_value": {
+                "id": 1
+            },
+            "class_currency_value": [
+                {
+                    "id": 0
+                },
+                {
+                    "id": 1
+                }
+            ],
+            "custom_currency_value": {
+                "value": "1350.5"
+            },
+            "class_custom_currency_value": [
+                {
+                    "value": "1300",
+                    "class_id": 1
+                },
+                {
+                    "value": "1400.4",
+                    "class_id": 4
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "notes": [
+                {
+                    "group_note_id": 2,
+                    "note_name": "100",
+                    "total_sheet": 100,
+                    "class_sheet": [
+                        {
+                            "class_id": 4,
+                            "sheet": 50
+                        },
+                        {
+                            "class_id": 1,
+                            "sheet": 50
+                        }
+                    ]
+                },
+                {
+                    "group_note_id": 2,
+                    "note_name": "100",
+                    "total_sheet": 100,
+                    "class_sheet": [
+                        {
+                            "class_id": 3,
+                            "sheet": 50
+                        },
+                        {
+                            "class_id": 2,
+                            "sheet": 50
+                        }
+                    ]
+                }
+            ],
+            "currency_value": {
+                "id": 1
+            },
+            "class_currency_value": [
+                {
+                    "id": 0
+                },
+                {
+                    "id": 1
+                }
+            ],
+            "custom_currency_value": {
+                "value": "1350.5"
+            },
+            "class_custom_currency_value": [
+                {
+                    "value": "1350.2",
+                    "class_id": 1
+                },
+                {
+                    "value": "1350.2",
+                    "class_id": 4
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "notes": [
+                {
+                    "group_note_id": 3,
+                    "note_name": "10000",
+                    "total_sheet": 150,
+                    "class_sheet": [
+                        {
+                            "class_id": 2,
+                            "sheet": 50
+                        },
+                        {
+                            "class_id": 1,
+                            "sheet": 50
+                        }
+                    ]
+                },
+                {
+                    "group_note_id": 3,
+                    "note_name": "100",
+                    "total_sheet": 100,
+                    "class_sheet": [
+                        {
+                            "class_id": 1,
+                            "sheet": 50
+                        },
+                        {
+                            "class_id": 4,
+                            "sheet": 50
+                        }
+                    ]
+                }
+            ],
+            "currency_value": {
+                "id": 1
+            },
+            "class_currency_value": [
+                {
+                    "id": 0
+                },
+                {
+                    "id": 1
+                }
+            ],
+            "custom_currency_value": {
+                "value": "1350.5"
+            },
+            "class_custom_currency_value": [
+                {
+                    "value": "1300",
+                    "class_id": 1
+                },
+                {
+                    "value": "1400.4",
+                    "class_id": 4
+                }
+            ]
+        }
+    ]
+}
