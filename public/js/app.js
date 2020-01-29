@@ -1906,6 +1906,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__["default"]);
@@ -1915,20 +1917,26 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
     return {
       items: JSON.parse(this.currencies),
       branch_items: JSON.parse(this.branches),
-      groups: '',
-      currency_id: ''
+      currency_id: '',
+      branch: ''
     };
   },
   methods: {
     fetch_currency_groups: function fetch_currency_groups() {
-      var _this = this;
-
       this.groups = '';
-      this.currency_id = parseInt($('#currency_filter option:selected').val());
+      this.currency_id = parseInt($('#stock_currency option:selected').val());
+
+      if (this.is_admin) {
+        this.branch = parseInt($('#stock_branch option:selected').val());
+      } else {
+        this.branch = null;
+      }
+
       var data = {
-        currency_id: this.currency_id
+        currency_id: this.currency_id,
+        branch: this.branch
       };
-      fetch('/daily_currency/currency_filter', {
+      fetch('/stock/currency_filter', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -1938,7 +1946,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       }).then(function (response) {
         return response.json();
       }).then(function (data) {
-        _this.groups = data.results;
+        console.log(data);
       });
     } // submitForm() {
     //     fetch('/daily_currency/store', {
@@ -22514,7 +22522,8 @@ var render = function() {
                 name: "currency",
                 "data-style": "btn-white",
                 "data-width": "auto",
-                "data-live-search": "true"
+                "data-live-search": "true",
+                id: "stock_currency"
               }
             },
             [
@@ -22542,7 +22551,12 @@ var render = function() {
                     name: "branch",
                     "data-style": "btn-white",
                     "data-width": "auto",
-                    id: "to_branch"
+                    id: "stock_branch"
+                  },
+                  on: {
+                    change: function($event) {
+                      return _vm.fetch_currency_groups()
+                    }
                   }
                 },
                 [

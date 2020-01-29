@@ -25,6 +25,8 @@ use Illuminate\Support\Facades\Validator;
 class StockController extends Controller
 {
     use CurrencyFilter;
+
+
     public function index()
     {
         $branches = Branch::all();
