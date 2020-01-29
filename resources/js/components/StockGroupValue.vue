@@ -39,7 +39,7 @@
                         </h3>
                     </td>
                     <td class="text-right border-top-0 pt-4 pb-4">
-                        <input v-for="(item,k) in group.class_currency_value"
+                        <input v-if="!isMM" v-for="(item,k) in group.class_currency_value"
                                type="number"
                                v-on:change="handleValues(group,i)"
                                v-on:keyup="handleValues(group,i)"
@@ -77,7 +77,7 @@
     Vue.use(Vuex);
 
     export default {
-        props: ['data','isUS'],
+        props: ['data','isMM'],
         data() {
             return {
                 group_value: [],
@@ -98,7 +98,7 @@
                 this.switchToCustomValue(this.stock_groups,group,this.group_value[i]);
             },
             handleSheets(group,note,i,j,k){
-                this.refreshGroup(null, this.stock_groups, this.note_sheets[i][j][k], group, note, k,this.group_value[i]);
+                this.refreshGroup(null, this.stock_groups, this.note_sheets[i][j][k], group, note, k,this.group_value[i],this.isMM);
             },
         },
         mounted() {

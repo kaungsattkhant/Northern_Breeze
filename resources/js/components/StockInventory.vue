@@ -32,7 +32,7 @@
                 </div>
             </div>
 
-            <stock-group-value v-if="stock_currency" :data="stock_currency" :isUS="isUS()"></stock-group-value>
+            <stock-group-value v-if="stock_currency" :data="stock_currency" :isMM="isMM()"></stock-group-value>
         </form>
 
     </div>
@@ -58,8 +58,8 @@
 
         methods: {
 
-            isUS(){
-               return this.stock_currency.status === "us_currency";
+            isMM(){
+               return this.stock_currency.status === "mm_currency";
             },
 
             fetch_currency_groups() {

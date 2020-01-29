@@ -114,13 +114,20 @@ export const helpers = {
             helpers.calculateTotalSheet(storeGroup,type,sheet_value);
         }
     },
-     removeOldElementAndAddNewForStock: function (type, storeGroup, sheet, group, note, k,sheet_value) {
+
+
+     removeOldElementAndAddNewForStock: function (type, storeGroup, sheet, group, note, k,sheet_value,isMM) {
         let targetGroup = helpers.getTargetGroup(type,storeGroup,group);
         let oldNote = helpers.getOldNote(targetGroup,note);
-        let oldClass = helpers.getOldClass(oldNote,note,k);
-        helpers.removeOldClass(oldNote,oldClass);
-        helpers.addNewClass(note,oldNote,sheet,k);
-        helpers.calculateTotalSheetForStock(storeGroup,type,sheet_value);
+        if(isMM){
+            helpers.removeOldNote(targetGroup,oldNote);
+            helpers.addNewNote(targetGroup,note,sheet,sheet_value);
+        }else{
+            let oldClass = helpers.getOldClass(oldNote,note,k);
+            helpers.removeOldClass(oldNote,oldClass);
+            helpers.addNewClass(note,oldNote,sheet,k);
+            helpers.switchCustomValue(storeGroup,group,sheet_value);
+        }
     },
 
 
