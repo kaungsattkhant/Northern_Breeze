@@ -88,13 +88,14 @@ class DailyCurrencyController extends Controller
         }
         return view('DailyCurrency.dailyindex',compact('groups'));
     }
-    public function daily_currency_filter($id="1")
+    public function daily_currency_filter(Request $request)
     {
-//        $id=$request->currency_id;
-//        $currency=Currency::find($id);
+//        dd($request->all());
+        $id=$request->currency_id;
+        $currency=Currency::find($id);
         $us_currency=Currency::where('name','United States dollar')->first();
 //        $myan_currency=Currency::where('name','Myanmar Kyat')->first();
-        if($us_currency->id==$id){
+        if($us_currency->id===$id){
             $currency_type="us_currency";
         }else{
             $currency_type="other_currency";
@@ -119,10 +120,13 @@ class DailyCurrencyController extends Controller
             'groups'=>$currency_group,
         ]);
     }
-    public function store(){
-        $data=file_get_contents(storage_path().'/api/daily_currency_store.json');
+    public function store(Request $request){
+//        $data=file_get_contents(storage_path().'/api/daily_currency_store.json');
+        $data=$data=json_encode($request->all());
         $decode_data=$data=json_decode($data);
+//        dd($decode_data);
         foreach($decode_data->daily_value as $daily_currency){
+//            dd($daily_currency->class_group_value);
             foreach($daily_currency->class_group_value as $cgv)
             {
                 $check_classification_group=DB::table('classification_group')
@@ -145,7 +149,6 @@ class DailyCurrencyController extends Controller
                         ]);
                     }
                 }
-//                dd($cg);
                     if($daily_currency->type==="sell" && $cgv->value!=null){
                         $scgv=SellClassGroupValue::create([
                             'value'=>$cgv->value,
@@ -168,7 +171,8 @@ class DailyCurrencyController extends Controller
     }
     public function create()
     {
-        return view('DailyCurrency.create');
+        $currencies=Currency::all();
+        return view('DailyCurrency.create',compact('currencies') );
     }
 //    public function store(Request $request)
 //    {

@@ -381,7 +381,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       }).then(function (response) {
         return response.json();
       }).then(function (data) {
-        _this.groups = data.results;
+        _this.groups = data;
       });
     },
     submitForm: function submitForm() {

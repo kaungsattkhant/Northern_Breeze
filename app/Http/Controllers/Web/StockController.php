@@ -341,18 +341,18 @@ class StockController extends Controller
 //        dd($stock_stores->from_branch_id);
         if($request->branch == null && Auth::user()->branch_id != null)
         {
-//            dd('manager_add');
             $branch_id=Auth::user()->branch_id;
         }elseif($request->branch !=null && Auth::user()->branch_id == null){
-//            dd('admin add');
             $branch_id=$request->branch;
         }
 
         $branch=Branch::find($branch_id);
-//        foreach
+        $transfer=Transfer::create([
+            'from_branch_id'=>$branch_id,
+            'to_branch_id'=>$request->branch != null ? $request->branch :$branch_id,
+        ]);
         foreach($stock_stores->class_group_value as $cgv){
             if($cgv->value!=null){
-//                $tcgv=Transfer
             }
         }
     }

@@ -64,7 +64,7 @@
                 })
                     .then(response => response.json())
                     .then(data => {
-                        this.groups = data.results;
+                        this.groups = data;
                     });
             },
             submitForm() {
