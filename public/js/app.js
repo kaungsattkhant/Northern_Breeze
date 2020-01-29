@@ -395,7 +395,9 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       }).then(function (response) {
         return response.json();
       }).then(function (data) {
-        console.log(data);
+        if (data.is_success) {
+          window.location.replace('/daily_currency');
+        } else {}
       });
     }
   },
@@ -1704,6 +1706,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _helpers_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../helpers.js */ "./resources/js/helpers.js");
 //
 //
 //
@@ -1773,84 +1776,56 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
 
 
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__["default"]);
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['data'],
+  props: ['data', 'isUS'],
   data: function data() {
-    return {};
+    return {
+      group_value: [],
+      note_sheets: [],
+      groups_length: this.data.groups.length,
+      notes_length: 10,
+      classes_length: 10
+    };
   },
-  methods: {},
-  mounted: function mounted() {},
-  computed: Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])({})
+  methods: {
+    setInitialSheets: _helpers_js__WEBPACK_IMPORTED_MODULE_2__["helpers"].setInitialSheets,
+    setInitialGroups: _helpers_js__WEBPACK_IMPORTED_MODULE_2__["helpers"].setInitialGroups,
+    refreshGroup: _helpers_js__WEBPACK_IMPORTED_MODULE_2__["helpers"].removeOldElementAndAddNewForStock,
+    handleValues: function handleValues() {},
+    handleSheets: function handleSheets(group, note, i, j, k) {
+      this.refreshGroup(null, this.stock_groups, this.note_sheets[i][j][k], group, note, k, this.group_value[i][k]);
+      console.log(this.stock_groups);
+    }
+  },
+  mounted: function mounted() {
+    this.setInitialGroups(null, this.data, this.isUS);
+  },
+  created: function created() {
+    var lengths = {
+      groups: this.groups_length,
+      notes: this.notes_length,
+      classes: this.classes_length
+    };
+
+    for (var i = 0; i < this.groups_length; i++) {
+      var row = [];
+
+      for (var j = 0; j < this.classes_length; j++) {
+        row.push(0);
+      }
+
+      this.group_value.push(row);
+    }
+
+    this.setInitialSheets(lengths, this.note_sheets, true);
+  },
+  computed: Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])({
+    stock_groups: 'stock_groups'
+  })
 });
 
 /***/ }),
@@ -1907,7 +1882,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__["default"]);
@@ -1918,12 +1892,18 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       items: JSON.parse(this.currencies),
       branch_items: JSON.parse(this.branches),
       currency_id: '',
-      branch: ''
+      branch: '',
+      stock_currency: ''
     };
   },
   methods: {
+    isUS: function isUS() {
+      return this.stock_currency.status === "us_currency";
+    },
     fetch_currency_groups: function fetch_currency_groups() {
-      this.groups = '';
+      var _this = this;
+
+      this.stock_currency = '';
       this.currency_id = parseInt($('#stock_currency option:selected').val());
 
       if (this.is_admin) {
@@ -1946,6 +1926,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       }).then(function (response) {
         return response.json();
       }).then(function (data) {
+        _this.stock_currency = data;
         console.log(data);
       });
     } // submitForm() {
@@ -22463,8 +22444,220 @@ render._withStripped = true
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
-var render = function () {}
-var staticRenderFns = []
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "row" }, [
+    _c("div", { staticClass: "col" }, [
+      _c(
+        "table",
+        {
+          staticClass:
+            "table border-0 bg-white box-shadow-mount border-tab-radius-mount",
+          attrs: { id: "stock_table_filter" }
+        },
+        _vm._l(_vm.data.groups, function(group) {
+          return _c(
+            "tbody",
+            { staticClass: "rounded-table-mount" },
+            [
+              _c("tr", [
+                _c("td", [
+                  _c("h3", { staticClass: "pb-2" }, [
+                    _vm._v(
+                      "\n                        " +
+                        _vm._s(group.group_name) +
+                        "\n                    "
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _c(
+                  "td",
+                  {
+                    staticClass:
+                      "text-nb-mount border-top-0 pl-4 pt-4 fontsize-mount2"
+                  },
+                  [
+                    _vm._v(
+                      "\n                    " +
+                        _vm._s(group.class_currency_value[0].value) +
+                        "\n                "
+                    )
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _vm._l(group.notes, function(note) {
+                return _c("tr", [
+                  _c(
+                    "td",
+                    {
+                      staticClass:
+                        "text-nb-mount border-top-0 pl-4 pt-4 fontsize-mount2"
+                    },
+                    [_vm._v(_vm._s(note.note_name))]
+                  ),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-right border-top-0 pt-4" }, [
+                    _c(
+                      "p",
+                      {
+                        staticClass: "text-color-mount fontsize-mount2",
+                        staticStyle: { "padding-bottom": "1px" }
+                      },
+                      [_vm._v(_vm._s(note.total_sheet))]
+                    )
+                  ])
+                ])
+              })
+            ],
+            2
+          )
+        }),
+        0
+      ),
+      _vm._v(" "),
+      _vm._m(0)
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "col" }, [
+      _c(
+        "table",
+        {
+          staticClass:
+            "table border-0 bg-white box-shadow-mount d-flex rounded-table-mount mt-0 pb-1"
+        },
+        _vm._l(_vm.data.groups, function(group, i) {
+          return _c(
+            "tbody",
+            { staticClass: "rounded-table-mount pb-5" },
+            [
+              _c("tr", [
+                _c("td", [
+                  _c("h3", [
+                    _vm._v(
+                      "\n                        " +
+                        _vm._s(group.group_name) +
+                        "\n                    "
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _c(
+                  "td",
+                  { staticClass: "text-right border-top-0 pt-4 pb-4" },
+                  _vm._l(group.class_currency_value, function(item, k) {
+                    return _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.group_value[i][k],
+                          expression: "group_value[i][k]"
+                        }
+                      ],
+                      staticClass:
+                        "note_class border rounded-table-mount w-21 text-center fontsize-mount3 pt-1",
+                      attrs: { type: "number" },
+                      domProps: { value: _vm.group_value[i][k] },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.group_value[i], k, $event.target.value)
+                        }
+                      }
+                    })
+                  }),
+                  0
+                )
+              ]),
+              _vm._v(" "),
+              _vm._l(group.notes, function(note, j) {
+                return _c("tr", [
+                  _c(
+                    "td",
+                    {
+                      staticClass:
+                        "text-nb-mount border-top-0 pl-4 pt-4 fontsize-mount2"
+                    },
+                    [_vm._v(_vm._s(note.note_name))]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "td",
+                    { staticClass: "text-right border-top-0 pt-4 pb-4" },
+                    _vm._l(group.class_currency_value, function(item, k) {
+                      return _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.note_sheets[i][j][k],
+                            expression: "note_sheets[i][j][k]"
+                          }
+                        ],
+                        staticClass:
+                          "note_class border rounded-table-mount w-21 text-center fontsize-mount3 pt-1",
+                        attrs: { type: "number" },
+                        domProps: { value: _vm.note_sheets[i][j][k] },
+                        on: {
+                          change: function($event) {
+                            return _vm.handleSheets(group, note, i, j, k)
+                          },
+                          keyup: function($event) {
+                            return _vm.handleSheets(group, note, i, j, k)
+                          },
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.note_sheets[i][j],
+                              k,
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    }),
+                    0
+                  )
+                ])
+              })
+            ],
+            2
+          )
+        }),
+        0
+      ),
+      _vm._v(" "),
+      _vm._m(1)
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "div-p-mount2" }, [
+      _c("p", [_vm._v("Total : MMKs ")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "div-p-mount2 text-center" }, [
+      _c("p", [_vm._v("Total :")])
+    ])
+  }
+]
+render._withStripped = true
 
 
 
@@ -22486,103 +22679,112 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container-nb-mount" }, [
-    _c("form", [
-      _c(
-        "div",
-        {
-          staticClass: "d-flex justify-content-between top-box-mount shadow-sm"
-        },
-        [
-          _c("div", { staticClass: "my-auto" }, [
-            _c("p", { staticStyle: { "margin-left": "20px" } }, [
-              _c("b", [_vm._v("Total values:")]),
-              _c("i", [_vm._v(" " + _vm._s(_vm.total_value) + "MMKs")])
-            ])
+    _c(
+      "form",
+      [
+        _c(
+          "div",
+          {
+            staticClass:
+              "d-flex justify-content-between top-box-mount shadow-sm"
+          },
+          [
+            _c("div", { staticClass: "my-auto" }, [
+              _c("p", { staticStyle: { "margin-left": "20px" } }, [
+                _c("b", [_vm._v("Total values:")]),
+                _c("i", [_vm._v(" " + _vm._s(_vm.total_value) + "MMKs")])
+              ])
+            ]),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass:
+                  "btn btn-nb-mount-save fontsize-mount px-4 stock_create",
+                attrs: { type: "submit" }
+              },
+              [_vm._v("Add")]
+            )
+          ]
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col" }, [
+            _c(
+              "select",
+              {
+                staticClass: "selectpicker  mt-4",
+                attrs: {
+                  name: "currency",
+                  "data-style": "btn-white",
+                  "data-width": "auto",
+                  "data-live-search": "true",
+                  id: "stock_currency"
+                }
+              },
+              [
+                _c("option", { attrs: { disabled: "", selected: "" } }, [
+                  _vm._v("Choose Currency")
+                ]),
+                _vm._v(" "),
+                _vm._l(_vm.items, function(item) {
+                  return _c("option", { domProps: { value: item.id } }, [
+                    _vm._v(_vm._s(item.name) + "\n                    ")
+                  ])
+                })
+              ],
+              2
+            )
           ]),
           _vm._v(" "),
-          _c(
-            "button",
-            {
-              staticClass:
-                "btn btn-nb-mount-save fontsize-mount px-4 stock_create",
-              attrs: { type: "submit" }
-            },
-            [_vm._v("Add")]
-          )
-        ]
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col" }, [
-          _c(
-            "select",
-            {
-              staticClass: "selectpicker  mt-4",
-              attrs: {
-                name: "currency",
-                "data-style": "btn-white",
-                "data-width": "auto",
-                "data-live-search": "true",
-                id: "stock_currency"
-              }
-            },
-            [
-              _c("option", { attrs: { disabled: "", selected: "" } }, [
-                _vm._v("Choose Currency")
-              ]),
-              _vm._v(" "),
-              _vm._l(_vm.items, function(item) {
-                return _c("option", { domProps: { value: item.id } }, [
-                  _vm._v(_vm._s(item.name) + "\n                    ")
-                ])
-              })
-            ],
-            2
-          )
+          _vm.is_admin
+            ? _c("div", { staticClass: "col", attrs: { id: "branch" } }, [
+                _c(
+                  "select",
+                  {
+                    staticClass: "selectpicker mt-4",
+                    attrs: {
+                      name: "branch",
+                      "data-style": "btn-white",
+                      "data-width": "auto",
+                      id: "stock_branch"
+                    },
+                    on: {
+                      change: function($event) {
+                        return _vm.fetch_currency_groups()
+                      }
+                    }
+                  },
+                  [
+                    _c("option", { attrs: { disabled: "", selected: "" } }, [
+                      _vm._v("Choose Branch")
+                    ]),
+                    _vm._v(" "),
+                    _vm._l(_vm.branch_items, function(item) {
+                      return _c(
+                        "option",
+                        {
+                          attrs: { disabled: item.id === _vm.auth_id },
+                          domProps: { value: item.id }
+                        },
+                        [_vm._v(_vm._s(item.name) + "\n                    ")]
+                      )
+                    })
+                  ],
+                  2
+                )
+              ])
+            : _vm._e()
         ]),
         _vm._v(" "),
-        _vm.is_admin
-          ? _c("div", { staticClass: "col", attrs: { id: "branch" } }, [
-              _c(
-                "select",
-                {
-                  staticClass: "selectpicker mt-4",
-                  attrs: {
-                    name: "branch",
-                    "data-style": "btn-white",
-                    "data-width": "auto",
-                    id: "stock_branch"
-                  },
-                  on: {
-                    change: function($event) {
-                      return _vm.fetch_currency_groups()
-                    }
-                  }
-                },
-                [
-                  _c("option", { attrs: { disabled: "", selected: "" } }, [
-                    _vm._v("Choose Branch")
-                  ]),
-                  _vm._v(" "),
-                  _vm._l(_vm.branch_items, function(item) {
-                    return _c(
-                      "option",
-                      {
-                        attrs: { disabled: item.id === _vm.auth_id },
-                        domProps: { value: item.id }
-                      },
-                      [_vm._v(_vm._s(item.name) + "\n                    ")]
-                    )
-                  })
-                ],
-                2
-              )
-            ])
+        _vm.stock_currency
+          ? _c("stock-group-value", {
+              attrs: { data: _vm.stock_currency, isUS: _vm.isUS() }
+            })
           : _vm._e()
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "row", attrs: { id: "stock_table_filter" } })
-    ])
+      ],
+      1
+    )
   ])
 }
 var staticRenderFns = []
@@ -36621,9 +36823,15 @@ var helpers = {
     return sum;
   },
   getTargetGroup: function getTargetGroup(type, storeGroup, group) {
-    return storeGroup.find(function (groupItem) {
-      return groupItem.group_id === group.group_id && groupItem.type === type;
-    });
+    if (type !== null) {
+      return storeGroup.find(function (groupItem) {
+        return groupItem.group_id === group.group_id && groupItem.type === type;
+      });
+    } else {
+      return storeGroup.find(function (groupItem) {
+        return groupItem.group_id === group.group_id;
+      });
+    }
   },
   getOldNote: function getOldNote(targetGroup, note) {
     return targetGroup.notes.find(function (noteItem) {
@@ -36682,6 +36890,23 @@ var helpers = {
       }
     });
   },
+  calculateTotalSheetForStock: function calculateTotalSheetForStock(storeGroup, type, sheet_value) {
+    storeGroup.forEach(function (groupItem) {
+      groupItem.notes.forEach(function (noteItem) {
+        var total_sheet = 0;
+        noteItem.class_sheet.forEach(function (classItem) {
+          total_sheet = total_sheet + parseInt(classItem.sheet);
+        });
+        noteItem.total_sheet = total_sheet;
+      });
+
+      if (sheet_value !== null) {
+        for (var value in groupItem.class_currency_value) {
+          groupItem.class_currency_value[value].value = sheet_value[value];
+        }
+      }
+    });
+  },
   removeOldElementAndAddNew: function removeOldElementAndAddNew(type, storeGroup, sheet, group, note, k, sheet_value) {
     var targetGroup = helpers.getTargetGroup(type, storeGroup, group);
     var oldNote = helpers.getOldNote(targetGroup, note);
@@ -36695,6 +36920,18 @@ var helpers = {
       helpers.addNewClass(note, oldNote, sheet, k);
       helpers.calculateTotalSheet(storeGroup, type, sheet_value);
     }
+  },
+  removeOldElementAndAddNewForStock: function removeOldElementAndAddNewForStock(type, storeGroup, sheet, group, note, k, sheet_value) {
+    var targetGroup = helpers.getTargetGroup(type, storeGroup, group);
+    var oldNote = helpers.getOldNote(targetGroup, note); // if (k === null) {
+    //     helpers.removeOldNote(targetGroup,oldNote);
+    //     helpers.addNewNote(targetGroup,note,sheet,sheet_value);
+    // } else {
+
+    var oldClass = helpers.getOldClass(oldNote, note, k);
+    helpers.removeOldClass(oldNote, oldClass);
+    helpers.addNewClass(note, oldNote, sheet, k);
+    helpers.calculateTotalSheetForStock(storeGroup, type, sheet_value); // }
   },
   setInitialSheets: function setInitialSheets(lengths, sheet, isClass) {
     if (isClass) {
@@ -36747,10 +36984,18 @@ var helpers = {
   setInitialGroups: function setInitialGroups(type, data, isClass) {
     var _this = this;
 
-    this.$store.commit('removeGroup', type);
+    if (type !== null) {
+      this.$store.commit('removeGroup', type);
+    } else {
+      this.$store.commit('resetStockGroup');
+    }
+
     var newGroup = JSON.parse(JSON.stringify(data));
     newGroup.groups.forEach(function (group) {
-      group.type = type;
+      if (type !== null) {
+        group.type = type;
+      }
+
       group.notes.forEach(function (note) {
         if (isClass) {
           var total_sheet = 0;
@@ -36764,7 +37009,11 @@ var helpers = {
         }
       });
 
-      _this.$store.commit('addGroup', group);
+      if (type !== null) {
+        _this.$store.commit('addGroup', group);
+      } else {
+        _this.$store.commit('addStockGroup', group);
+      }
     });
   }
 };
@@ -36814,7 +37063,8 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
     exceed_msg: '',
     buy_not_enough_msg: '',
     sell_not_enough_msg: '',
-    daily_currency_data: ''
+    daily_currency_data: '',
+    stock_groups: []
   },
   mutations: {
     setBuyNotEnoughMsg: function setBuyNotEnoughMsg(state, data) {
@@ -36873,6 +37123,9 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
     addGroup: function addGroup(state, data) {
       state.groups.push(data);
     },
+    addStockGroup: function addStockGroup(state, data) {
+      state.stock_groups.push(data);
+    },
     removeGroup: function removeGroup(state, data) {
       var targetGroups = state.groups.filter(function (group) {
         return group.type === data;
@@ -36882,12 +37135,11 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
 
         if (index > -1) {
           state.groups.splice(index, 1);
-        } // let item = state.results.indexOf(group);
-        // if(item > -1){
-        //     state.results.splice(index,1);
-        // }
-
+        }
       });
+    },
+    resetStockGroup: function resetStockGroup(state) {
+      state.stock_groups = [];
     },
     setDailyCurrencyData: function setDailyCurrencyData(state, data) {
       state.daily_currency_data = data;
@@ -36915,8 +37167,8 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\MountProject\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! D:\MountProject\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /home/tinmaungzin/PhpstormProjects/NorthernBreeze-master/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/tinmaungzin/PhpstormProjects/NorthernBreeze-master/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

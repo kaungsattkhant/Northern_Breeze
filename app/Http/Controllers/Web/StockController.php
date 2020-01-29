@@ -236,9 +236,9 @@ class StockController extends Controller
 //        $data=view('Stock.stock_currency_filter',compact('stock_notes','total','currency_id'));
 //        return $data;
 //    }
-    public function currency_filter(){
+    public function currency_filter(Request $request){
         $currency_id=$request->currency_id;
-        $b_id=$currency_id->branch_id;
+        $b_id=$request->branch;
 //        $b_id="1";
 //        $currency_id="23";
         $classification=Classification::orderBy('id','asc')->get('id','name');

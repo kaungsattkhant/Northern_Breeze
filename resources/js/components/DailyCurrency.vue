@@ -77,8 +77,12 @@
                 })
                     .then(response => response.json())
                     .then(data => {
-                        console.log(data);
-                    })
+                        if(data.is_success){
+                            window.location.replace('/daily_currency');
+                        }else{
+
+                        }
+                    });
             },
         },
         mounted() {

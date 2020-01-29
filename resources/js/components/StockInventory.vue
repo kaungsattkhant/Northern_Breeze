@@ -31,9 +31,8 @@
                     </select>
                 </div>
             </div>
-            <div class="row" id="stock_table_filter">
 
-            </div>
+            <stock-group-value v-if="stock_currency" :data="stock_currency" :isUS="isUS()"></stock-group-value>
         </form>
 
     </div>
@@ -52,14 +51,19 @@
                 items: JSON.parse(this.currencies),
                 branch_items: JSON.parse(this.branches),
                 currency_id: '',
-                branch: ''
+                branch: '',
+                stock_currency: ''
             }
         },
 
         methods: {
 
+            isUS(){
+               return this.stock_currency.status === "us_currency";
+            },
+
             fetch_currency_groups() {
-                this.groups = '';
+                this.stock_currency = '';
                 this.currency_id = parseInt($('#stock_currency option:selected').val());
                 if(this.is_admin){
                     this.branch = parseInt($('#stock_branch option:selected').val());
@@ -80,7 +84,8 @@
                 })
                     .then(response => response.json())
                     .then(data => {
-                        console.log(data);
+                        this.stock_currency=data;
+                        console.log(data)
                     });
             },
 
