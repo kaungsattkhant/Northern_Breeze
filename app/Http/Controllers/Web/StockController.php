@@ -235,10 +235,10 @@ class StockController extends Controller
 //        return $data;
 //    }
     public function currency_filter(){
-//        $currency_id=$request->currency_id;
-//        $b_id=$currency_id->branch_id;
-        $b_id="1";
-        $currency_id="23";
+        $currency_id=$request->currency_id;
+        $b_id=$currency_id->branch_id;
+//        $b_id="1";
+//        $currency_id="23";
         $classification=Classification::orderBy('id','asc')->get('id','name');
         $us_currency_id=Currency::where('name','United States dollar')->first();
         $myanmar_currency=Currency::where('name','Myanmar Kyat')->first();
