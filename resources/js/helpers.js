@@ -91,10 +91,15 @@ export const helpers = {
                     groupItem.class_currency_value[value].value= sheet_value[value];
                 }
             }
-
         });
     },
 
+    switchCustomValue: function(storeGroup,group,sheet_value){
+        let targetGroup = helpers.getTargetGroup(null,storeGroup,group);
+        for(let value in targetGroup.class_currency_value){
+            targetGroup.class_currency_value[value].value = sheet_value[value];
+        }
+    },
 
     removeOldElementAndAddNew: function (type, storeGroup, sheet, group, note, k,sheet_value) {
         let targetGroup = helpers.getTargetGroup(type,storeGroup,group);
@@ -112,16 +117,10 @@ export const helpers = {
      removeOldElementAndAddNewForStock: function (type, storeGroup, sheet, group, note, k,sheet_value) {
         let targetGroup = helpers.getTargetGroup(type,storeGroup,group);
         let oldNote = helpers.getOldNote(targetGroup,note);
-
-        // if (k === null) {
-        //     helpers.removeOldNote(targetGroup,oldNote);
-        //     helpers.addNewNote(targetGroup,note,sheet,sheet_value);
-        // } else {
         let oldClass = helpers.getOldClass(oldNote,note,k);
         helpers.removeOldClass(oldNote,oldClass);
         helpers.addNewClass(note,oldNote,sheet,k);
         helpers.calculateTotalSheetForStock(storeGroup,type,sheet_value);
-        // }
     },
 
 
