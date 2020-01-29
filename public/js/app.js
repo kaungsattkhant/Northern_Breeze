@@ -1778,6 +1778,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -1794,19 +1800,23 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
     };
   },
   methods: {
-    setInitialSheets: _helpers_js__WEBPACK_IMPORTED_MODULE_2__["helpers"].setInitialSheets,
-    setInitialGroups: _helpers_js__WEBPACK_IMPORTED_MODULE_2__["helpers"].setInitialGroups,
+    setInitialSheets: _helpers_js__WEBPACK_IMPORTED_MODULE_2__["helpers"].setInitialSheetsForStock,
+    setInitialGroups: _helpers_js__WEBPACK_IMPORTED_MODULE_2__["helpers"].setInitialGroupsForStock,
     refreshGroup: _helpers_js__WEBPACK_IMPORTED_MODULE_2__["helpers"].removeOldElementAndAddNewForStock,
     switchToCustomValue: _helpers_js__WEBPACK_IMPORTED_MODULE_2__["helpers"].switchCustomValue,
     handleValues: function handleValues(group, i) {
       this.switchToCustomValue(this.stock_groups, group, this.group_value[i]);
     },
     handleSheets: function handleSheets(group, note, i, j, k) {
-      this.refreshGroup(null, this.stock_groups, this.note_sheets[i][j][k], group, note, k, this.group_value[i], this.isMM);
+      if (this.isMM) {
+        this.refreshGroup(null, this.stock_groups, this.note_sheets[i][j], group, note, k, this.group_value[i], this.isMM);
+      } else {
+        this.refreshGroup(null, this.stock_groups, this.note_sheets[i][j][k], group, note, k, this.group_value[i], this.isMM);
+      }
     }
   },
   mounted: function mounted() {
-    this.setInitialGroups(null, this.data, this.isUS);
+    this.setInitialGroups(null, this.data, this.isMM);
   },
   created: function created() {
     var lengths = {
@@ -1825,7 +1835,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       this.group_value.push(row);
     }
 
-    this.setInitialSheets(lengths, this.note_sheets, true);
+    this.setInitialSheets(lengths, this.note_sheets, this.isMM);
   },
   computed: Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])({
     stock_groups: 'stock_groups'
@@ -1902,7 +1912,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
   },
   methods: {
     isMM: function isMM() {
-      return this.stock_currency.status === "mm_currency";
+      return this.stock_currency.status === "MMK";
     },
     fetch_currency_groups: function fetch_currency_groups() {
       var _this = this;
@@ -1940,18 +1950,18 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
         currency_id: this.currency_id,
         groups: this.stock_groups
       };
-      fetch('/add_currency', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        body: JSON.stringify(data)
-      }).then(function (response) {
-        return response.json();
-      }).then(function (data) {
-        console.log(data);
-      });
+      console.log(data); // fetch('/add_currency', {
+      //     method: 'POST',
+      //     headers: {
+      //         'Content-Type': 'application/json',
+      //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      //     },
+      //     body: JSON.stringify(data)
+      // })
+      //     .then(response => response.json())
+      //     .then(data => {
+      //         console.log(data);
+      //     })
     }
   },
   mounted: function mounted() {},
@@ -22484,20 +22494,22 @@ var render = function() {
                   ])
                 ]),
                 _vm._v(" "),
-                _c(
-                  "td",
-                  {
-                    staticClass:
-                      "text-nb-mount border-top-0 pl-4 pt-4 fontsize-mount2"
-                  },
-                  [
-                    _vm._v(
-                      "\n                    " +
-                        _vm._s(group.class_currency_value[0].value) +
-                        "\n                "
+                !_vm.isMM
+                  ? _c(
+                      "td",
+                      {
+                        staticClass:
+                          "text-nb-mount border-top-0 pl-4 pt-4 fontsize-mount2"
+                      },
+                      [
+                        _vm._v(
+                          "\n                    " +
+                            _vm._s(group.class_currency_value[0].value) +
+                            "\n                "
+                        )
+                      ]
                     )
-                  ]
-                )
+                  : _vm._e()
               ]),
               _vm._v(" "),
               _vm._l(group.notes, function(note) {
@@ -22613,41 +22625,80 @@ var render = function() {
                   _c(
                     "td",
                     { staticClass: "text-right border-top-0 pt-4 pb-4" },
-                    _vm._l(group.class_currency_value, function(item, k) {
-                      return _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.note_sheets[i][j][k],
-                            expression: "note_sheets[i][j][k]"
-                          }
-                        ],
-                        staticClass:
-                          "note_class border rounded-table-mount w-21 text-center fontsize-mount3 pt-1",
-                        attrs: { type: "number" },
-                        domProps: { value: _vm.note_sheets[i][j][k] },
-                        on: {
-                          change: function($event) {
-                            return _vm.handleSheets(group, note, i, j, k)
-                          },
-                          keyup: function($event) {
-                            return _vm.handleSheets(group, note, i, j, k)
-                          },
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
+                    [
+                      _vm._l(group.class_currency_value, function(item, k) {
+                        return !_vm.isMM
+                          ? _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.note_sheets[i][j][k],
+                                  expression: "note_sheets[i][j][k]"
+                                }
+                              ],
+                              staticClass:
+                                "note_class border rounded-table-mount w-21 text-center fontsize-mount3 pt-1",
+                              attrs: { type: "number" },
+                              domProps: { value: _vm.note_sheets[i][j][k] },
+                              on: {
+                                change: function($event) {
+                                  return _vm.handleSheets(group, note, i, j, k)
+                                },
+                                keyup: function($event) {
+                                  return _vm.handleSheets(group, note, i, j, k)
+                                },
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.note_sheets[i][j],
+                                    k,
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            })
+                          : _vm._e()
+                      }),
+                      _vm._v(" "),
+                      _vm.isMM
+                        ? _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.note_sheets[i][j],
+                                expression: "note_sheets[i][j]"
+                              }
+                            ],
+                            staticClass:
+                              "note_class border rounded-table-mount w-21 text-center fontsize-mount3 pt-1",
+                            attrs: { type: "number" },
+                            domProps: { value: _vm.note_sheets[i][j] },
+                            on: {
+                              change: function($event) {
+                                return _vm.handleSheets(group, note, i, j, null)
+                              },
+                              keyup: function($event) {
+                                return _vm.handleSheets(group, note, i, j, null)
+                              },
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.note_sheets[i],
+                                  j,
+                                  $event.target.value
+                                )
+                              }
                             }
-                            _vm.$set(
-                              _vm.note_sheets[i][j],
-                              k,
-                              $event.target.value
-                            )
-                          }
-                        }
-                      })
-                    }),
-                    0
+                          })
+                        : _vm._e()
+                    ],
+                    2
                   )
                 ])
               })
@@ -36999,6 +37050,35 @@ var helpers = {
       }
     }
   },
+  setInitialSheetsForStock: function setInitialSheetsForStock(lengths, sheet, isMM) {
+    if (isMM) {
+      for (var i = 0; i < lengths.groups; i++) {
+        var row = [];
+
+        for (var j = 0; j < lengths.notes; j++) {
+          row.push(0);
+        }
+
+        sheet.push(row);
+      }
+    } else {
+      for (var _i2 = 0; _i2 < lengths.groups; _i2++) {
+        var _row2 = [];
+
+        for (var _j2 = 0; _j2 < lengths.notes; _j2++) {
+          var column = [];
+
+          for (var k = 0; k < lengths.classes; k++) {
+            column.push(0);
+          }
+
+          _row2.push(column);
+        }
+
+        sheet.push(_row2);
+      }
+    }
+  },
   setInitialSheetValues: function setInitialSheetValues(groups, sheet_values, isClass) {
     if (isClass) {
       groups.forEach(function (groupItem) {
@@ -37035,6 +37115,41 @@ var helpers = {
 
       group.notes.forEach(function (note) {
         if (isClass) {
+          var total_sheet = 0;
+          note.class_sheet.forEach(function (item) {
+            item.sheet = 0;
+            total_sheet = total_sheet + item.sheet;
+          });
+          note.total_sheet = total_sheet;
+        } else {
+          note.total_sheet = 0;
+        }
+      });
+
+      if (type !== null) {
+        _this.$store.commit('addGroup', group);
+      } else {
+        _this.$store.commit('addStockGroup', group);
+      }
+    });
+  },
+  setInitialGroupsForStock: function setInitialGroupsForStock(type, data, isMM) {
+    var _this = this;
+
+    if (type !== null) {
+      this.$store.commit('removeGroup', type);
+    } else {
+      this.$store.commit('resetStockGroup');
+    }
+
+    var newGroup = JSON.parse(JSON.stringify(data));
+    newGroup.groups.forEach(function (group) {
+      if (type !== null) {
+        group.type = type;
+      }
+
+      group.notes.forEach(function (note) {
+        if (!isMM) {
           var total_sheet = 0;
           note.class_sheet.forEach(function (item) {
             item.sheet = 0;

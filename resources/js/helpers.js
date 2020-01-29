@@ -128,6 +128,7 @@ export const helpers = {
             helpers.addNewClass(note,oldNote,sheet,k);
             helpers.switchCustomValue(storeGroup,group,sheet_value);
         }
+
     },
 
 
@@ -154,6 +155,30 @@ export const helpers = {
             }
         }
     },
+    setInitialSheetsForStock(lengths, sheet, isMM) {
+        if (isMM) {
+            for (let i = 0; i < lengths.groups; i++) {
+                let row = [];
+                for (let j = 0; j < lengths.notes; j++) {
+                    row.push(0);
+                }
+                sheet.push(row);
+            }
+        } else {
+            for (let i = 0; i < lengths.groups; i++) {
+                let row = [];
+                for (let j = 0; j < lengths.notes; j++) {
+                    let column = [];
+                    for (let k = 0; k < lengths.classes; k++) {
+                        column.push(0);
+                    }
+                    row.push(column);
+                }
+                sheet.push(row);
+            }
+        }
+    },
+
 
     setInitialSheetValues(groups,sheet_values,isClass){
         if(isClass){
@@ -204,5 +229,38 @@ export const helpers = {
             }
         });
     },
+    setInitialGroupsForStock: function (type, data, isMM) {
+        let _this = this;
+        if(type!==null){
+            this.$store.commit('removeGroup', type);
+        }else{
+            this.$store.commit('resetStockGroup');
+        }
+        let newGroup = JSON.parse(JSON.stringify(data));
+        newGroup.groups.forEach(function (group) {
+            if(type!==null){
+                group.type = type;
+            }
+            group.notes.forEach(function (note) {
+                if (!isMM) {
+                    let total_sheet = 0;
+                    note.class_sheet.forEach(function (item) {
+                        item.sheet = 0;
+                        total_sheet = total_sheet + item.sheet;
+                    });
+                    note.total_sheet = total_sheet;
+                } else {
+                    note.total_sheet = 0;
+                }
+            });
+            if(type!==null){
+                _this.$store.commit('addGroup', group);
+
+            }else{
+                _this.$store.commit('addStockGroup', group);
+            }
+        });
+    },
+
 
 };

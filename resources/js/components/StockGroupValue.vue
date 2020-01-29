@@ -12,7 +12,7 @@
                             {{group.group_name}}
                         </h3>
                     </td>
-                    <td class="text-nb-mount border-top-0 pl-4 pt-4 fontsize-mount2">
+                    <td v-if="!isMM" class="text-nb-mount border-top-0 pl-4 pt-4 fontsize-mount2">
                         {{group.class_currency_value[0].value}}
                     </td>
                 </tr>
@@ -51,11 +51,17 @@
                     <td class="text-nb-mount border-top-0 pl-4 pt-4 fontsize-mount2">{{note.note_name}}</td>
                     <td class="text-right border-top-0 pt-4 pb-4">
 
-                        <input v-for="(item,k) in group.class_currency_value"
+                        <input v-if="!isMM" v-for="(item,k) in group.class_currency_value"
                                type="number"
                                v-on:change="handleSheets(group,note,i,j,k)"
                                v-on:keyup="handleSheets(group,note,i,j,k)"
                                v-model="note_sheets[i][j][k]"  class="note_class border rounded-table-mount w-21 text-center fontsize-mount3 pt-1">
+                        <input v-if="isMM"
+                               type="number"
+                               v-on:change="handleSheets(group,note,i,j,null)"
+                               v-on:keyup="handleSheets(group,note,i,j,null)"
+                               v-model="note_sheets[i][j]"  class="note_class border rounded-table-mount w-21 text-center fontsize-mount3 pt-1">
+
                     </td>
                 </tr>
                 </tbody>
@@ -89,8 +95,8 @@
         },
 
         methods: {
-            setInitialSheets: helpers.setInitialSheets,
-            setInitialGroups: helpers.setInitialGroups,
+            setInitialSheets: helpers.setInitialSheetsForStock,
+            setInitialGroups: helpers.setInitialGroupsForStock,
             refreshGroup: helpers.removeOldElementAndAddNewForStock,
             switchToCustomValue: helpers.switchCustomValue,
 
@@ -98,11 +104,16 @@
                 this.switchToCustomValue(this.stock_groups,group,this.group_value[i]);
             },
             handleSheets(group,note,i,j,k){
-                this.refreshGroup(null, this.stock_groups, this.note_sheets[i][j][k], group, note, k,this.group_value[i],this.isMM);
+                if(this.isMM){
+                    this.refreshGroup(null, this.stock_groups, this.note_sheets[i][j], group, note, k,this.group_value[i],this.isMM);
+
+                }else{
+                    this.refreshGroup(null, this.stock_groups, this.note_sheets[i][j][k], group, note, k,this.group_value[i],this.isMM);
+                }
             },
         },
         mounted() {
-            this.setInitialGroups(null, this.data, this.isUS);
+            this.setInitialGroups(null, this.data, this.isMM);
         },
         created(){
              let lengths = {
@@ -118,7 +129,7 @@
                 }
                 this.group_value.push(row);
             }
-            this.setInitialSheets(lengths, this.note_sheets, true);
+            this.setInitialSheets(lengths, this.note_sheets, this.isMM);
 
         },
         computed: mapState({
