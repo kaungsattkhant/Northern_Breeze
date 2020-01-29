@@ -5,6 +5,7 @@
     <stock-inventory is_admin="{{$is_admin}}" currencies="{{$currencies}}" branches="{{$branches}}" auth_id="auth_id" total_value="{{$branch_total_value}}"></stock-inventory>
 {{--        <div class="container-nb-mount">--}}
 {{--                <form id="stockForm">--}}
+
 {{--                    <form action="{{url('stock/store')}}" method="post" id="stock_create_form" >--}}
 {{--                @csrf--}}
 {{--            <div class="d-flex justify-content-between top-box-mount shadow-sm">--}}
@@ -223,6 +224,7 @@
 {{--                </div>--}}
 
 {{--            </div>--}}
+
 {{--            </form>--}}
 
 {{--        </div>--}}
