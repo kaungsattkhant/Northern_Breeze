@@ -1,24 +1,18 @@
 @extends('Layouts.master')
 @section('content')
 
-        <div class="container-nb-mount">
-            @if ($errors->any())
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li class="col-md-10 alert alert-danger" style="height:40px;margin:0;list-style:none;">
-                            {{ $error }}</li>
-                    @endforeach
-                </ul>
-            @endif
+
+    <stock-inventory currencies="{{$currencies}}" branches="{{$branches}}" auth_id="auth_id" total_value="{{$branch_total_value}}"></stock-inventory>
+{{--        <div class="container-nb-mount">--}}
 {{--                <form id="stockForm">--}}
-                    <form action="{{url('stock/store')}}" method="post" id="stock_create_form" >
-                @csrf
-            <div class="d-flex justify-content-between top-box-mount shadow-sm">
-                                <div class="my-auto">
-                                    <p style="margin-left: 20px"><b>Total values:</b><i> {{$branch_total_value}}MMKs</i></p>
-                                </div>
-                <button type="submit" class="btn btn-nb-mount-save fontsize-mount px-4 stock_create" >Add</button>
-            </div>
+{{--                    <form action="{{url('stock/store')}}" method="post" id="stock_create_form" >--}}
+{{--                @csrf--}}
+{{--            <div class="d-flex justify-content-between top-box-mount shadow-sm">--}}
+{{--                                <div class="my-auto">--}}
+{{--                                    <p style="margin-left: 20px"><b>Total values:</b><i> {{$branch_total_value}}MMKs</i></p>--}}
+{{--                                </div>--}}
+{{--                <button type="submit" class="btn btn-nb-mount-save fontsize-mount px-4 stock_create" >Add</button>--}}
+{{--            </div>--}}
 {{--            <select class="selectpicker  mt-4" name="currency" data-style="btn-white" data-width="auto" data-live-search="true" id="stock_currency_filter">--}}
 {{--                <option  disabled selected>Choose Currency Type</option>--}}
 {{--                @php--}}
@@ -29,38 +23,38 @@
 {{--                    >{{$currency->name}}</option>--}}
 {{--                @endforeach--}}
 {{--            </select>--}}
-                        <div class="row">
-                            <div class="col">
-                                <select class="selectpicker  mt-4" name="currency" data-style="btn-white" data-width="auto" data-live-search="true" id="stock_currency_filter">
-                                    <option  disabled selected>Currency Value</option>
-                                    @php
-                                        $currencies=\App\Model\Currency::all();
-                                    @endphp
-                                    @foreach($currencies as $currency)
-                                        <option value="{{$currency->id}}"  selected>{{$currency->name}}</option>
+{{--                        <div class="row">--}}
+{{--                            <div class="col">--}}
+{{--                                <select class="selectpicker  mt-4" name="currency" data-style="btn-white" data-width="auto" data-live-search="true" id="stock_currency_filter">--}}
+{{--                                    <option  disabled selected>Currency Value</option>--}}
+{{--                                    @php--}}
+{{--                                        $currencies=\App\Model\Currency::all();--}}
+{{--                                    @endphp--}}
+{{--                                    @foreach($currencies as $currency)--}}
+{{--                                        <option value="{{$currency->id}}"  selected>{{$currency->name}}</option>--}}
 
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col" id="branch">
-                                <select class="selectpicker mt-4" name="branch" data-style="btn-white" data-width="auto" id="to_branch">
-                                    <option  disabled selected>Choose Branch</option>
-                                    @php
-                                        $branches=\App\Model\Branch::all();
+{{--                                    @endforeach--}}
+{{--                                </select>--}}
+{{--                            </div>--}}
+{{--                            <div class="col" id="branch">--}}
+{{--                                <select class="selectpicker mt-4" name="branch" data-style="btn-white" data-width="auto" id="to_branch">--}}
+{{--                                    <option  disabled selected>Choose Branch</option>--}}
+{{--                                    @php--}}
+{{--                                        $branches=\App\Model\Branch::all();--}}
 
-                                    @endphp
-                                    @foreach($branches as $branch)
-                                        <option value="{{$branch->id}}" @if(\Illuminate\Support\Facades\Auth::user()->branch_id==$branch->id) disabled  @endif >{{$branch->name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-            <div class="row" id="stock_table_filter">
+{{--                                    @endphp--}}
+{{--                                    @foreach($branches as $branch)--}}
+{{--                                        <option value="{{$branch->id}}" @if(\Illuminate\Support\Facades\Auth::user()->branch_id==$branch->id) disabled  @endif >{{$branch->name}}</option>--}}
+{{--                                    @endforeach--}}
+{{--                                </select>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--            <div class="row" id="stock_table_filter">--}}
 
 
 
 {{--                <button type="button" class="btn btn-nb-mount-save fontsize-mount px-4"  data-toggle="modal" data-target="#add">Add</button>--}}
-            </div>
+{{--            </div>--}}
 {{--            <div class="mt-4 mb-0 bg-white border-top-radius-mount pr-2" style="width: fit-content;">--}}
 {{--                <select class="selectpicker pl-2" name="currency_value" data-style="btn-white" data-width="auto">--}}
 {{--                    <option selected disabled>Currency Value</option>--}}
@@ -85,8 +79,8 @@
 {{--                        <tr>--}}
 {{--                            <td class="text-nb-mount border-top-0 pl-4 pt-4 fontsize-mount2">10000</td>--}}
 {{--                            <td class="text-right border-top-0 pt-4">--}}
-{{--                                --}}{{--                                <input type="text" class="border rounded-table-mount w-25 text-center fontsize-mount3 pt-1 border-0" placeholder="100" >--}}
-{{--                                --}}{{--                                <label for="#input1" class="text-color-mount fontsize-mount3">&nbsp;100</label>--}}
+{{--                                --}}{{----}}{{--                                <input type="text" class="border rounded-table-mount w-25 text-center fontsize-mount3 pt-1 border-0" placeholder="100" >--}}
+{{--                                --}}{{----}}{{--                                <label for="#input1" class="text-color-mount fontsize-mount3">&nbsp;100</label>--}}
 {{--                                <p class="text-color-mount fontsize-mount2">100</p>--}}
 {{--                            </td>--}}
 {{--                        </tr>--}}
@@ -151,7 +145,7 @@
 {{--                    </div>--}}
 {{--                </div>--}}
 {{--                <div class="col">--}}
-{{--                    --}}{{--                    <p class="row-col-p2 text-nb-mount fontsize-mount4 mb-2 ml-1">ပြန်လည်ပေးအပ်ငွေ</p>--}}
+{{--                    --}}{{----}}{{--                    <p class="row-col-p2 text-nb-mount fontsize-mount4 mb-2 ml-1">ပြန်လည်ပေးအပ်ငွေ</p>--}}
 {{--                    <select class=" text-nb-mount row-col-p mb-2 ml-1 border-0 bg-transparent" style="font-size: 20px">--}}
 {{--                        <option selected disabled>Currency</option>--}}
 {{--                        <option>1</option>--}}
@@ -228,72 +222,72 @@
 {{--                </div>--}}
 
 {{--            </div>--}}
-            </form>
+{{--            </form>--}}
 
-        </div>
+{{--        </div>--}}
 
-@include('Stock.save')
+{{--@include('Stock.save')--}}
 
-        <script>
+{{--        <script>--}}
 
-            $(function(){
-                // $('#branch').hide();
+{{--            $(function(){--}}
+{{--                // $('#branch').hide();--}}
 
-                // $(".stock_create").removeAttr("disabled", true);
+{{--                // $(".stock_create").removeAttr("disabled", true);--}}
 
-                $.get({
-                    url:'admin/add',
-                    success:function (data) {
-                        console.log(data);
-                        if(data==="admin_add")
-                        {
-                            $('#branch').show();
-                        }
-                        else
-                        {
-                            $('#branch').hide();
-                        }
-                    }
-                });
-                // console.log(data);
-                $("#stock a").addClass("active-si");
-                $("#stock").addClass("active2");
-                // $('.stock_create').hide();
-                // $('#to_branch').hide();
-                $(".stock_create").attr("disabled", true);
+{{--                $.get({--}}
+{{--                    url:'admin/add',--}}
+{{--                    success:function (data) {--}}
+{{--                        console.log(data);--}}
+{{--                        if(data==="admin_add")--}}
+{{--                        {--}}
+{{--                            $('#branch').show();--}}
+{{--                        }--}}
+{{--                        else--}}
+{{--                        {--}}
+{{--                            $('#branch').hide();--}}
+{{--                        }--}}
+{{--                    }--}}
+{{--                });--}}
+{{--                // console.log(data);--}}
+{{--                $("#stock a").addClass("active-si");--}}
+{{--                $("#stock").addClass("active2");--}}
+{{--                // $('.stock_create').hide();--}}
+{{--                // $('#to_branch').hide();--}}
+{{--                $(".stock_create").attr("disabled", true);--}}
 
-                $('#stock_currency_filter').on('change',function ( ) {
-                   // $('.stock_create').fadeIn();
-                   $(".stock_create").attr("disabled", false);
-
-
-                    // $('#to_branch').fadeIn();
-                });
-                $(".stock_create").click(function () {
-                    $(".stock_create").attr("disabled", true);
-                    $('#stock_create_form').submit();
-                });
+{{--                $('#stock_currency_filter').on('change',function ( ) {--}}
+{{--                   // $('.stock_create').fadeIn();--}}
+{{--                   $(".stock_create").attr("disabled", false);--}}
 
 
-            });
+{{--                    // $('#to_branch').fadeIn();--}}
+{{--                });--}}
+{{--                $(".stock_create").click(function () {--}}
+{{--                    $(".stock_create").attr("disabled", true);--}}
+{{--                    $('#stock_create_form').submit();--}}
+{{--                });--}}
 
-            function check(value) {
-                $.ajax({
-                    url:'check_input',
-                    data:{
-                        value:value,
-                    },
-                    dataType:'json',
-                    success:function (data) {
-                        console.log(data.errors.value[0]);
-                        if(data.errors)
-                        {
-                            $('.check_input').html(data.errors.value[0]);
-                        }
-                    }
-                });
-            }
-        </script>
+
+{{--            });--}}
+
+{{--            function check(value) {--}}
+{{--                $.ajax({--}}
+{{--                    url:'check_input',--}}
+{{--                    data:{--}}
+{{--                        value:value,--}}
+{{--                    },--}}
+{{--                    dataType:'json',--}}
+{{--                    success:function (data) {--}}
+{{--                        console.log(data.errors.value[0]);--}}
+{{--                        if(data.errors)--}}
+{{--                        {--}}
+{{--                            $('.check_input').html(data.errors.value[0]);--}}
+{{--                        }--}}
+{{--                    }--}}
+{{--                });--}}
+{{--            }--}}
+{{--        </script>--}}
 
 
 @endsection

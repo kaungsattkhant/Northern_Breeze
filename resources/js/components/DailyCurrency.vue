@@ -37,12 +37,10 @@
                 items: JSON.parse(this.currencies),
                 groups: '',
                 currency_id: ''
-
             }
         },
 
         methods: {
-
 
             isUs() {
                 return this.groups.currency_type === 'us_currency';
@@ -67,8 +65,8 @@
                         this.groups = data.results;
                     });
             },
-            submitForm() {
 
+            submitForm() {
                 fetch('/daily_currency/store', {
                     method: 'POST',
                     headers: {

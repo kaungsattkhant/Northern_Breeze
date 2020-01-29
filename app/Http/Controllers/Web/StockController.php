@@ -128,8 +128,11 @@ class StockController extends Controller
     public function create()
     {
 
+        $currencies = Currency::all();
+        $branches = Branch::all();
+        $auth_id = Auth::user()->branch_id;
         $branch_total_value=$this->branch_total_value(Auth::user()->branch_id);
-        return view('Stock.add',compact('branch_total_value'));
+        return view('Stock.add',compact('branch_total_value','currencies','branches','auth_id'));
     }
     public function transfer()
     {
