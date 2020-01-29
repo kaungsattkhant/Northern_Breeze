@@ -1950,18 +1950,19 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
         currency_id: this.currency_id,
         groups: this.stock_groups
       };
-      console.log(data); // fetch('/add_currency', {
-      //     method: 'POST',
-      //     headers: {
-      //         'Content-Type': 'application/json',
-      //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-      //     },
-      //     body: JSON.stringify(data)
-      // })
-      //     .then(response => response.json())
-      //     .then(data => {
-      //         console.log(data);
-      //     })
+      console.log(data);
+      fetch('/stock/add_currency', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        body: JSON.stringify(data)
+      }).then(function (response) {
+        return response.json();
+      }).then(function (data) {
+        console.log(data);
+      });
     }
   },
   mounted: function mounted() {},
@@ -37319,8 +37320,8 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/tinmaungzin/PhpstormProjects/NorthernBreeze-master/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/tinmaungzin/PhpstormProjects/NorthernBreeze-master/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! D:\MountProject\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! D:\MountProject\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

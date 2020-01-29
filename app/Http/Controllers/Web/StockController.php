@@ -365,8 +365,10 @@ class StockController extends Controller
 //        }
     }
     public function add_stock(Request $request){
-        $data=file_get_contents(storage_path().'/api/stock_inv_store.json');
+//        $data=file_get_contents(storage_path().'/api/stock_inv_store.json');
+        $data=json_encode($request->all());
         $stock_data=json_decode($data);
+        dd($stock_data);
         if($stock_data->branch == null && Auth::user()->branch_id != null)
         {
 //            manager_add
@@ -375,18 +377,30 @@ class StockController extends Controller
 //            dd('admin_add');
             $branch_id=$stock_data->branch;
         }
-//        dd($branch_id);
-//        dd($stock_data);
         $branch=Branch::find($branch_id);
-//        $transfer=Transfer::create([
-//            'from_branch_id'=>$branch_id,
-//            'to_branch_id'=>$stock_data->branch != null ? $stock_data->branch :$branch_id,
-//            'currency_id'=>$stock_data->currency_id,
-//            'date_time'=>now(),
-//        ]);
+//        dd($stock_data);
+        $transfer=Transfer::create([
+            'from_branch_id'=>$branch_id,
+            'to_branch_id'=>$stock_data->branch != null ? $stock_data->branch :$branch_id,
+            'currency_id'=>$stock_data->currency_id,
+            'date_time'=>now(),
+        ]);
         foreach($stock_data->groups as $stocks){
             if($stock_data->currency_type==="MMK"){
-
+                foreach($stocks->notes as $n){
+                    $transfer->group_note()->attach($n->group_note_id,['sheet'=>$n->total_sheet]);
+                    $bgn=DB::table('branch_group_note')->where('group_note_id',$n->group_note_id)
+                        ->where('branch_id',$branch->id)
+                        ->first();
+                    if($bgn==null){
+                        $total_sheet=(int)$n->total_sheet;
+                    }else{
+                        $total_sheet=(int)$n->total_sheet+(int)$bgn->sheet;
+                    }
+                    $branch->branch_group_note()->wherePivot('group_note_id',$n->group_note_id)
+                                                ->wherePivot('branch_id',$branch->id)->detach();
+                    $branch->branch_group_note()->attach($n->group_note_id,['sheet'=>$total_sheet]);
+                }
             }else{
                 foreach($stocks->class_currency_value as $cgv){
                     if($cgv->value!=null){
@@ -423,6 +437,9 @@ class StockController extends Controller
             }
 
         }
+        return respone()->json([
+            'is_success'=>true,
+        ]);
     }
     public function stock_transfer()
     {

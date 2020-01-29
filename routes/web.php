@@ -72,7 +72,7 @@ Route::group(['middleware'=>['adminCheck']],function() {
 //            Route::get('{id}/stock_currency_filter','StockController@currency_filter');
             Route::post('currency_filter','StockController@currency_filter');
             Route::get('stock_inventory','StockController@stock_inventory');
-            Route::get('add_currency','StockController@add_stock');
+            Route::post('add_currency','StockController@add_stock');
 //            Route::get('transfer','StockController@stock_transfer');
 //            Route::post('/store','StockController@store');
             Route::get('/stock_add','StockController@stock_add');
