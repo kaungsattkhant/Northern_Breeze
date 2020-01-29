@@ -1928,7 +1928,8 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
 
       var data = {
         currency_id: this.currency_id,
-        branch: this.branch
+        branch: this.branch,
+        status: this.stock_currency.status
       };
       fetch('/stock/currency_filter', {
         method: 'POST',

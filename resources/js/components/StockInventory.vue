@@ -72,7 +72,8 @@
                 }
                 let data = {
                     currency_id: this.currency_id,
-                    branch: this.branch
+                    branch: this.branch,
+                    status: this.stock_currency.status
                 };
                 fetch('/stock/currency_filter', {
                     method: 'POST',
