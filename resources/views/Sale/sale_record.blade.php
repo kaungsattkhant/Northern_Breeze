@@ -23,6 +23,7 @@
                     <th scope="col" class=" border-top-0 fontsize-mount6">Amount</th>
                     <th scope="col" class=" border-top-0 fontsize-mount6">Exchanged</th>
                     <th scope="col" class=" border-top-0 fontsize-mount6">Amount</th>
+                    <th scope="col" class=" border-top-0 fontsize-mount6">Changes</th>
                     <th scope="col" class=" border-top-0 fontsize-mount6">Date & Time</th>
                     <th scope="col" class=" border-top-0 fontsize-mount6">Sale Representative</th>
                 </tr>
@@ -34,6 +35,7 @@
                         <td class="table-row-m fontsize-mount2 border-top-0">{{$transaction->in_value_MMK}}</td>
                         <td class="table-row-m fontsize-mount2 border-top-0">{{$transaction->out_currency}}</td>
                         <td class="table-row-m fontsize-mount2 border-top-0">{{$transaction->out_value_MMK}}</td>
+                        <td class="table-row-m fontsize-mount2 border-top-0">{{$transaction->changes}}</td>
                         <td class="table-row-m fontsize-mount2 border-top-0">{{$transaction->date_time}}</td>
                         <td class="table-row-m fontsize-mount2 border-top-0">{{$transaction->staff->name}}</td>
                     </tr>
@@ -41,6 +43,7 @@
                 </tbody>
             </table>
         </div>
+{{--        {{$transactions->links()}}--}}
 {{--        <button id="fk">s</button>--}}
     </div>
 <script>

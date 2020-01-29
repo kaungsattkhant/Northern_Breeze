@@ -12,6 +12,7 @@
     <link rel="stylesheet" type="text/css" href="{{asset('css/multiselect-filter.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('fontawesome/css/all.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('css/main.css')}}">
+
     <link rel="stylesheet" type="text/css" href="{{asset('css/selectboot.css')}}">
 </head>
 <body>
@@ -24,6 +25,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js" ></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js" ></script>
 
+
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.js"></script>
 <script src="{{asset('js/tablefilter.js')}}"></script>
 <script src="{{asset('js/dailycurrency.js')}}"></script>
@@ -32,10 +34,10 @@
 
 <script src="{{ asset('js/app.js') . '?' .rand(0,99999) }}" defer></script>
 
-
 @yield('script')
 <script>
     $(function() {
+
         $('.selectpicker').selectpicker();
 
         // $("select").multiselect();
@@ -46,7 +48,8 @@
                 $('.img-pos').removeClass('active-pos');
             }
         );
-        $('#datepicker').datepicker({
+        // $('#datepicker').datepicker();
+        $('#datepicker').   datepicker({
             // altFormat:"dd-mm-YY",
             dateFormat:'yy-mm-dd',
             changeYear:true,

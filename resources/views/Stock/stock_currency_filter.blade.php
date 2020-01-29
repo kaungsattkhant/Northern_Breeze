@@ -25,7 +25,12 @@
                             {{$gp_name->name}}
                         </h3>
                     </td>
-                    <td class="text-nb-mount border-top-0 pl-4 pt-4 fontsize-mount2">  {{$daily_value->value}}</td>
+                    <td class="text-nb-mount border-top-0 pl-4 pt-4 fontsize-mount2">
+                        @if($daily_value !=null)
+                            {{$daily_value->value}}
+
+                        @endif
+                    </td>
                 </tr>
                 @foreach($stock_note as $note)
                 <tr>

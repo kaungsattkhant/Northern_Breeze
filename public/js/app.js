@@ -381,7 +381,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       }).then(function (response) {
         return response.json();
       }).then(function (data) {
-        _this.groups = data.results;
+        _this.groups = data;
       });
     },
     submitForm: function submitForm() {
@@ -591,6 +591,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       });
       targetClass.value = value;
       this.$store.commit('setDailyCurrencyData', this.final_data);
+      console.log(this.final_data);
     }
   },
   mounted: function mounted() {
@@ -606,14 +607,14 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
         }
 
         this.sell_value.push(row);
-        this.buy_value.push(row);
       }
     } else {
       for (var _i = 0; _i < this.data.groups.length; _i++) {
         this.sell_value.push(0);
-        this.buy_value.push(0);
       }
     }
+
+    this.buy_value = JSON.parse(JSON.stringify(this.sell_value));
   },
   computed: Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])({
     daily_currency_data: 'daily_currency_data'
@@ -751,7 +752,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
         status: status,
         is_member: true
       };
-      fetch('/currency_group', {
+      fetch('/pos/currency_group', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -762,9 +763,9 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
         return response.json();
       }).then(function (data) {
         if (status === 'buy') {
-          _this.buy_currency_groups = data.results;
+          _this.buy_currency_groups = data;
         } else {
-          _this.sell_currency_groups = data.results;
+          _this.sell_currency_groups = data;
         }
 
         $('.selectpicker').selectpicker('refresh');
@@ -1369,11 +1370,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__["default"]);
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['currencies'],
+  props: ['currencies', 'is_admin'],
   data: function data() {
     return {
       items: JSON.parse(this.currencies),
@@ -1388,7 +1391,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
     },
     submitForm: function submitForm() {
       $('#save-btn').append("\n                <i class=\"fa fa-spinner fa-spin\"></i>\n            ").prop('disabled', true);
-      fetch('/transaction', {
+      fetch('/pos/transaction', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -1398,9 +1401,11 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       }).then(function (response) {
         return response.json();
       }).then(function (data) {
-        if (data.is_success) {} else {
+        if (data.is_success) {
+          window.location.replace('/sale');
+        } else {
           $("#save-btn").children("i:first").remove();
-          $('#save-btn').prop('disabled', false);
+          $('#save-btn').prop('disabled', false); // window.location.replace('/pos/non_member');
         }
       });
     },
@@ -1425,7 +1430,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
         status: status,
         is_member: true
       };
-      fetch('/currency_group', {
+      fetch('/pos/currency_group', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -1436,9 +1441,9 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
         return response.json();
       }).then(function (data) {
         if (status === 'buy') {
-          _this.buy_currency_groups = data.results;
+          _this.buy_currency_groups = data;
         } else {
-          _this.sell_currency_groups = data.results;
+          _this.sell_currency_groups = data;
         }
 
         $('.selectpicker').selectpicker('refresh');
@@ -1905,7 +1910,7 @@ __webpack_require__.r(__webpack_exports__);
 
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__["default"]);
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['currencies', 'branches', 'auth_id', 'total_value'],
+  props: ['currencies', 'branches', 'auth_id', 'total_value', 'is_admin'],
   data: function data() {
     return {
       items: JSON.parse(this.currencies),
@@ -22527,37 +22532,39 @@ var render = function() {
           )
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "col", attrs: { id: "branch" } }, [
-          _c(
-            "select",
-            {
-              staticClass: "selectpicker mt-4",
-              attrs: {
-                name: "branch",
-                "data-style": "btn-white",
-                "data-width": "auto",
-                id: "to_branch"
-              }
-            },
-            [
-              _c("option", { attrs: { disabled: "", selected: "" } }, [
-                _vm._v("Choose Branch")
-              ]),
-              _vm._v(" "),
-              _vm._l(_vm.branch_items, function(item) {
-                return _c(
-                  "option",
-                  {
-                    attrs: { disabled: item.id === _vm.auth_id },
-                    domProps: { value: item.id }
-                  },
-                  [_vm._v(_vm._s(item.name) + "\n                    ")]
-                )
-              })
-            ],
-            2
-          )
-        ])
+        _vm.is_admin
+          ? _c("div", { staticClass: "col", attrs: { id: "branch" } }, [
+              _c(
+                "select",
+                {
+                  staticClass: "selectpicker mt-4",
+                  attrs: {
+                    name: "branch",
+                    "data-style": "btn-white",
+                    "data-width": "auto",
+                    id: "to_branch"
+                  }
+                },
+                [
+                  _c("option", { attrs: { disabled: "", selected: "" } }, [
+                    _vm._v("Choose Branch")
+                  ]),
+                  _vm._v(" "),
+                  _vm._l(_vm.branch_items, function(item) {
+                    return _c(
+                      "option",
+                      {
+                        attrs: { disabled: item.id === _vm.auth_id },
+                        domProps: { value: item.id }
+                      },
+                      [_vm._v(_vm._s(item.name) + "\n                    ")]
+                    )
+                  })
+                ],
+                2
+              )
+            ])
+          : _vm._e()
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "row", attrs: { id: "stock_table_filter" } })

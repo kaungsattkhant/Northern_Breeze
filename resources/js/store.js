@@ -99,6 +99,7 @@ export const store = new Vuex.Store({
                 return group.type === data;
             });
             targetGroups.forEach(function (group) {
+
                 let index = state.groups.indexOf(group);
                 if (index > -1) {
                     state.groups.splice(index, 1);

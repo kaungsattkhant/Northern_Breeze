@@ -47,6 +47,7 @@
                 current_value: [],
                 current_value_mmk: [],
                 groups: this.data.groups.length,
+
                 notes: 10, //maximum possible number of notes in a group
                 classes: 10,//maximum possible number of classes in a note
                 total_mmk: 0,

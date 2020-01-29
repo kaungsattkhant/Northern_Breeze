@@ -106,6 +106,7 @@
         },
 
         methods: {
+
             setInitialGroups: helpers.setInitialGroups,
             sum: helpers.sumOfAllContentsOfArray,
             refreshGroup: helpers.removeOldElementAndAddNew,
@@ -131,6 +132,7 @@
                 }
                 return 1;
             },
+
             calculateTotalAndChanges(group, note, i, j, k = null, class_value = null) {
                 let sheets;
                 if (this.isClass()) {
@@ -151,6 +153,7 @@
                         this.refreshGroup('buy', this.getGroups, sheets, group, note, null,null);
 
                     }
+
                     this.total = this.sum(this.current_value);
                     this.total_mmk = this.sum(this.current_value_mmk);
                     this.$store.commit('setInValues', [this.total, this.total_mmk]);
@@ -165,6 +168,7 @@
             }
         },
         mounted() {
+
             this.setInitialGroups('buy', this.data, this.isClass());
             this.resetStore();
             this.current_value_mmk = JSON.parse(JSON.stringify(this.sheets));

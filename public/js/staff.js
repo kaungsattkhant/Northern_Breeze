@@ -11,7 +11,6 @@ $(document).ready(function(){
     $('#createMessage').hide();
     $('div .role_branch_filter').on('change',function () {
         var id=$(this).val();
-        console.log(id);
         if(id==1)
         {
             // console.log('alert');
@@ -29,8 +28,7 @@ $(document).ready(function(){
         var email=$('#email').val();
         var name=$('#name').val();
         var role=$('#role').val();
-        role===1 ? branch=null :branch=$('#branch').val();
-        // var branch=$('#branch').val();
+        role===1 ? branch=null :branch=$('#b').val();
         event.preventDefault();
         $.ajax({
             url:'/staff/store',
@@ -83,9 +81,7 @@ $(document).ready(function(){
         var email = $("#email1").val();
         var name = $("#name1").val();
         var role=$('#role1').val();
-        role===1 ? branch=null :branch=$('#branch1').val();
-
-        // var password = $("#password").val();
+        role==1 ? branch=null :branch=$('#branch1').val();
         var id=$('#id').val();
         $('#phone_number-error1').html("");
         $('#name1').html("");

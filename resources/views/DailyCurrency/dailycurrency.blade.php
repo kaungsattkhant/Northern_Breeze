@@ -78,7 +78,6 @@
         @foreach($groups as $group)
             <div class="col mb-4">
                 <div class="row">
-
                     @php
                         use App\Model\Currency;$cu=Currency::where('name','United States dollar')->first()
                     @endphp

@@ -18,7 +18,7 @@
                         </option>
                     </select>
                 </div>
-                <div class="col" id="branch">
+                <div v-if="is_admin" class="col" id="branch">
                     <select class="selectpicker mt-4" name="branch" data-style="btn-white" data-width="auto"
                             id="to_branch">
                         <option disabled selected>Choose Branch</option>
@@ -44,7 +44,7 @@
     Vue.use(Vuex);
 
     export default {
-        props: ['currencies', 'branches', 'auth_id', 'total_value'],
+        props: ['currencies', 'branches', 'auth_id', 'total_value','is_admin'],
         data() {
             return {
                 items: JSON.parse(this.currencies),

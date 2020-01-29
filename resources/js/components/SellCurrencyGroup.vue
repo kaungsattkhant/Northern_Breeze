@@ -159,6 +159,7 @@
                         this.refreshGroup('sell', this.getGroups, sheets, group, note,null,null);
                     }
 
+
                     this.total = this.sum(this.current_value);
                     this.total_mmk = this.sum(this.current_value_mmk);
                     this.$store.commit('setOutValues', [this.total, this.total_mmk]);

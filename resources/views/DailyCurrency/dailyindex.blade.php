@@ -61,14 +61,14 @@
             </table>
         </div>
     </div>
-    <script>
-        $(function(){
-            $("#daily a").addClass("active-daily");
+{{--    <script>--}}
+{{--        $(function(){--}}
+{{--            $("#daily a").addClass("active-daily");--}}
 
-            $("#daily").addClass("active2");
+{{--            $("#daily").addClass("active2");--}}
 
-        });
-    </script>
+{{--        });--}}
+{{--    </script>--}}
     @include('DailyCurrency.detail')
 @endsection
 

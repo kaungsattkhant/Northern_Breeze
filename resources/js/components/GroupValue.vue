@@ -145,6 +145,7 @@
                 });
                 targetClass.value = value;
                 this.$store.commit('setDailyCurrencyData', this.final_data);
+                console.log(this.final_data)
             }
         },
 
@@ -160,14 +161,13 @@
                         row.push(0);
                     }
                     this.sell_value.push(row);
-                    this.buy_value.push(row);
                 }
             }else{
                 for(let i=0; i<this.data.groups.length; i++){
                     this.sell_value.push(0);
-                    this.buy_value.push(0);
                 }
             }
+            this.buy_value = JSON.parse(JSON.stringify(this.sell_value));
         },
         computed: mapState({
             daily_currency_data: 'daily_currency_data'

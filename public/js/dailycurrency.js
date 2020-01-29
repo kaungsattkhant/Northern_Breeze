@@ -8,31 +8,27 @@ $(function(){
 
     $('#daily_currency_filter').on('change',function(){
         var currency_id=$(this).val();
-        // alert(currency_id);
         $.ajax({
            url:currency_id+'/filter',
             type:'get',
             success:function(data)
             {
-                // console.log(data);
                 $('#create_button').fadeIn();
 
                 $('#daily #group').html(data);
             }
         });
     });
-
     $('#currency_datefilter').on('click',function () {
         var date=$('#datepicker').val();
         $.ajax({
-            url:'daily_currency/datefilter',
+            url:'/daily_currency/datefilter',
             type:'post',
             data:{
                 date:date,
             },
             success:function(data)
             {
-                // console.log(date);
                 $('table #dailycurrency_table').html(data);
             }
         });
@@ -40,7 +36,7 @@ $(function(){
     $('#transfer_datefilter').on('click',function () {
         var date=$('#datepicker').val();
         $.ajax({
-            url:'stock/transfer_datefilter',
+            url:'/stock/transfer_datefilter',
             type:'post',
             data:{
                 date:date,
@@ -56,16 +52,21 @@ $(function(){
 });
 
 function dailyDetail($group_id,$detail_id) {
-    $.ajax({
-        url:'daily_currency/'+$group_id+'/detail/'+$detail_id,
-        type:'get',
-        success:function (data) {
+    if( typeof ($detail_id)==="undefined"){
+        $('#daily_detail').modal('show');
 
-            $('#daily_detail').modal('show');
-
-            $('table #dailycurrency_detail').html(data);
-        },
-    });
+        $('table #dailycurrency_detail').html(
+            "<tr><td></td><td>Empty</td> <td>Empty</td> <td>Empty</td> </tr>");
+    }else{
+        $.ajax({
+            url:'/daily_currency/'+$group_id+'/detail/'+$detail_id,
+            type:'get',
+            success:function (data) {
+                $('#daily_detail').modal('show');
+                $('table #dailycurrency_detail').html(data);
+            },
+        });
+    }
 }
 
 

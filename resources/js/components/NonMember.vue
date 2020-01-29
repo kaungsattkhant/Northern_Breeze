@@ -1,6 +1,7 @@
 <template>
 
     <div class="container-nb-mount">
+
         <form>
             <div class="d-flex justify-content-between top-box-mount shadow-sm">
                 <div class="my-auto fs-select6">
@@ -25,7 +26,8 @@
 
                 <div class="my-auto">
 
-                    <button type="button" v-bind:class="{'disable': isSaveDisable()}" id="save-btn"
+
+                <button type="button" v-bind:class="{'disable': isSaveDisable()}" id="save-btn"
                             :disabled="isSaveDisable()"
                             v-on:click="submitForm()" class="btn btn-nb-mount-save fontsize-mount font-weight-bold">
                         သိမ်းမည်
@@ -49,7 +51,7 @@
 
     Vue.use(Vuex);
     export default {
-        props: ['currencies'],
+        props: ['currencies','is_admin'],
         data() {
             return {
                 items: JSON.parse(this.currencies),
@@ -63,11 +65,13 @@
             isSaveDisable() {
                 return !!(this.exceed_msg || this.buy_not_enough_msg || this.sell_not_enough_msg || !this.in_value_MMK || !this.out_value_MMK);
             },
+
             submitForm() {
+
                 $('#save-btn').append(`
                     <i class="fa fa-spinner fa-spin"></i>
                 `).prop('disabled',true);
-                fetch('/transaction', {
+                fetch('/pos/transaction', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -78,10 +82,11 @@
                     .then(response => response.json())
                     .then(data => {
                         if(data.is_success){
-
+                            window.location.replace('/sale');
                         }else{
                             $("#save-btn").children("i:first").remove();
                             $('#save-btn').prop('disabled',false);
+                            // window.location.replace('/pos/non_member');
                         }
                     })
             },
@@ -105,7 +110,7 @@
                     status: status,
                     is_member: true,
                 };
-                fetch('/currency_group', {
+                fetch('/pos/currency_group', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -115,10 +120,12 @@
                 })
                     .then(response => response.json())
                     .then(data => {
+
                         if (status === 'buy') {
-                            this.buy_currency_groups = data.results;
+
+                            this.buy_currency_groups = data;
                         } else {
-                            this.sell_currency_groups = data.results;
+                            this.sell_currency_groups = data;
                         }
                         $('.selectpicker').selectpicker('refresh');
 

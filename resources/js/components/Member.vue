@@ -117,7 +117,7 @@
                     status: status,
                     is_member: true,
                 };
-                fetch('/currency_group', {
+                fetch('/pos/currency_group', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -128,9 +128,9 @@
                     .then(response => response.json())
                     .then(data => {
                         if (status === 'buy') {
-                            this.buy_currency_groups = data.results;
+                            this.buy_currency_groups = data;
                         } else {
-                            this.sell_currency_groups = data.results;
+                            this.sell_currency_groups = data;
                         }
                         $('.selectpicker').selectpicker('refresh');
 
