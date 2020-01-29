@@ -123,11 +123,12 @@
                     }
                 ];
                 this.groups.forEach(function (groupItem) {
-                    groupItem.class_group_value = class_value;
+                    groupItem.class_group_value = JSON.parse(JSON.stringify(class_value));
                     groupItem.type='sell';
                     delete groupItem['name'];
                     delete groupItem['notes'];
                     let newItem = JSON.parse(JSON.stringify(groupItem));
+                    newItem.class_group_value = JSON.parse(JSON.stringify(class_value));
                     newItem.type='buy';
                     _this.groups.push(newItem)
                 });
@@ -140,7 +141,7 @@
                     return groupItem.group_id === group.group_id && groupItem.type === type;
                 });
                 let targetClass= targetGroup.class_group_value.find(function (classItem) {
-                    return classItem.class_id===class_id;
+                    return classItem.class_id === class_id;
                 });
                 targetClass.value = value;
                 this.$store.commit('setDailyCurrencyData', this.final_data);
