@@ -96,20 +96,19 @@
                     currency_id: this.currency_id,
                     groups: this.stock_groups
                 };
-                console.log(data);
 
-                // fetch('/add_currency', {
-                //     method: 'POST',
-                //     headers: {
-                //         'Content-Type': 'application/json',
-                //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                //     },
-                //     body: JSON.stringify(data)
-                // })
-                //     .then(response => response.json())
-                //     .then(data => {
-                //         console.log(data);
-                //     })
+                fetch('/stock/add_currency', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    body: JSON.stringify(data)
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                    })
             },
         },
         mounted() {

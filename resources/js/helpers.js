@@ -77,7 +77,7 @@ export const helpers = {
             }
         });
     },
-    calculateTotalSheetForStock: function(storeGroup,type,sheet_value){
+    calculateTotalSheetForStock: function(storeGroup){
         storeGroup.forEach(function (groupItem) {
             groupItem.notes.forEach(function (noteItem) {
                 let total_sheet = 0;
@@ -86,11 +86,6 @@ export const helpers = {
                 });
                 noteItem.total_sheet = total_sheet;
             });
-            if(sheet_value!==null){
-                for(let value in groupItem.class_currency_value){
-                    groupItem.class_currency_value[value].value= sheet_value[value];
-                }
-            }
         });
     },
 
@@ -126,6 +121,7 @@ export const helpers = {
             let oldClass = helpers.getOldClass(oldNote,note,k);
             helpers.removeOldClass(oldNote,oldClass);
             helpers.addNewClass(note,oldNote,sheet,k);
+            helpers.calculateTotalSheetForStock(storeGroup);
             helpers.switchCustomValue(storeGroup,group,sheet_value);
         }
 
