@@ -179,7 +179,8 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       if (this.branch !== '' && this.currency_id !== '') {
         var data = {
           currency_id: this.currency_id,
-          branch: this.branch
+          to_branch: null,
+          from_branch: this.branch
         };
         fetch('/stock/currency_filter', {
           method: 'POST',
@@ -192,6 +193,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
           return response.json();
         }).then(function (data) {
           _this.stock_currency = data;
+          console.log(data);
         });
       }
     },
@@ -202,6 +204,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
         groups: this.stock_groups,
         status: this.stock_currency.status
       };
+      console.log(data);
       fetch('/stock/add_currency', {
         method: 'POST',
         headers: {
@@ -1951,15 +1954,15 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       this.switchToCustomValue(this.stock_groups, group, this.group_value[i]);
     },
     handleSheets: function handleSheets(group, note, i, j, k) {
-      if (this.isMM && !this.isSupplier) {
-        this.refreshGroup(null, this.stock_groups, this.note_sheets[i][j], group, note, k, this.group_value[i], this.isMM && !this.isSupplier);
+      if (this.isMM) {
+        this.refreshGroup(null, this.stock_groups, this.note_sheets[i][j], group, note, k, this.group_value[i], this.isMM);
       } else {
-        this.refreshGroup(null, this.stock_groups, this.note_sheets[i][j][k], group, note, k, this.group_value[i], this.isMM && !this.isSupplier);
+        this.refreshGroup(null, this.stock_groups, this.note_sheets[i][j][k], group, note, k, this.group_value[i], this.isMM);
       }
     }
   },
   mounted: function mounted() {
-    this.setInitialGroups(null, this.data, this.isMM && !this.isSupplier);
+    this.setInitialGroups(null, this.data, this.isMM);
   },
   created: function created() {
     var lengths = {
@@ -1978,7 +1981,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       this.group_value.push(row);
     }
 
-    this.setInitialSheets(lengths, this.note_sheets, this.isMM && !this.isSupplier);
+    this.setInitialSheets(lengths, this.note_sheets, this.isMM);
   },
   computed: Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])({
     stock_groups: 'stock_groups'
@@ -2121,25 +2124,34 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       }
     },
     handleSubmit: function handleSubmit() {
+      var transfer_type;
+
+      if (this.isSupplier()) {
+        transfer_type = 'branch_to_supplier';
+      } else {
+        transfer_type = 'branch_to_branch';
+      }
+
       var data = {
         to_branch: this.to_branch,
         from_branch: this.from_branch,
         currency_id: this.currency_id,
         groups: this.stock_groups,
-        status: this.stock_currency.status
+        status: this.stock_currency.status,
+        transfer_type: transfer_type
       };
-      fetch('/stock/add_currency', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        body: JSON.stringify(data)
-      }).then(function (response) {
-        return response.json();
-      }).then(function (data) {
-        console.log(data);
-      });
+      console.log(data); // fetch('/stock/transfer_currency', {
+      //     method: 'POST',
+      //     headers: {
+      //         'Content-Type': 'application/json',
+      //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      //     },
+      //     body: JSON.stringify(data)
+      // })
+      //     .then(response => response.json())
+      //     .then(data => {
+      //         console.log(data);
+      //     })
     }
   },
   mounted: function mounted() {},

@@ -82,7 +82,8 @@
                     if(this.branch!== '' && this.currency_id!== ''){
                         let data = {
                             currency_id: this.currency_id,
-                            branch: this.branch,
+                            to_branch: null,
+                            from_branch: this.branch,
                         };
                         fetch('/stock/currency_filter', {
                             method: 'POST',
@@ -95,6 +96,7 @@
                             .then(response => response.json())
                             .then(data => {
                                 this.stock_currency=data;
+                                console.log(data)
                             });
                     }
             },
@@ -106,6 +108,7 @@
                     groups: this.stock_groups,
                     status: this.stock_currency.status
                 };
+                console.log(data);
                 fetch('/stock/add_currency', {
                     method: 'POST',
                     headers: {
