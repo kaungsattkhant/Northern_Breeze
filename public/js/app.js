@@ -214,7 +214,9 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       }).then(function (response) {
         return response.json();
       }).then(function (data) {
-        console.log(data);
+        if (data.is_success) {
+          window.location.replace('/stock');
+        }
       });
     }
   },
@@ -2150,7 +2152,9 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       }).then(function (response) {
         return response.json();
       }).then(function (data) {
-        console.log(data);
+        if (data.is_success) {
+          window.location.replace('/stock');
+        }
       });
     }
   },
