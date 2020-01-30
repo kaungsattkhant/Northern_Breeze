@@ -10,9 +10,11 @@
             </div>
             <div class="row">
                 <div class="col">
-                    <select class="selectpicker  mt-4" name="currency" data-style="btn-white" data-width="auto"
+                    <select
+                            v-on:change="fetch_currency_groups()"
+                            class="selectpicker  mt-4" name="currency" data-style="btn-white" data-width="auto"
                             data-live-search="true" id="stock_currency">
-                        <option disabled selected>Choose Currency</option>
+                        <option :value="null" disabled selected>Choose Currency</option>
                         <option :value="item.id"
                                 v-for="item in items">{{item.name}}
                         </option>
@@ -23,7 +25,7 @@
                         v-on:change="fetch_currency_groups()"
                         class="selectpicker mt-4" name="branch" data-style="btn-white" data-width="auto"
                             id="stock_branch">
-                        <option disabled selected>Choose Branch</option>
+                        <option :value="null" disabled selected>Choose Branch</option>
                         <option :value="item.id"
                                 v-bind:disabled="item.id === auth_id"
                                 v-for="item in branch_items">{{item.name}}
@@ -63,31 +65,39 @@
             },
 
             fetch_currency_groups() {
-                this.stock_currency = '';
-                this.currency_id = parseInt($('#stock_currency option:selected').val());
-                if(this.is_admin){
-                    this.branch = parseInt($('#stock_branch option:selected').val());
-                }else{
-                    this.branch= null;
-                }
-                let data = {
-                    currency_id: this.currency_id,
-                    branch: this.branch,
-                };
-                fetch('/stock/currency_filter', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    body: JSON.stringify(data)
-                })
-                    .then(response => response.json())
-                    .then(data => {
-
-                        this.stock_currency=data;
-                        console.log(data)
-                    });
+                    this.stock_currency = '';
+                    if($('#stock_currency option:selected').val()){
+                        this.currency_id = parseInt($('#stock_currency option:selected').val());
+                    }else{
+                        alert('please choose currency type')
+                    }
+                    if (this.is_admin && !($('#stock_branch option:selected').val())) {
+                        alert('please choose branch')
+                    }
+                    else if(this.is_admin && $('#stock_branch option:selected').val()){
+                        this.branch = parseInt($('#stock_branch option:selected').val());
+                    }
+                    else {
+                        this.branch = null;
+                    }
+                    if(this.branch!== '' && this.currency_id!== ''){
+                        let data = {
+                            currency_id: this.currency_id,
+                            branch: this.branch,
+                        };
+                        fetch('/stock/currency_filter', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            body: JSON.stringify(data)
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                this.stock_currency=data;
+                            });
+                    }
             },
 
             handleSubmit() {
@@ -97,7 +107,6 @@
                     groups: this.stock_groups,
                     status: this.stock_currency.status
                 };
-
 
                 fetch('/stock/add_currency', {
                     method: 'POST',

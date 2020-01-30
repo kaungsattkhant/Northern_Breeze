@@ -69,11 +69,10 @@ Route::group(['middleware'=>['adminCheck']],function() {
         Route::group(['prefix'=>'stock'],function(){
             Route::get('/','StockController@index');
             Route::get('create_stock','StockController@create');
-//            Route::get('{id}/stock_currency_filter','StockController@currency_filter');
             Route::post('currency_filter','StockController@currency_filter');
             Route::get('stock_inventory','StockController@stock_inventory');
             Route::post('add_currency','StockController@add_stock');
-//            Route::get('transfer','StockController@stock_transfer');
+            Route::get('transfer','StockController@stock_transfer');
 //            Route::post('/store','StockController@store');
             Route::get('/stock_add','StockController@stock_add');
             Route::get('{id}/detail','StockController@stock_detail');
@@ -115,14 +114,21 @@ Route::group(['middleware'=>['managerCheck']],function() {
         Route::group(['prefix'=>'stock'],function(){
             Route::get('/','StockController@index');
             Route::get('create_stock','StockController@create');
-            Route::get('{id}/stock_currency_filter','StockController@currency_filter');
+//            Route::get('{id}/stock_currency_filter','StockController@currency_filter');
+            Route::post('currency_filter','StockController@currency_filter');
             Route::get('stock_inventory','StockController@stock_inventory');
+            Route::post('add_currency','StockController@add_stock');
             Route::get('transfer','StockController@stock_transfer');
-            Route::post('/store','StockController@store');
+//            Route::post('transfer','StockController@transfer_currency');
+            Route::get('transfer_currency','StockController@transfer_currency');
+            Route::get('/stock_add','StockController@stock_add');
             Route::get('{id}/detail','StockController@stock_detail');
             Route::post('transfer_datefilter','StockController@transfer_datepicker');
             Route::get('{value}/transfer_status_filter','StockController@transfer_status_filter');
-//            Route::get('{currency}/stock_branch_filter/{branch}/branch','StockController@currency_branch_filter');
+            Route::get('admin/add','StockController@get_branch');
+            Route::get('admin/transfer','StockController@get_transfer_branch');
+            Route::get('check_input','StockController@check_input');
+            Route::get('{currency}/stock_branch_filter/{branch}/branch','StockController@currency_branch_filter');
         });
         Route::group(['prefix'=>'member'],function(){
             Route::get('/','MemberController@index');

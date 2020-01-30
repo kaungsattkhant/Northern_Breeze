@@ -464,6 +464,46 @@ class StockController extends Controller
         return view('Stock.transfer');
     }
     public function transfer_currency(Request $request){
+        $data=json_encode($request->all());
+        $transfer_data=json_decode($data);
+        if($request->to_branch_id != null && $request->to_branch_id ==null) {
+//            dd('manager_transfer');
+            $branch_id=Auth::user()->branch_id;
+        }elseif($request->from_branch_id != null && $request->to_branch_id != null ){
+//            dd('admin_transfer');
+            $branch_id=$request->from_branch_id;
+        }
+        $from_branch=Branch::find($branch_id);
+        $to_branch=Branch::find($request->to_branch_id);
+        $transfer=Transfer::create([
+            'from_branch_id'=>$from_branch->id,
+            'to_branch_id'=>$to_branch->id,
+            'currency_id'=>$stock_data->currency_id,
+            'date_time'=>now(),
+        ]);
+        foreach($transfer_data->groups as $t){
+            if($t->status==="MMK"){
+                foreach($t->notes as $n){
+                    if($n->total_sheet!=0){
+                        $transfer->group_note()->attach($n->group_note_id,['sheet'=>$n->total_sheet]);
+
+                    }
+                    $bgn=DB::table('branch_group_note')->where('group_note_id',$n->group_note_id)
+                        ->where('branch_id',$from_branch->id)
+                        ->first();
+                    if($bgn!=null && $bgn->sheet>=$n->total_sheet){
+                        $from_total_sheet=(int)$bgn->sheet-(int)$n->total_sheet;
+                    }
+                    $from_branch->branch_group_note()->wherePivot('group_note_id',$n->group_note_id)
+                        ->wherePivot('branch_id',$from_branch->id)->detach();
+                    $from_branch->branch_group_note()->attach($n->group_note_id,['sheet'=>$from_total_sheet]);
+                    $to_branch_store=$this->to_branch_store($to_branch->id,$n->group_note_id,$n->total_sheet);
+                }
+
+            }else{
+
+            }
+        }
 
     }
     public function stock_detail($transfer_id)
@@ -539,19 +579,15 @@ class StockController extends Controller
         $to_branch_note=DB::table('branch_group_note')->where('group_note_id',$group_note_id)
             ->where('branch_id',$to_branch_id)
             ->pluck('sheet');
-
         if($to_branch_note->isNotEmpty())
         {
             $to_result=$to_branch_note[0]+intval($value);
             $to_branch->branch_group_note()->wherePivot('group_note_id',$group_note_id)->detach();
             $to_branch->branch_group_note()->attach($group_note_id,['sheet'=>$to_result]);
-
         }
-
         elseif($to_branch_note->isEmpty()   )
         {
-            $to_branch_note[0]=0;
-            $to_result=$to_branch_note[0]+intval($value);
+            $to_result=intval($value);
             $to_branch->branch_group_note()->attach($group_note_id,['sheet'=> $to_result]);
         }
     }
