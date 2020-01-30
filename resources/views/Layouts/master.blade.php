@@ -4,14 +4,15 @@
     <title>Northern Breeze</title>
     <meta charset="utf-8">
     <meta name="csrf-token" content="{{ csrf_token() }}"/>
-
     <link href='http://fonts.googleapis.com/css?family=Merienda+One' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="{{asset('css/ui.css')}}">
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="{{asset('css/multiselect.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('css/multiselect-filter.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('fontawesome/css/all.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('css/main.css')}}">
+
     <link rel="stylesheet" type="text/css" href="{{asset('css/selectboot.css')}}">
 </head>
 <body>
@@ -24,22 +25,19 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js" ></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js" ></script>
 
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.js"></script>
-{{--<script src="{{asset('js/multiselect.js')}}"></script>--}}
-{{--<script src="{{asset('js/multiselectfilter.js')}}"></script>--}}
 
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.js"></script>
 <script src="{{asset('js/tablefilter.js')}}"></script>
-{{--<script src="{{asset('js/multi.js')}}"></script>--}}
 <script src="{{asset('js/dailycurrency.js')}}"></script>
 <script src="{{asset('js/pos.js')}}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.12/js/bootstrap-select.js" ></script>
 
 <script src="{{ asset('js/app.js') . '?' .rand(0,99999) }}" defer></script>
 
-
 @yield('script')
 <script>
     $(function() {
+
         $('.selectpicker').selectpicker();
 
         // $("select").multiselect();
@@ -50,7 +48,8 @@
                 $('.img-pos').removeClass('active-pos');
             }
         );
-        $('#datepicker').datepicker({
+        // $('#datepicker').datepicker();
+        $('#datepicker').   datepicker({
             // altFormat:"dd-mm-YY",
             dateFormat:'yy-mm-dd',
             changeYear:true,

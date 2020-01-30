@@ -33,10 +33,18 @@ $(function() {
                 }
             });
         }
-
+        // $.get({
+        //     data: {
+        //         "id": group_id,
+        //         ""
+        //     } ,
+        //     url: 'total_currency_value',
+        //     dataType: 'json',
+        //     success: function (data) {
+        //
+        //     }
+        //  });
     });
-    });
-
     function transfer_detail($transfer_id)
     {
         $.ajax({
@@ -46,12 +54,11 @@ $(function() {
                 $('#detail').modal('show');
                 $('div #detail_modal').html(data);
             }
-
         });
     }
 
 
-// });
+});
 
 
 

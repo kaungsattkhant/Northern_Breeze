@@ -16,7 +16,6 @@
                         <div class="mb-3 {{$errors->has('name') ? 'has:error':''}}">
                             <label for="#name123" class="w-25">Name</label>
                             <input type="text" id="name" class="border-top-0 border-right-0 border-left-0 rounded-0 mount-input">
-
                         </div>
                         <span class="text-danger">
                                     <strong id="name_error"></strong>
@@ -61,7 +60,7 @@
 
                         <div class="branch_div mb-3 row fs-select4 {{$errors->has('branch') ? 'has:error':''}}" id="branch_div">
                             <label for="#role" class="w-25" style="padding-left: 16px;">Branch</label>
-                            <select name="branch" class="selectpicker show-menu-arrow ml-1 bd-bottom-mount" data-width="300px" id="branch">
+                            <select name="branch" class="selectpicker show-menu-arrow ml-1 bd-bottom-mount" data-width="300px" id="b">
                                 <option selected disabled>--None--</option>
                                 @php
                                 $branches=\App\Model\Branch::all();

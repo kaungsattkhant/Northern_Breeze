@@ -16,7 +16,7 @@ class LoginController extends Controller
     {
 //        dd($request->all());
         $vData=$request->validate([
-            'email'=>'required|exists:staff,email',
+            'email'=>'required|string|email|max:255|exists:staff,email',
             'password'=>'required',
         ]);
         if(Auth::attempt([
@@ -24,26 +24,21 @@ class LoginController extends Controller
             'password'=>$request->password,
         ]))
         {
-//            dd(Auth::user());
-//            dd('a');
-//            dd(Auth::user()->role_id);
+
             if(Auth::user()->role_id== 1)
             {
                 return redirect('/staff');
-
             }
-            else if(Auth::user()->role_id== 2)
+            elseif(Auth::user()->role_id == 2)
             {
                 return redirect ('/stock');
             }
-            else if(Auth::user()->role_id== 3)
+            elseif(Auth::user()->role_id== 3)
             {
-                return redirect ('/daily_currency');
+                return redirect ('/pos/non_member');
             }
-
         }
         else
-//            return 'error';
             return redirect('login');
     }
     public function logout()

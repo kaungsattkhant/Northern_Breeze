@@ -24,11 +24,10 @@ $(document).ready(function(){
                     data
                     // "<tr>"+data.name+ "</tr>"
                 );
-
             }
         })
     });
-
+    // **********************************Stock_Inventory******************************
     $('#stock_currency_filter').on('change',function(){
         var value=$(this).val();
         $.ajax({
@@ -38,40 +37,50 @@ $(document).ready(function(){
             {
                 console.log(data);
                 $('div #stock_table_filter').html(data);
-
             }
         })
     });
-    // *********************************************************************************************************
+    // $('#to_branch').on('change',function (){
+    //     branch=$(this).val();
+    //     currency=$('#stock_currency_filter').val();
+    //     $.ajax({
+    //         url:+currency+'/stock_branch_filter/'+branch+'/branch',
+    //         type:'get',
+    //         success:function (data) {
+    //
+    //         }
+    //     });
+    // });
+    // *****************************************End Stock_inventory****************************************************************
 
     // *******************************************POS Non_member *******************************************
 
 
-    $('#from_exchange_currency').on('change',function () {
-        var id=$(this).val();
-
-        // alert(id);
-        $.ajax({
-            url:+id+'/non_member_from_exchange_filter',
-            type:'get',
-            success:function (data) {
-                $('table #from_exchange_table').html(data);
-            }
-        });
-    });
-
-    $('#to_exchange_currency').on('change',function () {
-        $('#non_member_create').attr('disabled',false);
-        // $('#non_member_create').submit();
-        var id=$(this).val();
-        $.ajax({
-            url:+id+'/non_member_to_exchange_filter',
-            type:'get',
-            success:function (data) {
-                $('table #to_exchange_table').html(data);
-            }
-        });
-    });
+    // $('#from_exchange_currency').on('change',function () {
+    //     var id=$(this).val();
+    //
+    //     // alert(id);
+    //     $.ajax({
+    //         url:+id+'/non_member_from_exchange_filter',
+    //         type:'get',
+    //         success:function (data) {
+    //             $('table #from_exchange_table').html(data);
+    //         }
+    //     });
+    // });
+    //
+    // $('#to_exchange_currency').on('change',function () {
+    //     $('#non_member_create').attr('disabled',false);
+    //     // $('#non_member_create').submit();
+    //     var id=$(this).val();
+    //     $.ajax({
+    //         url:+id+'/non_member_to_exchange_filter',
+    //         type:'get',
+    //         success:function (data) {
+    //             $('table #to_exchange_table').html(data);
+    //         }
+    //     });
+    // });
 
     // $('.note').on('change',function () {
     //     console.log('sss');

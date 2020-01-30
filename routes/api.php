@@ -19,3 +19,5 @@ use Illuminate\Support\Facades\Route;
 //});
 
 //Route::post('admin/store','Web\AdminController@store');
+
+//Route::get('api/transaction','Api\PosController@transaction');

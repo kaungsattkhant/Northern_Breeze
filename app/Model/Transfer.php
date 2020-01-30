@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Transfer extends Model
 {
+    protected $with='currency';
+    protected $fillable=['to_branch_id','from_branch_id','date_time','currency_id'];
+//    protected $dates='date_time';
     public function group_note()
     {
         return $this->belongsToMany(GroupNote::class)->withPivot('sheet');

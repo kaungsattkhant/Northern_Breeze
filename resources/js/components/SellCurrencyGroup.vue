@@ -19,28 +19,53 @@
             </tr>
             <tr v-for="(group,i) in data.groups">
                 <h5 class="pt-3 text-center mb-0">{{group.group_name}}</h5>
-<!--                <span v-if="group.currency_value">({{group.currency_value.value}}MMK)</span>-->
 
-                <td class="text-nb-mount border-top-0 pl-4 pt-3 justify-content-between fontsize-mount2"
+                <td class="text-nb-mount border-top-0 pl-4 pt-3 fontsize-mount2 justify-content-end pb-0" style="display: flex">
+                    <div style="width: 90%;float: right;text-align: center">
+                        <span v-if="group.currency_value" class="fontsize-mount3 w-25 float-right">({{group.currency_value.value}}MMK)</span>
+                        <span v-if="group.class_currency_value" class="fontsize-mount3 w-25 float-right" v-for="value in group.class_currency_value">({{value.value}}MMK)</span>
+                    </div>
+                </td>
+<!--                <td class="text-nb-mount border-top-0 pl-4 pt-3 fontsize-mount2 justify-content-end pb-0" style="display: flex">-->
+<!--                    <div style="width: 88.6%;">-->
+<!--                        <input v-if="!data.class" type="number"-->
+<!--                               class="from_note_class border w-25 float-right rounded-table-mount text-center fontsize-mount3 pt-1 mb-1">-->
+<!--                        <input v-if="data.class" type="number" v-for="(item,k) in group.class_currency_value"-->
+<!--                               class="border rounded-table-mount  w-25 float-left text-center font-color fontsize-mount3 pt-1 mb-1">-->
+<!--                    </div>-->
+<!--                </td>-->
+                <td class="text-nb-mount border-top-0 pl-4 pt-2 fontsize-mount2 justify-content-between"
                     style="display: flex"
                     v-for="(note,j) in group.notes">
                     <span class="fontsize-mount22 span-number">{{note.note_name}}</span>
+
                     <div class="input-group-box">
-                        <input v-if="!data.class" type="number" min="0" :max="note.total_sheet" v-model="sheets[i][j]"
-                               v-on:keyup="calculateTotalAndChanges(group,note,i,j)"
-                               v-on:change="calculateTotalAndChanges(group,note,i,j)"
-                               class="from_note_class border float-right rounded-table-mount w-25 text-center fontsize-mount3 pt-1">
-                        <input v-if="data.class" type="number" min="0" :max="note.class_sheet[k].sheet"
-                               v-model="sheets[i][j][k]"
-                               v-for="(item,k) in group.class_currency_value"
-                               :placeholder="class_string+data.class[k].name"
-                               :title="class_string+data.class[k].name"
-                               v-on:keyup="calculateTotalAndChanges(group,note,i,j,k,item.value)"
-                               v-on:change="calculateTotalAndChanges(group,note,i,j,k,item.value)"
-                               class="border rounded-table-mount w-25 text-center fontsize-mount3 pt-1 ">
+                        <div class="w-25 float-right">
+
+                            <input v-if="!data.class" type="number" min="0" v-model="sheets[i][j]"
+                                   v-on:keyup="calculateTotalAndChanges(group,note,i,j)"
+                                   v-on:change="calculateTotalAndChanges(group,note,i,j)"
+                                   class="from_note_class border  rounded-table-mount w-100 text-center fontsize-mount3 pt-1 ">
+                        </div>
+
+
+
+                        <div class="w-25 float-left"
+                             v-for="(item,k) in group.class_currency_value">
+
+                            <input v-if="data.class" type="number" min="0" v-model="sheets[i][j][k]"
+                                   :placeholder="class_string+data.class[k].name"
+                                   :title="class_string+data.class[k].name"
+                                   v-on:keyup="calculateTotalAndChanges(group,note,i,j,k,item.value)"
+                                   v-on:change="calculateTotalAndChanges(group,note,i,j,k,item.value)"
+                                   class="border rounded-table-mount w-100  text-center font-color fontsize-mount3 pt-1 ">
+
+                        </div>
+
                     </div>
                 </td>
             </tr>
+
 <!--                    tr for space-->
             <tr>
                 <td class="text-nb-mount border-top-0 pl-4 pt-3 justify-content-between fontsize-mount2">
@@ -127,12 +152,13 @@
                     if (this.isClass()) {
                         this.current_value_mmk[i][j][k] = class_value * note.note_name * sheets;
                         this.current_value[i][j][k] = note.note_name * this.sheets[i][j][k];
-                        this.refreshGroup('sell', this.getGroups, sheets, group, note, k);
+                        this.refreshGroup('sell', this.getGroups, sheets, group, note, k,null);
                     } else {
                         this.current_value_mmk[i][j] = this.currency_value(group) * note.note_name * sheets;
                         this.current_value[i][j] = note.note_name * this.sheets[i][j];
-                        this.refreshGroup('sell', this.getGroups, sheets, group, note);
+                        this.refreshGroup('sell', this.getGroups, sheets, group, note,null,null);
                     }
+
 
                     this.total = this.sum(this.current_value);
                     this.total_mmk = this.sum(this.current_value_mmk);

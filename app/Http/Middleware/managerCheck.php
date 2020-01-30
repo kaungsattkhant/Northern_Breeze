@@ -18,14 +18,13 @@ class managerCheck
     {
         if(Auth::check())
         {
-            if(Auth::user()->role_id == 2 || Auth::user()->role_id == 1)
+//            dd(Auth::user()->isManager());
+            if(Auth::user()->role_id == 2 || Auth::user()->role_id == 1 )
             {
-//                abort(401,'This action is unauthorized');
+//                dd('manager');
                         return $next($request);
-
             }
         }
-//
         return redirect('login');
     }
 }

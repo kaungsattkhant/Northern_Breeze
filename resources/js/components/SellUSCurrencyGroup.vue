@@ -46,6 +46,7 @@
                 current_value: [],
                 current_value_mmk: [],
                 groups: this.data.groups.length,
+
                 notes: 10, //maximum possible number of notes in a group
                 classes: 10,//maximum possible number of classes in a note
                 total_mmk: 0,
@@ -72,6 +73,7 @@
                     this.$store.commit('setSellNotEnoughMsg', '');
                     this.current_value_mmk[i][j][k] = class_value * note.note_name * this.sheets[i][j][k];
                     this.current_value[i][j][k] = note.note_name * this.sheets[i][j][k];
+
                     this.total_mmk = this.sum(this.current_value_mmk);
                     this.total = this.sum(this.current_value);
                     this.refreshGroup('sell', this.getGroups, this.sheets[i][j][k], group, note, k);

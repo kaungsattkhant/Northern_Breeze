@@ -30,6 +30,8 @@ export const store = new Vuex.Store({
         exceed_msg: '',
         buy_not_enough_msg: '',
         sell_not_enough_msg: '',
+        daily_currency_data: '',
+        stock_groups: [],
     },
     mutations: {
 
@@ -64,9 +66,7 @@ export const store = new Vuex.Store({
             state.transaction.out_value = data[2];
             state.transaction.out_value_MMK = data[3];
             state.transaction.status = data[4];
-            if (data[5]) {
-                state.transaction.changes = data[5];
-            }
+            state.transaction.changes = data[5];
         },
         // setTransaction(state, data) {
         //     state.transaction = data;
@@ -81,8 +81,8 @@ export const store = new Vuex.Store({
 
         isExceed(state, data) {
             if (data[0] >= data[1]) {
-                state.exceed_msg = '';
                 state.changes = data[0] - data[1];
+                state.exceed_msg = '';
             } else {
                 state.changes = data[0] - data[1];
                 state.exceed_msg = 'Sell value cannot exceed Buy value!'
@@ -95,6 +95,9 @@ export const store = new Vuex.Store({
         addGroup(state, data) {
             state.groups.push(data);
         },
+        addStockGroup(state,data){
+            state.stock_groups.push(data)
+        },
         removeGroup(state, data) {
             let targetGroups = state.groups.filter(function (group) {
                 return group.type === data;
@@ -104,11 +107,13 @@ export const store = new Vuex.Store({
                 if (index > -1) {
                     state.groups.splice(index, 1);
                 }
-                // let item = state.results.indexOf(group);
-                // if(item > -1){
-                //     state.results.splice(index,1);
-                // }
             });
+        },
+        resetStockGroup(state){
+            state.stock_groups = [];
+        },
+        setDailyCurrencyData(state,data){
+            state.daily_currency_data = data;
         }
     },
 

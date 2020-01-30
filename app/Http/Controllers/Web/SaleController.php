@@ -15,21 +15,18 @@ class SaleController extends Controller
 {
     public function index()
     {
-        $userId=Auth::user()->id;
-        $roleId=Auth::user()->role_id;
-//        dd(Transaction::query());
-//        dd(Transaction::with('latestPost')->get());
-        if($roleId == 1)
+        $userId = Auth::user()->id;
+        $checkRole=Auth::user()->role_name(Auth::user()->role_id);
+        if ($checkRole == "Admin")
         {
             $transactions=Transaction::with('staff')->get();
 
             if($transactions->isNotEmpty())
             {
                 $transactions=$this->transaction($transactions);
-
             }
         }
-        elseif($roleId==2)
+        elseif($checkRole== "Manager")
         {
 //            $transactions=$this->transaction($userId);
             $branch_id=Auth::user()->branch_id;
@@ -44,8 +41,9 @@ class SaleController extends Controller
             }
             $transactions=$this->transaction($transaction);
         }
-        elseif($roleId == 3)
+        elseif($checkRole == "Front Man")
         {
+//            dd('Front_Man');
             $transactions=Transaction::whereHas('staff', function  ($q) use ($userId) {
                 $q->whereId($userId);
             })->get();
@@ -63,7 +61,7 @@ class SaleController extends Controller
     {
         foreach($transactions as $transaction)
         {
-            if($transaction->status==="OtherToOther")
+            if($transaction->status==="other_other")
             {
                 $get_in_transaction=DB::table('in_transaction_group_note')->where('transaction_id',$transaction->id)->first();
                 $get_out_transaction=DB::table('out_transaction_group_note')->where('transaction_id',$transaction->id)->first();
@@ -89,17 +87,21 @@ class SaleController extends Controller
                 }
 //                dd($transaction);
             }
-            elseif($transaction->status==="MyanmarToOther"){
+            elseif($transaction->status==="MMK_other"){
+//                dd('a');
 //                $get_in_transaction=DB::table('in_transaction_group_note')->where('transaction_id',$transaction->id)->first();
                 $get_out_transaction=DB::table('out_transaction_group_note')->where('transaction_id',$transaction->id)->first();
+
                 if( isset($get_out_transaction)  )
                 {
 //                    $get_in_group=DB::table('group_note')->whereId($get_in_transaction->group_note_id)->first();
                     $get_out_group=DB::table('group_note')->whereId($get_out_transaction->group_note_id)->first();
+
                     if( $get_out_group != null )
                     {
 //                        $in_currency=Group::with('currency')->whereId($get_in_group->group_id)->first();
                         $out_currency=Group::with('currency')->whereId($get_out_group->group_id)->first();
+//                        dd($out_currency);
                         if( $out_currency != null )
                         {
                             $transaction->in_currency="Myanmar Kyat";
@@ -109,13 +111,13 @@ class SaleController extends Controller
                     }
                 }
             }
-            elseif($transaction->status==="OtherToMyanmar"){
+            elseif($transaction->status==="other_MMK"){
                 $get_in_transaction=DB::table('in_transaction_group_note')->where('transaction_id',$transaction->id)->first();
-//                dd($get_in_transaction);
 //                $get_out_transaction=DB::table('out_transaction_group_note')->where('transaction_id',$transaction->id)->first();
-                if(isset($get_in_transaction) && isset($get_out_transaction)  )
+                if(isset($get_in_transaction) )
                 {
                     $get_in_group=DB::table('group_note')->whereId($get_in_transaction->group_note_id)->first();
+//                    dd($get_in_group);
 //                    $get_out_group=DB::table('group_note')->whereId($get_out_transaction->group_note_id)->first();
                     if($get_in_group != null )
                     {
