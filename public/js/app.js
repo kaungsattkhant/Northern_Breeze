@@ -1896,6 +1896,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__["default"]);
@@ -1918,19 +1920,48 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       var _this = this;
 
       this.stock_currency = '';
-      this.currency_id = parseInt($('#stock_currency option:selected').val());
 
-      if (this.is_admin) {
+      if ($('#stock_currency option:selected').val()) {
+        this.currency_id = parseInt($('#stock_currency option:selected').val());
+      } else {
+        alert('please choose currency type');
+      }
+
+      if (this.is_admin && !$('#stock_branch option:selected').val()) {
+        alert('please choose branch');
+      } else if (this.is_admin && $('#stock_branch option:selected').val()) {
         this.branch = parseInt($('#stock_branch option:selected').val());
       } else {
         this.branch = null;
       }
 
+      if (this.branch !== '' && this.currency_id !== '') {
+        var data = {
+          currency_id: this.currency_id,
+          branch: this.branch
+        };
+        fetch('/stock/currency_filter', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+          body: JSON.stringify(data)
+        }).then(function (response) {
+          return response.json();
+        }).then(function (data) {
+          _this.stock_currency = data;
+        });
+      }
+    },
+    handleSubmit: function handleSubmit() {
       var data = {
+        branch: this.branch,
         currency_id: this.currency_id,
-        branch: this.branch
+        groups: this.stock_groups,
+        status: this.stock_currency.status
       };
-      fetch('/stock/currency_filter', {
+      fetch('/stock/add_currency', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -1940,29 +1971,8 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       }).then(function (response) {
         return response.json();
       }).then(function (data) {
-        _this.stock_currency = data;
         console.log(data);
       });
-    },
-    handleSubmit: function handleSubmit() {
-      var data = {
-        branch: this.branch,
-        currency_id: this.currency_id,
-        groups: this.stock_groups,
-        status: this.stock_currency.status
-      };
-      console.log(data); // fetch('/stock/add_currency', {
-      //     method: 'POST',
-      //     headers: {
-      //         'Content-Type': 'application/json',
-      //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-      //     },
-      //     body: JSON.stringify(data)
-      // })
-      //     .then(response => response.json())
-      //     .then(data => {
-      //         console.log(data);
-      //     })
     }
   },
   mounted: function mounted() {},
@@ -22800,12 +22810,22 @@ var render = function() {
                   "data-width": "auto",
                   "data-live-search": "true",
                   id: "stock_currency"
+                },
+                on: {
+                  change: function($event) {
+                    return _vm.fetch_currency_groups()
+                  }
                 }
               },
               [
-                _c("option", { attrs: { disabled: "", selected: "" } }, [
-                  _vm._v("Choose Currency")
-                ]),
+                _c(
+                  "option",
+                  {
+                    attrs: { disabled: "", selected: "" },
+                    domProps: { value: null }
+                  },
+                  [_vm._v("Choose Currency")]
+                ),
                 _vm._v(" "),
                 _vm._l(_vm.items, function(item) {
                   return _c("option", { domProps: { value: item.id } }, [
@@ -22836,9 +22856,14 @@ var render = function() {
                     }
                   },
                   [
-                    _c("option", { attrs: { disabled: "", selected: "" } }, [
-                      _vm._v("Choose Branch")
-                    ]),
+                    _c(
+                      "option",
+                      {
+                        attrs: { disabled: "", selected: "" },
+                        domProps: { value: null }
+                      },
+                      [_vm._v("Choose Branch")]
+                    ),
                     _vm._v(" "),
                     _vm._l(_vm.branch_items, function(item) {
                       return _c(
