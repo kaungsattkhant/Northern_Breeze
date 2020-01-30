@@ -365,10 +365,8 @@ class StockController extends Controller
 //        }
     }
     public function add_stock(Request $request){
-//        $data=file_get_contents(storage_path().'/api/stock_inv_store.json');
         $data=json_encode($request->all());
         $stock_data=json_decode($data);
-        dd($stock_data);
         if($stock_data->branch == null && Auth::user()->branch_id != null)
         {
 //            manager_add
@@ -386,21 +384,26 @@ class StockController extends Controller
             'date_time'=>now(),
         ]);
         foreach($stock_data->groups as $stocks){
-            if($stock_data->currency_type==="MMK"){
+            if($stock_data->status==="MMK"){
                 foreach($stocks->notes as $n){
-                    $transfer->group_note()->attach($n->group_note_id,['sheet'=>$n->total_sheet]);
+                    if($n->total_sheet!=0){
+                        $transfer->group_note()->attach($n->group_note_id,['sheet'=>$n->total_sheet]);
+
+                    }
                     $bgn=DB::table('branch_group_note')->where('group_note_id',$n->group_note_id)
                         ->where('branch_id',$branch->id)
                         ->first();
-                    if($bgn==null){
+//                    dd($n->total_sheet);
+                    if($bgn==null && $n->total_sheet!=0){
                         $total_sheet=(int)$n->total_sheet;
                     }else{
                         $total_sheet=(int)$n->total_sheet+(int)$bgn->sheet;
                     }
-                    $branch->branch_group_note()->wherePivot('group_note_id',$n->group_note_id)
-                                                ->wherePivot('branch_id',$branch->id)->detach();
-                    $branch->branch_group_note()->attach($n->group_note_id,['sheet'=>$total_sheet]);
-                }
+                        $branch->branch_group_note()->wherePivot('group_note_id',$n->group_note_id)
+                            ->wherePivot('branch_id',$branch->id)->detach();
+                        $branch->branch_group_note()->attach($n->group_note_id,['sheet'=>$total_sheet]);
+                    }
+
             }else{
                 foreach($stocks->class_currency_value as $cgv){
                     if($cgv->value!=null){
@@ -408,42 +411,60 @@ class StockController extends Controller
                             ->where(function ($query) use ($cgv){
                                 $query->where('classification_id',$cgv->class_id);
                             })->first();
-//                    dd($cg);
-                        $transfer->transfer_classification_group()->attach($cg->class_id,['value'=>$cgv->value]);
+                        if($cgv->value!=0){
+                            $transfer->transfer_classification_group()->attach($cg->id,['value'=>$cgv->value]);
+                        }
                     }
                 }
                 foreach($stocks->notes as $note){
                     foreach($note->class_sheet as $cs){
                         if($cs!=null){
-                            $transfer->transfer_group_note_class()
-                                ->attach($transfer->id,['group_note_id'=>$note->group_note_id,'class_id',$cs->class_id,'sheet'=>$cs->sheet]);
-                            $remain_branch_sheet=DB::table('branch_group_note_class')
-                                ->where('group_note_id',$group_note->id)
-                                ->where('branch_id',$branch_id)
-                                ->where('class_id',$key)
-                                ->first();
-                            if($remain_branch_sheet==null){
-                                $total_sheet=(int)$cs->sheet;
-                            }else{
-                                $total_sheet=(int)$remain_branch_sheet->sheet+(int)$cs->sheet;
+                            if($cs->sheet!=0){
+                                $transfer->transfer_group_note_class()
+                                    ->attach($transfer->id,['group_note_id'=>$note->group_note_id,'class_id'=>$cs->class_id,'sheet'=>$cs->sheet]);
                             }
-                            $branch->branch_group_note_class()->wherePivot('group_note_id',$note->group_note_id)
-                                ->wherePivot('class_id',$cs->class_id)->detach();
-                            $branch->branch_group_note_class()
-                                ->attach($branch->id,['group_note_id'=>$note->group_note_id,'class_id',$cs->class_id,'sheet'=>$total_sheet]);
+                            $remain_branch_sheet=DB::table('branch_group_note_class')
+                                ->where('group_note_id',$note->group_note_id)
+                                ->where('branch_id',$branch->id)
+                                ->where('class_id',$cs->class_id)
+                                ->first();
+//                            dd($remain_branch_sheet);
+                            if($remain_branch_sheet==null ){
+//                                dd('a');
+//                                if($cs->sheet!=0){
+                                    $t_sheet=$cs->sheet;
+//                                }
+                            }else{
+                                if($cs->sheet==0){
+                                    $t_sheet=$cs->sheet;
+                                }else{
+                                    $t_sheet=(int)$remain_branch_sheet->sheet +(int)$cs->sheet;
+
+                                }
+                            }
+                            if($t_sheet!=0){
+                                $branch->branch_group_note_class()->wherePivot('group_note_id',$note->group_note_id)
+                                    ->wherePivot('class_id',$cs->class_id)->detach();
+                                $branch->branch_group_note_class()
+                                    ->attach($branch->id,['group_note_id'=>$note->group_note_id,'class_id'=>$cs->class_id,'sheet'=>$t_sheet]);
+                            }
+
                         }
                     }
                 }
             }
 
         }
-        return respone()->json([
+        return response()->json([
             'is_success'=>true,
         ]);
     }
     public function stock_transfer()
     {
         return view('Stock.transfer');
+    }
+    public function transfer_currency(Request $request){
+
     }
     public function stock_detail($transfer_id)
     {

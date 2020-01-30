@@ -1948,9 +1948,9 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       var data = {
         branch: this.branch,
         currency_id: this.currency_id,
-        groups: this.stock_groups
+        groups: this.stock_groups,
+        status: this.stock_currency.status
       };
-      console.log(data);
       fetch('/stock/add_currency', {
         method: 'POST',
         headers: {
@@ -36970,7 +36970,7 @@ var helpers = {
       }
     });
   },
-  calculateTotalSheetForStock: function calculateTotalSheetForStock(storeGroup, type, sheet_value) {
+  calculateTotalSheetForStock: function calculateTotalSheetForStock(storeGroup) {
     storeGroup.forEach(function (groupItem) {
       groupItem.notes.forEach(function (noteItem) {
         var total_sheet = 0;
@@ -36979,12 +36979,6 @@ var helpers = {
         });
         noteItem.total_sheet = total_sheet;
       });
-
-      if (sheet_value !== null) {
-        for (var value in groupItem.class_currency_value) {
-          groupItem.class_currency_value[value].value = sheet_value[value];
-        }
-      }
     });
   },
   switchCustomValue: function switchCustomValue(storeGroup, group, sheet_value) {
@@ -37019,6 +37013,7 @@ var helpers = {
       var oldClass = helpers.getOldClass(oldNote, note, k);
       helpers.removeOldClass(oldNote, oldClass);
       helpers.addNewClass(note, oldNote, sheet, k);
+      helpers.calculateTotalSheetForStock(storeGroup);
       helpers.switchCustomValue(storeGroup, group, sheet_value);
     }
   },

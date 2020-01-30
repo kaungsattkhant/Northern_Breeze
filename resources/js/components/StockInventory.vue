@@ -72,7 +72,7 @@
                 }
                 let data = {
                     currency_id: this.currency_id,
-                    branch: this.branch
+                    branch: this.branch,
                 };
                 fetch('/stock/currency_filter', {
                     method: 'POST',
@@ -94,9 +94,10 @@
                 let data = {
                     branch: this.branch,
                     currency_id: this.currency_id,
-                    groups: this.stock_groups
+                    groups: this.stock_groups,
+                    status: this.stock_currency.status
                 };
-                console.log(data);
+
 
                 fetch('/stock/add_currency', {
                     method: 'POST',
