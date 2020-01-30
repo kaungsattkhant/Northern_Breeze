@@ -139,7 +139,6 @@
                     status: this.stock_currency.status,
                     transfer_type: transfer_type,
                 };
-                console.log(data)
                 fetch('/stock/transfer_currency', {
                     method: 'POST',
                     headers: {

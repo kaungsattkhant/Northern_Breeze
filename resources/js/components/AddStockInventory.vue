@@ -96,7 +96,6 @@
                             .then(response => response.json())
                             .then(data => {
                                 this.stock_currency=data;
-                                console.log(data)
                             });
                     }
             },
@@ -108,7 +107,6 @@
                     groups: this.stock_groups,
                     status: this.stock_currency.status
                 };
-                console.log(data);
                 fetch('/stock/add_currency', {
                     method: 'POST',
                     headers: {

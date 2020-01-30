@@ -193,7 +193,6 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
           return response.json();
         }).then(function (data) {
           _this.stock_currency = data;
-          console.log(data);
         });
       }
     },
@@ -204,7 +203,6 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
         groups: this.stock_groups,
         status: this.stock_currency.status
       };
-      console.log(data);
       fetch('/stock/add_currency', {
         method: 'POST',
         headers: {
@@ -1849,7 +1847,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _helpers_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../helpers.js */ "./resources/js/helpers.js");
+/* harmony import */ var _stock_helpers_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../stock_helpers.js */ "./resources/js/stock_helpers.js");
 //
 //
 //
@@ -1944,46 +1942,36 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       groups_length: this.data.groups.length,
       notes_length: 10,
       classes_length: 10,
-      msg: ''
+      msg: '',
+      groups: [],
+      total_mmk: 0
     };
   },
   methods: {
-    setInitialSheets: _helpers_js__WEBPACK_IMPORTED_MODULE_2__["helpers"].setInitialSheetsForStock,
-    setInitialGroups: _helpers_js__WEBPACK_IMPORTED_MODULE_2__["helpers"].setInitialGroupsForStock,
-    refreshGroup: _helpers_js__WEBPACK_IMPORTED_MODULE_2__["helpers"].removeOldElementAndAddNewForStock,
-    switchToCustomValue: _helpers_js__WEBPACK_IMPORTED_MODULE_2__["helpers"].switchCustomValue,
-    handleValues: function handleValues(group, i) {
-      this.switchToCustomValue(this.stock_groups, group, this.group_value[i]);
+    setSheetsArray: _stock_helpers_js__WEBPACK_IMPORTED_MODULE_2__["stock_helpers"].setInitialSheet,
+    setGroupValuesArray: _stock_helpers_js__WEBPACK_IMPORTED_MODULE_2__["stock_helpers"].setInitialGroupValue,
+    setGroupsArray: _stock_helpers_js__WEBPACK_IMPORTED_MODULE_2__["stock_helpers"].setInitialGroups,
+    refreshGroup: _stock_helpers_js__WEBPACK_IMPORTED_MODULE_2__["stock_helpers"].updateInitialGroups,
+    calculateTotal: _stock_helpers_js__WEBPACK_IMPORTED_MODULE_2__["stock_helpers"].calculateTotalMMK,
+    handleValues: function handleValues() {
+      this.refreshGroup(this.stock_groups, this.note_sheets, this.group_value, this.isMM);
+      this.total_mmk = this.calculateTotal(this.stock_groups, this.isMM);
     },
-    handleSheets: function handleSheets(group, note, i, j, k) {
-      if (this.isMM) {
-        this.refreshGroup(null, this.stock_groups, this.note_sheets[i][j], group, note, k, this.group_value[i], this.isMM);
-      } else {
-        this.refreshGroup(null, this.stock_groups, this.note_sheets[i][j][k], group, note, k, this.group_value[i], this.isMM);
-      }
+    handleSheets: function handleSheets() {
+      this.refreshGroup(this.stock_groups, this.note_sheets, this.group_value, this.isMM);
+      this.total_mmk = this.calculateTotal(this.stock_groups, this.isMM);
     }
   },
-  mounted: function mounted() {
-    this.setInitialGroups(null, this.data, this.isMM);
-  },
+  mounted: function mounted() {},
   created: function created() {
     var lengths = {
       groups: this.groups_length,
       notes: this.notes_length,
       classes: this.classes_length
     };
-
-    for (var i = 0; i < this.groups_length; i++) {
-      var row = [];
-
-      for (var j = 0; j < this.classes_length; j++) {
-        row.push(0);
-      }
-
-      this.group_value.push(row);
-    }
-
-    this.setInitialSheets(lengths, this.note_sheets, this.isMM);
+    this.setGroupsArray(this.data.groups, this.isMM);
+    this.setGroupValuesArray(this.group_value, lengths, this.stock_groups, this.isMM);
+    this.setSheetsArray(this.note_sheets, lengths, this.isMM);
   },
   computed: Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])({
     stock_groups: 'stock_groups'
@@ -2142,7 +2130,6 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
         status: this.stock_currency.status,
         transfer_type: transfer_type
       };
-      console.log(data);
       fetch('/stock/transfer_currency', {
         method: 'POST',
         headers: {
@@ -22933,10 +22920,10 @@ var render = function() {
                           domProps: { value: _vm.group_value[i][k] },
                           on: {
                             change: function($event) {
-                              return _vm.handleValues(group, i)
+                              return _vm.handleValues()
                             },
                             keyup: function($event) {
-                              return _vm.handleValues(group, i)
+                              return _vm.handleValues()
                             },
                             input: function($event) {
                               if ($event.target.composing) {
@@ -22988,10 +22975,10 @@ var render = function() {
                               domProps: { value: _vm.note_sheets[i][j][k] },
                               on: {
                                 change: function($event) {
-                                  return _vm.handleSheets(group, note, i, j, k)
+                                  return _vm.handleSheets(group, note)
                                 },
                                 keyup: function($event) {
-                                  return _vm.handleSheets(group, note, i, j, k)
+                                  return _vm.handleSheets(group, note)
                                 },
                                 input: function($event) {
                                   if ($event.target.composing) {
@@ -23024,10 +23011,10 @@ var render = function() {
                             domProps: { value: _vm.note_sheets[i][j] },
                             on: {
                               change: function($event) {
-                                return _vm.handleSheets(group, note, i, j, null)
+                                return _vm.handleSheets(group, note)
                               },
                               keyup: function($event) {
-                                return _vm.handleSheets(group, note, i, j, null)
+                                return _vm.handleSheets(group, note)
                               },
                               input: function($event) {
                                 if ($event.target.composing) {
@@ -23056,7 +23043,9 @@ var render = function() {
       _vm._v(" "),
       _c("span", { staticClass: "text-danger" }, [_vm._v(_vm._s(_vm.msg))]),
       _vm._v(" "),
-      _vm._m(1)
+      _c("div", { staticClass: "div-p-mount2 text-center" }, [
+        _c("p", [_vm._v(" Total : " + _vm._s(_vm.total_mmk) + " MMKs ")])
+      ])
     ])
   ])
 }
@@ -23066,14 +23055,6 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "div-p-mount2" }, [
-      _c("p", [_vm._v(" Total : MMKs ")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "div-p-mount2 text-center" }, [
       _c("p", [_vm._v(" Total : MMKs ")])
     ])
   }
@@ -37647,6 +37628,144 @@ var helpers = {
         _this.$store.commit('addStockGroup', group);
       }
     });
+  }
+};
+
+/***/ }),
+
+/***/ "./resources/js/stock_helpers.js":
+/*!***************************************!*\
+  !*** ./resources/js/stock_helpers.js ***!
+  \***************************************/
+/*! exports provided: stock_helpers */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "stock_helpers", function() { return stock_helpers; });
+var stock_helpers = {
+  setInitialSheet: function setInitialSheet(sheet, lengths, isMM) {
+    if (isMM) {
+      for (var i = 0; i < lengths.groups; i++) {
+        var row = [];
+
+        for (var j = 0; j < lengths.notes; j++) {
+          row.push(0);
+        }
+
+        sheet.push(row);
+      }
+    } else {
+      for (var _i = 0; _i < lengths.groups; _i++) {
+        var _row = [];
+
+        for (var _j = 0; _j < lengths.notes; _j++) {
+          var column = [];
+
+          for (var k = 0; k < lengths.classes; k++) {
+            column.push(0);
+          }
+
+          _row.push(column);
+        }
+
+        sheet.push(_row);
+      }
+    }
+  },
+  setInitialGroupValue: function setInitialGroupValue(group_value, lengths, storeGroup, isMM) {
+    for (var i = 0; i < lengths.groups; i++) {
+      var row = [];
+
+      for (var j = 0; j < lengths.classes; j++) {
+        row.push(0);
+      }
+
+      group_value.push(row);
+    }
+
+    if (!isMM) {
+      for (var groupItem in storeGroup) {
+        for (var classItem in storeGroup[groupItem].class_currency_value) {
+          group_value[groupItem][classItem] = storeGroup[groupItem].class_currency_value[classItem].value;
+        }
+      }
+    }
+  },
+  setInitialGroups: function setInitialGroups(original_data, isMM) {
+    var _this = this;
+
+    this.$store.commit('resetStockGroup');
+    var groups = JSON.parse(JSON.stringify(original_data));
+    groups.forEach(function (group) {
+      group.notes.forEach(function (note) {
+        if (isMM) {
+          note.total_sheet = 0;
+        } else {
+          var total_sheet = 0;
+          note.class_sheet.forEach(function (item) {
+            item.sheet = 0;
+            total_sheet = total_sheet + item.sheet;
+          });
+          note.total_sheet = total_sheet;
+        }
+      });
+
+      _this.$store.commit('addStockGroup', group);
+    });
+  },
+  updateInitialGroups: function updateInitialGroups(storeGroup, sheets, values, isMM) {
+    for (var groupItem in storeGroup) {
+      if (isMM) {
+        for (var noteItem in storeGroup[groupItem].notes) {
+          storeGroup[groupItem].notes[noteItem].total_sheet = parseInt(sheets[groupItem][noteItem]);
+        }
+      } else {
+        for (var classItem in storeGroup[groupItem].class_currency_value) {
+          storeGroup[groupItem].class_currency_value[classItem].value = parseInt(values[groupItem][classItem]);
+        }
+
+        for (var _noteItem in storeGroup[groupItem].notes) {
+          var total_sheet = 0;
+
+          for (var _classItem in storeGroup[groupItem].notes[_noteItem].class_sheet) {
+            storeGroup[groupItem].notes[_noteItem].class_sheet[_classItem].sheet = parseInt(sheets[groupItem][_noteItem][_classItem]);
+            storeGroup[groupItem].notes[_noteItem].total_sheet = total_sheet + storeGroup[groupItem].notes[_noteItem].class_sheet[_classItem].sheet;
+          }
+        }
+      }
+    }
+  },
+  calculateTotalMMK: function calculateTotalMMK(storeGroup, isMM) {
+    var total_mmk = 0;
+
+    for (var groupItem in storeGroup) {
+      var note_total = 0;
+
+      for (var noteItem in storeGroup[groupItem].notes) {
+        var value = void 0,
+            note_name = void 0,
+            sheet = void 0;
+
+        if (isMM) {
+          value = 1;
+          note_name = storeGroup[groupItem].notes[noteItem].note_name;
+          sheet = storeGroup[groupItem].notes[noteItem].total_sheet;
+        } else {
+          for (var classItem in storeGroup[groupItem].notes[noteItem].class_sheet) {
+            value = storeGroup[groupItem].class_currency_value[classItem].value;
+            note_name = storeGroup[groupItem].notes[noteItem].note_name;
+            sheet = storeGroup[groupItem].notes[noteItem].class_sheet[classItem].sheet;
+          }
+        }
+
+        note_total = note_total + value * note_name * sheet;
+      }
+
+      total_mmk = total_mmk + note_total;
+    }
+
+    return total_mmk;
   }
 };
 

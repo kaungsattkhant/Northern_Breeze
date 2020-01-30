@@ -42,8 +42,8 @@
                         <input v-if="!isMM && isSupplier" v-for="(item,k) in group.class_currency_value"
                                type="number"
                                min="0"
-                               v-on:change="handleValues(group,i)"
-                               v-on:keyup="handleValues(group,i)"
+                               v-on:change="handleValues()"
+                               v-on:keyup="handleValues()"
                                v-model="group_value[i][k]"
                                class="note_class border rounded-table-mount w-21 text-center fontsize-mount3 pt-1">
                     </td>
@@ -55,14 +55,14 @@
                         <input v-if="!isMM" v-for="(item,k) in group.class_currency_value"
                                type="number"
                                min="0"
-                               v-on:change="handleSheets(group,note,i,j,k)"
-                               v-on:keyup="handleSheets(group,note,i,j,k)"
+                               v-on:change="handleSheets(group,note)"
+                               v-on:keyup="handleSheets(group,note)"
                                v-model="note_sheets[i][j][k]"  class="note_class border rounded-table-mount w-21 text-center fontsize-mount3 pt-1">
                         <input v-if="isMM"
                                type="number"
                                min="0"
-                               v-on:change="handleSheets(group,note,i,j,null)"
-                               v-on:keyup="handleSheets(group,note,i,j,null)"
+                               v-on:change="handleSheets(group,note)"
+                               v-on:keyup="handleSheets(group,note)"
                                v-model="note_sheets[i][j]"  class="note_class border rounded-table-mount w-21 text-center fontsize-mount3 pt-1">
 
                     </td>
@@ -71,7 +71,7 @@
             </table>
             <span class="text-danger">{{msg}}</span>
             <div class="div-p-mount2 text-center">
-                <p> Total : MMKs </p>
+                <p> Total : {{total_mmk}} MMKs </p>
             </div>
         </div>
 
@@ -82,7 +82,7 @@
 <script>
     import Vuex, {mapState} from 'vuex'
     import Vue from 'vue';
-    import {helpers} from '../helpers.js'
+    import {stock_helpers} from '../stock_helpers.js'
 
     Vue.use(Vuex);
 
@@ -95,47 +95,52 @@
                 groups_length: this.data.groups.length,
                 notes_length: 10,
                 classes_length: 10,
-                msg: ''
+                msg: '',
+                groups: [],
+                total_mmk: 0
             }
         },
 
         methods: {
-            setInitialSheets: helpers.setInitialSheetsForStock,
-            setInitialGroups: helpers.setInitialGroupsForStock,
-            refreshGroup: helpers.removeOldElementAndAddNewForStock,
-            switchToCustomValue: helpers.switchCustomValue,
 
-            handleValues(group,i){
-                this.switchToCustomValue(this.stock_groups,group,this.group_value[i]);
+
+            setSheetsArray: stock_helpers.setInitialSheet,
+            setGroupValuesArray: stock_helpers.setInitialGroupValue,
+            setGroupsArray: stock_helpers.setInitialGroups,
+            refreshGroup: stock_helpers.updateInitialGroups,
+            calculateTotal: stock_helpers.calculateTotalMMK,
+
+            handleValues(){
+                this.refreshGroup(this.stock_groups,this.note_sheets,this.group_value,this.isMM);
+                this.total_mmk = this.calculateTotal(this.stock_groups,this.isMM);
             },
-            handleSheets(group,note,i,j,k){
-                if(this.isMM){
-                    this.refreshGroup(null, this.stock_groups, this.note_sheets[i][j], group, note, k,this.group_value[i],this.isMM);
-                }else{
-                    this.refreshGroup(null, this.stock_groups, this.note_sheets[i][j][k], group, note, k,this.group_value[i], this.isMM);
-                }
+
+            handleSheets(){
+                this.refreshGroup(this.stock_groups,this.note_sheets,this.group_value,this.isMM);
+                this.total_mmk = this.calculateTotal(this.stock_groups,this.isMM);
+
             },
         },
+
+
         mounted() {
-            this.setInitialGroups(null, this.data, this.isMM);
+
         },
+
+
         created(){
              let lengths = {
                     groups: this.groups_length,
                     notes: this.notes_length,
                     classes: this.classes_length
              };
-
-            for(let i=0; i<this.groups_length; i++){
-                let row = [];
-                for(let j=0; j<this.classes_length; j++){
-                    row.push(0);
-                }
-                this.group_value.push(row);
-            }
-            this.setInitialSheets(lengths, this.note_sheets, this.isMM);
-
+            this.setGroupsArray(this.data.groups, this.isMM);
+            this.setGroupValuesArray(this.group_value,lengths,this.stock_groups,this.isMM);
+            this.setSheetsArray(this.note_sheets, lengths, this.isMM);
         },
+
+
+
         computed: mapState({
             stock_groups: 'stock_groups'
         }),
