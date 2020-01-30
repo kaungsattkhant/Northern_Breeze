@@ -38,27 +38,27 @@
                         <span class="fontsize-mount22 span-number">{{note.note_name}}</span>
 
                         <div class="input-group-box">
-                        <div class="w-25 float-right">
+                            <div class="w-25 float-right">
 
-                            <input v-if="!data.class" type="number" min="0" v-model="sheets[i][j]"
-                                   v-on:keyup="calculateTotalAndChanges(group,note,i,j)"
-                                   v-on:change="calculateTotalAndChanges(group,note,i,j)"
-                                   class="from_note_class border  rounded-table-mount w-100 text-center fontsize-mount3 pt-1 ">
-                        </div>
+                                <input v-if="!data.class" type="number" min="0" v-model="sheets[i][j]"
+                                       v-on:keyup="calculateTotalAndChanges(group,note,i,j)"
+                                       v-on:change="calculateTotalAndChanges(group,note,i,j)"
+                                       class="from_note_class border  rounded-table-mount w-100 text-center fontsize-mount3 pt-1 ">
+                            </div>
 
 
 
-                        <div class="w-25 float-left"
-                             v-for="(item,k) in group.class_currency_value">
+                            <div class="w-25 float-left"
+                                 v-for="(item,k) in group.class_currency_value">
 
-                            <input v-if="data.class" type="number" min="0" v-model="sheets[i][j][k]"
-                                   :placeholder="class_string+data.class[k].name"
-                                   :title="class_string+data.class[k].name"
-                                   v-on:keyup="calculateTotalAndChanges(group,note,i,j,k,item.value)"
-                                   v-on:change="calculateTotalAndChanges(group,note,i,j,k,item.value)"
-                                   class="border rounded-table-mount w-100  text-center font-color fontsize-mount3 pt-1 ">
+                                <input v-if="data.class" type="number" min="0" v-model="sheets[i][j][k]"
+                                       :placeholder="class_string+data.class[k].name"
+                                       :title="class_string+data.class[k].name"
+                                       v-on:keyup="calculateTotalAndChanges(group,note,i,j,k,item.value)"
+                                       v-on:change="calculateTotalAndChanges(group,note,i,j,k,item.value)"
+                                       class="border rounded-table-mount w-100  text-center font-color fontsize-mount3 pt-1 ">
 
-                        </div>
+                            </div>
 
                     </div>
                 </td>

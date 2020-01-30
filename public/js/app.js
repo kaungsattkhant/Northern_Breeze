@@ -19761,7 +19761,11 @@ var render = function() {
                 staticClass:
                   "btn btn-nb-mount-save fontsize-mount font-weight-bold",
                 class: { disable: _vm.isSaveDisable() },
-                attrs: { type: "button", disabled: _vm.isSaveDisable() },
+                attrs: {
+                  type: "button",
+                  id: "save-btn",
+                  disabled: _vm.isSaveDisable()
+                },
                 on: {
                   click: function($event) {
                     return _vm.submitForm()
