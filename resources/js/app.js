@@ -25,7 +25,8 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 Vue.component('non-member', require('./components/NonMember.vue').default);
 Vue.component('daily-currency', require('./components/DailyCurrency.vue').default);
 Vue.component('group-value', require('./components/GroupValue.vue').default);
-Vue.component('stock-inventory', require('./components/StockInventory.vue').default);
+Vue.component('add-stock-inventory', require('./components/AddStockInventory.vue').default);
+Vue.component('transfer-stock-inventory', require('./components/TransferStockInventory.vue').default);
 Vue.component('stock-group-value', require('./components/StockGroupValue.vue').default);
 Vue.component('member', require('./components/Member.vue').default);
 Vue.component('buy-currency-group', require('./components/BuyCurrencyGroup.vue').default);

@@ -86,6 +86,144 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AddStockInventory.vue?vue&type=script&lang=js&":
+/*!****************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/AddStockInventory.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_1__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__["default"]);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['currencies', 'branches', 'total_value', 'is_admin'],
+  data: function data() {
+    return {
+      items: JSON.parse(this.currencies),
+      branch_items: JSON.parse(this.branches),
+      currency_id: '',
+      branch: '',
+      stock_currency: ''
+    };
+  },
+  methods: {
+    isMM: function isMM() {
+      return this.stock_currency.status === "MMK";
+    },
+    fetch_currency_groups: function fetch_currency_groups() {
+      var _this = this;
+
+      this.stock_currency = '';
+
+      if ($('#stock_currency option:selected').val()) {
+        this.currency_id = parseInt($('#stock_currency option:selected').val());
+      } else {
+        alert('please choose currency type');
+      }
+
+      if (this.is_admin && !$('#stock_branch option:selected').val()) {
+        alert('please choose branch');
+      } else if (this.is_admin && $('#stock_branch option:selected').val()) {
+        this.branch = parseInt($('#stock_branch option:selected').val());
+      } else {
+        this.branch = null;
+      }
+
+      if (this.branch !== '' && this.currency_id !== '') {
+        var data = {
+          currency_id: this.currency_id,
+          branch: this.branch
+        };
+        fetch('/stock/currency_filter', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+          body: JSON.stringify(data)
+        }).then(function (response) {
+          return response.json();
+        }).then(function (data) {
+          _this.stock_currency = data;
+        });
+      }
+    },
+    handleSubmit: function handleSubmit() {
+      var data = {
+        branch: this.branch,
+        currency_id: this.currency_id,
+        groups: this.stock_groups,
+        status: this.stock_currency.status
+      };
+      fetch('/stock/add_currency', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        body: JSON.stringify(data)
+      }).then(function (response) {
+        return response.json();
+      }).then(function (data) {
+        console.log(data);
+      });
+    }
+  },
+  mounted: function mounted() {},
+  computed: Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])({
+    stock_groups: 'stock_groups'
+  })
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/BuyCurrencyGroup.vue?vue&type=script&lang=js&":
 /*!***************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/BuyCurrencyGroup.vue?vue&type=script&lang=js& ***!
@@ -1784,19 +1922,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__["default"]);
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['data', 'isMM'],
+  props: ['data', 'isMM', 'isSupplier'],
   data: function data() {
     return {
       group_value: [],
       note_sheets: [],
       groups_length: this.data.groups.length,
       notes_length: 10,
-      classes_length: 10
+      classes_length: 10,
+      msg: ''
     };
   },
   methods: {
@@ -1808,15 +1951,15 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       this.switchToCustomValue(this.stock_groups, group, this.group_value[i]);
     },
     handleSheets: function handleSheets(group, note, i, j, k) {
-      if (this.isMM) {
-        this.refreshGroup(null, this.stock_groups, this.note_sheets[i][j], group, note, k, this.group_value[i], this.isMM);
+      if (this.isMM && !this.isSupplier) {
+        this.refreshGroup(null, this.stock_groups, this.note_sheets[i][j], group, note, k, this.group_value[i], this.isMM && !this.isSupplier);
       } else {
-        this.refreshGroup(null, this.stock_groups, this.note_sheets[i][j][k], group, note, k, this.group_value[i], this.isMM);
+        this.refreshGroup(null, this.stock_groups, this.note_sheets[i][j][k], group, note, k, this.group_value[i], this.isMM && !this.isSupplier);
       }
     }
   },
   mounted: function mounted() {
-    this.setInitialGroups(null, this.data, this.isMM);
+    this.setInitialGroups(null, this.data, this.isMM && !this.isSupplier);
   },
   created: function created() {
     var lengths = {
@@ -1835,7 +1978,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       this.group_value.push(row);
     }
 
-    this.setInitialSheets(lengths, this.note_sheets, this.isMM);
+    this.setInitialSheets(lengths, this.note_sheets, this.isMM && !this.isSupplier);
   },
   computed: Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])({
     stock_groups: 'stock_groups'
@@ -1844,10 +1987,10 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/StockInventory.vue?vue&type=script&lang=js&":
-/*!*************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/StockInventory.vue?vue&type=script&lang=js& ***!
-  \*************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TransferStockInventory.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/TransferStockInventory.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1898,23 +2041,39 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__["default"]);
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['currencies', 'branches', 'auth_id', 'total_value', 'is_admin'],
+  props: ['currencies', 'branches', 'total_value', 'is_admin', 'auth_id'],
   data: function data() {
     return {
       items: JSON.parse(this.currencies),
       branch_items: JSON.parse(this.branches),
       currency_id: '',
-      branch: '',
+      to_branch: '',
+      from_branch: '',
       stock_currency: ''
     };
   },
   methods: {
     isMM: function isMM() {
       return this.stock_currency.status === "MMK";
+    },
+    isSupplier: function isSupplier() {
+      return this.to_branch === 5;
     },
     fetch_currency_groups: function fetch_currency_groups() {
       var _this = this;
@@ -1927,18 +2086,25 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
         alert('please choose currency type');
       }
 
-      if (this.is_admin && !$('#stock_branch option:selected').val()) {
-        alert('please choose branch');
-      } else if (this.is_admin && $('#stock_branch option:selected').val()) {
-        this.branch = parseInt($('#stock_branch option:selected').val());
+      if ($('#to_stock_branch option:selected').val()) {
+        this.to_branch = parseInt($('#to_stock_branch option:selected').val());
       } else {
-        this.branch = null;
+        alert('please choose to branch');
       }
 
-      if (this.branch !== '' && this.currency_id !== '') {
+      if (this.is_admin && !$('#from_stock_branch option:selected').val()) {
+        alert('please choose from branch');
+      } else if (this.is_admin && $('#from_stock_branch option:selected').val()) {
+        this.from_branch = parseInt($('#from_stock_branch option:selected').val());
+      } else {
+        this.from_branch = null;
+      }
+
+      if (this.to_branch !== '' && this.currency_id !== '' && this.from_branch !== '') {
         var data = {
           currency_id: this.currency_id,
-          branch: this.branch
+          to_branch: this.to_branch,
+          from_branch: this.from_branch
         };
         fetch('/stock/currency_filter', {
           method: 'POST',
@@ -1956,12 +2122,13 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
     },
     handleSubmit: function handleSubmit() {
       var data = {
-        branch: this.branch,
+        to_branch: this.to_branch,
+        from_branch: this.from_branch,
         currency_id: this.currency_id,
         groups: this.stock_groups,
         status: this.stock_currency.status
       };
-      fetch('/stock/add_currency', {
+      fetch('/stock/transfer_currency', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -20222,6 +20389,156 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AddStockInventory.vue?vue&type=template&id=e3f718e8&":
+/*!********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/AddStockInventory.vue?vue&type=template&id=e3f718e8& ***!
+  \********************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container-nb-mount" }, [
+    _c(
+      "form",
+      [
+        _c(
+          "div",
+          {
+            staticClass:
+              "d-flex justify-content-between top-box-mount shadow-sm"
+          },
+          [
+            _c("div", { staticClass: "my-auto" }, [
+              _c("p", { staticStyle: { "margin-left": "20px" } }, [
+                _c("b", [_vm._v("Total values:")]),
+                _c("i", [_vm._v(" " + _vm._s(_vm.total_value) + "MMKs")])
+              ])
+            ]),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass:
+                  "btn btn-nb-mount-save fontsize-mount px-4 stock_create",
+                attrs: { type: "button" },
+                on: {
+                  click: function($event) {
+                    return _vm.handleSubmit()
+                  }
+                }
+              },
+              [_vm._v("Add")]
+            )
+          ]
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col" }, [
+            _c(
+              "select",
+              {
+                staticClass: "selectpicker  mt-4",
+                attrs: {
+                  name: "currency",
+                  "data-style": "btn-white",
+                  "data-width": "auto",
+                  "data-live-search": "true",
+                  id: "stock_currency"
+                },
+                on: {
+                  change: function($event) {
+                    return _vm.fetch_currency_groups()
+                  }
+                }
+              },
+              [
+                _c(
+                  "option",
+                  {
+                    attrs: { disabled: "", selected: "" },
+                    domProps: { value: null }
+                  },
+                  [_vm._v("Choose Currency")]
+                ),
+                _vm._v(" "),
+                _vm._l(_vm.items, function(item) {
+                  return _c("option", { domProps: { value: item.id } }, [
+                    _vm._v(_vm._s(item.name) + "\n                    ")
+                  ])
+                })
+              ],
+              2
+            )
+          ]),
+          _vm._v(" "),
+          _vm.is_admin
+            ? _c("div", { staticClass: "col", attrs: { id: "branch" } }, [
+                _c(
+                  "select",
+                  {
+                    staticClass: "selectpicker mt-4",
+                    attrs: {
+                      name: "branch",
+                      "data-style": "btn-white",
+                      "data-width": "auto",
+                      id: "stock_branch"
+                    },
+                    on: {
+                      change: function($event) {
+                        return _vm.fetch_currency_groups()
+                      }
+                    }
+                  },
+                  [
+                    _c(
+                      "option",
+                      {
+                        attrs: { disabled: "", selected: "" },
+                        domProps: { value: null }
+                      },
+                      [_vm._v("Choose Branch")]
+                    ),
+                    _vm._v(" "),
+                    _vm._l(_vm.branch_items, function(item) {
+                      return _c("option", { domProps: { value: item.id } }, [
+                        _vm._v(_vm._s(item.name) + "\n                    ")
+                      ])
+                    })
+                  ],
+                  2
+                )
+              ])
+            : _vm._e()
+        ]),
+        _vm._v(" "),
+        _vm.stock_currency
+          ? _c("stock-group-value", {
+              attrs: {
+                data: _vm.stock_currency,
+                isMM: _vm.isMM(),
+                isSupplier: true
+              }
+            })
+          : _vm._e()
+      ],
+      1
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/BuyCurrencyGroup.vue?vue&type=template&id=33afc273&":
 /*!*******************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/BuyCurrencyGroup.vue?vue&type=template&id=33afc273& ***!
@@ -22583,7 +22900,7 @@ var render = function() {
                   "td",
                   { staticClass: "text-right border-top-0 pt-4 pb-4" },
                   _vm._l(group.class_currency_value, function(item, k) {
-                    return !_vm.isMM
+                    return !_vm.isMM && _vm.isSupplier
                       ? _c("input", {
                           directives: [
                             {
@@ -22595,7 +22912,7 @@ var render = function() {
                           ],
                           staticClass:
                             "note_class border rounded-table-mount w-21 text-center fontsize-mount3 pt-1",
-                          attrs: { type: "number" },
+                          attrs: { type: "number", min: "0" },
                           domProps: { value: _vm.group_value[i][k] },
                           on: {
                             change: function($event) {
@@ -22650,7 +22967,7 @@ var render = function() {
                               ],
                               staticClass:
                                 "note_class border rounded-table-mount w-21 text-center fontsize-mount3 pt-1",
-                              attrs: { type: "number" },
+                              attrs: { type: "number", min: "0" },
                               domProps: { value: _vm.note_sheets[i][j][k] },
                               on: {
                                 change: function($event) {
@@ -22686,7 +23003,7 @@ var render = function() {
                             ],
                             staticClass:
                               "note_class border rounded-table-mount w-21 text-center fontsize-mount3 pt-1",
-                            attrs: { type: "number" },
+                            attrs: { type: "number", min: "0" },
                             domProps: { value: _vm.note_sheets[i][j] },
                             on: {
                               change: function($event) {
@@ -22720,6 +23037,8 @@ var render = function() {
         0
       ),
       _vm._v(" "),
+      _c("span", { staticClass: "text-danger" }, [_vm._v(_vm._s(_vm.msg))]),
+      _vm._v(" "),
       _vm._m(1)
     ])
   ])
@@ -22748,10 +23067,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/StockInventory.vue?vue&type=template&id=68bd39de&":
-/*!*****************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/StockInventory.vue?vue&type=template&id=68bd39de& ***!
-  \*****************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TransferStockInventory.vue?vue&type=template&id=6dcce148&":
+/*!*************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/TransferStockInventory.vue?vue&type=template&id=6dcce148& ***!
+  \*************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -22774,12 +23093,7 @@ var render = function() {
               "d-flex justify-content-between top-box-mount shadow-sm"
           },
           [
-            _c("div", { staticClass: "my-auto" }, [
-              _c("p", { staticStyle: { "margin-left": "20px" } }, [
-                _c("b", [_vm._v("Total values:")]),
-                _c("i", [_vm._v(" " + _vm._s(_vm.total_value) + "MMKs")])
-              ])
-            ]),
+            _vm._m(0),
             _vm._v(" "),
             _c(
               "button",
@@ -22793,7 +23107,7 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v("Add")]
+              [_vm._v("Transfer")]
             )
           ]
         ),
@@ -22838,7 +23152,7 @@ var render = function() {
           ]),
           _vm._v(" "),
           _vm.is_admin
-            ? _c("div", { staticClass: "col", attrs: { id: "branch" } }, [
+            ? _c("div", { staticClass: "col" }, [
                 _c(
                   "select",
                   {
@@ -22847,7 +23161,7 @@ var render = function() {
                       name: "branch",
                       "data-style": "btn-white",
                       "data-width": "auto",
-                      id: "stock_branch"
+                      id: "from_stock_branch"
                     },
                     on: {
                       change: function($event) {
@@ -22862,7 +23176,7 @@ var render = function() {
                         attrs: { disabled: "", selected: "" },
                         domProps: { value: null }
                       },
-                      [_vm._v("Choose Branch")]
+                      [_vm._v("From Branch")]
                     ),
                     _vm._v(" "),
                     _vm._l(_vm.branch_items, function(item) {
@@ -22879,12 +23193,58 @@ var render = function() {
                   2
                 )
               ])
-            : _vm._e()
+            : _vm._e(),
+          _vm._v(" "),
+          _c("div", { staticClass: "col" }, [
+            _c(
+              "select",
+              {
+                staticClass: "selectpicker mt-4",
+                attrs: {
+                  name: "branch",
+                  "data-style": "btn-white",
+                  "data-width": "auto",
+                  id: "to_stock_branch"
+                },
+                on: {
+                  change: function($event) {
+                    return _vm.fetch_currency_groups()
+                  }
+                }
+              },
+              [
+                _c(
+                  "option",
+                  {
+                    attrs: { disabled: "", selected: "" },
+                    domProps: { value: null }
+                  },
+                  [_vm._v("To Branch")]
+                ),
+                _vm._v(" "),
+                _vm._l(_vm.branch_items, function(item) {
+                  return _c(
+                    "option",
+                    {
+                      attrs: { disabled: item.id === _vm.auth_id },
+                      domProps: { value: item.id }
+                    },
+                    [_vm._v(_vm._s(item.name) + "\n                    ")]
+                  )
+                })
+              ],
+              2
+            )
+          ])
         ]),
         _vm._v(" "),
         _vm.stock_currency
           ? _c("stock-group-value", {
-              attrs: { data: _vm.stock_currency, isMM: _vm.isMM() }
+              attrs: {
+                data: _vm.stock_currency,
+                isMM: _vm.isMM(),
+                isSupplier: _vm.isSupplier()
+              }
             })
           : _vm._e()
       ],
@@ -22892,7 +23252,19 @@ var render = function() {
     )
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "my-auto" }, [
+      _c("p", { staticStyle: { "margin-left": "20px" } }, [
+        _c("b", [_vm._v("Total values:")]),
+        _c("i", [_vm._v(" MMKs")])
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -36126,7 +36498,8 @@ Vue.component('example-component', __webpack_require__(/*! ./components/ExampleC
 Vue.component('non-member', __webpack_require__(/*! ./components/NonMember.vue */ "./resources/js/components/NonMember.vue")["default"]);
 Vue.component('daily-currency', __webpack_require__(/*! ./components/DailyCurrency.vue */ "./resources/js/components/DailyCurrency.vue")["default"]);
 Vue.component('group-value', __webpack_require__(/*! ./components/GroupValue.vue */ "./resources/js/components/GroupValue.vue")["default"]);
-Vue.component('stock-inventory', __webpack_require__(/*! ./components/StockInventory.vue */ "./resources/js/components/StockInventory.vue")["default"]);
+Vue.component('add-stock-inventory', __webpack_require__(/*! ./components/AddStockInventory.vue */ "./resources/js/components/AddStockInventory.vue")["default"]);
+Vue.component('transfer-stock-inventory', __webpack_require__(/*! ./components/TransferStockInventory.vue */ "./resources/js/components/TransferStockInventory.vue")["default"]);
 Vue.component('stock-group-value', __webpack_require__(/*! ./components/StockGroupValue.vue */ "./resources/js/components/StockGroupValue.vue")["default"]);
 Vue.component('member', __webpack_require__(/*! ./components/Member.vue */ "./resources/js/components/Member.vue")["default"]);
 Vue.component('buy-currency-group', __webpack_require__(/*! ./components/BuyCurrencyGroup.vue */ "./resources/js/components/BuyCurrencyGroup.vue")["default"]);
@@ -36143,6 +36516,75 @@ var app = new Vue({
   el: '#app',
   store: _store__WEBPACK_IMPORTED_MODULE_0__["store"]
 });
+
+/***/ }),
+
+/***/ "./resources/js/components/AddStockInventory.vue":
+/*!*******************************************************!*\
+  !*** ./resources/js/components/AddStockInventory.vue ***!
+  \*******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _AddStockInventory_vue_vue_type_template_id_e3f718e8___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AddStockInventory.vue?vue&type=template&id=e3f718e8& */ "./resources/js/components/AddStockInventory.vue?vue&type=template&id=e3f718e8&");
+/* harmony import */ var _AddStockInventory_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AddStockInventory.vue?vue&type=script&lang=js& */ "./resources/js/components/AddStockInventory.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _AddStockInventory_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _AddStockInventory_vue_vue_type_template_id_e3f718e8___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _AddStockInventory_vue_vue_type_template_id_e3f718e8___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/AddStockInventory.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/AddStockInventory.vue?vue&type=script&lang=js&":
+/*!********************************************************************************!*\
+  !*** ./resources/js/components/AddStockInventory.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AddStockInventory_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./AddStockInventory.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AddStockInventory.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AddStockInventory_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/AddStockInventory.vue?vue&type=template&id=e3f718e8&":
+/*!**************************************************************************************!*\
+  !*** ./resources/js/components/AddStockInventory.vue?vue&type=template&id=e3f718e8& ***!
+  \**************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AddStockInventory_vue_vue_type_template_id_e3f718e8___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./AddStockInventory.vue?vue&type=template&id=e3f718e8& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/AddStockInventory.vue?vue&type=template&id=e3f718e8&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AddStockInventory_vue_vue_type_template_id_e3f718e8___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AddStockInventory_vue_vue_type_template_id_e3f718e8___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
 
 /***/ }),
 
@@ -36836,17 +37278,17 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/StockInventory.vue":
-/*!****************************************************!*\
-  !*** ./resources/js/components/StockInventory.vue ***!
-  \****************************************************/
+/***/ "./resources/js/components/TransferStockInventory.vue":
+/*!************************************************************!*\
+  !*** ./resources/js/components/TransferStockInventory.vue ***!
+  \************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _StockInventory_vue_vue_type_template_id_68bd39de___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./StockInventory.vue?vue&type=template&id=68bd39de& */ "./resources/js/components/StockInventory.vue?vue&type=template&id=68bd39de&");
-/* harmony import */ var _StockInventory_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./StockInventory.vue?vue&type=script&lang=js& */ "./resources/js/components/StockInventory.vue?vue&type=script&lang=js&");
+/* harmony import */ var _TransferStockInventory_vue_vue_type_template_id_6dcce148___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TransferStockInventory.vue?vue&type=template&id=6dcce148& */ "./resources/js/components/TransferStockInventory.vue?vue&type=template&id=6dcce148&");
+/* harmony import */ var _TransferStockInventory_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TransferStockInventory.vue?vue&type=script&lang=js& */ "./resources/js/components/TransferStockInventory.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -36856,9 +37298,9 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _StockInventory_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _StockInventory_vue_vue_type_template_id_68bd39de___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _StockInventory_vue_vue_type_template_id_68bd39de___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _TransferStockInventory_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _TransferStockInventory_vue_vue_type_template_id_6dcce148___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _TransferStockInventory_vue_vue_type_template_id_6dcce148___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
   null,
@@ -36868,38 +37310,38 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/components/StockInventory.vue"
+component.options.__file = "resources/js/components/TransferStockInventory.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/components/StockInventory.vue?vue&type=script&lang=js&":
-/*!*****************************************************************************!*\
-  !*** ./resources/js/components/StockInventory.vue?vue&type=script&lang=js& ***!
-  \*****************************************************************************/
+/***/ "./resources/js/components/TransferStockInventory.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************!*\
+  !*** ./resources/js/components/TransferStockInventory.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_StockInventory_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./StockInventory.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/StockInventory.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_StockInventory_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TransferStockInventory_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./TransferStockInventory.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TransferStockInventory.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TransferStockInventory_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
-/***/ "./resources/js/components/StockInventory.vue?vue&type=template&id=68bd39de&":
-/*!***********************************************************************************!*\
-  !*** ./resources/js/components/StockInventory.vue?vue&type=template&id=68bd39de& ***!
-  \***********************************************************************************/
+/***/ "./resources/js/components/TransferStockInventory.vue?vue&type=template&id=6dcce148&":
+/*!*******************************************************************************************!*\
+  !*** ./resources/js/components/TransferStockInventory.vue?vue&type=template&id=6dcce148& ***!
+  \*******************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_StockInventory_vue_vue_type_template_id_68bd39de___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./StockInventory.vue?vue&type=template&id=68bd39de& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/StockInventory.vue?vue&type=template&id=68bd39de&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_StockInventory_vue_vue_type_template_id_68bd39de___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TransferStockInventory_vue_vue_type_template_id_6dcce148___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./TransferStockInventory.vue?vue&type=template&id=6dcce148& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TransferStockInventory.vue?vue&type=template&id=6dcce148&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TransferStockInventory_vue_vue_type_template_id_6dcce148___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_StockInventory_vue_vue_type_template_id_68bd39de___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TransferStockInventory_vue_vue_type_template_id_6dcce148___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

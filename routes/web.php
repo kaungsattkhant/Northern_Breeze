@@ -72,7 +72,12 @@ Route::group(['middleware'=>['adminCheck']],function() {
             Route::post('currency_filter','StockController@currency_filter');
             Route::get('stock_inventory','StockController@stock_inventory');
             Route::post('add_currency','StockController@add_stock');
+//=======
+//            Route::get('add_currency','StockController@add_stock');
+//>>>>>>> origin/medium
             Route::get('transfer','StockController@stock_transfer');
+            Route::post('transfer_currency','StockController@transfer_currency');
+
 //            Route::post('/store','StockController@store');
             Route::get('/stock_add','StockController@stock_add');
             Route::get('{id}/detail','StockController@stock_detail');
@@ -120,7 +125,7 @@ Route::group(['middleware'=>['managerCheck']],function() {
             Route::post('add_currency','StockController@add_stock');
             Route::get('transfer','StockController@stock_transfer');
 //            Route::post('transfer','StockController@transfer_currency');
-            Route::get('transfer_currency','StockController@transfer_currency');
+//            Route::get('transfer_currency','StockController@transfer_currency');
             Route::get('/stock_add','StockController@stock_add');
             Route::get('{id}/detail','StockController@stock_detail');
             Route::post('transfer_datefilter','StockController@transfer_datepicker');

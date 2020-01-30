@@ -239,7 +239,6 @@ class POSController extends Controller
 
                             }
                         }
-
                     } elseif ($t->status == "other_MMK") {
                         if ($group->type == "buy") {
                             if ($check_currency->currency->id == $us_currency->id) {

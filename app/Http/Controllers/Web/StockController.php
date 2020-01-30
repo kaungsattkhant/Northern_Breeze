@@ -239,6 +239,7 @@ class StockController extends Controller
     public function currency_filter(Request $request){
 //       dd($request->all());
         $currency_id=$request->currency_id;
+//        $b_id=$request->from_branch;
         $b_id=$request->branch;
 
         $classification=Classification::orderBy('id','asc')->get('id','name');
@@ -461,11 +462,16 @@ class StockController extends Controller
     }
     public function stock_transfer()
     {
-        return view('Stock.transfer');
+        $currencies = Currency::all();
+        $branches = Branch::all();
+        $is_admin=Auth::user()->isAdmin();
+        $auth_id = Auth::user()->branch_id;
+        return view('Stock.transfer',compact('currencies','branches','is_admin','auth_id'));
     }
     public function transfer_currency(Request $request){
         $data=json_encode($request->all());
         $transfer_data=json_decode($data);
+//        dd($transfer_data);
         if($request->to_branch_id != null && $request->to_branch_id ==null) {
 //            dd('manager_transfer');
             $branch_id=Auth::user()->branch_id;
@@ -501,9 +507,28 @@ class StockController extends Controller
                 }
 
             }else{
+                foreach($t->notes as $note){
+                    foreach($note->class_sheet as $cs){
+                        if($n->transfer_type ==="branch_to_supplier"){
+                        }
+                        if($cs->sheet!=0){
+                            $transfer->transfer_group_note_class()
+                                ->attach($transfer->id,['group_note_id'=>$note->group_note_id,'class_id'=>$cs->class_id,'sheet'=>$cs->sheet]);
+                        }
+                        $remain_from_branch=DB::table('branch_group_note_class')
+                            ->where('group_note_id',$note->group_note_id)
+                            ->where('branch_id',$from_branch->id)
+                            ->where('class_id',$cs->class_id)
+                            ->first();
+                    }
+                }
+
 
             }
         }
+        return response()->json([
+            'is_success'=>true,
+        ]);
 
     }
     public function stock_detail($transfer_id)
