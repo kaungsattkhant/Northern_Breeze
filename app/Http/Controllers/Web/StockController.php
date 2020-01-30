@@ -426,7 +426,11 @@ class StockController extends Controller
     }
     public function stock_transfer()
     {
-        return view('Stock.transfer');
+        $currencies = Currency::all();
+        $branches = Branch::all();
+        $is_admin=Auth::user()->isAdmin();
+        $auth_id = Auth::user()->branch_id;
+        return view('Stock.transfer',compact('currencies','branches','is_admin','auth_id'));
     }
     public function stock_detail($transfer_id)
     {

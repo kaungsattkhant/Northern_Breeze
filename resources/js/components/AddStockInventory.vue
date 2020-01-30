@@ -27,14 +27,13 @@
                             id="stock_branch">
                         <option :value="null" disabled selected>Choose Branch</option>
                         <option :value="item.id"
-                                v-bind:disabled="item.id === auth_id"
                                 v-for="item in branch_items">{{item.name}}
                         </option>
                     </select>
                 </div>
             </div>
 
-            <stock-group-value v-if="stock_currency" :data="stock_currency" :isMM="isMM()"></stock-group-value>
+            <stock-group-value v-if="stock_currency" :data="stock_currency" :isMM="isMM()" :isSupplier="true"></stock-group-value>
         </form>
 
     </div>
@@ -47,7 +46,7 @@
     Vue.use(Vuex);
 
     export default {
-        props: ['currencies', 'branches', 'auth_id', 'total_value','is_admin'],
+        props: ['currencies', 'branches', 'total_value','is_admin'],
         data() {
             return {
                 items: JSON.parse(this.currencies),

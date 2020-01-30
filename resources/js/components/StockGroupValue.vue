@@ -39,8 +39,9 @@
                         </h3>
                     </td>
                     <td class="text-right border-top-0 pt-4 pb-4">
-                        <input v-if="!isMM" v-for="(item,k) in group.class_currency_value"
+                        <input v-if="!isMM && isSupplier" v-for="(item,k) in group.class_currency_value"
                                type="number"
+                               min="0"
                                v-on:change="handleValues(group,i)"
                                v-on:keyup="handleValues(group,i)"
                                v-model="group_value[i][k]"
@@ -53,11 +54,13 @@
 
                         <input v-if="!isMM" v-for="(item,k) in group.class_currency_value"
                                type="number"
+                               min="0"
                                v-on:change="handleSheets(group,note,i,j,k)"
                                v-on:keyup="handleSheets(group,note,i,j,k)"
                                v-model="note_sheets[i][j][k]"  class="note_class border rounded-table-mount w-21 text-center fontsize-mount3 pt-1">
                         <input v-if="isMM"
                                type="number"
+                               min="0"
                                v-on:change="handleSheets(group,note,i,j,null)"
                                v-on:keyup="handleSheets(group,note,i,j,null)"
                                v-model="note_sheets[i][j]"  class="note_class border rounded-table-mount w-21 text-center fontsize-mount3 pt-1">
@@ -66,6 +69,7 @@
                 </tr>
                 </tbody>
             </table>
+            <span class="text-danger">{{msg}}</span>
             <div class="div-p-mount2 text-center">
                 <p> Total : MMKs </p>
             </div>
@@ -83,14 +87,15 @@
     Vue.use(Vuex);
 
     export default {
-        props: ['data','isMM'],
+        props: ['data','isMM','isSupplier'],
         data() {
             return {
                 group_value: [],
                 note_sheets: [],
                 groups_length: this.data.groups.length,
                 notes_length: 10,
-                classes_length: 10
+                classes_length: 10,
+                msg: ''
             }
         },
 
@@ -104,16 +109,16 @@
                 this.switchToCustomValue(this.stock_groups,group,this.group_value[i]);
             },
             handleSheets(group,note,i,j,k){
-                if(this.isMM){
-                    this.refreshGroup(null, this.stock_groups, this.note_sheets[i][j], group, note, k,this.group_value[i],this.isMM);
+                if(this.isMM && !this.isSupplier ){
+                    this.refreshGroup(null, this.stock_groups, this.note_sheets[i][j], group, note, k,this.group_value[i],(this.isMM && !this.isSupplier));
 
                 }else{
-                    this.refreshGroup(null, this.stock_groups, this.note_sheets[i][j][k], group, note, k,this.group_value[i],this.isMM);
+                    this.refreshGroup(null, this.stock_groups, this.note_sheets[i][j][k], group, note, k,this.group_value[i], (this.isMM && !this.isSupplier));
                 }
             },
         },
         mounted() {
-            this.setInitialGroups(null, this.data, this.isMM);
+            this.setInitialGroups(null, this.data, (this.isMM && !this.isSupplier));
         },
         created(){
              let lengths = {
@@ -129,7 +134,7 @@
                 }
                 this.group_value.push(row);
             }
-            this.setInitialSheets(lengths, this.note_sheets, this.isMM);
+            this.setInitialSheets(lengths, this.note_sheets, (this.isMM && !this.isSupplier));
 
         },
         computed: mapState({
