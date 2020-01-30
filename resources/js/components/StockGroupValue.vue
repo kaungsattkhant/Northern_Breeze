@@ -109,16 +109,15 @@
                 this.switchToCustomValue(this.stock_groups,group,this.group_value[i]);
             },
             handleSheets(group,note,i,j,k){
-                if(this.isMM && !this.isSupplier ){
-                    this.refreshGroup(null, this.stock_groups, this.note_sheets[i][j], group, note, k,this.group_value[i],(this.isMM && !this.isSupplier));
-
+                if(this.isMM){
+                    this.refreshGroup(null, this.stock_groups, this.note_sheets[i][j], group, note, k,this.group_value[i],this.isMM);
                 }else{
-                    this.refreshGroup(null, this.stock_groups, this.note_sheets[i][j][k], group, note, k,this.group_value[i], (this.isMM && !this.isSupplier));
+                    this.refreshGroup(null, this.stock_groups, this.note_sheets[i][j][k], group, note, k,this.group_value[i], this.isMM);
                 }
             },
         },
         mounted() {
-            this.setInitialGroups(null, this.data, (this.isMM && !this.isSupplier));
+            this.setInitialGroups(null, this.data, this.isMM);
         },
         created(){
              let lengths = {
@@ -134,7 +133,7 @@
                 }
                 this.group_value.push(row);
             }
-            this.setInitialSheets(lengths, this.note_sheets, (this.isMM && !this.isSupplier));
+            this.setInitialSheets(lengths, this.note_sheets, this.isMM);
 
         },
         computed: mapState({

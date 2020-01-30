@@ -125,13 +125,22 @@
             },
 
             handleSubmit() {
+                let transfer_type;
+                if(this.isSupplier()){
+                    transfer_type = 'branch_to_supplier'
+                }else{
+                    transfer_type = 'branch_to_branch'
+                }
                 let data = {
                     to_branch: this.to_branch,
                     from_branch: this.from_branch,
                     currency_id: this.currency_id,
                     groups: this.stock_groups,
-                    status: this.stock_currency.status
+                    status: this.stock_currency.status,
+                    transfer_type: transfer_type,
                 };
+
+                console.log(data)
                 fetch('/stock/transfer_currency', {
                     method: 'POST',
                     headers: {
