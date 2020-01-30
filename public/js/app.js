@@ -215,7 +215,9 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       }).then(function (response) {
         return response.json();
       }).then(function (data) {
-        console.log(data);
+        if (data.is_success) {
+          window.location.replace('/stock');
+        }
       });
     }
   },
@@ -2140,18 +2142,21 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
         status: this.stock_currency.status,
         transfer_type: transfer_type
       };
-      console.log(data); // fetch('/stock/transfer_currency', {
-      //     method: 'POST',
-      //     headers: {
-      //         'Content-Type': 'application/json',
-      //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-      //     },
-      //     body: JSON.stringify(data)
-      // })
-      //     .then(response => response.json())
-      //     .then(data => {
-      //         console.log(data);
-      //     })
+      console.log(data);
+      fetch('/stock/transfer_currency', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        body: JSON.stringify(data)
+      }).then(function (response) {
+        return response.json();
+      }).then(function (data) {
+        if (data.is_success) {
+          window.location.replace('/stock');
+        }
+      });
     }
   },
   mounted: function mounted() {},

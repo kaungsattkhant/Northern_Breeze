@@ -140,18 +140,20 @@
                     transfer_type: transfer_type,
                 };
                 console.log(data)
-                // fetch('/stock/transfer_currency', {
-                //     method: 'POST',
-                //     headers: {
-                //         'Content-Type': 'application/json',
-                //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                //     },
-                //     body: JSON.stringify(data)
-                // })
-                //     .then(response => response.json())
-                //     .then(data => {
-                //         console.log(data);
-                //     })
+                fetch('/stock/transfer_currency', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    body: JSON.stringify(data)
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if(data.is_success){
+                            window.location.replace('/stock')
+                        }
+                    })
             },
         },
         mounted() {
