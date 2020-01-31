@@ -73,14 +73,15 @@ export const stock_helpers = {
                 }
             }else{
                 for(let classItem in storeGroup[groupItem].class_currency_value){
-                    storeGroup[groupItem].class_currency_value[classItem].value = parseInt(values[groupItem][classItem]);
+                    storeGroup[groupItem].class_currency_value[classItem].value = values[groupItem][classItem];
                 }
                 for(let noteItem in storeGroup[groupItem].notes){
                     let total_sheet = 0;
                     for(let classItem in storeGroup[groupItem].notes[noteItem].class_sheet){
                         storeGroup[groupItem].notes[noteItem].class_sheet[classItem].sheet = parseInt(sheets[groupItem][noteItem][classItem]);
-                        storeGroup[groupItem].notes[noteItem].total_sheet = total_sheet+storeGroup[groupItem].notes[noteItem].class_sheet[classItem].sheet;
+                       total_sheet  = total_sheet+storeGroup[groupItem].notes[noteItem].class_sheet[classItem].sheet;
                     }
+                    storeGroup[groupItem].notes[noteItem].total_sheet = total_sheet;
                 }
             }
         }
@@ -93,21 +94,25 @@ export const stock_helpers = {
             let note_total = 0;
             for(let noteItem in storeGroup[groupItem].notes){
                 let value, note_name, sheet;
+
                 if(isMM){
                     value = 1;
-                    note_name= storeGroup[groupItem].notes[noteItem].note_name;
-                    sheet = storeGroup[groupItem].notes[noteItem].total_sheet;
+                    note_name= parseInt(storeGroup[groupItem].notes[noteItem].note_name);
+                    sheet = parseInt(storeGroup[groupItem].notes[noteItem].total_sheet);
+                    note_total = note_total + (value*note_name*sheet);
+
 
                 }else{
                     for(let classItem in storeGroup[groupItem].notes[noteItem].class_sheet){
-                        value = storeGroup[groupItem].class_currency_value[classItem].value;
-                        note_name = storeGroup[groupItem].notes[noteItem].note_name;
-                        sheet = storeGroup[groupItem].notes[noteItem].class_sheet[classItem].sheet;
+                        value = storeGroup[groupItem].class_currency_value[classItem].value ;
+                        note_name = parseInt(storeGroup[groupItem].notes[noteItem].note_name) ;
+                        sheet = parseInt(storeGroup[groupItem].notes[noteItem].class_sheet[classItem].sheet) ;
+                        note_total = note_total + (value*note_name*sheet);
                     }
                 }
-                note_total = note_total + (value*note_name*sheet);
             }
             total_mmk = total_mmk+note_total;
+
         }
         return total_mmk;
     },

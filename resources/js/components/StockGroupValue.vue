@@ -8,12 +8,14 @@
                 <tbody class="rounded-table-mount" v-for="group in data.groups">
 
                 <tr>
-                    <td>
-                        <h3 class="pb-2 ">
-                            {{group.group_name}}  <span v-if="!isMM" v-for="item in group.class_currency_value" style="font-size: 15px;color: #555555;font-family: 'Roboto',sans-serif">({{item.value}})</span>
+                    <td class="border-top-0" style="min-width: fit-content;">
+                        <h3 class="pb-2 pr-4 d-inline">
+                            {{group.group_name}}
                         </h3>
+                        <span v-if="!isMM" v-for="item in group.class_currency_value" class="span-in-table  d-inline">({{item.value}})</span>
+
                     </td>
-                    <td v-if="!isMM" class="text-nb-mount border-top-0 pl-4 pt-4 fontsize-mount2">
+                    <td v-if="!isMM" class="text-nb-mount border-top-0 pt-4 fontsize-mount2">
 
                     </td>
                 </tr>
@@ -25,14 +27,14 @@
                 </tr>
                 </tbody>
                 <tfoot>
-                <tr>
-                    <td class="border-top-0 text-nb-mount d-none" style="padding: 0px;"></td>
-                    <td class="text-center border-top-0 w-100 pl-5">
-                        <p class="total-text-mount pl-5 mb-1">Total MMKs :<span
-                            class="total_value"></span><i></i></p>
+<!--                <tr>-->
+<!--                    <td class="border-top-0 text-nb-mount d-none" style="padding: 0px;"></td>-->
+<!--                    <td class="text-center border-top-0 w-100 pl-5">-->
+<!--                        <p class="total-text-mount pl-5 mb-1">Total MMKs :<span-->
+<!--                            class="total_value"></span><i></i></p>-->
 
-                    </td>
-                </tr>
+<!--                    </td>-->
+<!--                </tr>-->
                 </tfoot>
             </table>
 <!--            <div class="div-p-mount2">-->
@@ -42,19 +44,29 @@
 
         <div class="col">
             <table class="table border-0 bg-white box-shadow-mount border-tab-radius-mount">
+                <thead>
+                <tr>
+                    <td class="border-top-0 px-0 text-center">
+                        <span class="text-danger" v-if="isTransfer">{{msg}}</span>
+                    </td>
+                    <td class="border-top-0 w-100 text-left pl-5">
+                        <p class="total-text-mount pl-5 mb-1">Total MMKs : {{total_mmk}}</p>
+                    </td>
+                </tr>
+                </thead>
                 <tbody class="rounded-table-mount pb-5" v-for="(group,i) in data.groups">
                 <tr>
-                    <td class="text-center w-25">
+                    <td class=" w-25 border-top-0 pr-0">
                         <h3>
                             {{group.group_name}}
                         </h3>
                     </td>
-                    <td class="text-left border-top-0 pt-4 pb-4">
+                    <td class="text-left border-top-0 pl-0 pt-4 pb-4">
                         <input v-if="!isMM && isSupplier" v-for="(item,k) in group.class_currency_value"
                                type="number"
                                min="0"
-                               v-on:change="handleValues()"
-                               v-on:keyup="handleValues()"
+                               v-on:change="handleValues(group_value[i][k])"
+                               v-on:keyup="handleValues(group_value[i][k])"
                                v-model="group_value[i][k]"
                                class="note_class border-top-0 border-left-0 border-right-0 w-21 text-center fontsize-mount mx-1 pt-1" style="color: #555">
                     </td>
@@ -67,29 +79,20 @@
                                type="number"
                                min="0"
 
-                               v-on:change="handleSheets(item,i,j,k)"
-                               v-on:keyup="handleSheets(item,i,j,k)"
+                               v-on:change="handleSheets(item,note_sheets[i][j][k])"
+                               v-on:keyup="handleSheets(item,note_sheets[i][j][k])"
                                v-model="note_sheets[i][j][k]"  class="note_class border rounded-table-mount w-25 text-center fontsize-mount3 pt-1">
                         <input v-if="isMM"
                                type="number"
                                min="0"
-                               v-on:change="handleSheets(note,i,j,null)"
-                               v-on:keyup="handleSheets(note,i,j,null)"
+                               v-on:change="handleSheets(note,note_sheets[i][j])"
+                               v-on:keyup="handleSheets(note,note_sheets[i][j])"
                                v-model="note_sheets[i][j]"  class="note_class border rounded-table-mount w-25 text-center fontsize-mount3 pt-1">
 
                     </td>
                 </tr>
                 </tbody>
-                <tfoot>
-                <tr>
-                    <td class="border-top-0 px-0 text-center">
-                        <span class="text-danger" v-if="isTransfer">{{msg}}</span>
-                    </td>
-                    <td class="border-top-0 w-100 text-left pl-5">
-                        <p class="total-text-mount pl-5 mb-1">Total MMKs : {{total_mmk}}</p>
-                    </td>
-                </tr>
-                </tfoot>
+
             </table>
 <!--            <span class="text-danger" v-if="isTransfer">{{msg}}</span>-->
         </div>
@@ -114,7 +117,6 @@
                 groups_length: this.data.groups.length,
                 notes_length: 10,
                 classes_length: 10,
-                msg: '',
                 groups: [],
                 total_mmk: 0
             }
@@ -129,26 +131,29 @@
             refreshGroup: stock_helpers.updateInitialGroups,
             calculateTotal: stock_helpers.calculateTotalMMK,
 
-            handleValues(){
+            handleValues(value){
+                console.log(value)
                 this.refreshGroup(this.stock_groups,this.note_sheets,this.group_value,this.isMM);
-                this.total_mmk = this.calculateTotal(this.stock_groups,this.isMM);
+                this.total_mmk = this.calculateTotal(this.stock_groups,this.isMM).toFixed(2);
             },
 
-            handleSheets(item, i , j, k){
-                this.msg = '';
-                let total_sheet, input_sheet;
+            handleSheets(item, input_sheet){
+                let local_msg = '';
+                let total_sheet;
+                // let input_sheet = note_sheet;
                 if(this.isMM){
                     total_sheet = item.total_sheet;
-                    input_sheet = this.note_sheets[i][j];
                 }else{
                     total_sheet = item.sheet;
-                    input_sheet = this.note_sheets[i][j][k];
                 }
                 if(input_sheet>total_sheet){
-                    this.msg = 'Invalid Value!';
+                    local_msg = 'Input sheet cannot exceeds total sheet!';
                 }
+                this.$store.commit('setMsgForStock', local_msg);
+
+
                 this.refreshGroup(this.stock_groups,this.note_sheets,this.group_value,this.isMM);
-                this.total_mmk = this.calculateTotal(this.stock_groups,this.isMM);
+                this.total_mmk = this.calculateTotal(this.stock_groups,this.isMM).toFixed(2);
 
             },
         },
@@ -173,7 +178,8 @@
 
 
         computed: mapState({
-            stock_groups: 'stock_groups'
+            stock_groups: 'stock_groups',
+            msg: 'msg_for_stock'
         }),
 
 

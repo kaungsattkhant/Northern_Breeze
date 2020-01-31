@@ -32,6 +32,7 @@ export const store = new Vuex.Store({
         sell_not_enough_msg: '',
         daily_currency_data: '',
         stock_groups: [],
+        msg_for_stock: '',
     },
     mutations: {
 
@@ -114,6 +115,10 @@ export const store = new Vuex.Store({
         },
         setDailyCurrencyData(state,data){
             state.daily_currency_data = data;
+        },
+
+        setMsgForStock(state,data){
+            state.msg_for_stock = data;
         }
     },
 

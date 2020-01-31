@@ -64,42 +64,39 @@
             },
 
             fetch_currency_groups() {
-                    this.stock_currency = '';
-                    if($('#stock_currency option:selected').val()){
-                        this.currency_id = parseInt($('#stock_currency option:selected').val());
-                    }else{
-                        alert('please choose currency type')
+                this.stock_currency = '';
+                let currency_type = $('#stock_currency option:selected').val();
+                let branch = $('#stock_branch option:selected').val();
+                if(this.is_admin){
+                    if(currency_type !=='' && branch !==''){
+                        this.branch = parseInt(branch);
+                        this.currency_id = parseInt(currency_type);
                     }
-                    if (this.is_admin && !($('#stock_branch option:selected').val())) {
-                        alert('please choose branch')
-                    }
-                    else if(this.is_admin && $('#stock_branch option:selected').val()){
-                        this.branch = parseInt($('#stock_branch option:selected').val());
-                    }
-                    else {
+                }else{
+                    if(currency_type !==''){
                         this.branch = null;
+                        this.currency_id = parseInt(currency_type);
                     }
-
-
-                    if(this.branch!== '' && this.currency_id!== ''){
-                        let data = {
-                            currency_id: this.currency_id,
-                            to_branch: null,
-                            from_branch: this.branch,
-                        };
-                        fetch('/stock/currency_filter', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                            },
-                            body: JSON.stringify(data)
-                        })
-                            .then(response => response.json())
-                            .then(data => {
-                                this.stock_currency=data;
-                            });
-                    }
+                }
+                if(this.branch!== '' && this.currency_id!== ''){
+                    let data = {
+                        currency_id: this.currency_id,
+                        to_branch: null,
+                        from_branch: this.branch,
+                    };
+                    fetch('/stock/currency_filter', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        body: JSON.stringify(data)
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            this.stock_currency=data;
+                        });
+                }
             },
 
             handleSubmit() {

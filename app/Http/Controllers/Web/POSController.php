@@ -44,7 +44,135 @@ class POSController extends Controller
         $currencies  = Currency::all();
         return view('Member.non_member',compact('currencies'));
     }
-    public function currency_group(Request $request)
+    public function currency_group(Request $request){
+//        public function currency_grou(Request $request){
+        $currency_id=$request->currency_id;
+        $b_id=$request->from_branch;
+
+        $classification=Classification::orderBy('id','asc')->get('id','name');
+        $us_currency_id=Currency::where('name','United States dollar')->first();
+        $myanmar_currency=Currency::where('name','Myanmar Kyat')->first();
+        $groups=Group::with('notes')->where('currency_id',$currency_id)->get();
+        if($currency_id==$myanmar_currency->id){
+            $status="MMK";
+        }elseif($currency_id==$us_currency_id->id) {
+            $status="us_currency";
+        }else{
+            $status="other";
+        }
+        $branch_id = Auth::user()->branch_id ? Auth::user()->branch_id : $b_id;
+        if($groups->isNotEmpty()){
+            foreach($groups as $key=>$group){
+                $new[$key]=new \stdClass();
+                $new[$key]->group_id=$group->id;
+                $new[$key]->group_name=$group->name;
+
+                $note_id=DB::table('group_note')->where('group_id',$group->id)->orderBy('note_id','desc')->pluck('note_id');
+                foreach ($note_id as $i=>$id)
+                {
+//                    dd($id);
+                    $note=Note::whereId($id)->first();
+//                    dd($note);
+                    $group_note_id=DB::table('group_note')
+                        ->where('note_id',$id)
+                        ->where('group_id',$group->id)
+                        ->first();
+                    $notes[$key][$i]=new \stdClass();
+                    $notes[$key][$i]->group_note_id=$group_note_id->id;
+                    $notes[$key][$i]->note_name=$note->name;
+                    $total_sheet=0;
+
+                    if($currency_id==$myanmar_currency->id){
+//                        dd('aa');
+                        $bgn=DB::table('branch_group_note')->where('branch_id',$branch_id)
+                            ->where('group_note_id',$group_note_id->id)->first();
+                        if($bgn==null){
+                            $total_sheet=0;
+                        }else{
+                            $total_sheet+=(int)$bgn->sheet;
+                        }
+                        $class_sheet=null;
+                    }else{
+                        foreach($classification as $bc=>$class){
+//                            $class_sheet[$bc]=new \stdClass();
+
+                            $branch_class_sheet=DB::table('branch_group_note_class')
+                                ->where('branch_id',$branch_id)
+                                ->where('class_id',$class->id)
+                                ->where('group_note_id',$group_note_id->id)->first();
+                            $cg_id = \Illuminate\Support\Facades\DB::table('classification_group')->where('group_id', $group->id)
+                                ->where('classification_id', $class->id)->first();
+                            $aaaaa[] = $cg_id;
+                            if($cg_id !=null ){
+                                $class_sheet[$bc]=new \stdClass();
+                                if($branch_class_sheet == null){
+                                    $class_sheet[$bc]->class_id=$class->id;
+                                    $class_sheet[$bc]->sheet=0;
+                                }else{
+                                    $class_sheet[$bc]->class_id=$branch_class_sheet->class_id;
+                                    $class_sheet[$bc]->sheet=$branch_class_sheet->sheet;
+                                    $total_sheet+=(int)$class_sheet[$bc]->sheet;
+                                }
+                            }
+
+                        }
+
+
+                    }
+//                    dd($total_sheet);
+
+                    $notes[$key][$i]->class_sheet=$class_sheet;
+                    $notes[$key][$i]->total_sheet=$total_sheet;
+
+                }
+                if($currency_id== $myanmar_currency->id){
+//                    $currency_value=new \stdClass();
+//                    $currency_value->id="null";
+//                    $currency_value->value="null";
+                    $currency_value=null;
+                } else{
+                    foreach($classification as $c=>$class){
+                        $classification_group_id = \Illuminate\Support\Facades\DB::table('classification_group')->where('group_id', $group->id)
+                            ->where('classification_id', $class->id)->first();
+                        if($classification_group_id!=null){
+                            $buy_class_value= BuyClassGroupValue::where('classification_group_id', $classification_group_id->id)
+                                ->latest()
+                                ->first();
+                            $currency_value[$c]=new \stdClass();
+                            $currency_value[$c]->id=$buy_class_value->id;
+                            $currency_value[$c]->class_id=$class->id;
+                            $currency_value[$c]->value=$buy_class_value->value;
+                        }
+                    }
+                }
+                $new[$key]->class_currency_value=$currency_value;
+
+            }
+            foreach($new as $k=>$n){
+                $new[$k]->notes=$notes[$k];
+            }
+//            dd($new);
+            if($currency_id==$us_currency_id->id){
+                return response()->json([
+                    'class'=>$classification,
+                    'status'=>$status,
+                    'groups'=> $new,
+                ]);
+            }else{
+                return response()->json([
+                    'class'=>null,
+                    'status'=>$status,
+                    'groups'=> $new,
+                ]);
+            }
+        }
+//        else{
+//            return response()->json([
+//                'error'=>'First,you should do notes as a group',
+//            ]);
+//        }
+    }
+    public function currency_grou(Request $request)
     {
         $currency_id=$request->currency_id;
         $classification=Classification::orderBy('id','asc')->get('id','name');
@@ -192,7 +320,6 @@ class POSController extends Controller
 //                                }
                             }
                         } elseif ($group->type == "sell") {
-                            if ($check_currency->currency->id == $us_currency->id) {
                                 foreach ($note->class_sheet as $class_sheet) {
                                     if ($class_sheet->sheet != 0) {
 //                                    dd($class_sheet->id);
@@ -212,42 +339,42 @@ class POSController extends Controller
                                                 $branch->branch_group_note_class()->wherePivot('branch_id',$branch->id)
                                                     ->wherePivot('group_note_id',$note->group_note_id)
                                                     ->wherePivot('class_id',$class_sheet->class_id)->detach();
-                                                $branch->branch_group_note_class()->attach($branch->id,['group_note_id' => $note->group_note_id,'class_id'=>$class_sheet->class_id, 'sheet' => $result]);
+                                                if($result!=0){
+                                                    $branch->branch_group_note_class()->attach($branch->id,['group_note_id' => $note->group_note_id,'class_id'=>$class_sheet->class_id, 'sheet' => $result]);
+                                                }
                                             }
                                         }
                                     }
                                 }
-                            } else {
-                                if($note->total_sheet!=0){
-                                    $sv = SellGroupValue::where('group_id', $group->group_id)->latest('date_time')->first();
-                                    $s=SellGroupValue::find($sv->id);
-                                    $out_transaction = new OutTransactionGroupNote();
-                                    $out_transaction->transaction_id = $transaction->id;
-                                    $out_transaction->group_note_id = $note->group_note_id;
-                                    $out_transaction->sheet = $note->total_sheet;
-                                    $s->classes()->save($out_transaction);
-                                    $bgn = $this->getBranchGroupNote($branch->id, $note->group_note_id);
-                                    if ($bgn != null) {
-                                        if($bgn->sheet>=$note->total_sheet){
-                                            $result = (intval($bgn->sheet) - intval($note->total_sheet));
-                                            $branch->branch_group_note()->wherePivot('branch_id', $branch->id)
-                                                ->wherePivot('group_note_id', $bgn->group_note_id)->detach();
-                                            $branch->branch_group_note()->attach($branch->id, ['group_note_id' => $bgn->group_note_id, 'sheet' => $result]);
-                                        }
-                                    }
-                                }
-
-                            }
+//                            else {
+//                                if($note->total_sheet!=0){
+//                                    $sv = SellGroupValue::where('group_id', $group->group_id)->latest('date_time')->first();
+//                                    $s=SellGroupValue::find($sv->id);
+//                                    $out_transaction = new OutTransactionGroupNote();
+//                                    $out_transaction->transaction_id = $transaction->id;
+//                                    $out_transaction->group_note_id = $note->group_note_id;
+//                                    $out_transaction->sheet = $note->total_sheet;
+//                                    $s->classes()->save($out_transaction);
+//                                    $bgn = $this->getBranchGroupNote($branch->id, $note->group_note_id);
+//                                    if ($bgn != null) {
+//                                        if($bgn->sheet>=$note->total_sheet){
+//                                            $result = (intval($bgn->sheet) - intval($note->total_sheet));
+//                                            $branch->branch_group_note()->wherePivot('branch_id', $branch->id)
+//                                                ->wherePivot('group_note_id', $bgn->group_note_id)->detach();
+//                                            $branch->branch_group_note()->attach($branch->id, ['group_note_id' => $bgn->group_note_id, 'sheet' => $result]);
+//                                        }
+//                                    }
+//                                }
+//
+//                            }
                         }
-
                     } elseif ($t->status == "other_MMK") {
                         if ($group->type == "buy") {
-                            if ($check_currency->currency->id == $us_currency->id) {
                                 foreach ($note->class_sheet as $class_sheet) {
                                     if ($class_sheet->sheet != null) {
                                         $cg = DB::table('classification_group')->where('classification_id', $class_sheet->class_id)
                                             ->where('group_id', $group->group_id)->first();
-                                        $sgv = SellClassGroupValue::where('classification_group_id',$cg->id)->latest()->first();
+                                        $sgv = BuyClassGroupValue::where('classification_group_id',$cg->id)->latest()->first();
                                         $sg = BuyClassGroupValue::find($sgv->id);
                                         $in_transaction = new InTransactionGroupNote();
                                         $in_transaction->transaction_id = $transaction->id;
@@ -266,31 +393,29 @@ class POSController extends Controller
                                                 ->wherePivot('class_id',$class_sheet->class_id)->detach();
                                             $branch->branch_group_note_class()->attach($branch->id,['group_note_id' => $note->group_note_id,'class_id'=>$class_sheet->class_id, 'sheet' => $result]);
                                     }
-
-
                                 }
-                            } else {
-                                if($note->total_sheet!=null){
-                                    $sv = BuyGroupValue::where('group_id',  $group->group_id)->latest()->first();
-                                    $s=BuyGroupValue::find($sv->id);
-                                    $in_transaction = new InTransactionGroupNote();
-                                    $in_transaction->transaction_id = $transaction->id;
-                                    $in_transaction->group_note_id = $note->group_note_id;
-                                    $in_transaction->sheet = $note->total_sheet;
-                                    $s->classes()->save($in_transaction);
-                                    $bgn = $this->getBranchGroupNote($branch->id, $note->group_note_id);
-                                    if ($bgn != null) {
-                                        $result = (intval($bgn->sheet) + intval($note->total_sheet));
-                                    }else{
-                                        $result=$note->total_sheet;
-                                    }
-                                        $branch->branch_group_note()->wherePivot('branch_id', $branch->id)
-                                            ->wherePivot('group_note_id', $note->group_note_id)->detach();
-                                        $branch->branch_group_note()->attach($branch->id, ['group_note_id' => $note->group_note_id, 'sheet' => $result]);
+//                            else {
+//                                if($note->total_sheet!=null){
+//                                    $sv = BuyGroupValue::where('group_id',  $group->group_id)->latest()->first();
+//                                    $s=BuyGroupValue::find($sv->id);
+//                                    $in_transaction = new InTransactionGroupNote();
+//                                    $in_transaction->transaction_id = $transaction->id;
+//                                    $in_transaction->group_note_id = $note->group_note_id;
+//                                    $in_transaction->sheet = $note->total_sheet;
+//                                    $s->classes()->save($in_transaction);
+//                                    $bgn = $this->getBranchGroupNote($branch->id, $note->group_note_id);
+//                                    if ($bgn != null) {
+//                                        $result = (intval($bgn->sheet) + intval($note->total_sheet));
+//                                    }else{
+//                                        $result=$note->total_sheet;
 //                                    }
-                                }
-
-                            }
+//                                        $branch->branch_group_note()->wherePivot('branch_id', $branch->id)
+//                                            ->wherePivot('group_note_id', $note->group_note_id)->detach();
+//                                        $branch->branch_group_note()->attach($branch->id, ['group_note_id' => $note->group_note_id, 'sheet' => $result]);
+////                                    }
+//                                }
+//
+//                            }
                         } elseif ($group->type == "sell") {
                             if($note->total_sheet!=null){
                                 $transaction->out_MMK_group_note()->attach($note->group_note_id, ['sheet' => $note->total_sheet]);
@@ -307,12 +432,11 @@ class POSController extends Controller
                         }
                     } elseif ($t->status == "other_other") {
                         if ($group->type == "buy") {
-                            if ($check_currency->currency->id == $us_currency->id) {
                                 foreach ($note->class_sheet as $class_sheet) {
                                     if ($class_sheet->sheet != null) {
                                         $cg = DB::table('classification_group')->where('classification_id', $class_sheet->class_id)
                                             ->where('group_id', $group->group_id)->first();
-                                        $sgv = SellClassGroupValue::where('classification_group_id',$cg->id)->latest()->first();
+                                        $sgv = BuyClassGroupValue::where('classification_group_id',$cg->id)->latest()->first();
                                         $sg = BuyClassGroupValue::find($sgv->id);
                                         $in_transaction = new InTransactionGroupNote();
                                         $in_transaction->transaction_id = $transaction->id;
@@ -334,27 +458,26 @@ class POSController extends Controller
                                     }
 
                                 }
-                            }else {
-                                $sv = BuyGroupValue::where('group_id',  $group->group_id)->latest()->first();
-                                $in_transaction = new InTransactionGroupNote();
-                                $in_transaction->transaction_id = $transaction->id;
-                                $in_transaction->group_note_id = $note->group_note_id;
-                                $in_transaction->sheet = $note->total_sheet;
-                                $sv->classes()->save($in_transaction);
-//                                        dd('success');
-                                $bgn = $this->getBranchGroupNote($branch->id, $note->group_note_id);
-//                                dd($bgn);
-                                if ($bgn != null) {
-                                    $result = (intval($bgn->sheet) + intval($note->total_sheet));
-                                }else{
-                                    $result=$note->total_sheet;
-                                }
-                                    $branch->branch_group_note()->wherePivot('branch_id', $branch->id)
-                                        ->wherePivot('group_note_id', $note->group_note_id)->detach();
-                                    $branch->branch_group_note()->attach($branch->id, ['group_note_id' => $note->group_note_id, 'sheet' => $result]);
-                            }
+//                            else {
+//                                $sv = BuyGroupValue::where('group_id',  $group->group_id)->latest()->first();
+//                                $in_transaction = new InTransactionGroupNote();
+//                                $in_transaction->transaction_id = $transaction->id;
+//                                $in_transaction->group_note_id = $note->group_note_id;
+//                                $in_transaction->sheet = $note->total_sheet;
+//                                $sv->classes()->save($in_transaction);
+////                                        dd('success');
+//                                $bgn = $this->getBranchGroupNote($branch->id, $note->group_note_id);
+////                                dd($bgn);
+//                                if ($bgn != null) {
+//                                    $result = (intval($bgn->sheet) + intval($note->total_sheet));
+//                                }else{
+//                                    $result=$note->total_sheet;
+//                                }
+//                                    $branch->branch_group_note()->wherePivot('branch_id', $branch->id)
+//                                        ->wherePivot('group_note_id', $note->group_note_id)->detach();
+//                                    $branch->branch_group_note()->attach($branch->id, ['group_note_id' => $note->group_note_id, 'sheet' => $result]);
+//                            }
                         } elseif ($group->type == "sell") {
-                            if ($check_currency->currency->id == $us_currency->id) {
                                 foreach ($note->class_sheet as $class_sheet) {
                                     if ($class_sheet->sheet != null) {
                                         $cg = DB::table('classification_group')->where('classification_id', $class_sheet->class_id)
@@ -378,24 +501,24 @@ class POSController extends Controller
                                         }
                                     }
                                 }
-                            } else {
-                                $sv = SellGroupValue::where('group_id',  $group->group_id)->latest()->first();
-                                $s=SellGroupValue::find($sv->id);
-                                $out_transaction = new OutTransactionGroupNote();
-                                $out_transaction->transaction_id = $transaction->id;
-                                $out_transaction->group_note_id = $note->group_note_id;
-                                $out_transaction->sheet = $note->total_sheet;
-                                $s->classes()->save($out_transaction);
-                                $bgn = $this->getBranchGroupNote($branch->id, $note->group_note_id);
-                                if ($bgn != null) {
-                                    if($bgn->sheet>=$note->total_sheet){
-                                        $result = (intval($bgn->sheet) - intval($note->total_sheet));
-                                        $branch->branch_group_note()->wherePivot('branch_id', $branch->id)
-                                            ->wherePivot('group_note_id', $bgn->group_note_id)->detach();
-                                        $branch->branch_group_note()->attach($branch->id, ['group_note_id' => $bgn->group_note_id, 'sheet' => $result]);
-                                    }
-                                }
-                            }
+//                            else {
+//                                $sv = SellGroupValue::where('group_id',  $group->group_id)->latest()->first();
+//                                $s=SellGroupValue::find($sv->id);
+//                                $out_transaction = new OutTransactionGroupNote();
+//                                $out_transaction->transaction_id = $transaction->id;
+//                                $out_transaction->group_note_id = $note->group_note_id;
+//                                $out_transaction->sheet = $note->total_sheet;
+//                                $s->classes()->save($out_transaction);
+//                                $bgn = $this->getBranchGroupNote($branch->id, $note->group_note_id);
+//                                if ($bgn != null) {
+//                                    if($bgn->sheet>=$note->total_sheet){
+//                                        $result = (intval($bgn->sheet) - intval($note->total_sheet));
+//                                        $branch->branch_group_note()->wherePivot('branch_id', $branch->id)
+//                                            ->wherePivot('group_note_id', $bgn->group_note_id)->detach();
+//                                        $branch->branch_group_note()->attach($branch->id, ['group_note_id' => $bgn->group_note_id, 'sheet' => $result]);
+//                                    }
+//                                }
+//                            }
                         }
                     }
                 }
