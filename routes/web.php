@@ -12,17 +12,10 @@
 */
 use Illuminate\Support\Facades\Route;
 
-//Route::get('api/transaction','Api\PosController@transaction');
 
-//Route::post('pos/transaction','Web\POSController@transaction_store');
 
 Route::group(['middleware'=>['adminCheck']],function() {
     Route::group(['namespace'=>'Web'],function(){
-
-//        Route::post('currency_group','POSController@currency_groups');
-//        Route::post('transaction','POSController@currency_results');
-
-
         Route::group(['prefix'=>'admin'],function(){
             Route::get('/','AdminController@index');
             Route::post('/store','AdminController@store');
@@ -148,19 +141,25 @@ Route::group(['middleware'=>['managerCheck']],function() {
 
         });
 
-//        Route::group(['prefix'=>'stock'],function(){
-//            Route::get('/','StockController@index');
-//            Route::get('create_stock','StockController@create');
+       Route::group(['prefix'=>'stock'],function(){
+            Route::get('/','StockController@index');
+            Route::get('create_stock','StockController@create');
 //            Route::get('{id}/stock_currency_filter','StockController@currency_filter');
-//            Route::get('stock_inventory','StockController@stock_inventory');
-//            Route::get('transfer','StockController@stock_transfer');
-//            Route::post('/store','StockController@store');
-//            Route::get('{id}/detail','StockController@stock_detail');
-//            Route::post('transfer_datefilter','StockController@transfer_datepicker');
-//            Route::get('{value}/transfer_status_filter','StockController@transfer_status_filter');
-//            Route::get('{branch}/branch_filter','StockController@stock_branch_filter');
-//            Route::get('admin/transfer','StockController@get_transfer_branch');
-//        });
+            Route::post('currency_filter','StockController@currency_filter');
+            Route::get('stock_inventory','StockController@stock_inventory');
+            Route::post('add_currency','StockController@add_stock');
+            Route::get('transfer','StockController@stock_transfer');
+//            Route::post('transfer','StockController@transfer_currency');
+//            Route::get('transfer_currency','StockController@transfer_currency');
+            Route::get('/stock_add','StockController@stock_add');
+            Route::get('{id}/detail','StockController@stock_detail');
+            Route::post('transfer_datefilter','StockController@transfer_datepicker');
+            Route::get('{value}/transfer_status_filter','StockController@transfer_status_filter');
+            Route::get('admin/add','StockController@get_branch');
+            Route::get('admin/transfer','StockController@get_transfer_branch');
+            Route::get('check_input','StockController@check_input');
+            Route::get('{currency}/stock_branch_filter/{branch}/branch','StockController@currency_branch_filter');
+        });
         Route::group(['prefix'=>'daily_currency'],function(){
             Route::get('/manager','DailyCurrencyController@index');
             Route::get('/create','DailyCurrencyController@create');

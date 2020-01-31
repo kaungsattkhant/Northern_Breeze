@@ -35,11 +35,20 @@
 <script src="{{ asset('js/app.js') . '?' .rand(0,99999) }}" defer></script>
 
 @yield('script')
+<script src="{{asset('js/transfer.js')}}"></script>
+
 <script>
     $(function() {
-
+        // alert('aa');
         $('.selectpicker').selectpicker();
-
+        $("#groupSubmit").attr("disabled", true);
+        $('.currency_group').on('change',function () {
+            $("#groupSubmit").attr("disabled", false);
+        });
+        $("#groupSubmit ").click(function () {
+                   $("#groupSubmit").attr("disabled", true);
+                   $('#currency_group_form').submit();
+               });
         // $("select").multiselect();
         $('#menu').hover(function() {
                 $('.img-pos').addClass('active-pos');

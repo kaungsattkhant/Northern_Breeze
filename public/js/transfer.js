@@ -1,5 +1,5 @@
 $(function() {
-
+    // alert('aa');
     // $(function(){
         $("#stock a").addClass("active-si");
 

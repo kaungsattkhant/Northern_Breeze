@@ -56,7 +56,7 @@ class POSController extends Controller
         if($currency_id==$myanmar_currency->id){
             $status="MMK";
         }elseif($currency_id==$us_currency_id->id) {
-            $status="us_currency";
+            $status="other";
         }else{
             $status="other";
         }

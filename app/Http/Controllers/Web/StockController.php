@@ -337,17 +337,10 @@ class StockController extends Controller
                                 ->first();
 //                            dd($remain_branch_sheet);
                             if($remain_branch_sheet==null ){
-//                                dd('a');
-//                                if($cs->sheet!=0){
                                     $t_sheet=$cs->sheet;
-//                                }
                             }else{
-                                if($cs->sheet==0){
-                                    $t_sheet=$cs->sheet;
-                                }else{
-                                    $t_sheet=(int)$remain_branch_sheet->sheet +(int)$cs->sheet;
 
-                                }
+                                    $t_sheet=(int)$remain_branch_sheet->sheet +(int)$cs->sheet;
                             }
 
                                 $branch->branch_group_note_class()->wherePivot('group_note_id',$note->group_note_id)
