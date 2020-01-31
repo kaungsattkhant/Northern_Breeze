@@ -6,7 +6,7 @@
                 <div class="my-auto">
                     <p style="margin-left: 20px"><b>Total values:</b><i> {{total_value}}MMKs</i></p>
                 </div>
-                <button type="button" v-on:click="handleSubmit()" class="btn btn-nb-mount-save fontsize-mount px-4 stock_create">Add</button>
+                <button type="button" v-on:click="handleSubmit()" id="add-btn" class="btn btn-nb-mount-save fontsize-mount px-4 stock_create">Add</button>
             </div>
             <div class="row">
                 <div class="col">
@@ -27,6 +27,7 @@
                             id="stock_branch">
                         <option :value="null" disabled selected>Choose Branch</option>
                         <option :value="item.id"
+                                :disabled="isSupplierDisabled(item)"
                                 v-for="item in branch_items">{{item.name}}
                         </option>
                     </select>
@@ -61,6 +62,10 @@
 
             isMM(){
                return this.stock_currency.status === "MMK";
+            },
+
+            isSupplierDisabled(item){
+                return item.branch_type_id === 2;
             },
 
             fetch_currency_groups() {
@@ -100,6 +105,9 @@
             },
 
             handleSubmit() {
+                $('#add-btn').append(`
+                    <i class="fa fa-spinner fa-spin"></i>
+                `).prop('disabled',true);
                 let data = {
                     branch: this.branch,
                     currency_id: this.currency_id,
@@ -118,12 +126,16 @@
                     .then(data => {
                         if(data.is_success){
                             window.location.replace('/stock')
+                        }else{
+                            $("#add-btn").children("i:first").remove();
+                            $('#add-btn').prop('disabled',false);
+
                         }
                     })
             },
         },
         mounted() {
-
+            console.log(this.branch_items)
         },
         computed: mapState({
             stock_groups: 'stock_groups'

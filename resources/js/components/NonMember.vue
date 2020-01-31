@@ -62,6 +62,7 @@
             }
         },
 
+
         methods: {
             isSaveDisable() {
                 return !!(this.exceed_msg || this.buy_not_enough_msg || this.sell_not_enough_msg || !this.in_value_MMK || !this.out_value_MMK);
@@ -76,7 +77,6 @@
 
             submitForm() {
 
-                console.log(this.getResults);
                 $('#save-btn').append(`
                     <i class="fa fa-spinner fa-spin"></i>
                 `).prop('disabled',true);
@@ -96,8 +96,10 @@
                             $("#save-btn").children("i:first").remove();
                             $('#save-btn').prop('disabled',false);
 
+                            // window.location.replace('/pos/non_member');
                         }
                     })
+
             },
 
             fetch_currency_groups(status) {
@@ -138,6 +140,7 @@
                         }
                         $('.selectpicker').selectpicker('refresh');
 
+                        console.log(this.buy_currency_groups)
                     });
             }
         },

@@ -19,9 +19,9 @@
                 <h5 class="pt-3 text-center mb-0">{{group.group_name}}</h5>
 
                 <td class="text-nb-mount border-top-0 pl-4 pt-3 fontsize-mount2 justify-content-end pb-0" style="display: flex">
-                    <div style="width: 90%;float: right;text-align: center">
+                    <div style="width: 90%;float: right;text-align: right">
 <!--                        <span v-if="!isMM" class="fontsize-mount3 w-25 float-right">({{group.currency_value.value}}MMK)</span>-->
-                        <span v-if="!isMM" class="fontsize-mount3 w-25 float-right" v-for="value in group.class_currency_value">({{value.value}}MMK)</span>
+                        <span v-if="!isMM" class="fontsize-mount3 w-25 px-4" v-for="value in group.class_currency_value">({{value.value}}MMK)</span>
                     </div>
                 </td>
                 <td class="text-nb-mount border-top-0 pl-4 pt-2 fontsize-mount2 justify-content-between"
@@ -29,10 +29,11 @@
                     v-for="(note,j) in group.notes">
                     <span class="fontsize-mount22 span-number">{{note.note_name}}</span>
 
-                    <div class="input-group-box">
-                        <div class="w-25 float-right">
+                    <div class="input-group-box justify-content-between d-flex">
+                        <div></div>
+                        <div class="w-25 float-right " v-if="isMM">
 
-                            <input v-if="isMM" type="number" min="0" v-model="sheets[i][j]"
+                            <input  type="number" min="0" v-model="sheets[i][j]"
                                    v-on:keyup="calculateTotalAndChanges(sheets[i][j])"
                                    v-on:change="calculateTotalAndChanges(sheets[i][j])"
                                    class="from_note_class border  rounded-table-mount w-100 text-center fontsize-mount3 pt-1 ">
@@ -40,11 +41,11 @@
 
 
 
-                        <div class="w-25 float-left"
+                        <div class="w-25 text-right "
                              v-for="(item,k) in note.class_sheet">
-
                             <input v-if="!isMM" type="number" min="0"
                                    v-model="sheets[i][j][k]"
+                                   :placeholder="item.class_id"
                                    v-on:keyup="calculateTotalAndChanges(sheets[i][j][k])"
                                    v-on:change="calculateTotalAndChanges(sheets[i][j][k])"
                                    class="border rounded-table-mount w-100  text-center font-color fontsize-mount3 pt-1 ">

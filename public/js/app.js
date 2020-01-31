@@ -139,6 +139,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__["default"]);
@@ -156,6 +157,9 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
   methods: {
     isMM: function isMM() {
       return this.stock_currency.status === "MMK";
+    },
+    isSupplierDisabled: function isSupplierDisabled(item) {
+      return item.branch_type_id === 2;
     },
     fetch_currency_groups: function fetch_currency_groups() {
       var _this = this;
@@ -197,6 +201,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       }
     },
     handleSubmit: function handleSubmit() {
+      $('#add-btn').append("\n                <i class=\"fa fa-spinner fa-spin\"></i>\n            ").prop('disabled', true);
       var data = {
         branch: this.branch,
         currency_id: this.currency_id,
@@ -215,11 +220,16 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       }).then(function (data) {
         if (data.is_success) {
           window.location.replace('/stock');
+        } else {
+          $("#add-btn").children("i:first").remove();
+          $('#add-btn').prop('disabled', false);
         }
       });
     }
   },
-  mounted: function mounted() {},
+  mounted: function mounted() {
+    console.log(this.branch_items);
+  },
   computed: Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])({
     stock_groups: 'stock_groups'
   })
@@ -240,6 +250,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _helpers_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../helpers.js */ "./resources/js/helpers.js");
+//
 //
 //
 //
@@ -1515,7 +1526,6 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       return this.sell_currency_groups.status === "MMK";
     },
     submitForm: function submitForm() {
-      console.log(this.getResults);
       $('#save-btn').append("\n                <i class=\"fa fa-spinner fa-spin\"></i>\n            ").prop('disabled', true);
       fetch('/pos/transaction', {
         method: 'POST',
@@ -1531,7 +1541,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
           window.location.replace('/sale');
         } else {
           $("#save-btn").children("i:first").remove();
-          $('#save-btn').prop('disabled', false);
+          $('#save-btn').prop('disabled', false); // window.location.replace('/pos/non_member');
         }
       });
     },
@@ -1573,6 +1583,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
         }
 
         $('.selectpicker').selectpicker('refresh');
+        console.log(_this.buy_currency_groups);
       });
     }
   },
@@ -1603,6 +1614,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _helpers_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../helpers.js */ "./resources/js/helpers.js");
+//
+//
 //
 //
 //
@@ -1899,6 +1912,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 
@@ -1922,8 +1938,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
     setGroupsArray: _stock_helpers_js__WEBPACK_IMPORTED_MODULE_2__["stock_helpers"].setInitialGroups,
     refreshGroup: _stock_helpers_js__WEBPACK_IMPORTED_MODULE_2__["stock_helpers"].updateInitialGroups,
     calculateTotal: _stock_helpers_js__WEBPACK_IMPORTED_MODULE_2__["stock_helpers"].calculateTotalMMK,
-    handleValues: function handleValues(value) {
-      console.log(value);
+    handleValues: function handleValues() {
       this.refreshGroup(this.stock_groups, this.note_sheets, this.group_value, this.isMM);
       this.total_mmk = this.calculateTotal(this.stock_groups, this.isMM).toFixed(2);
     },
@@ -2045,12 +2060,16 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       currency_id: '',
       to_branch: '',
       from_branch: '',
-      stock_currency: ''
+      stock_currency: '',
+      current_branch: ''
     };
   },
   methods: {
     isTransferDisable: function isTransferDisable() {
       return !!this.msg;
+    },
+    isSupplierDisabled: function isSupplierDisabled(item) {
+      return item.branch_type_id === 2;
     },
     isMM: function isMM() {
       return this.stock_currency.status === "MMK";
@@ -2058,13 +2077,19 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
     isSupplier: function isSupplier() {
       return this.to_branch === 5;
     },
-    fetch_currency_groups: function fetch_currency_groups() {
+    fetch_currency_groups: function fetch_currency_groups(type) {
       var _this = this;
 
       this.stock_currency = '';
       var currency_type = $('#stock_currency option:selected').val();
       var to_branch = $('#to_stock_branch option:selected').val();
       var from_branch = $('#from_stock_branch option:selected').val();
+
+      if (type !== null) {
+        this.current_branch = parseInt($('#' + type + '_stock_branch option:selected').val());
+      }
+
+      console.log(this.current_branch);
 
       if (this.is_admin) {
         if (currency_type !== '' && to_branch !== '' && from_branch !== '') {
@@ -2101,6 +2126,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       }
     },
     handleSubmit: function handleSubmit() {
+      $('#trans-btn').append("\n                <i class=\"fa fa-spinner fa-spin\"></i>\n            ").prop('disabled', true);
       var transfer_type;
 
       if (this.isSupplier()) {
@@ -2129,11 +2155,17 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       }).then(function (data) {
         if (data.is_success) {
           window.location.replace('/stock');
+        } else {
+          $("#trans-btn").children("i:first").remove();
+          $('#trans-btn').prop('disabled', false);
         }
       });
     }
   },
   mounted: function mounted() {},
+  updated: function updated() {
+    $('.selectpicker').selectpicker('refresh');
+  },
   computed: Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])({
     stock_groups: 'stock_groups',
     msg: 'msg_for_stock'
@@ -20419,7 +20451,7 @@ var render = function() {
               {
                 staticClass:
                   "btn btn-nb-mount-save fontsize-mount px-4 stock_create",
-                attrs: { type: "button" },
+                attrs: { type: "button", id: "add-btn" },
                 on: {
                   click: function($event) {
                     return _vm.handleSubmit()
@@ -20499,9 +20531,14 @@ var render = function() {
                     ),
                     _vm._v(" "),
                     _vm._l(_vm.branch_items, function(item) {
-                      return _c("option", { domProps: { value: item.id } }, [
-                        _vm._v(_vm._s(item.name) + "\n                    ")
-                      ])
+                      return _c(
+                        "option",
+                        {
+                          attrs: { disabled: _vm.isSupplierDisabled(item) },
+                          domProps: { value: item.id }
+                        },
+                        [_vm._v(_vm._s(item.name) + "\n                    ")]
+                      )
                     })
                   ],
                   2
@@ -20622,17 +20659,14 @@ var render = function() {
                             staticStyle: {
                               width: "90%",
                               float: "right",
-                              "text-align": "center"
+                              "text-align": "right"
                             }
                           },
                           _vm._l(group.class_currency_value, function(value) {
                             return !_vm.isMM
                               ? _c(
                                   "span",
-                                  {
-                                    staticClass:
-                                      "fontsize-mount3 w-25 float-right"
-                                  },
+                                  { staticClass: "fontsize-mount3 w-25 px-4" },
                                   [_vm._v("(" + _vm._s(value.value) + "MMK)")]
                                 )
                               : _vm._e()
@@ -20659,53 +20693,62 @@ var render = function() {
                           _vm._v(" "),
                           _c(
                             "div",
-                            { staticClass: "input-group-box" },
+                            {
+                              staticClass:
+                                "input-group-box justify-content-between d-flex"
+                            },
                             [
-                              _c("div", { staticClass: "w-25 float-right" }, [
-                                _vm.isMM
-                                  ? _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.sheets[i][j],
-                                          expression: "sheets[i][j]"
-                                        }
-                                      ],
-                                      staticClass:
-                                        "from_note_class border  rounded-table-mount w-100 text-center fontsize-mount3 pt-1 ",
-                                      attrs: { type: "number", min: "0" },
-                                      domProps: { value: _vm.sheets[i][j] },
-                                      on: {
-                                        keyup: function($event) {
-                                          return _vm.calculateTotalAndChanges(
-                                            _vm.sheets[i][j]
-                                          )
-                                        },
-                                        change: function($event) {
-                                          return _vm.calculateTotalAndChanges(
-                                            _vm.sheets[i][j]
-                                          )
-                                        },
-                                        input: function($event) {
-                                          if ($event.target.composing) {
-                                            return
+                              _c("div"),
+                              _vm._v(" "),
+                              _vm.isMM
+                                ? _c(
+                                    "div",
+                                    { staticClass: "w-25 float-right " },
+                                    [
+                                      _c("input", {
+                                        directives: [
+                                          {
+                                            name: "model",
+                                            rawName: "v-model",
+                                            value: _vm.sheets[i][j],
+                                            expression: "sheets[i][j]"
                                           }
-                                          _vm.$set(
-                                            _vm.sheets[i],
-                                            j,
-                                            $event.target.value
-                                          )
+                                        ],
+                                        staticClass:
+                                          "from_note_class border  rounded-table-mount w-100 text-center fontsize-mount3 pt-1 ",
+                                        attrs: { type: "number", min: "0" },
+                                        domProps: { value: _vm.sheets[i][j] },
+                                        on: {
+                                          keyup: function($event) {
+                                            return _vm.calculateTotalAndChanges(
+                                              _vm.sheets[i][j]
+                                            )
+                                          },
+                                          change: function($event) {
+                                            return _vm.calculateTotalAndChanges(
+                                              _vm.sheets[i][j]
+                                            )
+                                          },
+                                          input: function($event) {
+                                            if ($event.target.composing) {
+                                              return
+                                            }
+                                            _vm.$set(
+                                              _vm.sheets[i],
+                                              j,
+                                              $event.target.value
+                                            )
+                                          }
                                         }
-                                      }
-                                    })
-                                  : _vm._e()
-                              ]),
+                                      })
+                                    ]
+                                  )
+                                : _vm._e(),
                               _vm._v(" "),
                               _vm._l(note.class_sheet, function(item, k) {
                                 return _c(
                                   "div",
-                                  { staticClass: "w-25 float-left" },
+                                  { staticClass: "w-25 text-right " },
                                   [
                                     !_vm.isMM
                                       ? _c("input", {
@@ -20719,7 +20762,11 @@ var render = function() {
                                           ],
                                           staticClass:
                                             "border rounded-table-mount w-100  text-center font-color fontsize-mount3 pt-1 ",
-                                          attrs: { type: "number", min: "0" },
+                                          attrs: {
+                                            type: "number",
+                                            min: "0",
+                                            placeholder: item.class_id
+                                          },
                                           domProps: {
                                             value: _vm.sheets[i][j][k]
                                           },
@@ -22539,17 +22586,14 @@ var render = function() {
                             staticStyle: {
                               width: "90%",
                               float: "right",
-                              "text-align": "center"
+                              "text-align": "right"
                             }
                           },
                           _vm._l(group.class_currency_value, function(value) {
                             return !_vm.isMM
                               ? _c(
                                   "span",
-                                  {
-                                    staticClass:
-                                      "fontsize-mount3 w-25 float-right"
-                                  },
+                                  { staticClass: "fontsize-mount3 w-25 px-4 " },
                                   [_vm._v("(" + _vm._s(value.value) + "MMK)")]
                                 )
                               : _vm._e()
@@ -22576,50 +22620,59 @@ var render = function() {
                           _vm._v(" "),
                           _c(
                             "div",
-                            { staticClass: "input-group-box" },
+                            {
+                              staticClass:
+                                "input-group-box justify-content-between d-flex"
+                            },
                             [
-                              _c("div", { staticClass: "w-25 float-right" }, [
-                                _vm.isMM
-                                  ? _c("input", {
-                                      directives: [
-                                        {
-                                          name: "model",
-                                          rawName: "v-model",
-                                          value: _vm.sheets[i][j],
-                                          expression: "sheets[i][j]"
-                                        }
-                                      ],
-                                      staticClass:
-                                        "from_note_class border  rounded-table-mount w-100 text-center fontsize-mount3 pt-1 ",
-                                      attrs: { type: "number", min: "0" },
-                                      domProps: { value: _vm.sheets[i][j] },
-                                      on: {
-                                        keyup: function($event) {
-                                          return _vm.calculateTotalAndChanges(
-                                            note,
-                                            _vm.sheets[i][j]
-                                          )
-                                        },
-                                        change: function($event) {
-                                          return _vm.calculateTotalAndChanges(
-                                            note,
-                                            _vm.sheets[i][j]
-                                          )
-                                        },
-                                        input: function($event) {
-                                          if ($event.target.composing) {
-                                            return
+                              _c("div"),
+                              _vm._v(" "),
+                              _vm.isMM
+                                ? _c(
+                                    "div",
+                                    { staticClass: "w-25 float-right" },
+                                    [
+                                      _c("input", {
+                                        directives: [
+                                          {
+                                            name: "model",
+                                            rawName: "v-model",
+                                            value: _vm.sheets[i][j],
+                                            expression: "sheets[i][j]"
                                           }
-                                          _vm.$set(
-                                            _vm.sheets[i],
-                                            j,
-                                            $event.target.value
-                                          )
+                                        ],
+                                        staticClass:
+                                          "from_note_class border  rounded-table-mount w-100 text-center fontsize-mount3 pt-1 ",
+                                        attrs: { type: "number", min: "0" },
+                                        domProps: { value: _vm.sheets[i][j] },
+                                        on: {
+                                          keyup: function($event) {
+                                            return _vm.calculateTotalAndChanges(
+                                              note,
+                                              _vm.sheets[i][j]
+                                            )
+                                          },
+                                          change: function($event) {
+                                            return _vm.calculateTotalAndChanges(
+                                              note,
+                                              _vm.sheets[i][j]
+                                            )
+                                          },
+                                          input: function($event) {
+                                            if ($event.target.composing) {
+                                              return
+                                            }
+                                            _vm.$set(
+                                              _vm.sheets[i],
+                                              j,
+                                              $event.target.value
+                                            )
+                                          }
                                         }
-                                      }
-                                    })
-                                  : _vm._e()
-                              ]),
+                                      })
+                                    ]
+                                  )
+                                : _vm._e(),
                               _vm._v(" "),
                               _vm._l(note.class_sheet, function(item, k) {
                                 return _c(
@@ -22638,7 +22691,11 @@ var render = function() {
                                           ],
                                           staticClass:
                                             "border rounded-table-mount w-100  text-center font-color fontsize-mount3 pt-1 ",
-                                          attrs: { type: "number", min: "0" },
+                                          attrs: {
+                                            type: "number",
+                                            min: "0",
+                                            placeholder: item.class_id
+                                          },
                                           domProps: {
                                             value: _vm.sheets[i][j][k]
                                           },
@@ -22741,40 +22798,38 @@ var render = function() {
               { staticClass: "rounded-table-mount" },
               [
                 _c("tr", [
-                  _c("td", [
-                    _c(
-                      "h3",
-                      { staticClass: "pb-2 " },
-                      [
+                  _c(
+                    "td",
+                    {
+                      staticClass: "border-top-0",
+                      staticStyle: { "min-width": "fit-content" }
+                    },
+                    [
+                      _c("h3", { staticClass: "pb-2 pr-4 d-inline" }, [
                         _vm._v(
                           "\n                            " +
                             _vm._s(group.group_name) +
-                            "  "
-                        ),
-                        _vm._l(group.class_currency_value, function(item) {
-                          return !_vm.isMM
-                            ? _c(
-                                "span",
-                                {
-                                  staticStyle: {
-                                    "font-size": "15px",
-                                    color: "#555555",
-                                    "font-family": "'Roboto',sans-serif"
-                                  }
-                                },
-                                [_vm._v("(" + _vm._s(item.value) + ")")]
-                              )
-                            : _vm._e()
-                        })
-                      ],
-                      2
-                    )
-                  ]),
+                            "\n                        "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _vm._l(group.class_currency_value, function(item) {
+                        return !_vm.isMM
+                          ? _c(
+                              "span",
+                              { staticClass: "span-in-table  d-inline" },
+                              [_vm._v("(" + _vm._s(item.value) + ")")]
+                            )
+                          : _vm._e()
+                      })
+                    ],
+                    2
+                  ),
                   _vm._v(" "),
                   !_vm.isMM
                     ? _c("td", {
                         staticClass:
-                          "text-nb-mount border-top-0 pl-4 pt-4 fontsize-mount2"
+                          "text-nb-mount border-top-0 pt-4 fontsize-mount2"
                       })
                     : _vm._e()
                 ]),
@@ -22821,13 +22876,31 @@ var render = function() {
             "table border-0 bg-white box-shadow-mount border-tab-radius-mount"
         },
         [
+          _c("thead", [
+            _c("tr", [
+              _c("td", { staticClass: "border-top-0 px-0 text-center" }, [
+                _vm.isTransfer
+                  ? _c("span", { staticClass: "text-danger" }, [
+                      _vm._v(_vm._s(_vm.msg))
+                    ])
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _c("td", { staticClass: "border-top-0 w-100 text-left pl-5" }, [
+                _c("p", { staticClass: "total-text-mount pl-5 mb-1" }, [
+                  _vm._v("Total MMKs : " + _vm._s(_vm.total_mmk))
+                ])
+              ])
+            ])
+          ]),
+          _vm._v(" "),
           _vm._l(_vm.data.groups, function(group, i) {
             return _c(
               "tbody",
               { staticClass: "rounded-table-mount pb-5" },
               [
                 _c("tr", [
-                  _c("td", { staticClass: "text-center w-25" }, [
+                  _c("td", { staticClass: " w-25 border-top-0 pr-0" }, [
                     _c("h3", [
                       _vm._v(
                         "\n                            " +
@@ -22839,7 +22912,7 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "td",
-                    { staticClass: "text-left border-top-0 pt-4 pb-4" },
+                    { staticClass: "text-left border-top-0 pl-0 pt-4 pb-4" },
                     _vm._l(group.class_currency_value, function(item, k) {
                       return !_vm.isMM && _vm.isSupplier
                         ? _c("input", {
@@ -22858,10 +22931,10 @@ var render = function() {
                             domProps: { value: _vm.group_value[i][k] },
                             on: {
                               change: function($event) {
-                                return _vm.handleValues(_vm.group_value[i][k])
+                                return _vm.handleValues()
                               },
                               keyup: function($event) {
-                                return _vm.handleValues(_vm.group_value[i][k])
+                                return _vm.handleValues()
                               },
                               input: function($event) {
                                 if ($event.target.composing) {
@@ -22987,25 +23060,7 @@ var render = function() {
               ],
               2
             )
-          }),
-          _vm._v(" "),
-          _c("tfoot", [
-            _c("tr", [
-              _c("td", { staticClass: "border-top-0 px-0 text-center" }, [
-                _vm.isTransfer
-                  ? _c("span", { staticClass: "text-danger" }, [
-                      _vm._v(_vm._s(_vm.msg))
-                    ])
-                  : _vm._e()
-              ]),
-              _vm._v(" "),
-              _c("td", { staticClass: "border-top-0 w-100 text-left pl-5" }, [
-                _c("p", { staticClass: "total-text-mount pl-5 mb-1" }, [
-                  _vm._v("Total MMKs : " + _vm._s(_vm.total_mmk))
-                ])
-              ])
-            ])
-          ])
+          })
         ],
         2
       )
@@ -23052,7 +23107,11 @@ var render = function() {
               {
                 staticClass:
                   "btn btn-nb-mount-save fontsize-mount px-4 stock_create",
-                attrs: { type: "button", disabled: _vm.isTransferDisable() },
+                attrs: {
+                  type: "button",
+                  disabled: _vm.isTransferDisable(),
+                  id: "trans-btn"
+                },
                 on: {
                   click: function($event) {
                     return _vm.handleSubmit()
@@ -23064,8 +23123,8 @@ var render = function() {
           ]
         ),
         _vm._v(" "),
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col" }, [
+        _c("div", { staticClass: "row justify-content-between d-flex mx-0" }, [
+          _c("div", {}, [
             _c(
               "select",
               {
@@ -23079,7 +23138,7 @@ var render = function() {
                 },
                 on: {
                   change: function($event) {
-                    return _vm.fetch_currency_groups()
+                    return _vm.fetch_currency_groups(null)
                   }
                 }
               },
@@ -23104,11 +23163,11 @@ var render = function() {
           ]),
           _vm._v(" "),
           _vm.is_admin
-            ? _c("div", { staticClass: "col" }, [
+            ? _c("div", { staticStyle: { "padding-left": "33px" } }, [
                 _c(
                   "select",
                   {
-                    staticClass: "selectpicker mt-4",
+                    staticClass: "selectpicker mt-4 branches",
                     attrs: {
                       name: "branch",
                       "data-style": "btn-white",
@@ -23117,7 +23176,7 @@ var render = function() {
                     },
                     on: {
                       change: function($event) {
-                        return _vm.fetch_currency_groups()
+                        return _vm.fetch_currency_groups("from")
                       }
                     }
                   },
@@ -23135,7 +23194,12 @@ var render = function() {
                       return _c(
                         "option",
                         {
-                          attrs: { disabled: item.id === _vm.auth_id },
+                          attrs: {
+                            disabled:
+                              item.id === _vm.current_branch ||
+                              item.id === _vm.auth_id ||
+                              _vm.isSupplierDisabled(item)
+                          },
                           domProps: { value: item.id }
                         },
                         [_vm._v(_vm._s(item.name) + "\n                    ")]
@@ -23147,11 +23211,11 @@ var render = function() {
               ])
             : _vm._e(),
           _vm._v(" "),
-          _c("div", { staticClass: "col" }, [
+          _c("div", {}, [
             _c(
               "select",
               {
-                staticClass: "selectpicker mt-4",
+                staticClass: "selectpicker mt-4 branches",
                 attrs: {
                   name: "branch",
                   "data-style": "btn-white",
@@ -23160,7 +23224,7 @@ var render = function() {
                 },
                 on: {
                   change: function($event) {
-                    return _vm.fetch_currency_groups()
+                    return _vm.fetch_currency_groups("to")
                   }
                 }
               },
@@ -23178,7 +23242,11 @@ var render = function() {
                   return _c(
                     "option",
                     {
-                      attrs: { disabled: item.id === _vm.auth_id },
+                      attrs: {
+                        disabled:
+                          item.id === _vm.current_branch ||
+                          item.id === _vm.auth_id
+                      },
                       domProps: { value: item.id }
                     },
                     [_vm._v(_vm._s(item.name) + "\n                    ")]
@@ -37920,8 +37988,8 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\MountProject\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! D:\MountProject\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /home/tinmaungzin/PhpstormProjects/NorthernBreeze-master/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/tinmaungzin/PhpstormProjects/NorthernBreeze-master/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
