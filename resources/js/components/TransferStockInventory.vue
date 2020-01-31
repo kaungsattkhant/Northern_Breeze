@@ -142,6 +142,11 @@
                     status: this.stock_currency.status,
                     transfer_type: transfer_type,
                 };
+<<<<<<< HEAD
+
+                console.log(data)
+=======
+>>>>>>> origin/medium
                 fetch('/stock/transfer_currency', {
                     method: 'POST',
                     headers: {
@@ -165,8 +170,6 @@
             stock_groups: 'stock_groups',
             msg: 'msg_for_stock'
         }),
-
-
     }
 
 </script>
