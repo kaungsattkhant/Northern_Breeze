@@ -936,4 +936,9 @@ input[type="text"].for-placeholder::placeholder{
 .span-number{
     width: 60px;
 }
+.span-in-table{
+    font-size: 15px;
+    color: #555555;
+    font-family: 'Roboto',sans-serif
+}
 

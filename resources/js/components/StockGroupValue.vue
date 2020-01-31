@@ -8,12 +8,14 @@
                 <tbody class="rounded-table-mount" v-for="group in data.groups">
 
                 <tr>
-                    <td>
-                        <h3 class="pb-2 ">
-                            {{group.group_name}}  <span v-if="!isMM" v-for="item in group.class_currency_value" style="font-size: 15px;color: #555555;font-family: 'Roboto',sans-serif">({{item.value}})</span>
+                    <td class="border-top-0" style="min-width: fit-content;">
+                        <h3 class="pb-2 pr-4 d-inline">
+                            {{group.group_name}}
                         </h3>
+                        <span v-if="!isMM" v-for="item in group.class_currency_value" class="span-in-table  d-inline">({{item.value}})</span>
+
                     </td>
-                    <td v-if="!isMM" class="text-nb-mount border-top-0 pl-4 pt-4 fontsize-mount2">
+                    <td v-if="!isMM" class="text-nb-mount border-top-0 pt-4 fontsize-mount2">
 
                     </td>
                 </tr>
@@ -42,14 +44,24 @@
 
         <div class="col">
             <table class="table border-0 bg-white box-shadow-mount border-tab-radius-mount">
+                <thead>
+                <tr>
+                    <td class="border-top-0 px-0 text-center">
+                        <span class="text-danger" v-if="isTransfer">{{msg}}</span>
+                    </td>
+                    <td class="border-top-0 w-100 text-left pl-5">
+                        <p class="total-text-mount pl-5 mb-1">Total MMKs : {{total_mmk}}</p>
+                    </td>
+                </tr>
+                </thead>
                 <tbody class="rounded-table-mount pb-5" v-for="(group,i) in data.groups">
                 <tr>
-                    <td class="text-center w-25">
+                    <td class=" w-25 border-top-0 pr-0">
                         <h3>
                             {{group.group_name}}
                         </h3>
                     </td>
-                    <td class="text-left border-top-0 pt-4 pb-4">
+                    <td class="text-left border-top-0 pl-0 pt-4 pb-4">
                         <input v-if="!isMM && isSupplier" v-for="(item,k) in group.class_currency_value"
                                type="number"
                                min="0"
@@ -80,16 +92,7 @@
                     </td>
                 </tr>
                 </tbody>
-                <tfoot>
-                <tr>
-                    <td class="border-top-0 px-0 text-center">
-                        <span class="text-danger" v-if="isTransfer">{{msg}}</span>
-                    </td>
-                    <td class="border-top-0 w-100 text-left pl-5">
-                        <p class="total-text-mount pl-5 mb-1">Total MMKs : {{total_mmk}}</p>
-                    </td>
-                </tr>
-                </tfoot>
+
             </table>
 <!--            <span class="text-danger" v-if="isTransfer">{{msg}}</span>-->
         </div>

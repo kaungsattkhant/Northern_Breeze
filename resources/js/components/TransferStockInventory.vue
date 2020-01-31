@@ -9,8 +9,8 @@
                         :disabled="isTransferDisable()"
                         v-on:click="handleSubmit()" id="trans-btn" class="btn btn-nb-mount-save fontsize-mount px-4 stock_create">Transfer</button>
             </div>
-            <div class="row">
-                <div class="col">
+            <div class="row justify-content-between d-flex mx-0">
+                <div class="">
                     <select
                         v-on:change="fetch_currency_groups(null)"
                         class="selectpicker  mt-4" name="currency" data-style="btn-white" data-width="auto"
@@ -21,7 +21,7 @@
                         </option>
                     </select>
                 </div>
-                <div v-if="is_admin" class="col">
+                <div v-if="is_admin" style="padding-left: 33px">
                     <select
                         v-on:change="fetch_currency_groups('from')"
                         class="selectpicker mt-4 branches" name="branch" data-style="btn-white" data-width="auto"
@@ -34,7 +34,7 @@
                         </option>
                     </select>
                 </div>
-                 <div class="col">
+                 <div class="">
                     <select
                         v-on:change="fetch_currency_groups('to')"
                         class="selectpicker mt-4 branches" name="branch" data-style="btn-white" data-width="auto"
@@ -104,6 +104,7 @@
                 if(type!==null){
                     this.current_branch = parseInt($('#' + type + '_stock_branch option:selected').val());
                 }
+                console.log(this.current_branch)
 
                 $('.selectpicker').selectpicker('refresh');
 
