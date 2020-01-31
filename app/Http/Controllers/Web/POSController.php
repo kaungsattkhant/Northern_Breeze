@@ -47,7 +47,7 @@ class POSController extends Controller
     public function currency_group(Request $request){
 //        public function currency_grou(Request $request){
         $currency_id=$request->currency_id;
-        $b_id=$request->from_branch;
+//        dd($request->all());
 
         $classification=Classification::orderBy('id','asc')->get('id','name');
         $us_currency_id=Currency::where('name','United States dollar')->first();
@@ -102,7 +102,7 @@ class POSController extends Controller
                                 ->where('group_note_id',$group_note_id->id)->first();
                             $cg_id = \Illuminate\Support\Facades\DB::table('classification_group')->where('group_id', $group->id)
                                 ->where('classification_id', $class->id)->first();
-                            $aaaaa[] = $cg_id;
+//                            $aaaaa[] = $cg_id;
                             if($cg_id !=null ){
                                 $class_sheet[$bc]=new \stdClass();
                                 if($branch_class_sheet == null){
@@ -126,9 +126,9 @@ class POSController extends Controller
 
                 }
                 if($currency_id== $myanmar_currency->id){
-//                    $currency_value=new \stdClass();
-//                    $currency_value->id="null";
-//                    $currency_value->value="null";
+                    $currency_value=new \stdClass();
+                    $currency_value->id="null";
+                    $currency_value->value="null";
                     $currency_value=null;
                 } else{
                     foreach($classification as $c=>$class){
@@ -151,7 +151,7 @@ class POSController extends Controller
             foreach($new as $k=>$n){
                 $new[$k]->notes=$notes[$k];
             }
-//            dd($new);
+            dd($new);
             if($currency_id==$us_currency_id->id){
                 return response()->json([
                     'class'=>$classification,

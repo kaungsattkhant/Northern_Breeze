@@ -1,11 +1,11 @@
 $(function() {
 
-    $(function(){
+    // $(function(){
         $("#stock a").addClass("active-si");
 
         $("#stock").addClass("active2");
-
-    });
+    //
+    // });
     $('#branch').on('change',function () {
         var branch=$(this).val();
         $.ajax({
@@ -45,20 +45,23 @@ $(function() {
         //     }
         //  });
     });
-    function transfer_detail($transfer_id)
-    {
-        $.ajax({
-            url:'stock/'+$transfer_id+'/detail',
-            type:'get',
-            success:function (data) {
-                $('#detail').modal('show');
-                $('div #detail_modal').html(data);
-            }
-        });
-    }
+
 
 
 });
+// function detail($transfer_id)
+// {
+//     alert('sss');
+//     console.log('aaa');
+//     $.ajax({
+//         url:'stock/'+$transfer_id+'/detail',
+//         type:'get',
+//         success:function (data) {
+//             $('#detail').modal('show');
+//             $('div #detail_modal').html(data);
+//         }
+//     });
+// }
 
 
 

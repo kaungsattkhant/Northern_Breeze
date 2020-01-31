@@ -64,7 +64,7 @@ class StockController extends Controller
                         $transfer->transfer_status = "Out";
                     }
                     $transfer->total_transfer_value = $this->total_transfer_value($transfer->id,$transfer->transfer_status);
-                    $transfer_total_value += $this->total_transfer_value($transfer->id);
+                    $transfer_total_value += $this->total_transfer_value($transfer->id,$transfer->transfer_status);
                 }
                 array_push($total, $transfer_total_value);
                 $total_value = array_sum($total);
@@ -91,8 +91,8 @@ class StockController extends Controller
                     elseif($transfer->from_branch_id== $branch_id && $transfer->to_branch_id != $branch_id)
                         $transfer->transfer_status="Out";
 
-                    $transfer->total_transfer_value= $this->total_transfer_value($transfer->id);
-                    $total_value+=$this->total_transfer_value($transfer->id);
+                    $transfer->total_transfer_value= $this->total_transfer_value($transfer->id,$transfer->transfer_status);
+                    $total_value+=$this->total_transfer_value($transfer->id,$transfer->transfer_status);
                 }
                 return view('Stock.stock_inventory',compact('branches','transfers','total_value'));
 //            }
@@ -246,7 +246,6 @@ class StockController extends Controller
             foreach($new as $k=>$n){
                 $new[$k]->notes=$notes[$k];
             }
-//            dd($new);
             if($currency_id==$us_currency_id->id){
                 return response()->json([
                     'class'=>$classification,
@@ -415,10 +414,23 @@ class StockController extends Controller
                     }
                 }
             }else{
+                if($transfer_data->transfer_type==="branch_to_supplier"){
+                    foreach($t->class_currency_value as $cgv){
+                        if($cgv!=null){
+                            $cg=ClassificationGroup::where('group_id',$t->group_id)
+                                ->where(function ($query) use ($cgv){
+                                    $query->where('classification_id',$cgv->class_id);
+                                })->first();
+                            if($cgv->value!=0){
+                                $transfer->transfer_classification_group()->attach($cg->id,['value'=>$cgv->value]);
+                            }
+                        }
+                    }
+                }
+
                 foreach($t->notes as $note){
                     foreach($note->class_sheet as $cs){
-//                        if($n->transfer_type ==="branch_to_supplier"){
-//                        }
+
                         if($cs->sheet!=0){
                             $transfer->transfer_group_note_class()
                                 ->attach($transfer->id,['group_note_id'=>$note->group_note_id,'class_id'=>$cs->class_id,'sheet'=>$cs->sheet]);
@@ -478,22 +490,30 @@ class StockController extends Controller
     }
     public function stock_detail($transfer_id)
     {
-        $transfers=Transfer::whereId($transfer_id)->first();
-        $total_transfer_value=$this->total_transfer_value($transfer_id);
+//        dd($transfer_id);
+        $transfers=Transfer::find($transfer_id);
+//        $total_transfer_value=$this->total_transfer_value($transfer_id);
+
         foreach($transfers as $transfer)
         {
-            $group_note_transfer=DB::table('group_note_transfer')->where('transfer_id',$transfer_id)->get();
-//            dd($group_note_transfer);
-            foreach($group_note_transfer as $gnt)
-            {
-                $group_note=DB::table('group_note')->whereId($gnt->group_note_id)->first();
-                $sheet[]=$gnt->sheet;
-                $notes=Note::whereId($group_note->note_id)->first();
-                $note[]=$notes->name;
+//            dd($transfers->currency->name==="Myanmanr Kyat");
+            if($transfers->currency->name==="Myanmar Kyat"){
+                $total_transfer_sheet=DB::table('group_note_transfer')->where('transfer_id',$transfer_id)->get();
+            }else{
+                $total_transfer_sheet=DB::table('transfer_group_note_class')->where('transfer_id',$transfer_id)->get();
             }
-            $transfer_note=array_filter(array_combine($note,$sheet));
+//            dd($total_transfer_sheet);
+                foreach($total_transfer_sheet as $gnt)
+                {
+                    $group_note=DB::table('group_note')->whereId($gnt->group_note_id)->first();
+                    $sheet[]=$gnt->sheet;
+                    $notes=Note::whereId($group_note->note_id)->first();
+                    $note[]=$notes->name;
+                }
+                $transfer_note=array_filter(array_combine($note,$sheet));
+
         }
-        $data=view('Stock.detail_view',compact('transfers','transfer_note','total_transfer_value'));
+        $data=view('Stock.detail_view',compact('transfers','transfer_note'));
         return $data;
     }
 
@@ -502,26 +522,10 @@ class StockController extends Controller
 //        dd($status);
         $total_value=0;
         $t=Transfer::find($transfer_id);
-        if($t->currency->name==="United States dollar"){
-            $tgnc=DB::table('transfer_group_note_class')->where('transfer_id',$transfer_id)->get();
-            foreach($tgnc as $tg){
-                    $group_note=GroupNote::whereId($tg->group_note_id)->first();
-                $note=Note::find($group_note->note_id);
-                $cg=DB::table('classification_group')->where('group_id',$group_note->group_id)
-                        ->where('classification_id',$tg->class_id)
-                        ->first();
-                $tcg=DB::table('transfer_class_group')
-                    ->where('transfer_id',$tg->transfer_id)
-                    ->where('classification_group_id',$cg->id)
-                    ->first();
-                if($tcg!=null){
-                    $total_value+=$tcg->value*(intval($note->name)*$tg->sheet);
-                }
-//                else{
-//                    dd('does not have class group value ');
-//                }
-            }
-        }else{
+        $branch=Branch::find($t->from_branch_id);
+        $to_branch=Branch::find($t->to_branch_id);
+//        dd($to_branch->branch_type_id);
+        if($t->currency->name==="Myanmar Kyat"){
             $group_note_transfer=DB::table('group_note_transfer')->where('transfer_id',$transfer_id)->get();
             foreach($group_note_transfer as $gnt)
             {
@@ -532,11 +536,47 @@ class StockController extends Controller
                     ->where('group_id',$group_note->group_id)->first();
 //                dd($gv);
                 if($gv !=null && $t->currency->name !== "Myanmar Kyat") {
-                        $total_value+=$gv->value*(intval($note->name)*$gnt->sheet);
+                    $total_value+=$gv->value*(intval($note->name)*$gnt->sheet);
                 }elseif($t->currency->name === "Myanmar Kyat"){
                     $total_value+=(intval($note->name)*$gnt->sheet);
                 }
             }
+//
+        }else{
+                $tgnc=DB::table('transfer_group_note_class')->where('transfer_id',$transfer_id)->get();
+                foreach($tgnc as $tg){
+                    $group_note=GroupNote::whereId($tg->group_note_id)->first();
+                    $note=Note::find($group_note->note_id);
+                    $cg=DB::table('classification_group')->where('group_id',$group_note->group_id)
+                        ->where('classification_id',$tg->class_id)
+                        ->first();
+                    if($to_branch->branch_type_id == 2) {
+                        $currency_value=DB::table('transfer_class_group')
+                            ->where('transfer_id',$tg->transfer_id)
+                            ->where('classification_group_id',$cg->id)
+                            ->first();
+//                        dd($currency_value);
+                    }else{
+//                        dd($status);
+                        if($status==="Add"){
+                            $currency_value=DB::table('transfer_class_group')
+                                ->where('transfer_id',$tg->transfer_id)
+                                ->where('classification_group_id',$cg->id)
+                                ->first();
+//                            dd($currency_value);
+                        }
+                        else{
+                            $currency_value= BuyClassGroupValue::where('classification_group_id', $cg->id)
+                                ->latest()
+                                ->first();
+                        }
+
+                    }
+//                    dd($currency_value);
+                    if($currency_value!=null){
+                        $total_value+=$currency_value->value*(intval($note->name)*$tg->sheet);
+                    }
+                }
         }
         return $total_value;
     }

@@ -93,7 +93,7 @@
                                  <td scope="row" class="table-row-m fontsize-mount2 border-top-0">{{$transfer->currency->name}}</td>
                                  <td class="table-row-m fontsize-mount2 border-top-0">{{$transfer->total_transfer_value}} <b>Kyats</b></td>
                                  <td class="table-row-m text-info border-top-0">{{$transfer->transfer_status}}</td>
-                                 <td class="table-row-m border-top-0"><a href="#" class="text-a-mount" onclick="transfer_detail({{$transfer->id}})">Detail</a></td>
+                                 <td class="table-row-m border-top-0"><a href="#" class="text-a-mount" onclick="detail({{$transfer->id}})">Detail</a></td>
 {{--                                 <td class="table-row-m brder-top-0"><a href="#" class="text-a-mount" data-target="#detail" data-toggle="modal">Detail</a></td>--}}
                              </tr>
                          @endforeach
@@ -112,11 +112,31 @@
 
 {{--        });--}}
 {{--    </script>--}}
-    <script src="{{asset('js/transfer.js')}}"></script>
 
-
+<script>
+    function detail($transfer_id)
+    {
+        // alert('sss');
+        // console.log('aaa');
+        $.ajax({
+            url:'stock/'+$transfer_id+'/detail',
+            type:'get',
+            success:function (data) {
+                $('#detail').modal('show');
+                $('div #detail_modal').html(data);
+            }
+        });
+    }
+</script>
 
 
     @include('Stock.detail_stock')
+
      @endsection
+{{--@section('script')--}}
+{{--    <script src="{{asset('js/transfer.js')}}"></script>--}}
+
+{{--@endsection--}}
+
+
 

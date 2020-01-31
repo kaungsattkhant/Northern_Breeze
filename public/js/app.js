@@ -2045,9 +2045,175 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/TransferStockInventory.vue?vue&type=script&lang=js& ***!
   \*********************************************************************************************************************************************************************************/
 /*! exports provided: default */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nSyntaxError: D:\\MountProject\\resources\\js\\components\\TransferStockInventory.vue: Unexpected token (145:0)\n\n\u001b[0m \u001b[90m 143 | \u001b[39m                    transfer_type\u001b[33m:\u001b[39m transfer_type\u001b[33m,\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 144 | \u001b[39m                }\u001b[33m;\u001b[39m\u001b[0m\n\u001b[0m\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 145 | \u001b[39m\u001b[33m<<\u001b[39m\u001b[33m<<\u001b[39m\u001b[33m<<\u001b[39m\u001b[33m<\u001b[39m \u001b[33mHEAD\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m     | \u001b[39m\u001b[31m\u001b[1m^\u001b[22m\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 146 | \u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 147 | \u001b[39m                console\u001b[33m.\u001b[39mlog(data)\u001b[0m\n\u001b[0m \u001b[90m 148 | \u001b[39m\u001b[33m===\u001b[39m\u001b[33m===\u001b[39m\u001b[33m=\u001b[39m\u001b[0m\n    at Parser.raise (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:7012:17)\n    at Parser.unexpected (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:8405:16)\n    at Parser.parseExprAtom (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:9661:20)\n    at Parser.parseExprSubscripts (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:9237:23)\n    at Parser.parseMaybeUnary (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:9217:21)\n    at Parser.parseExprOps (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:9083:23)\n    at Parser.parseMaybeConditional (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:9056:23)\n    at Parser.parseMaybeAssign (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:9015:21)\n    at Parser.parseExpression (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:8965:23)\n    at Parser.parseStatementContent (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:10819:23)\n    at Parser.parseStatement (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:10690:17)\n    at Parser.parseBlockOrModuleBlockBody (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:11266:25)\n    at Parser.parseBlockBody (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:11253:10)\n    at Parser.parseBlock (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:11237:10)\n    at Parser.parseFunctionBody (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:10256:24)\n    at Parser.parseFunctionBodyAndFinish (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:10226:10)\n    at Parser.parseMethod (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:10180:10)\n    at Parser.parseObjectMethod (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:10096:19)\n    at Parser.parseObjPropValue (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:10138:23)\n    at Parser.parseObjectMember (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:10062:10)\n    at Parser.parseObj (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:9982:25)\n    at Parser.parseExprAtom (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:9604:28)\n    at Parser.parseExprSubscripts (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:9237:23)\n    at Parser.parseMaybeUnary (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:9217:21)\n    at Parser.parseExprOps (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:9083:23)\n    at Parser.parseMaybeConditional (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:9056:23)\n    at Parser.parseMaybeAssign (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:9015:21)\n    at Parser.parseObjectProperty (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:10113:101)\n    at Parser.parseObjPropValue (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:10138:101)\n    at Parser.parseObjectMember (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:10062:10)\n    at Parser.parseObj (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:9982:25)\n    at Parser.parseExprAtom (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:9604:28)\n    at Parser.parseExprSubscripts (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:9237:23)\n    at Parser.parseMaybeUnary (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:9217:21)\n    at Parser.parseExprOps (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:9083:23)\n    at Parser.parseMaybeConditional (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:9056:23)");
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_1__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__["default"]);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['currencies', 'branches', 'total_value', 'is_admin', 'auth_id'],
+  data: function data() {
+    return {
+      items: JSON.parse(this.currencies),
+      branch_items: JSON.parse(this.branches),
+      currency_id: '',
+      to_branch: '',
+      from_branch: '',
+      stock_currency: ''
+    };
+  },
+  methods: {
+    isTransferDisable: function isTransferDisable() {
+      return !!this.msg;
+    },
+    isMM: function isMM() {
+      return this.stock_currency.status === "MMK";
+    },
+    isSupplier: function isSupplier() {
+      return this.to_branch === 5;
+    },
+    fetch_currency_groups: function fetch_currency_groups() {
+      var _this = this;
+
+      this.stock_currency = '';
+      var currency_type = $('#stock_currency option:selected').val();
+      var to_branch = $('#to_stock_branch option:selected').val();
+      var from_branch = $('#from_stock_branch option:selected').val();
+
+      if (this.is_admin) {
+        if (currency_type !== '' && to_branch !== '' && from_branch !== '') {
+          this.currency_id = parseInt(currency_type);
+          this.to_branch = parseInt(to_branch);
+          this.from_branch = parseInt(from_branch);
+        }
+      } else {
+        if (currency_type !== '' && to_branch !== '') {
+          this.currency_id = parseInt(currency_type);
+          this.to_branch = parseInt(to_branch);
+          this.from_branch = null;
+        }
+      }
+
+      if (this.to_branch !== '' && this.currency_id !== '' && this.from_branch !== '') {
+        var data = {
+          currency_id: this.currency_id,
+          to_branch: this.to_branch,
+          from_branch: this.from_branch
+        };
+        fetch('/stock/currency_filter', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+          body: JSON.stringify(data)
+        }).then(function (response) {
+          return response.json();
+        }).then(function (data) {
+          _this.stock_currency = data;
+        });
+      }
+    },
+    handleSubmit: function handleSubmit() {
+      var transfer_type;
+
+      if (this.isSupplier()) {
+        transfer_type = 'branch_to_supplier';
+      } else {
+        transfer_type = 'branch_to_branch';
+      }
+
+      var data = {
+        to_branch: this.to_branch,
+        from_branch: this.from_branch,
+        currency_id: this.currency_id,
+        groups: this.stock_groups,
+        status: this.stock_currency.status,
+        transfer_type: transfer_type
+      };
+      fetch('/stock/transfer_currency', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        body: JSON.stringify(data)
+      }).then(function (response) {
+        return response.json();
+      }).then(function (data) {
+        if (data.is_success) {
+          window.location.replace('/stock');
+        }
+      });
+    }
+  },
+  mounted: function mounted() {},
+  computed: Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])({
+    stock_groups: 'stock_groups',
+    msg: 'msg_for_stock'
+  })
+});
 
 /***/ }),
 

@@ -15,10 +15,10 @@ class BranchTableSeeder extends Seeder
 
         foreach($branches as $branch)
         {
-            \Illuminate\Support\Facades\DB::table('branches')->insert([
-                'name'=>$branch,
-                'branch_type_id'=>1,
-            ]);
+                \Illuminate\Support\Facades\DB::table('branches')->insert([
+                    'name'=>$branch,
+                    'branch_type_id'=>$branch==="Supplier" ? 2 :1,
+                ]);
         }
     }
 }
