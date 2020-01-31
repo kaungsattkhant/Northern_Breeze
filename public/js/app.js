@@ -1996,20 +1996,20 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
     setGroupsArray: _stock_helpers_js__WEBPACK_IMPORTED_MODULE_2__["stock_helpers"].setInitialGroups,
     refreshGroup: _stock_helpers_js__WEBPACK_IMPORTED_MODULE_2__["stock_helpers"].updateInitialGroups,
     calculateTotal: _stock_helpers_js__WEBPACK_IMPORTED_MODULE_2__["stock_helpers"].calculateTotalMMK,
-    handleValues: function handleValues() {
+    handleValues: function handleValues(value) {
+      console.log(value);
       this.refreshGroup(this.stock_groups, this.note_sheets, this.group_value, this.isMM);
-      this.total_mmk = this.calculateTotal(this.stock_groups, this.isMM);
+      this.total_mmk = this.calculateTotal(this.stock_groups, this.isMM).toFixed(2);
     },
-    handleSheets: function handleSheets(item, i, j, k) {
+    handleSheets: function handleSheets(item, note_sheet) {
       var local_msg = '';
-      var total_sheet, input_sheet;
+      var total_sheet;
+      var input_sheet = note_sheet;
 
       if (this.isMM) {
         total_sheet = item.total_sheet;
-        input_sheet = this.note_sheets[i][j];
       } else {
         total_sheet = item.sheet;
-        input_sheet = this.note_sheets[i][j][k];
       }
 
       if (input_sheet > total_sheet) {
@@ -2018,7 +2018,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
 
       this.$store.commit('setMsgForStock', local_msg);
       this.refreshGroup(this.stock_groups, this.note_sheets, this.group_value, this.isMM);
-      this.total_mmk = this.calculateTotal(this.stock_groups, this.isMM);
+      this.total_mmk = this.calculateTotal(this.stock_groups, this.isMM).toFixed(2);
     }
   },
   mounted: function mounted() {},
@@ -23020,10 +23020,10 @@ var render = function() {
                             domProps: { value: _vm.group_value[i][k] },
                             on: {
                               change: function($event) {
-                                return _vm.handleValues()
+                                return _vm.handleValues(_vm.group_value[i][k])
                               },
                               keyup: function($event) {
-                                return _vm.handleValues()
+                                return _vm.handleValues(_vm.group_value[i][k])
                               },
                               input: function($event) {
                                 if ($event.target.composing) {
@@ -23075,10 +23075,16 @@ var render = function() {
                                 domProps: { value: _vm.note_sheets[i][j][k] },
                                 on: {
                                   change: function($event) {
-                                    return _vm.handleSheets(item, i, j, k)
+                                    return _vm.handleSheets(
+                                      item,
+                                      _vm.note_sheets[i][j][k]
+                                    )
                                   },
                                   keyup: function($event) {
-                                    return _vm.handleSheets(item, i, j, k)
+                                    return _vm.handleSheets(
+                                      item,
+                                      _vm.note_sheets[i][j][k]
+                                    )
                                   },
                                   input: function($event) {
                                     if ($event.target.composing) {
@@ -23111,10 +23117,16 @@ var render = function() {
                               domProps: { value: _vm.note_sheets[i][j] },
                               on: {
                                 change: function($event) {
-                                  return _vm.handleSheets(note, i, j, null)
+                                  return _vm.handleSheets(
+                                    note,
+                                    _vm.note_sheets[i][j]
+                                  )
                                 },
                                 keyup: function($event) {
-                                  return _vm.handleSheets(note, i, j, null)
+                                  return _vm.handleSheets(
+                                    note,
+                                    _vm.note_sheets[i][j]
+                                  )
                                 },
                                 input: function($event) {
                                   if ($event.target.composing) {
@@ -37827,7 +37839,7 @@ var stock_helpers = {
         }
       } else {
         for (var classItem in storeGroup[groupItem].class_currency_value) {
-          storeGroup[groupItem].class_currency_value[classItem].value = parseInt(values[groupItem][classItem]);
+          storeGroup[groupItem].class_currency_value[classItem].value = values[groupItem][classItem];
         }
 
         for (var _noteItem in storeGroup[groupItem].notes) {
@@ -37856,14 +37868,14 @@ var stock_helpers = {
 
         if (isMM) {
           value = 1;
-          note_name = storeGroup[groupItem].notes[noteItem].note_name;
-          sheet = storeGroup[groupItem].notes[noteItem].total_sheet;
+          note_name = parseInt(storeGroup[groupItem].notes[noteItem].note_name);
+          sheet = parseInt(storeGroup[groupItem].notes[noteItem].total_sheet);
           note_total = note_total + value * note_name * sheet;
         } else {
           for (var classItem in storeGroup[groupItem].notes[noteItem].class_sheet) {
             value = storeGroup[groupItem].class_currency_value[classItem].value;
-            note_name = storeGroup[groupItem].notes[noteItem].note_name;
-            sheet = storeGroup[groupItem].notes[noteItem].class_sheet[classItem].sheet;
+            note_name = parseInt(storeGroup[groupItem].notes[noteItem].note_name);
+            sheet = parseInt(storeGroup[groupItem].notes[noteItem].class_sheet[classItem].sheet);
             note_total = note_total + value * note_name * sheet;
           }
         }
