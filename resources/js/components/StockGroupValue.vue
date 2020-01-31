@@ -134,10 +134,10 @@
                 this.total_mmk = this.calculateTotal(this.stock_groups,this.isMM).toFixed(2);
             },
 
-            handleSheets(item, note_sheet){
+            handleSheets(item, input_sheet){
                 let local_msg = '';
                 let total_sheet;
-                let input_sheet = note_sheet;
+                // let input_sheet = note_sheet;
                 if(this.isMM){
                     total_sheet = item.total_sheet;
                 }else{

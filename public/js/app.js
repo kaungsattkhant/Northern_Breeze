@@ -312,22 +312,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__["default"]);
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['data'],
+  props: ['data', 'isMM'],
   data: function data() {
     return {
       sheets: [],
@@ -342,17 +332,18 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       //maximum possible number of classes in a note
       total_mmk: 0,
       total: 0,
-      class_string: 'Class '
+      class_string: 'Class ',
+      type: 'buy'
     };
   },
   methods: {
     setInitialGroups: _helpers_js__WEBPACK_IMPORTED_MODULE_2__["helpers"].setInitialGroups,
-    sum: _helpers_js__WEBPACK_IMPORTED_MODULE_2__["helpers"].sumOfAllContentsOfArray,
-    refreshGroup: _helpers_js__WEBPACK_IMPORTED_MODULE_2__["helpers"].removeOldElementAndAddNew,
-    setInitialSheets: _helpers_js__WEBPACK_IMPORTED_MODULE_2__["helpers"].setInitialSheets,
-    setInitialSheetValues: _helpers_js__WEBPACK_IMPORTED_MODULE_2__["helpers"].setInitialSheetValues,
+    refreshGroup: _helpers_js__WEBPACK_IMPORTED_MODULE_2__["helpers"].updateInitialGroups,
+    setInitialSheets: _helpers_js__WEBPACK_IMPORTED_MODULE_2__["helpers"].setInitialSheet,
+    calculateTotalMMK: _helpers_js__WEBPACK_IMPORTED_MODULE_2__["helpers"].calculateTotalMMK,
+    calculateTotal: _helpers_js__WEBPACK_IMPORTED_MODULE_2__["helpers"].calculateTotal,
     isClass: function isClass() {
-      return !!this.data["class"];
+      return !this.isMM;
     },
     resetStore: function resetStore() {
       this.$store.commit('setInValues', [this.total, this.total_mmk]);
@@ -362,39 +353,12 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       this.$store.commit('setTransaction', [this.in_value, this.in_value_MMK, this.out_value, this.out_value_MMK, this.status, this.changes]);
       this.$store.commit('setResults', [this.transaction, this.getGroups]);
     },
-    currency_value: function currency_value(group) {
-      if (group.currency_value) {
-        return group.currency_value.value;
-      }
-
-      return 1;
-    },
-    calculateTotalAndChanges: function calculateTotalAndChanges(group, note, i, j) {
-      var k = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : null;
-      var class_value = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : null;
-      var sheets;
-
-      if (this.isClass()) {
-        sheets = this.sheets[i][j][k];
-      } else {
-        sheets = this.sheets[i][j];
-      }
-
-      if (sheets >= 0) {
+    calculateTotalAndChanges: function calculateTotalAndChanges(input_sheet) {
+      if (input_sheet >= 0) {
         this.$store.commit('setBuyNotEnoughMsg', '');
-
-        if (this.isClass()) {
-          this.current_value_mmk[i][j][k] = class_value * note.note_name * sheets;
-          this.current_value[i][j][k] = note.note_name * sheets;
-          this.refreshGroup('buy', this.getGroups, sheets, group, note, k, null);
-        } else {
-          this.current_value_mmk[i][j] = this.currency_value(group) * note.note_name * sheets;
-          this.current_value[i][j] = note.note_name * sheets;
-          this.refreshGroup('buy', this.getGroups, sheets, group, note, null, null);
-        }
-
-        this.total = this.sum(this.current_value);
-        this.total_mmk = this.sum(this.current_value_mmk);
+        this.refreshGroup(this.type, this.getGroups, this.sheets, this.isMM);
+        this.total_mmk = this.calculateTotalMMK(this.type, this.getGroups, this.isMM).toFixed(2);
+        this.total = this.calculateTotal(this.type, this.getGroups, this.isMM);
         this.$store.commit('setInValues', [this.total, this.total_mmk]);
         this.$store.commit('isExceed', [this.in_value_MMK, this.out_value_MMK]);
         this.$store.commit('setBuyStatus', this.data.status);
@@ -407,29 +371,16 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
     }
   },
   mounted: function mounted() {
-    this.setInitialGroups('buy', this.data, this.isClass());
+    this.setInitialGroups(this.type, this.data.groups, this.isMM);
     this.resetStore();
-    this.current_value_mmk = JSON.parse(JSON.stringify(this.sheets));
-    this.current_value = JSON.parse(JSON.stringify(this.sheets));
   },
   created: function created() {
-    var lengths;
-
-    if (this.isClass()) {
-      lengths = {
-        groups: this.groups_length,
-        notes: this.notes_length,
-        classes: this.classes_length
-      };
-    } else {
-      lengths = {
-        groups: this.groups_length,
-        notes: this.notes_length
-      };
-    }
-
-    this.setInitialSheets(lengths, this.sheets, this.isClass());
-    this.setInitialSheetValues(this.groups, this.sheet_values, this.isClass());
+    var lengths = {
+      groups: this.groups_length,
+      notes: this.notes_length,
+      classes: this.classes_length
+    };
+    this.setInitialSheets(this.sheets, lengths, this.isMM);
   },
   computed: Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])({
     getGroups: 'groups',
@@ -1557,25 +1508,34 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
     isSaveDisable: function isSaveDisable() {
       return !!(this.exceed_msg || this.buy_not_enough_msg || this.sell_not_enough_msg || !this.in_value_MMK || !this.out_value_MMK);
     },
+    isMMForBuy: function isMMForBuy() {
+      return this.buy_currency_groups.status === "MMK";
+    },
+    isMMForSell: function isMMForSell() {
+      return this.sell_currency_groups.status === "MMK";
+    },
     submitForm: function submitForm() {
-      $('#save-btn').append("\n                <i class=\"fa fa-spinner fa-spin\"></i>\n            ").prop('disabled', true);
-      fetch('/pos/transaction', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        body: JSON.stringify(this.getResults)
-      }).then(function (response) {
-        return response.json();
-      }).then(function (data) {
-        if (data.is_success) {
-          window.location.replace('/sale');
-        } else {
-          $("#save-btn").children("i:first").remove();
-          $('#save-btn').prop('disabled', false); // window.location.replace('/pos/non_member');
-        }
-      });
+      console.log(this.getResults); // $('#save-btn').append(`
+      //     <i class="fa fa-spinner fa-spin"></i>
+      // `).prop('disabled',true);
+      // fetch('/pos/transaction', {
+      //     method: 'POST',
+      //     headers: {
+      //         'Content-Type': 'application/json',
+      //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      //     },
+      //     body: JSON.stringify(this.getResults)
+      // })
+      //     .then(response => response.json())
+      //     .then(data => {
+      //         if(data.is_success){
+      //             window.location.replace('/sale');
+      //         }else{
+      //             $("#save-btn").children("i:first").remove();
+      //             $('#save-btn').prop('disabled',false);
+      //             // window.location.replace('/pos/non_member');
+      //         }
+      //     })
     },
     fetch_currency_groups: function fetch_currency_groups(status) {
       var _this = this;
@@ -1736,27 +1696,29 @@ __webpack_require__.r(__webpack_exports__);
 
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__["default"]);
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['data'],
+  props: ['data', 'isMM'],
   data: function data() {
     return {
       sheets: [],
       current_value_mmk: [],
       current_value: [],
-      groups: this.data.groups.length,
-      notes: 10,
+      groups_length: this.data.groups.length,
+      notes_length: 10,
       //maximum possible number of notes in a group
-      classes: 10,
+      classes_length: 10,
       //maximum possible number of classes in a note
       total_mmk: 0,
       total: 0,
-      class_string: 'Class '
+      class_string: 'Class ',
+      type: 'sell'
     };
   },
   methods: {
     setInitialGroups: _helpers_js__WEBPACK_IMPORTED_MODULE_2__["helpers"].setInitialGroups,
-    sum: _helpers_js__WEBPACK_IMPORTED_MODULE_2__["helpers"].sumOfAllContentsOfArray,
-    refreshGroup: _helpers_js__WEBPACK_IMPORTED_MODULE_2__["helpers"].removeOldElementAndAddNew,
-    setInitialSheets: _helpers_js__WEBPACK_IMPORTED_MODULE_2__["helpers"].setInitialSheets,
+    refreshGroup: _helpers_js__WEBPACK_IMPORTED_MODULE_2__["helpers"].updateInitialGroups,
+    setInitialSheets: _helpers_js__WEBPACK_IMPORTED_MODULE_2__["helpers"].setInitialSheet,
+    calculateTotalMMK: _helpers_js__WEBPACK_IMPORTED_MODULE_2__["helpers"].calculateTotalMMK,
+    calculateTotal: _helpers_js__WEBPACK_IMPORTED_MODULE_2__["helpers"].calculateTotal,
     isClass: function isClass() {
       return !!this.data["class"];
     },
@@ -1768,42 +1730,20 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       this.$store.commit('setTransaction', [this.in_value, this.in_value_MMK, this.out_value, this.out_value_MMK, this.status, this.changes]);
       this.$store.commit('setResults', [this.transaction, this.getGroups]);
     },
-    currency_value: function currency_value(group) {
-      if (group.currency_value) {
-        return group.currency_value.value;
-      }
+    calculateTotalAndChanges: function calculateTotalAndChanges(item, input_sheet) {
+      var total_sheet;
 
-      return 1;
-    },
-    calculateTotalAndChanges: function calculateTotalAndChanges(group, note, i, j) {
-      var k = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : null;
-      var class_value = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : null;
-      var sheets;
-      var total_sheets;
-
-      if (this.isClass()) {
-        sheets = this.sheets[i][j][k];
-        total_sheets = note.class_sheet[k].sheet;
+      if (this.isMM) {
+        total_sheet = item.total_sheet;
       } else {
-        sheets = this.sheets[i][j];
-        total_sheets = note.total_sheet;
+        total_sheet = item.sheet;
       }
 
-      if (sheets >= 0 && sheets <= total_sheets) {
+      if (input_sheet >= 0 && input_sheet <= total_sheet) {
         this.$store.commit('setSellNotEnoughMsg', '');
-
-        if (this.isClass()) {
-          this.current_value_mmk[i][j][k] = class_value * note.note_name * sheets;
-          this.current_value[i][j][k] = note.note_name * this.sheets[i][j][k];
-          this.refreshGroup('sell', this.getGroups, sheets, group, note, k, null);
-        } else {
-          this.current_value_mmk[i][j] = this.currency_value(group) * note.note_name * sheets;
-          this.current_value[i][j] = note.note_name * this.sheets[i][j];
-          this.refreshGroup('sell', this.getGroups, sheets, group, note, null, null);
-        }
-
-        this.total = this.sum(this.current_value);
-        this.total_mmk = this.sum(this.current_value_mmk);
+        this.refreshGroup(this.type, this.getGroups, this.sheets, this.isMM);
+        this.total_mmk = this.calculateTotalMMK(this.type, this.getGroups, this.isMM).toFixed(2);
+        this.total = this.calculateTotal(this.type, this.getGroups, this.isMM);
         this.$store.commit('setOutValues', [this.total, this.total_mmk]);
         this.$store.commit('isExceed', [this.in_value_MMK, this.out_value_MMK]);
         this.$store.commit('setSellStatus', this.data.status);
@@ -1811,33 +1751,21 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
         this.$store.commit('setTransaction', [this.in_value, this.in_value_MMK, this.out_value, this.out_value_MMK, this.status, this.changes]);
         this.$store.commit('setResults', [this.transaction, this.getGroups]);
       } else {
-        this.$store.commit('setSellNotEnoughMsg', 'Not enough sheet in the branch!');
+        this.$store.commit('setSellNotEnoughMsg', 'Invalid Value!');
       }
     }
   },
   mounted: function mounted() {
-    this.setInitialGroups('sell', this.data, this.isClass());
+    this.setInitialGroups(this.type, this.data.groups, this.isMM);
     this.resetStore();
-    this.current_value_mmk = JSON.parse(JSON.stringify(this.sheets));
-    this.current_value = JSON.parse(JSON.stringify(this.sheets));
   },
   created: function created() {
-    var lengths;
-
-    if (this.isClass()) {
-      lengths = {
-        groups: this.groups,
-        notes: this.notes,
-        classes: this.classes
-      };
-    } else {
-      lengths = {
-        groups: this.groups,
-        notes: this.notes
-      };
-    }
-
-    this.setInitialSheets(lengths, this.sheets, this.isClass());
+    var lengths = {
+      groups: this.groups_length,
+      notes: this.notes_length,
+      classes: this.classes_length
+    };
+    this.setInitialSheets(this.sheets, lengths, this.isMM);
   },
   computed: Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])({
     getGroups: 'groups',
@@ -2001,10 +1929,9 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       this.refreshGroup(this.stock_groups, this.note_sheets, this.group_value, this.isMM);
       this.total_mmk = this.calculateTotal(this.stock_groups, this.isMM).toFixed(2);
     },
-    handleSheets: function handleSheets(item, note_sheet) {
+    handleSheets: function handleSheets(item, input_sheet) {
       var local_msg = '';
-      var total_sheet;
-      var input_sheet = note_sheet;
+      var total_sheet; // let input_sheet = note_sheet;
 
       if (this.isMM) {
         total_sheet = item.total_sheet;
@@ -2045,9 +1972,175 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/TransferStockInventory.vue?vue&type=script&lang=js& ***!
   \*********************************************************************************************************************************************************************************/
 /*! exports provided: default */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nSyntaxError: D:\\MountProject\\resources\\js\\components\\TransferStockInventory.vue: Unexpected token (145:0)\n\n\u001b[0m \u001b[90m 143 | \u001b[39m                    transfer_type\u001b[33m:\u001b[39m transfer_type\u001b[33m,\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 144 | \u001b[39m                }\u001b[33m;\u001b[39m\u001b[0m\n\u001b[0m\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 145 | \u001b[39m\u001b[33m<<\u001b[39m\u001b[33m<<\u001b[39m\u001b[33m<<\u001b[39m\u001b[33m<\u001b[39m \u001b[33mHEAD\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m     | \u001b[39m\u001b[31m\u001b[1m^\u001b[22m\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 146 | \u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 147 | \u001b[39m                console\u001b[33m.\u001b[39mlog(data)\u001b[0m\n\u001b[0m \u001b[90m 148 | \u001b[39m\u001b[33m===\u001b[39m\u001b[33m===\u001b[39m\u001b[33m=\u001b[39m\u001b[0m\n    at Parser.raise (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:7012:17)\n    at Parser.unexpected (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:8405:16)\n    at Parser.parseExprAtom (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:9661:20)\n    at Parser.parseExprSubscripts (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:9237:23)\n    at Parser.parseMaybeUnary (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:9217:21)\n    at Parser.parseExprOps (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:9083:23)\n    at Parser.parseMaybeConditional (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:9056:23)\n    at Parser.parseMaybeAssign (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:9015:21)\n    at Parser.parseExpression (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:8965:23)\n    at Parser.parseStatementContent (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:10819:23)\n    at Parser.parseStatement (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:10690:17)\n    at Parser.parseBlockOrModuleBlockBody (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:11266:25)\n    at Parser.parseBlockBody (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:11253:10)\n    at Parser.parseBlock (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:11237:10)\n    at Parser.parseFunctionBody (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:10256:24)\n    at Parser.parseFunctionBodyAndFinish (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:10226:10)\n    at Parser.parseMethod (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:10180:10)\n    at Parser.parseObjectMethod (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:10096:19)\n    at Parser.parseObjPropValue (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:10138:23)\n    at Parser.parseObjectMember (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:10062:10)\n    at Parser.parseObj (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:9982:25)\n    at Parser.parseExprAtom (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:9604:28)\n    at Parser.parseExprSubscripts (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:9237:23)\n    at Parser.parseMaybeUnary (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:9217:21)\n    at Parser.parseExprOps (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:9083:23)\n    at Parser.parseMaybeConditional (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:9056:23)\n    at Parser.parseMaybeAssign (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:9015:21)\n    at Parser.parseObjectProperty (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:10113:101)\n    at Parser.parseObjPropValue (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:10138:101)\n    at Parser.parseObjectMember (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:10062:10)\n    at Parser.parseObj (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:9982:25)\n    at Parser.parseExprAtom (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:9604:28)\n    at Parser.parseExprSubscripts (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:9237:23)\n    at Parser.parseMaybeUnary (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:9217:21)\n    at Parser.parseExprOps (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:9083:23)\n    at Parser.parseMaybeConditional (D:\\MountProject\\node_modules\\@babel\\parser\\lib\\index.js:9056:23)");
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_1__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__["default"]);
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['currencies', 'branches', 'total_value', 'is_admin', 'auth_id'],
+  data: function data() {
+    return {
+      items: JSON.parse(this.currencies),
+      branch_items: JSON.parse(this.branches),
+      currency_id: '',
+      to_branch: '',
+      from_branch: '',
+      stock_currency: ''
+    };
+  },
+  methods: {
+    isTransferDisable: function isTransferDisable() {
+      return !!this.msg;
+    },
+    isMM: function isMM() {
+      return this.stock_currency.status === "MMK";
+    },
+    isSupplier: function isSupplier() {
+      return this.to_branch === 5;
+    },
+    fetch_currency_groups: function fetch_currency_groups() {
+      var _this = this;
+
+      this.stock_currency = '';
+      var currency_type = $('#stock_currency option:selected').val();
+      var to_branch = $('#to_stock_branch option:selected').val();
+      var from_branch = $('#from_stock_branch option:selected').val();
+
+      if (this.is_admin) {
+        if (currency_type !== '' && to_branch !== '' && from_branch !== '') {
+          this.currency_id = parseInt(currency_type);
+          this.to_branch = parseInt(to_branch);
+          this.from_branch = parseInt(from_branch);
+        }
+      } else {
+        if (currency_type !== '' && to_branch !== '') {
+          this.currency_id = parseInt(currency_type);
+          this.to_branch = parseInt(to_branch);
+          this.from_branch = null;
+        }
+      }
+
+      if (this.to_branch !== '' && this.currency_id !== '' && this.from_branch !== '') {
+        var data = {
+          currency_id: this.currency_id,
+          to_branch: this.to_branch,
+          from_branch: this.from_branch
+        };
+        fetch('/stock/currency_filter', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+          body: JSON.stringify(data)
+        }).then(function (response) {
+          return response.json();
+        }).then(function (data) {
+          _this.stock_currency = data;
+        });
+      }
+    },
+    handleSubmit: function handleSubmit() {
+      var transfer_type;
+
+      if (this.isSupplier()) {
+        transfer_type = 'branch_to_supplier';
+      } else {
+        transfer_type = 'branch_to_branch';
+      }
+
+      var data = {
+        to_branch: this.to_branch,
+        from_branch: this.from_branch,
+        currency_id: this.currency_id,
+        groups: this.stock_groups,
+        status: this.stock_currency.status,
+        transfer_type: transfer_type
+      };
+      fetch('/stock/transfer_currency', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        body: JSON.stringify(data)
+      }).then(function (response) {
+        return response.json();
+      }).then(function (data) {
+        if (data.is_success) {
+          window.location.replace('/stock');
+        }
+      });
+    }
+  },
+  mounted: function mounted() {},
+  computed: Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])({
+    stock_groups: 'stock_groups',
+    msg: 'msg_for_stock'
+  })
+});
 
 /***/ }),
 
@@ -20534,38 +20627,19 @@ var render = function() {
                               "text-align": "center"
                             }
                           },
-                          [
-                            group.currency_value
+                          _vm._l(group.class_currency_value, function(value) {
+                            return !_vm.isMM
                               ? _c(
                                   "span",
                                   {
                                     staticClass:
                                       "fontsize-mount3 w-25 float-right"
                                   },
-                                  [
-                                    _vm._v(
-                                      "(" +
-                                        _vm._s(group.currency_value.value) +
-                                        "MMK)"
-                                    )
-                                  ]
+                                  [_vm._v("(" + _vm._s(value.value) + "MMK)")]
                                 )
-                              : _vm._e(),
-                            _vm._v(" "),
-                            _vm._l(group.class_currency_value, function(value) {
-                              return group.class_currency_value
-                                ? _c(
-                                    "span",
-                                    {
-                                      staticClass:
-                                        "fontsize-mount3 w-25 float-right"
-                                    },
-                                    [_vm._v("(" + _vm._s(value.value) + "MMK)")]
-                                  )
-                                : _vm._e()
-                            })
-                          ],
-                          2
+                              : _vm._e()
+                          }),
+                          0
                         )
                       ]
                     ),
@@ -20590,7 +20664,7 @@ var render = function() {
                             { staticClass: "input-group-box" },
                             [
                               _c("div", { staticClass: "w-25 float-right" }, [
-                                !_vm.data.class
+                                _vm.isMM
                                   ? _c("input", {
                                       directives: [
                                         {
@@ -20607,18 +20681,12 @@ var render = function() {
                                       on: {
                                         keyup: function($event) {
                                           return _vm.calculateTotalAndChanges(
-                                            group,
-                                            note,
-                                            i,
-                                            j
+                                            _vm.sheets[i][j]
                                           )
                                         },
                                         change: function($event) {
                                           return _vm.calculateTotalAndChanges(
-                                            group,
-                                            note,
-                                            i,
-                                            j
+                                            _vm.sheets[i][j]
                                           )
                                         },
                                         input: function($event) {
@@ -20636,15 +20704,12 @@ var render = function() {
                                   : _vm._e()
                               ]),
                               _vm._v(" "),
-                              _vm._l(group.class_currency_value, function(
-                                item,
-                                k
-                              ) {
+                              _vm._l(note.class_sheet, function(item, k) {
                                 return _c(
                                   "div",
                                   { staticClass: "w-25 float-left" },
                                   [
-                                    _vm.data.class
+                                    !_vm.isMM
                                       ? _c("input", {
                                           directives: [
                                             {
@@ -20656,38 +20721,19 @@ var render = function() {
                                           ],
                                           staticClass:
                                             "border rounded-table-mount w-100  text-center font-color fontsize-mount3 pt-1 ",
-                                          attrs: {
-                                            type: "number",
-                                            min: "0",
-                                            placeholder:
-                                              _vm.class_string +
-                                              _vm.data.class[k].name,
-                                            title:
-                                              _vm.class_string +
-                                              _vm.data.class[k].name
-                                          },
+                                          attrs: { type: "number", min: "0" },
                                           domProps: {
                                             value: _vm.sheets[i][j][k]
                                           },
                                           on: {
                                             keyup: function($event) {
                                               return _vm.calculateTotalAndChanges(
-                                                group,
-                                                note,
-                                                i,
-                                                j,
-                                                k,
-                                                item.value
+                                                _vm.sheets[i][j][k]
                                               )
                                             },
                                             change: function($event) {
                                               return _vm.calculateTotalAndChanges(
-                                                group,
-                                                note,
-                                                i,
-                                                j,
-                                                k,
-                                                item.value
+                                                _vm.sheets[i][j][k]
                                               )
                                             },
                                             input: function($event) {
@@ -22371,13 +22417,16 @@ var render = function() {
         [
           _vm.buy_currency_groups
             ? _c("buy-currency-group", {
-                attrs: { data: _vm.buy_currency_groups }
+                attrs: { data: _vm.buy_currency_groups, isMM: _vm.isMMForBuy() }
               })
             : _vm._e(),
           _vm._v(" "),
           _vm.sell_currency_groups
             ? _c("sell-currency-group", {
-                attrs: { data: _vm.sell_currency_groups }
+                attrs: {
+                  data: _vm.sell_currency_groups,
+                  isMM: _vm.isMMForSell()
+                }
               })
             : _vm._e()
         ],
@@ -22495,38 +22544,19 @@ var render = function() {
                               "text-align": "center"
                             }
                           },
-                          [
-                            group.currency_value
+                          _vm._l(group.class_currency_value, function(value) {
+                            return !_vm.isMM
                               ? _c(
                                   "span",
                                   {
                                     staticClass:
                                       "fontsize-mount3 w-25 float-right"
                                   },
-                                  [
-                                    _vm._v(
-                                      "(" +
-                                        _vm._s(group.currency_value.value) +
-                                        "MMK)"
-                                    )
-                                  ]
+                                  [_vm._v("(" + _vm._s(value.value) + "MMK)")]
                                 )
-                              : _vm._e(),
-                            _vm._v(" "),
-                            _vm._l(group.class_currency_value, function(value) {
-                              return group.class_currency_value
-                                ? _c(
-                                    "span",
-                                    {
-                                      staticClass:
-                                        "fontsize-mount3 w-25 float-right"
-                                    },
-                                    [_vm._v("(" + _vm._s(value.value) + "MMK)")]
-                                  )
-                                : _vm._e()
-                            })
-                          ],
-                          2
+                              : _vm._e()
+                          }),
+                          0
                         )
                       ]
                     ),
@@ -22551,7 +22581,7 @@ var render = function() {
                             { staticClass: "input-group-box" },
                             [
                               _c("div", { staticClass: "w-25 float-right" }, [
-                                !_vm.data.class
+                                _vm.isMM
                                   ? _c("input", {
                                       directives: [
                                         {
@@ -22568,18 +22598,14 @@ var render = function() {
                                       on: {
                                         keyup: function($event) {
                                           return _vm.calculateTotalAndChanges(
-                                            group,
                                             note,
-                                            i,
-                                            j
+                                            _vm.sheets[i][j]
                                           )
                                         },
                                         change: function($event) {
                                           return _vm.calculateTotalAndChanges(
-                                            group,
                                             note,
-                                            i,
-                                            j
+                                            _vm.sheets[i][j]
                                           )
                                         },
                                         input: function($event) {
@@ -22597,15 +22623,12 @@ var render = function() {
                                   : _vm._e()
                               ]),
                               _vm._v(" "),
-                              _vm._l(group.class_currency_value, function(
-                                item,
-                                k
-                              ) {
+                              _vm._l(note.class_sheet, function(item, k) {
                                 return _c(
                                   "div",
                                   { staticClass: "w-25 float-left" },
                                   [
-                                    _vm.data.class
+                                    !_vm.isMM
                                       ? _c("input", {
                                           directives: [
                                             {
@@ -22617,38 +22640,21 @@ var render = function() {
                                           ],
                                           staticClass:
                                             "border rounded-table-mount w-100  text-center font-color fontsize-mount3 pt-1 ",
-                                          attrs: {
-                                            type: "number",
-                                            min: "0",
-                                            placeholder:
-                                              _vm.class_string +
-                                              _vm.data.class[k].name,
-                                            title:
-                                              _vm.class_string +
-                                              _vm.data.class[k].name
-                                          },
+                                          attrs: { type: "number", min: "0" },
                                           domProps: {
                                             value: _vm.sheets[i][j][k]
                                           },
                                           on: {
                                             keyup: function($event) {
                                               return _vm.calculateTotalAndChanges(
-                                                group,
-                                                note,
-                                                i,
-                                                j,
-                                                k,
-                                                item.value
+                                                item,
+                                                _vm.sheets[i][j][k]
                                               )
                                             },
                                             change: function($event) {
                                               return _vm.calculateTotalAndChanges(
-                                                group,
-                                                note,
-                                                i,
-                                                j,
-                                                k,
-                                                item.value
+                                                item,
+                                                _vm.sheets[i][j][k]
                                               )
                                             },
                                             input: function($event) {
@@ -37306,7 +37312,9 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "helpers", function() { return helpers; });
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./store */ "./resources/js/store.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 
 var helpers = {
   sumOfAllContentsOfArray: function sumOfAllContentsOfArray(arr) {
@@ -37433,36 +37441,7 @@ var helpers = {
       helpers.switchCustomValue(storeGroup, group, sheet_value);
     }
   },
-  setInitialSheets: function setInitialSheets(lengths, sheet, isClass) {
-    if (isClass) {
-      for (var i = 0; i < lengths.groups; i++) {
-        var row = [];
-
-        for (var j = 0; j < lengths.notes; j++) {
-          var column = [];
-
-          for (var k = 0; k < lengths.classes; k++) {
-            column.push(0);
-          }
-
-          row.push(column);
-        }
-
-        sheet.push(row);
-      }
-    } else {
-      for (var _i = 0; _i < lengths.groups; _i++) {
-        var _row = [];
-
-        for (var _j = 0; _j < lengths.notes; _j++) {
-          _row.push(0);
-        }
-
-        sheet.push(_row);
-      }
-    }
-  },
-  setInitialSheetsForStock: function setInitialSheetsForStock(lengths, sheet, isMM) {
+  setInitialSheet: function setInitialSheet(sheet, lengths, isMM) {
     if (isMM) {
       for (var i = 0; i < lengths.groups; i++) {
         var row = [];
@@ -37474,20 +37453,20 @@ var helpers = {
         sheet.push(row);
       }
     } else {
-      for (var _i2 = 0; _i2 < lengths.groups; _i2++) {
-        var _row2 = [];
+      for (var _i = 0; _i < lengths.groups; _i++) {
+        var _row = [];
 
-        for (var _j2 = 0; _j2 < lengths.notes; _j2++) {
+        for (var _j = 0; _j < lengths.notes; _j++) {
           var column = [];
 
           for (var k = 0; k < lengths.classes; k++) {
             column.push(0);
           }
 
-          _row2.push(column);
+          _row.push(column);
         }
 
-        sheet.push(_row2);
+        sheet.push(_row);
       }
     }
   },
@@ -37510,75 +37489,141 @@ var helpers = {
       });
     }
   },
-  setInitialGroups: function setInitialGroups(type, data, isClass) {
+  // setInitialGroups: function (type, data, isClass) {
+  //     let _this = this;
+  //     this.$store.commit('removeGroup', type);
+  //     let newGroup = JSON.parse(JSON.stringify(data));
+  //     newGroup.forEach(function (group) {
+  //         group.type = type;
+  //         group.notes.forEach(function (note) {
+  //             if (isClass) {
+  //                 let total_sheet = 0;
+  //                 note.class_sheet.forEach(function (item) {
+  //                     item.sheet = 0;
+  //                     total_sheet = total_sheet + item.sheet;
+  //                 });
+  //                 note.total_sheet = total_sheet;
+  //             } else {
+  //                 note.total_sheet = 0;
+  //             }
+  //         });
+  //         _this.$store.commit('addGroup', group);
+  //     });
+  // },
+  setInitialGroups: function setInitialGroups(type, original_data, isMM) {
     var _this = this;
 
-    if (type !== null) {
-      this.$store.commit('removeGroup', type);
-    } else {
-      this.$store.commit('resetStockGroup');
-    }
-
-    var newGroup = JSON.parse(JSON.stringify(data));
-    newGroup.groups.forEach(function (group) {
-      if (type !== null) {
-        group.type = type;
-      }
-
+    this.$store.commit('removeGroup', type);
+    var groups = JSON.parse(JSON.stringify(original_data));
+    groups.forEach(function (group) {
+      group.type = type;
       group.notes.forEach(function (note) {
-        if (isClass) {
+        if (isMM) {
+          note.total_sheet = 0;
+        } else {
           var total_sheet = 0;
           note.class_sheet.forEach(function (item) {
             item.sheet = 0;
             total_sheet = total_sheet + item.sheet;
           });
           note.total_sheet = total_sheet;
-        } else {
-          note.total_sheet = 0;
         }
       });
 
-      if (type !== null) {
-        _this.$store.commit('addGroup', group);
-      } else {
-        _this.$store.commit('addStockGroup', group);
-      }
+      _this.$store.commit('addGroup', group);
     });
   },
-  setInitialGroupsForStock: function setInitialGroupsForStock(type, data, isMM) {
-    var _this = this;
+  updateInitialGroups: function updateInitialGroups(type, storeGroup, sheets, isMM) {
+    var targetGroup = storeGroup.filter(function (groupItem) {
+      return groupItem.type === type;
+    });
 
-    if (type !== null) {
-      this.$store.commit('removeGroup', type);
-    } else {
-      this.$store.commit('resetStockGroup');
+    for (var groupItem in targetGroup) {
+      if (isMM) {
+        for (var noteItem in targetGroup[groupItem].notes) {
+          targetGroup[groupItem].notes[noteItem].total_sheet = parseInt(sheets[groupItem][noteItem]);
+        }
+      } else {
+        // for(let classItem in storeGroup[groupItem].class_currency_value){
+        //     storeGroup[groupItem].class_currency_value[classItem].value = values[groupItem][classItem];
+        // }
+        for (var _noteItem in targetGroup[groupItem].notes) {
+          var total_sheet = 0;
+
+          for (var classItem in targetGroup[groupItem].notes[_noteItem].class_sheet) {
+            targetGroup[groupItem].notes[_noteItem].class_sheet[classItem].sheet = parseInt(sheets[groupItem][_noteItem][classItem]);
+            total_sheet = total_sheet + targetGroup[groupItem].notes[_noteItem].class_sheet[classItem].sheet;
+          }
+
+          targetGroup[groupItem].notes[_noteItem].total_sheet = total_sheet;
+        }
+      }
+    }
+  },
+  calculateTotalMMK: function calculateTotalMMK(type, storeGroup, isMM) {
+    var total_mmk = 0;
+    var targetGroup = storeGroup.filter(function (groupItem) {
+      return groupItem.type === type;
+    });
+
+    for (var groupItem in targetGroup) {
+      var note_total = 0;
+
+      for (var noteItem in targetGroup[groupItem].notes) {
+        var value = void 0,
+            note_name = void 0,
+            sheet = void 0;
+
+        if (isMM) {
+          value = 1;
+          note_name = parseInt(targetGroup[groupItem].notes[noteItem].note_name);
+          sheet = parseInt(targetGroup[groupItem].notes[noteItem].total_sheet);
+          note_total = note_total + value * note_name * sheet;
+        } else {
+          for (var classItem in targetGroup[groupItem].notes[noteItem].class_sheet) {
+            value = targetGroup[groupItem].class_currency_value[classItem].value;
+            note_name = parseInt(targetGroup[groupItem].notes[noteItem].note_name);
+            sheet = parseInt(targetGroup[groupItem].notes[noteItem].class_sheet[classItem].sheet);
+            note_total = note_total + value * note_name * sheet;
+          }
+        }
+      }
+
+      total_mmk = total_mmk + note_total;
     }
 
-    var newGroup = JSON.parse(JSON.stringify(data));
-    newGroup.groups.forEach(function (group) {
-      if (type !== null) {
-        group.type = type;
-      }
-
-      group.notes.forEach(function (note) {
-        if (!isMM) {
-          var total_sheet = 0;
-          note.class_sheet.forEach(function (item) {
-            item.sheet = 0;
-            total_sheet = total_sheet + item.sheet;
-          });
-          note.total_sheet = total_sheet;
-        } else {
-          note.total_sheet = 0;
-        }
-      });
-
-      if (type !== null) {
-        _this.$store.commit('addGroup', group);
-      } else {
-        _this.$store.commit('addStockGroup', group);
-      }
+    return total_mmk;
+  },
+  calculateTotal: function calculateTotal(type, storeGroup, isMM) {
+    var total = 0;
+    var targetGroup = storeGroup.filter(function (groupItem) {
+      return groupItem.type === type;
     });
+
+    for (var groupItem in targetGroup) {
+      var note_total = 0;
+
+      for (var noteItem in targetGroup[groupItem].notes) {
+        var note_name = void 0,
+            sheet = void 0;
+
+        if (isMM) {
+          note_name = parseInt(targetGroup[groupItem].notes[noteItem].note_name);
+          sheet = parseInt(targetGroup[groupItem].notes[noteItem].total_sheet);
+          note_total = note_total + note_name * sheet;
+        } else {
+          for (var classItem in targetGroup[groupItem].notes[noteItem].class_sheet) {
+            note_name = parseInt(targetGroup[groupItem].notes[noteItem].note_name);
+            sheet = parseInt(targetGroup[groupItem].notes[noteItem].class_sheet[classItem].sheet);
+            note_total = note_total + note_name * sheet;
+          }
+        }
+      }
+
+      total = total + note_total;
+    }
+
+    return total;
   }
 };
 
@@ -37875,8 +37920,8 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\MountProject\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! D:\MountProject\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /home/tinmaungzin/PhpstormProjects/NorthernBreeze-master/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/tinmaungzin/PhpstormProjects/NorthernBreeze-master/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

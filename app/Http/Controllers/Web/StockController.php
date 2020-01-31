@@ -63,7 +63,7 @@ class StockController extends Controller
                     } elseif ($transfer->from_branch_id == $branch->id && $transfer->to_branch_id != $branch->id){
                         $transfer->transfer_status = "Out";
                     }
-                    $transfer->total_transfer_value = $this->total_transfer_value($transfer->id,$transfer->transfer_status);
+                    $transfer->total_transfer_value = $this->total_transfer_value($transfer->id);
                     $transfer_total_value += $this->total_transfer_value($transfer->id);
                 }
                 array_push($total, $transfer_total_value);
@@ -497,7 +497,7 @@ class StockController extends Controller
         return $data;
     }
 
-    public function total_transfer_value($transfer_id,$status)
+    public function total_transfer_value($transfer_id)
     {
 //        dd($status);
         $total_value=0;
