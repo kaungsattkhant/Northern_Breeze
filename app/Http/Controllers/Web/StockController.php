@@ -38,7 +38,7 @@ class StockController extends Controller
         $manager_role=Role::where('name','Manager')->first();
 //        dd($manager_role->id);
         $front_man_role=Role::where('name','Front Man')->first();
-        if (Auth::user()->role_id === $admin_role->id)
+        if (Auth::user()->isAdmin())
         {
             foreach ($branches as $branch) {
                 $transfers = Transfer::with('currency', 'group_note')
@@ -62,20 +62,17 @@ class StockController extends Controller
                         $transfer->transfer_status = "In";
                     } elseif ($transfer->from_branch_id == $branch->id && $transfer->to_branch_id != $branch->id){
                         $transfer->transfer_status = "Out";
-
                     }
-                    $transfer->total_transfer_value = $this->total_transfer_value($transfer->id);
+                    $transfer->total_transfer_value = $this->total_transfer_value($transfer->id,$transfer->transfer_status);
                     $transfer_total_value += $this->total_transfer_value($transfer->id);
                 }
                 array_push($total, $transfer_total_value);
-
-
                 $total_value = array_sum($total);
 
                 return view('Stock.stock_inventory', compact('branches', 'transfers', 'total_value'));
             }
         }
-        elseif (Auth::user()->role_id=== $manager_role->id)
+        elseif (Auth::user()->isManager())
         {
             $total_value=0;
             $branch_id=Auth::user()->branch_id;
@@ -103,28 +100,28 @@ class StockController extends Controller
 
 //            return 'No Branch_Transfer';
         }
-        elseif (Auth::user()->role_id=== $front_man_role->id){
-            $total_value=0;
-            $branch_id=Auth::user()->branch_id;
-            $transfers=$this->branch_transfers($date);
-//            if($totaltransfers->isNotEmpty()){
-            foreach($transfers as $transfer)
-            {
-                if($transfer->to_branch_id == $branch_id && $transfer->from_branch_id ==$branch_id)
-                {
-                    $transfer->transfer_status="Add";
-                }
-                elseif($transfer->to_branch_id== $branch_id  && $transfer->from_branch_id != $branch_id)
-                {
-                    $transfer->transfer_status="In";
-                }
-                elseif($transfer->from_branch_id== $branch_id && $transfer->to_branch_id != $branch_id)
-                    $transfer->transfer_status="Out";
-                $transfer->total_transfer_value= $this->total_transfer_value($transfer->id);
-                $total_value+=$this->total_transfer_value($transfer->id);
-            }
-            return view('Stock.stock_inventory',compact('branches','transfers','total_value'));
-        }
+//        elseif (Auth::user()->role_id=== $front_man_role->id){
+//            $total_value=0;
+//            $branch_id=Auth::user()->branch_id;
+//            $transfers=$this->branch_transfers($date);
+////            if($totaltransfers->isNotEmpty()){
+//            foreach($transfers as $transfer)
+//            {
+//                if($transfer->to_branch_id == $branch_id && $transfer->from_branch_id ==$branch_id)
+//                {
+//                    $transfer->transfer_status="Add";
+//                }
+//                elseif($transfer->to_branch_id== $branch_id  && $transfer->from_branch_id != $branch_id)
+//                {
+//                    $transfer->transfer_status="In";
+//                }
+//                elseif($transfer->from_branch_id== $branch_id && $transfer->to_branch_id != $branch_id)
+//                    $transfer->transfer_status="Out";
+//                $transfer->total_transfer_value= $this->total_transfer_value($transfer->id);
+//                $total_value+=$this->total_transfer_value($transfer->id);
+//            }
+//            return view('Stock.stock_inventory',compact('branches','transfers','total_value'));
+//        }
     }
     public function create()
     {
@@ -499,7 +496,8 @@ class StockController extends Controller
         $data=view('Stock.detail_view',compact('transfers','transfer_note','total_transfer_value'));
         return $data;
     }
-    public function total_transfer_value($transfer_id)
+
+    public function total_transfer_value($transfer_id,$status)
     {
 //        dd($status);
         $total_value=0;

@@ -5,7 +5,9 @@
                 <div class="my-auto">
                     <p style="margin-left: 20px"><b>Total values:</b><i> MMKs</i></p>
                 </div>
-                <button type="button" v-on:click="handleSubmit()" class="btn btn-nb-mount-save fontsize-mount px-4 stock_create">Transfer</button>
+                <button type="button"
+                        :disabled="isTransferDisable()"
+                        v-on:click="handleSubmit()" class="btn btn-nb-mount-save fontsize-mount px-4 stock_create">Transfer</button>
             </div>
             <div class="row">
                 <div class="col">
@@ -46,7 +48,7 @@
 
             </div>
 
-            <stock-group-value v-if="stock_currency" :data="stock_currency" :isMM="isMM()" :isSupplier="isSupplier()"></stock-group-value>
+            <stock-group-value v-if="stock_currency" :data="stock_currency" :isMM="isMM()" :isSupplier="isSupplier()" :isTransfer="true"></stock-group-value>
         </form>
 
     </div>
@@ -73,6 +75,10 @@
 
         methods: {
 
+            isTransferDisable() {
+                return !!(this.msg);
+            },
+
             isMM(){
                 return this.stock_currency.status === "MMK";
             },
@@ -82,28 +88,25 @@
 
             fetch_currency_groups() {
                 this.stock_currency = '';
-                if($('#stock_currency option:selected').val()){
-                    this.currency_id = parseInt($('#stock_currency option:selected').val());
+                let currency_type = $('#stock_currency option:selected').val();
+                let to_branch = $('#to_stock_branch option:selected').val();
+                let from_branch = $('#from_stock_branch option:selected').val();
+
+                if(this.is_admin){
+                    if(currency_type !== '' && to_branch !=='' && from_branch !== ''){
+                        this.currency_id = parseInt(currency_type);
+                        this.to_branch = parseInt(to_branch);
+                        this.from_branch = parseInt(from_branch);
+                    }
                 }else{
-                    alert('please choose currency type')
+                    if(currency_type !== '' && to_branch !==''){
+                        this.currency_id = parseInt(currency_type);
+                        this.to_branch = parseInt(to_branch);
+                        this.from_branch = null;
+                    }
                 }
 
-                if($('#to_stock_branch option:selected').val()){
-                    this.to_branch = parseInt($('#to_stock_branch option:selected').val());
-                }else{
-                    alert('please choose to branch')
-                }
-
-                if(this.is_admin && !($('#from_stock_branch option:selected').val())){
-                    alert('please choose from branch')
-                }
-                else if(this.is_admin && $('#from_stock_branch option:selected').val()){
-                    this.from_branch = parseInt($('#from_stock_branch option:selected').val());
-                }
-                else {
-                    this.from_branch = null;
-                }
-                if(this.to_branch!== '' && this.currency_id!== '' && this.from_branch!=='' ){
+                if(this.to_branch !== '' && this.currency_id !== '' && this.from_branch !=='' ){
                     let data = {
                         currency_id: this.currency_id,
                         to_branch: this.to_branch,
@@ -139,8 +142,11 @@
                     status: this.stock_currency.status,
                     transfer_type: transfer_type,
                 };
+<<<<<<< HEAD
 
                 console.log(data)
+=======
+>>>>>>> origin/medium
                 fetch('/stock/transfer_currency', {
                     method: 'POST',
                     headers: {
@@ -161,7 +167,8 @@
 
         },
         computed: mapState({
-            stock_groups: 'stock_groups'
+            stock_groups: 'stock_groups',
+            msg: 'msg_for_stock'
         }),
     }
 
