@@ -45,10 +45,10 @@
                 <a class="nav-link p-0  sidebar-box-mount img-staff text-center " href="{{url('staff')}}">
                     <div class=" mt-0 px-auto "><p class="sb-text">Staff</p></div></a>
             </li>
-            <li class="nav-item btn-mount mx-auto" id="branch">
-                <a class="nav-link p-0  sidebar-box-mount img-branch text-center " href="{{url('branch')}}">
-                    <div class=" mt-0 px-auto "><p class="sb-text">Branch</p></div></a>
-            </li>
+{{--            <li class="nav-item btn-mount mx-auto" id="branch">--}}
+{{--                <a class="nav-link p-0  sidebar-box-mount img-branch text-center " href="{{url('branch')}}">--}}
+{{--                    <div class=" mt-0 px-auto "><p class="sb-text">Branch</p></div></a>--}}
+{{--            </li>--}}
 
 {{--            *********************************************Start Manager************************************************--}}
             @elseif(\Illuminate\Support\Facades\Auth::user()->isManager())
