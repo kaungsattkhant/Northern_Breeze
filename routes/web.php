@@ -27,18 +27,18 @@ Route::group(['middleware'=>['adminCheck']],function() {
             Route::get('/','AdminController@index');
             Route::post('/store','AdminController@store');
         });
-        Route::group(['prefix'=>'pos'],function(){
-            Route::get('member','POSController@pos_member');
-            Route::get('non_member','POSController@pos_non_member');
-            Route::get('{id}/non_member_from_exchange_filter','POSController@non_member_from_exchange_filter');
-            Route::get('{id}/non_member_to_exchange_filter','POSController@non_member_to_exchange_filter');
-            Route::get('total_currency_value','POSController@total_currency_value');
-            Route::get('non_member/{group_id}/get_group_value','POSController@getGroupValue');
-            Route::post('non_member_store','POSController@non_member_store');
-            Route::post('currency_group','POSController@currency_group');
+//        Route::group(['prefix'=>'pos'],function(){
+//            Route::get('member','POSController@pos_member');
+//            Route::get('non_member','POSController@pos_non_member');
+//            Route::get('{id}/non_member_from_exchange_filter','POSController@non_member_from_exchange_filter');
+//            Route::get('{id}/non_member_to_exchange_filter','POSController@non_member_to_exchange_filter');
+//            Route::get('total_currency_value','POSController@total_currency_value');
+//            Route::get('non_member/{group_id}/get_group_value','POSController@getGroupValue');
+//            Route::post('non_member_store','POSController@non_member_store');
+//            Route::post('currency_group','POSController@currency_group');
 //            Route::post('transaction','POSController@transaction_store');
-
-        });
+//
+//        });
         Route::group(['prefix'=>'staff'],function (){
             Route::get('/','StaffController@index');
             Route::post('/store','StaffController@store');
@@ -72,9 +72,7 @@ Route::group(['middleware'=>['adminCheck']],function() {
             Route::post('currency_filter','StockController@currency_filter');
             Route::get('stock_inventory','StockController@stock_inventory');
             Route::post('add_currency','StockController@add_stock');
-//=======
-//            Route::get('add_currency','StockController@add_stock');
-//>>>>>>> origin/medium
+
             Route::get('transfer','StockController@stock_transfer');
             Route::post('transfer_currency','StockController@transfer_currency');
 
@@ -202,6 +200,7 @@ Route::group(['middleware'=>['frontmanCheck']],function() {
             Route::post('transaction','POSController@transaction_store');
 
         });
+
 
 
         Route::group(['prefix'=>'sale'],function(){

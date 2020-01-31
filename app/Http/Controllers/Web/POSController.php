@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Traits\CurrencyFilter;
 use App\Http\Traits\ToExchangeFilter;
-use App\InTransactionGroupNote;
+use App\Model\OutTransactionGroupNote;
 use App\Model\Branch;
 use App\Model\BuyClassGroupValue;
 use App\Model\BuyGroupValue;
@@ -16,7 +16,7 @@ use App\Model\Note;
 use App\Model\SellClassGroupValue;
 use App\Model\SellGroupValue;
 use App\Model\Transaction;
-use App\OutTransactionGroupNote;
+use App\Model\InTransactionGroupNote;
 use Carbon\Carbon;
 use Carbon\Exceptions\BadUnitException;
 use Illuminate\Http\Request;
@@ -60,7 +60,7 @@ class POSController extends Controller
         }else{
             $status="other";
         }
-        $branch_id = Auth::user()->branch_id ? Auth::user()->branch_id : $b_id;
+        $branch_id =Auth::user()->branch_id ;
         if($groups->isNotEmpty()){
             foreach($groups as $key=>$group){
                 $new[$key]=new \stdClass();
@@ -151,7 +151,7 @@ class POSController extends Controller
             foreach($new as $k=>$n){
                 $new[$k]->notes=$notes[$k];
             }
-            dd($new);
+//            dd($new);
             if($currency_id==$us_currency_id->id){
                 return response()->json([
                     'class'=>$classification,
@@ -172,120 +172,119 @@ class POSController extends Controller
 //            ]);
 //        }
     }
-    public function currency_grou(Request $request)
-    {
-        $currency_id=$request->currency_id;
-        $classification=Classification::orderBy('id','asc')->get('id','name');
-        $us_currency_id=Currency::where('name','United States dollar')->first();
-        $myanmar_currency=Currency::where('name','Myanmar Kyat')->first();
-        $groups=Group::with('notes')->where('currency_id',$currency_id)->get();
-        if($currency_id==$myanmar_currency->id){
-            $status="MMK";
-        }else{
-            $status="other";
-        }
-        $branch_id = Auth::user()->branch_id ? Auth::user()->branch_id : 1;
-        foreach($groups as $key=>$group){
-            $new[$key]=new \stdClass();
-            $new[$key]->group_id=$group->id;
-            $new[$key]->group_name=$group->name;
-
-            $note_id=DB::table('group_note')->where('group_id',$group->id)->orderBy('note_id','desc')->pluck('note_id');
-            foreach ($note_id as $i=>$id)
-            {
-                $note=Note::whereId($id)->first();
-                $group_note_id=DB::table('group_note')
-                    ->where('note_id',$id)
-                    ->where('group_id',$group->id)
-                    ->first();
-//                $a[]=$group_note_id-
-                $notes[$key][$i]=new \stdClass();
-                $notes[$key][$i]->group_note_id=$group_note_id->id;
-                $notes[$key][$i]->note_name=$note->name;
-                if($us_currency_id->id == $currency_id) {
-                    $class_total_sheet=0;
-                    foreach($classification as $bc=>$class){
-                        $class_sheet[$bc]=new \stdClass();
-
-                        $branch_class_sheet=DB::table('branch_group_note_class')
-                            ->where('branch_id',$branch_id)
-                            ->where('class_id',$class->id)
-                            ->where('group_note_id',$group_note_id->id)->first();
-                        if($branch_class_sheet==null){
-                            $class_sheet[$bc]->class_id=$class->id;
-                            $class_sheet[$bc]->sheet=0;
-                        }else{
-                            $class_sheet[$bc]->class_id=$branch_class_sheet->class_id;
-                            $class_sheet[$bc]->sheet=$branch_class_sheet->sheet;
-                        }
-                        $class_total_sheet+=(int)$class_sheet[$bc]->sheet;
-                    }
-                    $notes[$key][$i]->class_sheet=$class_sheet;
-                    $notes[$key][$i]->total_sheet=$class_total_sheet;
-                }else{
-                    $total_sheet = DB::table('branch_group_note')->where('group_note_id', $group_note_id->id)
-                        ->where('branch_id', $branch_id)
-                        ->sum('sheet');
-                    $notes[$key][$i]->total_sheet = (int)$total_sheet;
-                }
-            }
-            if($us_currency_id->id == $currency_id) {
-                foreach($classification as $c=>$class){
-                    $classification_group_id = \Illuminate\Support\Facades\DB::table('classification_group')->where('group_id', $group->id)
-                        ->where('classification_id', $class->id)->first();
-                    $buy_class_value= BuyClassGroupValue::where('classification_group_id', $classification_group_id->id)
-                        ->latest()
-                        ->first();
-                    $currency_value[$c]=new \stdClass();
-                    $currency_value[$c]->id=$buy_class_value->id;
-                    $currency_value[$c]->class_id=$class->id;
-                    $currency_value[$c]->value=$buy_class_value->value;
-                }
-                $new[$key]->class_currency_value=$currency_value;
-                $new[$key]->currency_value=null;
-            }elseif($currency_id== $myanmar_currency->id){
-                $currency_value=new \stdClass();
-                $currency_value->id="null";
-                $currency_value->value="null";
-            }
-            else{
-                $currency_value=new \stdClass();
-                $group_currency_value=BuyGroupValue::where('group_id',$group->id)->latest()->first();
-                $currency_value->id=$group_currency_value->id;
-                $currency_value->value=$group_currency_value->value;
-                $new[$key]->currency_value=$currency_value;
-                $new[$key]->class_currency_value=null;
-            }
-        }
-//        dd(asort($notes[0]));
-        foreach($new as $k=>$n){
-            $new[$k]->notes=$notes[$k];
-        }
-//        dd($new);
-        if($currency_id==$us_currency_id->id){
-            return response()->json([
-                'class'=>$classification,
-                'status'=>$status,
-                'groups'=>
-                    $new,
-            ]);
-        }else{
-            return response()->json([
-                'class'=>null,
-                'status'=>$status,
-                'groups'=>
-                    $new,
-            ]);
-        }
-
-    }
+//    public function currency_grou(Request $request)
+//    {
+//        $currency_id=$request->currency_id;
+//        $classification=Classification::orderBy('id','asc')->get('id','name');
+//        $us_currency_id=Currency::where('name','United States dollar')->first();
+//        $myanmar_currency=Currency::where('name','Myanmar Kyat')->first();
+//        $groups=Group::with('notes')->where('currency_id',$currency_id)->get();
+//        if($currency_id==$myanmar_currency->id){
+//            $status="MMK";
+//        }else{
+//            $status="other";
+//        }
+//        $branch_id = Auth::user()->branch_id ? Auth::user()->branch_id : 1;
+//        foreach($groups as $key=>$group){
+//            $new[$key]=new \stdClass();
+//            $new[$key]->group_id=$group->id;
+//            $new[$key]->group_name=$group->name;
+//
+//            $note_id=DB::table('group_note')->where('group_id',$group->id)->orderBy('note_id','desc')->pluck('note_id');
+//            foreach ($note_id as $i=>$id)
+//            {
+//                $note=Note::whereId($id)->first();
+//                $group_note_id=DB::table('group_note')
+//                    ->where('note_id',$id)
+//                    ->where('group_id',$group->id)
+//                    ->first();
+////                $a[]=$group_note_id-
+//                $notes[$key][$i]=new \stdClass();
+//                $notes[$key][$i]->group_note_id=$group_note_id->id;
+//                $notes[$key][$i]->note_name=$note->name;
+//                if($us_currency_id->id == $currency_id) {
+//                    $class_total_sheet=0;
+//                    foreach($classification as $bc=>$class){
+//                        $class_sheet[$bc]=new \stdClass();
+//
+//                        $branch_class_sheet=DB::table('branch_group_note_class')
+//                            ->where('branch_id',$branch_id)
+//                            ->where('class_id',$class->id)
+//                            ->where('group_note_id',$group_note_id->id)->first();
+//                        if($branch_class_sheet==null){
+//                            $class_sheet[$bc]->class_id=$class->id;
+//                            $class_sheet[$bc]->sheet=0;
+//                        }else{
+//                            $class_sheet[$bc]->class_id=$branch_class_sheet->class_id;
+//                            $class_sheet[$bc]->sheet=$branch_class_sheet->sheet;
+//                        }
+//                        $class_total_sheet+=(int)$class_sheet[$bc]->sheet;
+//                    }
+//                    $notes[$key][$i]->class_sheet=$class_sheet;
+//                    $notes[$key][$i]->total_sheet=$class_total_sheet;
+//                }else{
+//                    $total_sheet = DB::table('branch_group_note')->where('group_note_id', $group_note_id->id)
+//                        ->where('branch_id', $branch_id)
+//                        ->sum('sheet');
+//                    $notes[$key][$i]->total_sheet = (int)$total_sheet;
+//                }
+//            }
+//            if($us_currency_id->id == $currency_id) {
+//                foreach($classification as $c=>$class){
+//                    $classification_group_id = \Illuminate\Support\Facades\DB::table('classification_group')->where('group_id', $group->id)
+//                        ->where('classification_id', $class->id)->first();
+//                    $buy_class_value= BuyClassGroupValue::where('classification_group_id', $classification_group_id->id)
+//                        ->latest()
+//                        ->first();
+//                    $currency_value[$c]=new \stdClass();
+//                    $currency_value[$c]->id=$buy_class_value->id;
+//                    $currency_value[$c]->class_id=$class->id;
+//                    $currency_value[$c]->value=$buy_class_value->value;
+//                }
+//                $new[$key]->class_currency_value=$currency_value;
+//                $new[$key]->currency_value=null;
+//            }elseif($currency_id== $myanmar_currency->id){
+//                $currency_value=new \stdClass();
+//                $currency_value->id="null";
+//                $currency_value->value="null";
+//            }
+//            else{
+//                $currency_value=new \stdClass();
+//                $group_currency_value=BuyGroupValue::where('group_id',$group->id)->latest()->first();
+//                $currency_value->id=$group_currency_value->id;
+//                $currency_value->value=$group_currency_value->value;
+//                $new[$key]->currency_value=$currency_value;
+//                $new[$key]->class_currency_value=null;
+//            }
+//        }
+////        dd(asort($notes[0]));
+//        foreach($new as $k=>$n){
+//            $new[$k]->notes=$notes[$k];
+//        }
+////        dd($new);
+//        if($currency_id==$us_currency_id->id){
+//            return response()->json([
+//                'class'=>$classification,
+//                'status'=>$status,
+//                'groups'=>
+//                    $new,
+//            ]);
+//        }else{
+//            return response()->json([
+//                'class'=>null,
+//                'status'=>$status,
+//                'groups'=>
+//                    $new,
+//            ]);
+//        }
+//
+//    }
     public function transaction_store(Request $request){
 //        if(Auth::user()->isFrontMan()){
             $data=json_encode($request->all());
             $decode_data=json_decode($data);
 //            dd($decode_data);
             $branch=Branch::whereId(Auth::user()->branch_id)->firstOrfail();
-//        $data=file_get_contents(storage_path().'/api/transaction_store.json');
             $t=$decode_data->transaction;
             $transaction=new Transaction();
             $transaction->in_value=$t->in_value;

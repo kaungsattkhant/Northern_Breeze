@@ -36,8 +36,8 @@
                 </div>
             </div>
             <div class="row">
-                <buy-currency-group v-if="buy_currency_groups" :data="buy_currency_groups"></buy-currency-group>
-                <sell-currency-group v-if="sell_currency_groups" :data="sell_currency_groups"></sell-currency-group>
+                <buy-currency-group v-if="buy_currency_groups" :data="buy_currency_groups" :isMM="isMMForBuy()"></buy-currency-group>
+                <sell-currency-group v-if="sell_currency_groups" :data="sell_currency_groups" :isMM="isMMForSell()"></sell-currency-group>
             </div>
         </form>
     </div>
@@ -66,9 +66,17 @@
             isSaveDisable() {
                 return !!(this.exceed_msg || this.buy_not_enough_msg || this.sell_not_enough_msg || !this.in_value_MMK || !this.out_value_MMK);
             },
+            isMMForBuy(){
+                return this.buy_currency_groups.status === "MMK";
+            },
+
+            isMMForSell(){
+                return this.sell_currency_groups.status === "MMK";
+            },
 
             submitForm() {
 
+                console.log(this.getResults);
                 $('#save-btn').append(`
                     <i class="fa fa-spinner fa-spin"></i>
                 `).prop('disabled',true);
@@ -129,7 +137,6 @@
                             this.sell_currency_groups = data;
                         }
                         $('.selectpicker').selectpicker('refresh');
-
 
                     });
             }

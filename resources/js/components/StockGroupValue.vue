@@ -53,8 +53,8 @@
                         <input v-if="!isMM && isSupplier" v-for="(item,k) in group.class_currency_value"
                                type="number"
                                min="0"
-                               v-on:change="handleValues()"
-                               v-on:keyup="handleValues()"
+                               v-on:change="handleValues(group_value[i][k])"
+                               v-on:keyup="handleValues(group_value[i][k])"
                                v-model="group_value[i][k]"
                                class="note_class border-top-0 border-left-0 border-right-0 w-21 text-center fontsize-mount mx-1 pt-1" style="color: #555">
                     </td>
@@ -67,14 +67,14 @@
                                type="number"
                                min="0"
 
-                               v-on:change="handleSheets(item,i,j,k)"
-                               v-on:keyup="handleSheets(item,i,j,k)"
+                               v-on:change="handleSheets(item,note_sheets[i][j][k])"
+                               v-on:keyup="handleSheets(item,note_sheets[i][j][k])"
                                v-model="note_sheets[i][j][k]"  class="note_class border rounded-table-mount w-25 text-center fontsize-mount3 pt-1">
                         <input v-if="isMM"
                                type="number"
                                min="0"
-                               v-on:change="handleSheets(note,i,j,null)"
-                               v-on:keyup="handleSheets(note,i,j,null)"
+                               v-on:change="handleSheets(note,note_sheets[i][j])"
+                               v-on:keyup="handleSheets(note,note_sheets[i][j])"
                                v-model="note_sheets[i][j]"  class="note_class border rounded-table-mount w-25 text-center fontsize-mount3 pt-1">
 
                     </td>
@@ -128,20 +128,20 @@
             refreshGroup: stock_helpers.updateInitialGroups,
             calculateTotal: stock_helpers.calculateTotalMMK,
 
-            handleValues(){
+            handleValues(value){
+                console.log(value)
                 this.refreshGroup(this.stock_groups,this.note_sheets,this.group_value,this.isMM);
-                this.total_mmk = this.calculateTotal(this.stock_groups,this.isMM);
+                this.total_mmk = this.calculateTotal(this.stock_groups,this.isMM).toFixed(2);
             },
 
-            handleSheets(item, i , j, k){
+            handleSheets(item, input_sheet){
                 let local_msg = '';
-                let total_sheet, input_sheet;
+                let total_sheet;
+                // let input_sheet = note_sheet;
                 if(this.isMM){
                     total_sheet = item.total_sheet;
-                    input_sheet = this.note_sheets[i][j];
                 }else{
                     total_sheet = item.sheet;
-                    input_sheet = this.note_sheets[i][j][k];
                 }
                 if(input_sheet>total_sheet){
                     local_msg = 'Input sheet cannot exceeds total sheet!';
@@ -150,7 +150,7 @@
 
 
                 this.refreshGroup(this.stock_groups,this.note_sheets,this.group_value,this.isMM);
-                this.total_mmk = this.calculateTotal(this.stock_groups,this.isMM);
+                this.total_mmk = this.calculateTotal(this.stock_groups,this.isMM).toFixed(2);
 
             },
         },

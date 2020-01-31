@@ -1,3 +1,5 @@
+import {store} from "./store";
+
 export const helpers = {
     sumOfAllContentsOfArray: function (arr) {
         let sum = 0;
@@ -128,31 +130,10 @@ export const helpers = {
     },
 
 
-    setInitialSheets(lengths, sheet, isClass) {
-        if (isClass) {
-            for (let i = 0; i < lengths.groups; i++) {
-                let row = [];
-                for (let j = 0; j < lengths.notes; j++) {
-                    let column = [];
-                    for (let k = 0; k < lengths.classes; k++) {
-                        column.push(0);
-                    }
-                    row.push(column);
-                }
-                sheet.push(row);
-            }
-        } else {
-            for (let i = 0; i < lengths.groups; i++) {
-                let row = [];
-                for (let j = 0; j < lengths.notes; j++) {
-                    row.push(0);
-                }
-                sheet.push(row);
-            }
-        }
-    },
-    setInitialSheetsForStock(lengths, sheet, isMM) {
+    setInitialSheet(sheet, lengths, isMM) {
+
         if (isMM) {
+
             for (let i = 0; i < lengths.groups; i++) {
                 let row = [];
                 for (let j = 0; j < lengths.notes; j++) {
@@ -161,6 +142,7 @@ export const helpers = {
                 sheet.push(row);
             }
         } else {
+
             for (let i = 0; i < lengths.groups; i++) {
                 let row = [];
                 for (let j = 0; j < lengths.notes; j++) {
@@ -172,8 +154,12 @@ export const helpers = {
                 }
                 sheet.push(row);
             }
+
         }
     },
+
+
+
 
 
     setInitialSheetValues(groups,sheet_values,isClass){
@@ -193,70 +179,141 @@ export const helpers = {
             })
         }
     },
-    setInitialGroups: function (type, data, isClass) {
+    // setInitialGroups: function (type, data, isClass) {
+    //     let _this = this;
+    //     this.$store.commit('removeGroup', type);
+    //     let newGroup = JSON.parse(JSON.stringify(data));
+    //     newGroup.forEach(function (group) {
+    //         group.type = type;
+    //         group.notes.forEach(function (note) {
+    //             if (isClass) {
+    //                 let total_sheet = 0;
+    //                 note.class_sheet.forEach(function (item) {
+    //                     item.sheet = 0;
+    //                     total_sheet = total_sheet + item.sheet;
+    //                 });
+    //                 note.total_sheet = total_sheet;
+    //             } else {
+    //                 note.total_sheet = 0;
+    //             }
+    //         });
+    //         _this.$store.commit('addGroup', group);
+    //     });
+    // },
+
+
+    setInitialGroups: function (type,original_data, isMM) {
         let _this = this;
-        if(type!==null){
-            this.$store.commit('removeGroup', type);
-        }else{
-            this.$store.commit('resetStockGroup');
-        }
-        let newGroup = JSON.parse(JSON.stringify(data));
-        newGroup.groups.forEach(function (group) {
-            if(type!==null){
-                group.type = type;
-            }
+        this.$store.commit('removeGroup', type);
+        let groups = JSON.parse(JSON.stringify(original_data));
+        groups.forEach(function (group) {
+            group.type=type;
             group.notes.forEach(function (note) {
-                if (isClass) {
+                if (isMM) {
+                    note.total_sheet = 0;
+                } else {
                     let total_sheet = 0;
                     note.class_sheet.forEach(function (item) {
                         item.sheet = 0;
                         total_sheet = total_sheet + item.sheet;
                     });
                     note.total_sheet = total_sheet;
-                } else {
-                    note.total_sheet = 0;
                 }
             });
-            if(type!==null){
-                _this.$store.commit('addGroup', group);
+            _this.$store.commit('addGroup', group);
 
-            }else{
-                _this.$store.commit('addStockGroup', group);
-            }
         });
     },
-    setInitialGroupsForStock: function (type, data, isMM) {
-        let _this = this;
-        if(type!==null){
-            this.$store.commit('removeGroup', type);
-        }else{
-            this.$store.commit('resetStockGroup');
-        }
-        let newGroup = JSON.parse(JSON.stringify(data));
-        newGroup.groups.forEach(function (group) {
-            if(type!==null){
-                group.type = type;
-            }
-            group.notes.forEach(function (note) {
-                if (!isMM) {
+
+
+    updateInitialGroups: function (type,storeGroup,sheets,isMM) {
+        let targetGroup = storeGroup.filter(function (groupItem) {
+            return groupItem.type === type;
+        });
+        for(let groupItem in targetGroup){
+            if(isMM){
+                for(let noteItem in targetGroup[groupItem].notes){
+                    targetGroup[groupItem].notes[noteItem].total_sheet = parseInt(sheets[groupItem][noteItem])
+                }
+            }else{
+                // for(let classItem in storeGroup[groupItem].class_currency_value){
+                //     storeGroup[groupItem].class_currency_value[classItem].value = values[groupItem][classItem];
+                // }
+                for(let noteItem in targetGroup[groupItem].notes){
                     let total_sheet = 0;
-                    note.class_sheet.forEach(function (item) {
-                        item.sheet = 0;
-                        total_sheet = total_sheet + item.sheet;
-                    });
-                    note.total_sheet = total_sheet;
-                } else {
-                    note.total_sheet = 0;
+                    for(let classItem in targetGroup[groupItem].notes[noteItem].class_sheet){
+                        targetGroup[groupItem].notes[noteItem].class_sheet[classItem].sheet = parseInt(sheets[groupItem][noteItem][classItem]);
+                        total_sheet  = total_sheet+targetGroup[groupItem].notes[noteItem].class_sheet[classItem].sheet;
+                    }
+                    targetGroup[groupItem].notes[noteItem].total_sheet = total_sheet;
                 }
-            });
-            if(type!==null){
-                _this.$store.commit('addGroup', group);
-
-            }else{
-                _this.$store.commit('addStockGroup', group);
             }
-        });
+        }
+
     },
+
+
+    calculateTotalMMK: function (type,storeGroup,isMM) {
+        let total_mmk = 0;
+        let targetGroup = storeGroup.filter(function (groupItem) {
+            return groupItem.type === type;
+        });
+        for(let groupItem in targetGroup){
+            let note_total = 0;
+            for(let noteItem in targetGroup[groupItem].notes){
+                let value, note_name, sheet;
+
+                if(isMM){
+                    value = 1;
+                    note_name= parseInt(targetGroup[groupItem].notes[noteItem].note_name);
+                    sheet = parseInt(targetGroup[groupItem].notes[noteItem].total_sheet);
+                    note_total = note_total + (value*note_name*sheet);
+
+
+                }else{
+                    for(let classItem in targetGroup[groupItem].notes[noteItem].class_sheet){
+                        value = targetGroup[groupItem].class_currency_value[classItem].value ;
+                        note_name = parseInt(targetGroup[groupItem].notes[noteItem].note_name) ;
+                        sheet = parseInt(targetGroup[groupItem].notes[noteItem].class_sheet[classItem].sheet) ;
+                        note_total = note_total + (value*note_name*sheet);
+                    }
+                }
+            }
+            total_mmk = total_mmk+note_total;
+
+        }
+        return total_mmk;
+    },
+
+
+    calculateTotal: function (type,storeGroup,isMM) {
+        let total = 0;
+        let targetGroup = storeGroup.filter(function (groupItem) {
+            return groupItem.type === type;
+        });
+        for(let groupItem in targetGroup){
+            let note_total = 0;
+            for(let noteItem in targetGroup[groupItem].notes){
+                let  note_name, sheet;
+
+                if(isMM){
+                    note_name= parseInt(targetGroup[groupItem].notes[noteItem].note_name);
+                    sheet = parseInt(targetGroup[groupItem].notes[noteItem].total_sheet);
+                    note_total = note_total + (note_name*sheet);
+
+                }else{
+                    for(let classItem in targetGroup[groupItem].notes[noteItem].class_sheet){
+                        note_name = parseInt(targetGroup[groupItem].notes[noteItem].note_name) ;
+                        sheet = parseInt(targetGroup[groupItem].notes[noteItem].class_sheet[classItem].sheet) ;
+                        note_total = note_total + (note_name*sheet);
+                    }
+                }
+            }
+            total = total+note_total;
+
+        }
+        return total;
+    }
 
 
 };

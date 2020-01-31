@@ -519,12 +519,10 @@ class StockController extends Controller
 
     public function total_transfer_value($transfer_id,$status)
     {
-//        dd($status);
         $total_value=0;
         $t=Transfer::find($transfer_id);
         $branch=Branch::find($t->from_branch_id);
         $to_branch=Branch::find($t->to_branch_id);
-//        dd($to_branch->branch_type_id);
         if($t->currency->name==="Myanmar Kyat"){
             $group_note_transfer=DB::table('group_note_transfer')->where('transfer_id',$transfer_id)->get();
             foreach($group_note_transfer as $gnt)
