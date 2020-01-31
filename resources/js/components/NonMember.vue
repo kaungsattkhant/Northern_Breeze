@@ -77,27 +77,26 @@
             submitForm() {
 
                 console.log(this.getResults);
-                // $('#save-btn').append(`
-                //     <i class="fa fa-spinner fa-spin"></i>
-                // `).prop('disabled',true);
-                // fetch('/pos/transaction', {
-                //     method: 'POST',
-                //     headers: {
-                //         'Content-Type': 'application/json',
-                //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                //     },
-                //     body: JSON.stringify(this.getResults)
-                // })
-                //     .then(response => response.json())
-                //     .then(data => {
-                //         if(data.is_success){
-                //             window.location.replace('/sale');
-                //         }else{
-                //             $("#save-btn").children("i:first").remove();
-                //             $('#save-btn').prop('disabled',false);
-                //             // window.location.replace('/pos/non_member');
-                //         }
-                //     })
+                $('#save-btn').append(`
+                    <i class="fa fa-spinner fa-spin"></i>
+                `).prop('disabled',true);
+                fetch('/pos/transaction', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    body: JSON.stringify(this.getResults)
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if(data.is_success){
+                            window.location.replace('/sale');
+                        }else{
+                            $("#save-btn").children("i:first").remove();
+                            $('#save-btn').prop('disabled',false);
+                        }
+                    })
             },
 
             fetch_currency_groups(status) {

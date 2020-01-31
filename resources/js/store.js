@@ -81,6 +81,7 @@ export const store = new Vuex.Store({
         },
 
         isExceed(state, data) {
+            console.log(data[0] >= data[1])
             if (data[0] >= data[1]) {
                 state.changes = data[0] - data[1];
                 state.exceed_msg = '';
