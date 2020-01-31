@@ -7,12 +7,12 @@
                 </div>
                 <button type="button"
                         :disabled="isTransferDisable()"
-                        v-on:click="handleSubmit()" class="btn btn-nb-mount-save fontsize-mount px-4 stock_create">Transfer</button>
+                        v-on:click="handleSubmit()" id="trans-btn" class="btn btn-nb-mount-save fontsize-mount px-4 stock_create">Transfer</button>
             </div>
             <div class="row">
                 <div class="col">
                     <select
-                        v-on:change="fetch_currency_groups()"
+                        v-on:change="fetch_currency_groups(null)"
                         class="selectpicker  mt-4" name="currency" data-style="btn-white" data-width="auto"
                         data-live-search="true" id="stock_currency">
                         <option :value="null" disabled selected>Choose Currency</option>
@@ -23,24 +23,26 @@
                 </div>
                 <div v-if="is_admin" class="col">
                     <select
-                        v-on:change="fetch_currency_groups()"
-                        class="selectpicker mt-4" name="branch" data-style="btn-white" data-width="auto"
+                        v-on:change="fetch_currency_groups('from')"
+                        class="selectpicker mt-4 branches" name="branch" data-style="btn-white" data-width="auto"
                         id="from_stock_branch">
                         <option :value="null" disabled selected>From Branch</option>
                         <option :value="item.id"
                                 v-bind:disabled="item.id === auth_id"
+                                :disabled="isSupplierDisabled(item) || isBranchDisabled(item)"
                                 v-for="item in branch_items">{{item.name}}
                         </option>
                     </select>
                 </div>
                  <div class="col">
                     <select
-                        v-on:change="fetch_currency_groups()"
-                        class="selectpicker mt-4" name="branch" data-style="btn-white" data-width="auto"
+                        v-on:change="fetch_currency_groups('to')"
+                        class="selectpicker mt-4 branches" name="branch" data-style="btn-white" data-width="auto"
                         id="to_stock_branch">
                         <option :value="null" disabled selected>To Branch</option>
                         <option :value="item.id"
                                 v-bind:disabled="item.id === auth_id"
+                                :disabled="isBranchDisabled(item)"
                                 v-for="item in branch_items">{{item.name}}
                         </option>
                     </select>
@@ -69,7 +71,8 @@
                 currency_id: '',
                 to_branch: '',
                 from_branch: '',
-                stock_currency: ''
+                stock_currency: '',
+                current_branch: '',
             }
         },
 
@@ -77,6 +80,12 @@
 
             isTransferDisable() {
                 return !!(this.msg);
+            },
+            isSupplierDisabled(item){
+                return item.branch_type_id === 2;
+            },
+            isBranchDisabled(item){
+                return item.id === this.current_branch;
             },
 
             isMM(){
@@ -86,11 +95,15 @@
                 return this.to_branch === 5;
             },
 
-            fetch_currency_groups() {
+            fetch_currency_groups(type) {
                 this.stock_currency = '';
                 let currency_type = $('#stock_currency option:selected').val();
                 let to_branch = $('#to_stock_branch option:selected').val();
                 let from_branch = $('#from_stock_branch option:selected').val();
+
+                if(type!==null){
+                    this.current_branch = parseInt($('#' + type + '_stock_branch option:selected').val());
+                }
 
                 if(this.is_admin){
                     if(currency_type !== '' && to_branch !=='' && from_branch !== ''){
@@ -105,6 +118,8 @@
                         this.from_branch = null;
                     }
                 }
+
+
 
                 if(this.to_branch !== '' && this.currency_id !== '' && this.from_branch !=='' ){
                     let data = {
@@ -128,6 +143,9 @@
             },
 
             handleSubmit() {
+                $('#trans-btn').append(`
+                    <i class="fa fa-spinner fa-spin"></i>
+                `).prop('disabled',true);
                 let transfer_type;
                 if(this.isSupplier()){
                     transfer_type = 'branch_to_supplier'
@@ -155,6 +173,9 @@
                     .then(data => {
                         if(data.is_success){
                             window.location.replace('/stock')
+                        }else{
+                            $("#trans-btn").children("i:first").remove();
+                            $('#trans-btn').prop('disabled',false);
                         }
                     })
             },

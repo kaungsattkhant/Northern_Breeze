@@ -53,8 +53,8 @@
                         <input v-if="!isMM && isSupplier" v-for="(item,k) in group.class_currency_value"
                                type="number"
                                min="0"
-                               v-on:change="handleValues(group_value[i][k])"
-                               v-on:keyup="handleValues(group_value[i][k])"
+                               v-on:change="handleValues()"
+                               v-on:keyup="handleValues()"
                                v-model="group_value[i][k]"
                                class="note_class border-top-0 border-left-0 border-right-0 w-21 text-center fontsize-mount mx-1 pt-1" style="color: #555">
                     </td>
@@ -128,8 +128,7 @@
             refreshGroup: stock_helpers.updateInitialGroups,
             calculateTotal: stock_helpers.calculateTotalMMK,
 
-            handleValues(value){
-                console.log(value)
+            handleValues(){
                 this.refreshGroup(this.stock_groups,this.note_sheets,this.group_value,this.isMM);
                 this.total_mmk = this.calculateTotal(this.stock_groups,this.isMM).toFixed(2);
             },

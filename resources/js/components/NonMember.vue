@@ -76,7 +76,6 @@
 
             submitForm() {
 
-                console.log(this.getResults);
                 $('#save-btn').append(`
                     <i class="fa fa-spinner fa-spin"></i>
                 `).prop('disabled',true);

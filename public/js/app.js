@@ -139,6 +139,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__["default"]);
@@ -156,6 +157,9 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
   methods: {
     isMM: function isMM() {
       return this.stock_currency.status === "MMK";
+    },
+    isSupplierDisabled: function isSupplierDisabled(item) {
+      return item.branch_type_id === 2;
     },
     fetch_currency_groups: function fetch_currency_groups() {
       var _this = this;
@@ -197,6 +201,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       }
     },
     handleSubmit: function handleSubmit() {
+      $('#add-btn').append("\n                <i class=\"fa fa-spinner fa-spin\"></i>\n            ").prop('disabled', true);
       var data = {
         branch: this.branch,
         currency_id: this.currency_id,
@@ -215,11 +220,16 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       }).then(function (data) {
         if (data.is_success) {
           window.location.replace('/stock');
+        } else {
+          $("#add-btn").children("i:first").remove();
+          $('#add-btn').prop('disabled', false);
         }
       });
     }
   },
-  mounted: function mounted() {},
+  mounted: function mounted() {
+    console.log(this.branch_items);
+  },
   computed: Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])({
     stock_groups: 'stock_groups'
   })
@@ -1515,7 +1525,6 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       return this.sell_currency_groups.status === "MMK";
     },
     submitForm: function submitForm() {
-      console.log(this.getResults);
       $('#save-btn').append("\n                <i class=\"fa fa-spinner fa-spin\"></i>\n            ").prop('disabled', true);
       fetch('/pos/transaction', {
         method: 'POST',
@@ -1922,8 +1931,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
     setGroupsArray: _stock_helpers_js__WEBPACK_IMPORTED_MODULE_2__["stock_helpers"].setInitialGroups,
     refreshGroup: _stock_helpers_js__WEBPACK_IMPORTED_MODULE_2__["stock_helpers"].updateInitialGroups,
     calculateTotal: _stock_helpers_js__WEBPACK_IMPORTED_MODULE_2__["stock_helpers"].calculateTotalMMK,
-    handleValues: function handleValues(value) {
-      console.log(value);
+    handleValues: function handleValues() {
       this.refreshGroup(this.stock_groups, this.note_sheets, this.group_value, this.isMM);
       this.total_mmk = this.calculateTotal(this.stock_groups, this.isMM).toFixed(2);
     },
@@ -2033,6 +2041,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__["default"]);
@@ -2045,12 +2055,19 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       currency_id: '',
       to_branch: '',
       from_branch: '',
-      stock_currency: ''
+      stock_currency: '',
+      current_branch: ''
     };
   },
   methods: {
     isTransferDisable: function isTransferDisable() {
       return !!this.msg;
+    },
+    isSupplierDisabled: function isSupplierDisabled(item) {
+      return item.branch_type_id === 2;
+    },
+    isBranchDisabled: function isBranchDisabled(item) {
+      return item.id === this.current_branch;
     },
     isMM: function isMM() {
       return this.stock_currency.status === "MMK";
@@ -2058,13 +2075,17 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
     isSupplier: function isSupplier() {
       return this.to_branch === 5;
     },
-    fetch_currency_groups: function fetch_currency_groups() {
+    fetch_currency_groups: function fetch_currency_groups(type) {
       var _this = this;
 
       this.stock_currency = '';
       var currency_type = $('#stock_currency option:selected').val();
       var to_branch = $('#to_stock_branch option:selected').val();
       var from_branch = $('#from_stock_branch option:selected').val();
+
+      if (type !== null) {
+        this.current_branch = parseInt($('#' + type + '_stock_branch option:selected').val());
+      }
 
       if (this.is_admin) {
         if (currency_type !== '' && to_branch !== '' && from_branch !== '') {
@@ -2101,6 +2122,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       }
     },
     handleSubmit: function handleSubmit() {
+      $('#trans-btn').append("\n                <i class=\"fa fa-spinner fa-spin\"></i>\n            ").prop('disabled', true);
       var transfer_type;
 
       if (this.isSupplier()) {
@@ -2129,6 +2151,9 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       }).then(function (data) {
         if (data.is_success) {
           window.location.replace('/stock');
+        } else {
+          $("#trans-btn").children("i:first").remove();
+          $('#trans-btn').prop('disabled', false);
         }
       });
     }
@@ -20419,7 +20444,7 @@ var render = function() {
               {
                 staticClass:
                   "btn btn-nb-mount-save fontsize-mount px-4 stock_create",
-                attrs: { type: "button" },
+                attrs: { type: "button", id: "add-btn" },
                 on: {
                   click: function($event) {
                     return _vm.handleSubmit()
@@ -20499,9 +20524,14 @@ var render = function() {
                     ),
                     _vm._v(" "),
                     _vm._l(_vm.branch_items, function(item) {
-                      return _c("option", { domProps: { value: item.id } }, [
-                        _vm._v(_vm._s(item.name) + "\n                    ")
-                      ])
+                      return _c(
+                        "option",
+                        {
+                          attrs: { disabled: _vm.isSupplierDisabled(item) },
+                          domProps: { value: item.id }
+                        },
+                        [_vm._v(_vm._s(item.name) + "\n                    ")]
+                      )
                     })
                   ],
                   2
@@ -22858,10 +22888,10 @@ var render = function() {
                             domProps: { value: _vm.group_value[i][k] },
                             on: {
                               change: function($event) {
-                                return _vm.handleValues(_vm.group_value[i][k])
+                                return _vm.handleValues()
                               },
                               keyup: function($event) {
-                                return _vm.handleValues(_vm.group_value[i][k])
+                                return _vm.handleValues()
                               },
                               input: function($event) {
                                 if ($event.target.composing) {
@@ -23052,7 +23082,11 @@ var render = function() {
               {
                 staticClass:
                   "btn btn-nb-mount-save fontsize-mount px-4 stock_create",
-                attrs: { type: "button", disabled: _vm.isTransferDisable() },
+                attrs: {
+                  type: "button",
+                  disabled: _vm.isTransferDisable(),
+                  id: "trans-btn"
+                },
                 on: {
                   click: function($event) {
                     return _vm.handleSubmit()
@@ -23079,7 +23113,7 @@ var render = function() {
                 },
                 on: {
                   change: function($event) {
-                    return _vm.fetch_currency_groups()
+                    return _vm.fetch_currency_groups(null)
                   }
                 }
               },
@@ -23108,7 +23142,7 @@ var render = function() {
                 _c(
                   "select",
                   {
-                    staticClass: "selectpicker mt-4",
+                    staticClass: "selectpicker mt-4 branches",
                     attrs: {
                       name: "branch",
                       "data-style": "btn-white",
@@ -23117,7 +23151,7 @@ var render = function() {
                     },
                     on: {
                       change: function($event) {
-                        return _vm.fetch_currency_groups()
+                        return _vm.fetch_currency_groups("from")
                       }
                     }
                   },
@@ -23135,7 +23169,12 @@ var render = function() {
                       return _c(
                         "option",
                         {
-                          attrs: { disabled: item.id === _vm.auth_id },
+                          attrs: {
+                            disabled: item.id === _vm.auth_id,
+                            disabled:
+                              _vm.isSupplierDisabled(item) ||
+                              _vm.isBranchDisabled(item)
+                          },
                           domProps: { value: item.id }
                         },
                         [_vm._v(_vm._s(item.name) + "\n                    ")]
@@ -23151,7 +23190,7 @@ var render = function() {
             _c(
               "select",
               {
-                staticClass: "selectpicker mt-4",
+                staticClass: "selectpicker mt-4 branches",
                 attrs: {
                   name: "branch",
                   "data-style": "btn-white",
@@ -23160,7 +23199,7 @@ var render = function() {
                 },
                 on: {
                   change: function($event) {
-                    return _vm.fetch_currency_groups()
+                    return _vm.fetch_currency_groups("to")
                   }
                 }
               },
@@ -23178,7 +23217,10 @@ var render = function() {
                   return _c(
                     "option",
                     {
-                      attrs: { disabled: item.id === _vm.auth_id },
+                      attrs: {
+                        disabled: item.id === _vm.auth_id,
+                        disabled: _vm.isBranchDisabled(item)
+                      },
                       domProps: { value: item.id }
                     },
                     [_vm._v(_vm._s(item.name) + "\n                    ")]
@@ -37920,8 +37962,8 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\MountProject\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! D:\MountProject\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /home/tinmaungzin/PhpstormProjects/NorthernBreeze-master/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/tinmaungzin/PhpstormProjects/NorthernBreeze-master/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
