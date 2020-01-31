@@ -122,7 +122,7 @@
                 if(input_sheet>=0){
                     this.$store.commit('setBuyNotEnoughMsg', '');
                     this.refreshGroup(this.type,this.getGroups,this.sheets,this.isMM);
-                    this.total_mmk = this.calculateTotalMMK(this.type,this.getGroups,this.isMM).toFixed(2);
+                    this.total_mmk = parseFloat(this.calculateTotalMMK(this.type,this.getGroups,this.isMM).toFixed(2)) ;
                     this.total = this.calculateTotal(this.type,this.getGroups,this.isMM);
                     this.$store.commit('setInValues', [this.total, this.total_mmk]);
                     this.$store.commit('isExceed', [this.in_value_MMK, this.out_value_MMK]);

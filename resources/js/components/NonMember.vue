@@ -95,7 +95,7 @@
                         }else{
                             $("#save-btn").children("i:first").remove();
                             $('#save-btn').prop('disabled',false);
-                            // window.location.replace('/pos/non_member');
+
                         }
                     })
             },

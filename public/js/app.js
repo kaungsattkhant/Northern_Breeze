@@ -357,7 +357,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       if (input_sheet >= 0) {
         this.$store.commit('setBuyNotEnoughMsg', '');
         this.refreshGroup(this.type, this.getGroups, this.sheets, this.isMM);
-        this.total_mmk = this.calculateTotalMMK(this.type, this.getGroups, this.isMM).toFixed(2);
+        this.total_mmk = parseFloat(this.calculateTotalMMK(this.type, this.getGroups, this.isMM).toFixed(2));
         this.total = this.calculateTotal(this.type, this.getGroups, this.isMM);
         this.$store.commit('setInValues', [this.total, this.total_mmk]);
         this.$store.commit('isExceed', [this.in_value_MMK, this.out_value_MMK]);
@@ -1531,7 +1531,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
           window.location.replace('/sale');
         } else {
           $("#save-btn").children("i:first").remove();
-          $('#save-btn').prop('disabled', false); // window.location.replace('/pos/non_member');
+          $('#save-btn').prop('disabled', false);
         }
       });
     },
@@ -1740,7 +1740,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       if (input_sheet >= 0 && input_sheet <= total_sheet) {
         this.$store.commit('setSellNotEnoughMsg', '');
         this.refreshGroup(this.type, this.getGroups, this.sheets, this.isMM);
-        this.total_mmk = this.calculateTotalMMK(this.type, this.getGroups, this.isMM).toFixed(2);
+        this.total_mmk = parseFloat(this.calculateTotalMMK(this.type, this.getGroups, this.isMM).toFixed(2));
         this.total = this.calculateTotal(this.type, this.getGroups, this.isMM);
         this.$store.commit('setOutValues', [this.total, this.total_mmk]);
         this.$store.commit('isExceed', [this.in_value_MMK, this.out_value_MMK]);
@@ -37856,6 +37856,8 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
       state.sell_total_mmk = data;
     },
     isExceed: function isExceed(state, data) {
+      console.log(data[0] >= data[1]);
+
       if (data[0] >= data[1]) {
         state.changes = data[0] - data[1];
         state.exceed_msg = '';
