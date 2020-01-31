@@ -2087,6 +2087,8 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
         this.current_branch = parseInt($('#' + type + '_stock_branch option:selected').val());
       }
 
+      $('.selectpicker').selectpicker('refresh');
+
       if (this.is_admin) {
         if (currency_type !== '' && to_branch !== '' && from_branch !== '') {
           this.currency_id = parseInt(currency_type);
