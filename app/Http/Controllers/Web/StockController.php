@@ -64,7 +64,7 @@ class StockController extends Controller
                         $transfer->transfer_status = "Out";
 
                     }
-                    $transfer->total_transfer_value = $this->total_transfer_value($transfer->id,$transfer->transfer_status);
+                    $transfer->total_transfer_value = $this->total_transfer_value($transfer->id);
                     $transfer_total_value += $this->total_transfer_value($transfer->id);
                 }
                 array_push($total, $transfer_total_value);
@@ -471,9 +471,12 @@ class StockController extends Controller
                 ->wherePivot('class_id',$class_id)->detach();
             $to_branch->branch_group_note_class()
                 ->attach($to_branch->id,['group_note_id'=>$group_note_id,'class_id'=>$class_id,'sheet'=>$ts]);
-        }elseif($add_to_branch!=null && $t_sheet!=0){
-            $to_branch->branch_group_note_class()
-                ->attach($to_branch->id,['group_note_id'=>$group_note_id,'class_id'=>$class_id,'sheet'=>$t_sheet]);
+        }else{
+            if($t_sheet!=0){
+                $to_branch->branch_group_note_class()
+                    ->attach($to_branch->id,['group_note_id'=>$group_note_id,'class_id'=>$class_id,'sheet'=>$t_sheet]);
+            }
+
         }
     }
     public function stock_detail($transfer_id)
@@ -496,7 +499,7 @@ class StockController extends Controller
         $data=view('Stock.detail_view',compact('transfers','transfer_note','total_transfer_value'));
         return $data;
     }
-    public function total_transfer_value($transfer_id,$status)
+    public function total_transfer_value($transfer_id)
     {
 //        dd($status);
         $total_value=0;
