@@ -46,7 +46,7 @@
 
             </div>
 
-            <stock-group-value v-if="stock_currency" :data="stock_currency" :isMM="isMM()" :isSupplier="isSupplier()"></stock-group-value>
+            <stock-group-value v-if="stock_currency" :data="stock_currency" :isMM="isMM()" :isSupplier="isSupplier()" :isTransfer="true"></stock-group-value>
         </form>
 
     </div>

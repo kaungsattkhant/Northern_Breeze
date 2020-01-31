@@ -33,7 +33,7 @@
                 </div>
             </div>
 
-            <stock-group-value v-if="stock_currency" :data="stock_currency" :isMM="isMM()" :isSupplier="true"></stock-group-value>
+            <stock-group-value v-if="stock_currency" :data="stock_currency" :isMM="isMM()" :isSupplier="true" :isTransfer="false"></stock-group-value>
         </form>
 
     </div>
@@ -79,6 +79,8 @@
                     else {
                         this.branch = null;
                     }
+
+
                     if(this.branch!== '' && this.currency_id!== ''){
                         let data = {
                             currency_id: this.currency_id,

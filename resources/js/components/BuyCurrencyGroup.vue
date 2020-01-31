@@ -32,6 +32,7 @@
 <!--                               class="border rounded-table-mount  w-25 float-left text-center font-color fontsize-mount3 pt-1 mb-1">-->
 <!--                    </div>-->
 <!--                </td>-->
+
                 <td class="text-nb-mount border-top-0 pl-4 pt-2 fontsize-mount2 justify-content-between"
                     style="display: flex"
                     v-for="(note,j) in group.notes">

@@ -2,14 +2,32 @@
 
     <div id="group" class="">
 
+<!--        <div class="row pl-1 pt-5">-->
+<!--            <div class="col-4">-->
+<!--                <label class="pl-3 text-color-mount fontsize-mount pr-4 my-auto">Group Name</label>-->
+<!--            </div>-->
+<!--            <div class="col ">-->
+<!--                <div class="row mx-0">-->
+<!--                    <div v-for="group in data.groups" class="col mx-0 pr-3 col-item ">-->
+<!--                        <p class="text-color-mount fontsize-mount17 pt-1">{{group.name}}</p>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
         <div class="row pl-1 pt-5">
             <div class="col-4">
-                <label class="pl-3 text-color-mount fontsize-mount pr-4 my-auto">Group Name</label>
+                <label class="pl-3 text-color-mount fontsize-mount6 pr-4 my-auto">Group Name</label>
             </div>
-            <div v-for="group in data.groups" class="col col-item ">
-                <p class="text-color-mount fontsize-mount17 pt-1">{{group.name}}</p>
+            <div class="col pl-0">
+                <div  class="col row mx-0 px-0">
+                    <div v-for="group in data.groups" class="col px-0 mx-2 col-item ">
+                        <p class="text-color-mount fontsize-mount17 pt-0">{{group.name}}</p>
+                    </div>
+                </div>
             </div>
         </div>
+
+
         <div class="row mb-4 pl-1">
             <div class="col-4">
             </div>
@@ -24,26 +42,28 @@
 
         <div class="row pt-3  pl-1">
             <div class="col-4">
-                <label class="pl-3 text-color-mount fontsize-mount pr-4 my-auto">Selling Value</label>
+                <label class="pl-3 text-color-mount fontsize-mount6 pr-4 my-auto">Selling Value</label>
             </div>
-            <div v-for="(group,i) in data.groups">
-                <div v-if="isUs" class="col">
-                    <div v-for="(item,j) in data.class" class="col-item-mini text-color-mount fontsize-mount2">
+            <div v-for="(group,i) in data.groups" class="col pl-0">
+                <div v-if="isUs" class="col px-2">
+                    <div v-for="(item,j) in data.class" class="col-item-mini text-color-mount fontsize-mount2 for-input-pl">
                         <input
                                 v-on:change="handleValue('sell',group,sell_value[i][j],item.id)"
                                 v-on:keyup="handleValue('sell',group,sell_value[i][j],item.id)"
                                 v-model="sell_value[i][j]"
                                 type="number" min="0"
                                :placeholder="item.name"
-                               class="pl-3" style="width: 100%;border: none;background-color: transparent">
+                               class="pl-3 text-center" style="width: 100%;border: none;background-color: transparent">
                     </div>
                 </div>
-                <div v-if="!isUs"  class="col col-item ">
-                    <input
+                <div v-if="!isUs" class="col px-2 ">
+                    <div class="col-item-mini text-color-mount fontsize-mount2 for-input-pl">
+                        <input
                             v-on:change="handleValue('sell',group,sell_value[i],1)"
                             v-on:keyup="handleValue('sell',group,sell_value[i],1)"
                             v-model="sell_value[i]"
                             type="number" min="0" :placeholder="group.name" class="text-center text-box-mount">
+                    </div>
                 </div>
             </div>
         </div>
@@ -51,27 +71,30 @@
             <div class="col-4">
             </div>
         </div>
+
         <div class="row mb-1 pl-1 pt-3 pb-5">
             <div class="col-4">
-                <label class="pl-3 text-color-mount fontsize-mount pr-4 my-auto">Buying Value</label>
+                <label class="pl-3 text-color-mount fontsize-mount6 pr-4 my-auto">Buying Value</label>
             </div>
-            <div v-for="(group,i) in data.groups">
-                <div v-if="isUs" class="col">
-                    <div v-for="(item,j) in data.class" class="col-item-mini text-color-mount fontsize-mount2">
+            <div v-for="(group,i) in data.groups" class="col pl-0">
+                <div v-if="isUs" class="col px-2">
+                    <div v-for="(item,j) in data.class" class="col-item-mini text-color-mount fontsize-mount2 for-input-pl">
                         <input
                                 v-on:change="handleValue('buy',group,buy_value[i][j],item.id)"
                                 v-on:keyup="handleValue('buy',group,buy_value[i][j],item.id)"
                                 v-model="buy_value[i][j]"
                                 type="number" min="0" :placeholder="item.name"
-                               class="pl-3" style="width: 100%;border: none;background-color: transparent">
+                               class="pl-3 text-center" style="width: 100%;border: none;background-color: transparent">
                     </div>
                 </div>
-                <div v-if="!isUs" class="col col-item ">
-                    <input
+                <div v-if="!isUs" class="col px-2 ">
+                    <div class="col-item-mini text-color-mount fontsize-mount2 for-input-pl">
+                        <input
                             v-on:change="handleValue('buy',group,buy_value[i],1)"
                             v-on:keyup="handleValue('buy',group,buy_value[i],1)"
                             v-model="buy_value[i]"
                             type="number" min="0" :placeholder="group.name" class="text-center text-box-mount">
+                    </div>
                 </div>
             </div>
         </div>
