@@ -20,10 +20,11 @@
                 <tr v-for="note in group.notes">
                     <td class="text-nb-mount border-top-0 pl-4 pt-4 fontsize-mount2">{{note.note_name}}</td>
                     <td class="text-right border-top-0 pt-4">
-                        <p class="text-color-mount fontsize-mount2" style="padding-bottom: 1px">{{note.total_sheet}}</p>
+                        <p class="text-color-mount fontsize-mount2" style="padding-bottom: 0px">{{note.total_sheet}}</p>
                     </td>
                 </tr>
-
+                </tbody>
+                <tfoot>
                 <tr>
                     <td class="border-top-0 text-nb-mount d-none" style="padding: 0px;"></td>
                     <td class="text-center border-top-0 w-100 pl-5">
@@ -32,8 +33,7 @@
 
                     </td>
                 </tr>
-
-                </tbody>
+                </tfoot>
             </table>
 <!--            <div class="div-p-mount2">-->
 <!--                <p> Total : MMKs </p>-->
@@ -79,15 +79,19 @@
 
                     </td>
                 </tr>
+                </tbody>
+                <tfoot>
                 <tr>
-                    <td class="border-top-0 p-0"></td>
+                    <td class="border-top-0 px-0 text-center">
+                        <span class="text-danger" v-if="isTransfer">{{msg}}</span>
+                    </td>
                     <td class="border-top-0 w-100 text-left pl-5">
                         <p class="total-text-mount pl-5 mb-1">Total MMKs : {{total_mmk}}</p>
                     </td>
                 </tr>
-                </tbody>
+                </tfoot>
             </table>
-            <span class="text-danger" v-if="isTransfer">{{msg}}</span>
+<!--            <span class="text-danger" v-if="isTransfer">{{msg}}</span>-->
         </div>
 
     </div>
