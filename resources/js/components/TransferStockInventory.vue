@@ -82,28 +82,25 @@
 
             fetch_currency_groups() {
                 this.stock_currency = '';
-                if($('#stock_currency option:selected').val()){
-                    this.currency_id = parseInt($('#stock_currency option:selected').val());
+                let currency_type = $('#stock_currency option:selected').val();
+                let to_branch = $('#to_stock_branch option:selected').val();
+                let from_branch = $('#from_stock_branch option:selected').val();
+
+                if(this.is_admin){
+                    if(currency_type !== '' && to_branch !=='' && from_branch !== ''){
+                        this.currency_id = parseInt(currency_type);
+                        this.to_branch = parseInt(to_branch);
+                        this.from_branch = parseInt(from_branch);
+                    }
                 }else{
-                    alert('please choose currency type')
+                    if(currency_type !== '' && to_branch !==''){
+                        this.currency_id = parseInt(currency_type);
+                        this.to_branch = parseInt(to_branch);
+                        this.from_branch = null;
+                    }
                 }
 
-                if($('#to_stock_branch option:selected').val()){
-                    this.to_branch = parseInt($('#to_stock_branch option:selected').val());
-                }else{
-                    alert('please choose to branch')
-                }
-
-                if(this.is_admin && !($('#from_stock_branch option:selected').val())){
-                    alert('please choose from branch')
-                }
-                else if(this.is_admin && $('#from_stock_branch option:selected').val()){
-                    this.from_branch = parseInt($('#from_stock_branch option:selected').val());
-                }
-                else {
-                    this.from_branch = null;
-                }
-                if(this.to_branch!== '' && this.currency_id!== '' && this.from_branch!=='' ){
+                if(this.to_branch !== '' && this.currency_id !== '' && this.from_branch !=='' ){
                     let data = {
                         currency_id: this.currency_id,
                         to_branch: this.to_branch,

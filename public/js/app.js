@@ -161,19 +161,19 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       var _this = this;
 
       this.stock_currency = '';
+      var currency_type = $('#stock_currency option:selected').val();
+      var branch = $('#stock_branch option:selected').val();
 
-      if ($('#stock_currency option:selected').val()) {
-        this.currency_id = parseInt($('#stock_currency option:selected').val());
+      if (this.is_admin) {
+        if (currency_type !== '' && branch !== '') {
+          this.branch = parseInt(branch);
+          this.currency_id = parseInt(currency_type);
+        }
       } else {
-        alert('please choose currency type');
-      }
-
-      if (this.is_admin && !$('#stock_branch option:selected').val()) {
-        alert('please choose branch');
-      } else if (this.is_admin && $('#stock_branch option:selected').val()) {
-        this.branch = parseInt($('#stock_branch option:selected').val());
-      } else {
-        this.branch = null;
+        if (currency_type !== '') {
+          this.branch = null;
+          this.currency_id = parseInt(currency_type);
+        }
       }
 
       if (this.branch !== '' && this.currency_id !== '') {
@@ -2015,6 +2015,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
 
       this.refreshGroup(this.stock_groups, this.note_sheets, this.group_value, this.isMM);
       this.total_mmk = this.calculateTotal(this.stock_groups, this.isMM);
+      console.log(this.stock_groups);
     }
   },
   mounted: function mounted() {},
@@ -2127,25 +2128,22 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       var _this = this;
 
       this.stock_currency = '';
+      var currency_type = $('#stock_currency option:selected').val();
+      var to_branch = $('#to_stock_branch option:selected').val();
+      var from_branch = $('#from_stock_branch option:selected').val();
 
-      if ($('#stock_currency option:selected').val()) {
-        this.currency_id = parseInt($('#stock_currency option:selected').val());
+      if (this.is_admin) {
+        if (currency_type !== '' && to_branch !== '' && from_branch !== '') {
+          this.currency_id = parseInt(currency_type);
+          this.to_branch = parseInt(to_branch);
+          this.from_branch = parseInt(from_branch);
+        }
       } else {
-        alert('please choose currency type');
-      }
-
-      if ($('#to_stock_branch option:selected').val()) {
-        this.to_branch = parseInt($('#to_stock_branch option:selected').val());
-      } else {
-        alert('please choose to branch');
-      }
-
-      if (this.is_admin && !$('#from_stock_branch option:selected').val()) {
-        alert('please choose from branch');
-      } else if (this.is_admin && $('#from_stock_branch option:selected').val()) {
-        this.from_branch = parseInt($('#from_stock_branch option:selected').val());
-      } else {
-        this.from_branch = null;
+        if (currency_type !== '' && to_branch !== '') {
+          this.currency_id = parseInt(currency_type);
+          this.to_branch = parseInt(to_branch);
+          this.from_branch = null;
+        }
       }
 
       if (this.to_branch !== '' && this.currency_id !== '' && this.from_branch !== '') {
@@ -37839,8 +37837,10 @@ var stock_helpers = {
 
           for (var _classItem in storeGroup[groupItem].notes[_noteItem].class_sheet) {
             storeGroup[groupItem].notes[_noteItem].class_sheet[_classItem].sheet = parseInt(sheets[groupItem][_noteItem][_classItem]);
-            storeGroup[groupItem].notes[_noteItem].total_sheet = total_sheet + storeGroup[groupItem].notes[_noteItem].class_sheet[_classItem].sheet;
+            total_sheet = total_sheet + storeGroup[groupItem].notes[_noteItem].class_sheet[_classItem].sheet;
           }
+
+          storeGroup[groupItem].notes[_noteItem].total_sheet = total_sheet;
         }
       }
     }
@@ -37860,15 +37860,15 @@ var stock_helpers = {
           value = 1;
           note_name = storeGroup[groupItem].notes[noteItem].note_name;
           sheet = storeGroup[groupItem].notes[noteItem].total_sheet;
+          note_total = note_total + value * note_name * sheet;
         } else {
           for (var classItem in storeGroup[groupItem].notes[noteItem].class_sheet) {
             value = storeGroup[groupItem].class_currency_value[classItem].value;
             note_name = storeGroup[groupItem].notes[noteItem].note_name;
             sheet = storeGroup[groupItem].notes[noteItem].class_sheet[classItem].sheet;
+            note_total = note_total + value * note_name * sheet;
           }
         }
-
-        note_total = note_total + value * note_name * sheet;
       }
 
       total_mmk = total_mmk + note_total;

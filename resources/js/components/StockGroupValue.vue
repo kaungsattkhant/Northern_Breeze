@@ -145,6 +145,7 @@
                 }
                 this.refreshGroup(this.stock_groups,this.note_sheets,this.group_value,this.isMM);
                 this.total_mmk = this.calculateTotal(this.stock_groups,this.isMM);
+                console.log(this.stock_groups);
 
             },
         },
