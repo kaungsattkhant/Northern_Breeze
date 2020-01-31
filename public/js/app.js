@@ -1969,6 +1969,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -22888,80 +22892,82 @@ var render = function() {
             "table border-0 bg-white box-shadow-mount border-tab-radius-mount",
           attrs: { id: "stock_table_filter" }
         },
-        _vm._l(_vm.data.groups, function(group) {
-          return _c(
-            "tbody",
-            { staticClass: "rounded-table-mount" },
-            [
-              _c("tr", [
-                _c("td", [
-                  _c(
-                    "h3",
-                    { staticClass: "pb-2 " },
-                    [
-                      _vm._v(
-                        "\n                            " +
-                          _vm._s(group.group_name) +
-                          "  "
-                      ),
-                      _vm._l(group.class_currency_value, function(item) {
-                        return !_vm.isMM
-                          ? _c(
-                              "span",
-                              {
-                                staticStyle: {
-                                  "font-size": "15px",
-                                  color: "#555555",
-                                  "font-family": "'Roboto',sans-serif"
-                                }
-                              },
-                              [_vm._v("(" + _vm._s(item.value) + ")")]
-                            )
-                          : _vm._e()
+        [
+          _vm._l(_vm.data.groups, function(group) {
+            return _c(
+              "tbody",
+              { staticClass: "rounded-table-mount" },
+              [
+                _c("tr", [
+                  _c("td", [
+                    _c(
+                      "h3",
+                      { staticClass: "pb-2 " },
+                      [
+                        _vm._v(
+                          "\n                            " +
+                            _vm._s(group.group_name) +
+                            "  "
+                        ),
+                        _vm._l(group.class_currency_value, function(item) {
+                          return !_vm.isMM
+                            ? _c(
+                                "span",
+                                {
+                                  staticStyle: {
+                                    "font-size": "15px",
+                                    color: "#555555",
+                                    "font-family": "'Roboto',sans-serif"
+                                  }
+                                },
+                                [_vm._v("(" + _vm._s(item.value) + ")")]
+                              )
+                            : _vm._e()
+                        })
+                      ],
+                      2
+                    )
+                  ]),
+                  _vm._v(" "),
+                  !_vm.isMM
+                    ? _c("td", {
+                        staticClass:
+                          "text-nb-mount border-top-0 pl-4 pt-4 fontsize-mount2"
                       })
-                    ],
-                    2
-                  )
+                    : _vm._e()
                 ]),
                 _vm._v(" "),
-                !_vm.isMM
-                  ? _c("td", {
-                      staticClass:
-                        "text-nb-mount border-top-0 pl-4 pt-4 fontsize-mount2"
-                    })
-                  : _vm._e()
-              ]),
-              _vm._v(" "),
-              _vm._l(group.notes, function(note) {
-                return _c("tr", [
-                  _c(
-                    "td",
-                    {
-                      staticClass:
-                        "text-nb-mount border-top-0 pl-4 pt-4 fontsize-mount2"
-                    },
-                    [_vm._v(_vm._s(note.note_name))]
-                  ),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "text-right border-top-0 pt-4" }, [
+                _vm._l(group.notes, function(note) {
+                  return _c("tr", [
                     _c(
-                      "p",
+                      "td",
                       {
-                        staticClass: "text-color-mount fontsize-mount2",
-                        staticStyle: { "padding-bottom": "1px" }
+                        staticClass:
+                          "text-nb-mount border-top-0 pl-4 pt-4 fontsize-mount2"
                       },
-                      [_vm._v(_vm._s(note.total_sheet))]
-                    )
+                      [_vm._v(_vm._s(note.note_name))]
+                    ),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "text-right border-top-0 pt-4" }, [
+                      _c(
+                        "p",
+                        {
+                          staticClass: "text-color-mount fontsize-mount2",
+                          staticStyle: { "padding-bottom": "0px" }
+                        },
+                        [_vm._v(_vm._s(note.total_sheet))]
+                      )
+                    ])
                   ])
-                ])
-              }),
-              _vm._v(" "),
-              _vm._m(0, true)
-            ],
-            2
-          )
-        }),
-        0
+                })
+              ],
+              2
+            )
+          }),
+          _vm._v(" "),
+          _vm._m(0)
+        ],
+        2
       )
     ]),
     _vm._v(" "),
@@ -22972,177 +22978,183 @@ var render = function() {
           staticClass:
             "table border-0 bg-white box-shadow-mount border-tab-radius-mount"
         },
-        _vm._l(_vm.data.groups, function(group, i) {
-          return _c(
-            "tbody",
-            { staticClass: "rounded-table-mount pb-5" },
-            [
-              _c("tr", [
-                _c("td", { staticClass: "text-center w-25" }, [
-                  _c("h3", [
-                    _vm._v(
-                      "\n                            " +
-                        _vm._s(group.group_name) +
-                        "\n                        "
-                    )
-                  ])
-                ]),
-                _vm._v(" "),
-                _c(
-                  "td",
-                  { staticClass: "text-left border-top-0 pt-4 pb-4" },
-                  _vm._l(group.class_currency_value, function(item, k) {
-                    return !_vm.isMM && _vm.isSupplier
-                      ? _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.group_value[i][k],
-                              expression: "group_value[i][k]"
-                            }
-                          ],
-                          staticClass:
-                            "note_class border-top-0 border-left-0 border-right-0 w-21 text-center fontsize-mount mx-1 pt-1",
-                          staticStyle: { color: "#555" },
-                          attrs: { type: "number", min: "0" },
-                          domProps: { value: _vm.group_value[i][k] },
-                          on: {
-                            change: function($event) {
-                              return _vm.handleValues()
-                            },
-                            keyup: function($event) {
-                              return _vm.handleValues()
-                            },
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.$set(
-                                _vm.group_value[i],
-                                k,
-                                $event.target.value
-                              )
-                            }
-                          }
-                        })
-                      : _vm._e()
-                  }),
-                  0
-                )
-              ]),
-              _vm._v(" "),
-              _vm._l(group.notes, function(note, j) {
-                return _c("tr", [
-                  _c(
-                    "td",
-                    {
-                      staticClass:
-                        "text-nb-mount border-top-0 pl-4 pt-4 fontsize-mount2"
-                    },
-                    [_vm._v(_vm._s(note.note_name))]
-                  ),
+        [
+          _vm._l(_vm.data.groups, function(group, i) {
+            return _c(
+              "tbody",
+              { staticClass: "rounded-table-mount pb-5" },
+              [
+                _c("tr", [
+                  _c("td", { staticClass: "text-center w-25" }, [
+                    _c("h3", [
+                      _vm._v(
+                        "\n                            " +
+                          _vm._s(group.group_name) +
+                          "\n                        "
+                      )
+                    ])
+                  ]),
                   _vm._v(" "),
                   _c(
                     "td",
-                    { staticClass: "text-right border-top-0 pt-4 pb-4" },
-                    [
-                      _vm._l(note.class_sheet, function(item, k) {
-                        return !_vm.isMM
-                          ? _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.note_sheets[i][j][k],
-                                  expression: "note_sheets[i][j][k]"
-                                }
-                              ],
-                              staticClass:
-                                "note_class border rounded-table-mount w-25 text-center fontsize-mount3 pt-1",
-                              attrs: { type: "number", min: "0" },
-                              domProps: { value: _vm.note_sheets[i][j][k] },
-                              on: {
-                                change: function($event) {
-                                  return _vm.handleSheets(item, i, j, k)
-                                },
-                                keyup: function($event) {
-                                  return _vm.handleSheets(item, i, j, k)
-                                },
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
-                                  }
-                                  _vm.$set(
-                                    _vm.note_sheets[i][j],
-                                    k,
-                                    $event.target.value
-                                  )
-                                }
-                              }
-                            })
-                          : _vm._e()
-                      }),
-                      _vm._v(" "),
-                      _vm.isMM
+                    { staticClass: "text-left border-top-0 pt-4 pb-4" },
+                    _vm._l(group.class_currency_value, function(item, k) {
+                      return !_vm.isMM && _vm.isSupplier
                         ? _c("input", {
                             directives: [
                               {
                                 name: "model",
                                 rawName: "v-model",
-                                value: _vm.note_sheets[i][j],
-                                expression: "note_sheets[i][j]"
+                                value: _vm.group_value[i][k],
+                                expression: "group_value[i][k]"
                               }
                             ],
                             staticClass:
-                              "note_class border rounded-table-mount w-25 text-center fontsize-mount3 pt-1",
+                              "note_class border-top-0 border-left-0 border-right-0 w-21 text-center fontsize-mount mx-1 pt-1",
+                            staticStyle: { color: "#555" },
                             attrs: { type: "number", min: "0" },
-                            domProps: { value: _vm.note_sheets[i][j] },
+                            domProps: { value: _vm.group_value[i][k] },
                             on: {
                               change: function($event) {
-                                return _vm.handleSheets(note, i, j, null)
+                                return _vm.handleValues()
                               },
                               keyup: function($event) {
-                                return _vm.handleSheets(note, i, j, null)
+                                return _vm.handleValues()
                               },
                               input: function($event) {
                                 if ($event.target.composing) {
                                   return
                                 }
                                 _vm.$set(
-                                  _vm.note_sheets[i],
-                                  j,
+                                  _vm.group_value[i],
+                                  k,
                                   $event.target.value
                                 )
                               }
                             }
                           })
                         : _vm._e()
-                    ],
-                    2
+                    }),
+                    0
                   )
-                ])
-              }),
-              _vm._v(" "),
-              _c("tr", [
-                _c("td", { staticClass: "border-top-0 p-0" }),
+                ]),
                 _vm._v(" "),
-                _c("td", { staticClass: "border-top-0 w-100 text-left pl-5" }, [
-                  _c("p", { staticClass: "total-text-mount pl-5 mb-1" }, [
-                    _vm._v("Total MMKs : " + _vm._s(_vm.total_mmk))
+                _vm._l(group.notes, function(note, j) {
+                  return _c("tr", [
+                    _c(
+                      "td",
+                      {
+                        staticClass:
+                          "text-nb-mount border-top-0 pl-4 pt-4 fontsize-mount2"
+                      },
+                      [_vm._v(_vm._s(note.note_name))]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      { staticClass: "text-right border-top-0 pt-4 pb-4" },
+                      [
+                        _vm._l(note.class_sheet, function(item, k) {
+                          return !_vm.isMM
+                            ? _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.note_sheets[i][j][k],
+                                    expression: "note_sheets[i][j][k]"
+                                  }
+                                ],
+                                staticClass:
+                                  "note_class border rounded-table-mount w-25 text-center fontsize-mount3 pt-1",
+                                attrs: { type: "number", min: "0" },
+                                domProps: { value: _vm.note_sheets[i][j][k] },
+                                on: {
+                                  change: function($event) {
+                                    return _vm.handleSheets(item, i, j, k)
+                                  },
+                                  keyup: function($event) {
+                                    return _vm.handleSheets(item, i, j, k)
+                                  },
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.note_sheets[i][j],
+                                      k,
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              })
+                            : _vm._e()
+                        }),
+                        _vm._v(" "),
+                        _vm.isMM
+                          ? _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.note_sheets[i][j],
+                                  expression: "note_sheets[i][j]"
+                                }
+                              ],
+                              staticClass:
+                                "note_class border rounded-table-mount w-25 text-center fontsize-mount3 pt-1",
+                              attrs: { type: "number", min: "0" },
+                              domProps: { value: _vm.note_sheets[i][j] },
+                              on: {
+                                change: function($event) {
+                                  return _vm.handleSheets(note, i, j, null)
+                                },
+                                keyup: function($event) {
+                                  return _vm.handleSheets(note, i, j, null)
+                                },
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.note_sheets[i],
+                                    j,
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            })
+                          : _vm._e()
+                      ],
+                      2
+                    )
                   ])
+                })
+              ],
+              2
+            )
+          }),
+          _vm._v(" "),
+          _c("tfoot", [
+            _c("tr", [
+              _c("td", { staticClass: "border-top-0 px-0 text-center" }, [
+                _vm.isTransfer
+                  ? _c("span", { staticClass: "text-danger" }, [
+                      _vm._v(_vm._s(_vm.msg))
+                    ])
+                  : _vm._e()
+              ]),
+              _vm._v(" "),
+              _c("td", { staticClass: "border-top-0 w-100 text-left pl-5" }, [
+                _c("p", { staticClass: "total-text-mount pl-5 mb-1" }, [
+                  _vm._v("Total MMKs : " + _vm._s(_vm.total_mmk))
                 ])
               ])
-            ],
-            2
-          )
-        }),
-        0
-      ),
-      _vm._v(" "),
-      _vm.isTransfer
-        ? _c("span", { staticClass: "text-danger" }, [_vm._v(_vm._s(_vm.msg))])
-        : _vm._e()
+            ])
+          ])
+        ],
+        2
+      )
     ])
   ])
 }
@@ -23151,17 +23163,19 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("td", {
-        staticClass: "border-top-0 text-nb-mount d-none",
-        staticStyle: { padding: "0px" }
-      }),
-      _vm._v(" "),
-      _c("td", { staticClass: "text-center border-top-0 w-100 pl-5" }, [
-        _c("p", { staticClass: "total-text-mount pl-5 mb-1" }, [
-          _vm._v("Total MMKs :"),
-          _c("span", { staticClass: "total_value" }),
-          _c("i")
+    return _c("tfoot", [
+      _c("tr", [
+        _c("td", {
+          staticClass: "border-top-0 text-nb-mount d-none",
+          staticStyle: { padding: "0px" }
+        }),
+        _vm._v(" "),
+        _c("td", { staticClass: "text-center border-top-0 w-100 pl-5" }, [
+          _c("p", { staticClass: "total-text-mount pl-5 mb-1" }, [
+            _vm._v("Total MMKs :"),
+            _c("span", { staticClass: "total_value" }),
+            _c("i")
+          ])
         ])
       ])
     ])
@@ -38027,8 +38041,8 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/tinmaungzin/PhpstormProjects/NorthernBreeze-master/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/tinmaungzin/PhpstormProjects/NorthernBreeze-master/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /home/single/PhpstormProjects/NorthernBreeze/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/single/PhpstormProjects/NorthernBreeze/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
