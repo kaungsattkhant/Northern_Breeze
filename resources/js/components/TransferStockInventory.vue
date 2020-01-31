@@ -28,8 +28,7 @@
                         id="from_stock_branch">
                         <option :value="null" disabled selected>From Branch</option>
                         <option :value="item.id"
-                                v-bind:disabled="item.id === auth_id"
-                                :disabled="isSupplierDisabled(item) || isBranchDisabled(item)"
+                                v-bind:disabled="item.id === current_branch || item.id === auth_id || isSupplierDisabled(item)"
                                 v-for="item in branch_items">{{item.name}}
                         </option>
                     </select>
@@ -41,8 +40,7 @@
                         id="to_stock_branch">
                         <option :value="null" disabled selected>To Branch</option>
                         <option :value="item.id"
-                                v-bind:disabled="item.id === auth_id"
-                                :disabled="isBranchDisabled(item)"
+                                v-bind:disabled="item.id === current_branch || item.id === auth_id"
                                 v-for="item in branch_items">{{item.name}}
                         </option>
                     </select>
@@ -84,9 +82,6 @@
             isSupplierDisabled(item){
                 return item.branch_type_id === 2;
             },
-            isBranchDisabled(item){
-                return item.id === this.current_branch;
-            },
 
             isMM(){
                 return this.stock_currency.status === "MMK";
@@ -104,10 +99,8 @@
                 if(type!==null){
                     this.current_branch = parseInt($('#' + type + '_stock_branch option:selected').val());
                 }
+
                 console.log(this.current_branch)
-
-                $('.selectpicker').selectpicker('refresh');
-
 
 
                 if(this.is_admin){
@@ -189,6 +182,9 @@
         },
         mounted() {
 
+        },
+        updated(){
+            $('.selectpicker').selectpicker('refresh');
         },
         computed: mapState({
             stock_groups: 'stock_groups',

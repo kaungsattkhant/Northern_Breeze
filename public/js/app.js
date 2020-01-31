@@ -2048,8 +2048,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__["default"]);
@@ -2073,9 +2071,6 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
     isSupplierDisabled: function isSupplierDisabled(item) {
       return item.branch_type_id === 2;
     },
-    isBranchDisabled: function isBranchDisabled(item) {
-      return item.id === this.current_branch;
-    },
     isMM: function isMM() {
       return this.stock_currency.status === "MMK";
     },
@@ -2095,7 +2090,6 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       }
 
       console.log(this.current_branch);
-      $('.selectpicker').selectpicker('refresh');
 
       if (this.is_admin) {
         if (currency_type !== '' && to_branch !== '' && from_branch !== '') {
@@ -2169,6 +2163,9 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
     }
   },
   mounted: function mounted() {},
+  updated: function updated() {
+    $('.selectpicker').selectpicker('refresh');
+  },
   computed: Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])({
     stock_groups: 'stock_groups',
     msg: 'msg_for_stock'
@@ -23198,10 +23195,10 @@ var render = function() {
                         "option",
                         {
                           attrs: {
-                            disabled: item.id === _vm.auth_id,
                             disabled:
-                              _vm.isSupplierDisabled(item) ||
-                              _vm.isBranchDisabled(item)
+                              item.id === _vm.current_branch ||
+                              item.id === _vm.auth_id ||
+                              _vm.isSupplierDisabled(item)
                           },
                           domProps: { value: item.id }
                         },
@@ -23246,8 +23243,9 @@ var render = function() {
                     "option",
                     {
                       attrs: {
-                        disabled: item.id === _vm.auth_id,
-                        disabled: _vm.isBranchDisabled(item)
+                        disabled:
+                          item.id === _vm.current_branch ||
+                          item.id === _vm.auth_id
                       },
                       domProps: { value: item.id }
                     },
