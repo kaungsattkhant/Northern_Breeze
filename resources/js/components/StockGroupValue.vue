@@ -25,14 +25,14 @@
                 </tr>
                 </tbody>
                 <tfoot>
-                <tr>
-                    <td class="border-top-0 text-nb-mount d-none" style="padding: 0px;"></td>
-                    <td class="text-center border-top-0 w-100 pl-5">
-                        <p class="total-text-mount pl-5 mb-1">Total MMKs :<span
-                            class="total_value"></span><i></i></p>
+<!--                <tr>-->
+<!--                    <td class="border-top-0 text-nb-mount d-none" style="padding: 0px;"></td>-->
+<!--                    <td class="text-center border-top-0 w-100 pl-5">-->
+<!--                        <p class="total-text-mount pl-5 mb-1">Total MMKs :<span-->
+<!--                            class="total_value"></span><i></i></p>-->
 
-                    </td>
-                </tr>
+<!--                    </td>-->
+<!--                </tr>-->
                 </tfoot>
             </table>
 <!--            <div class="div-p-mount2">-->
@@ -114,7 +114,6 @@
                 groups_length: this.data.groups.length,
                 notes_length: 10,
                 classes_length: 10,
-                msg: '',
                 groups: [],
                 total_mmk: 0
             }
@@ -135,7 +134,7 @@
             },
 
             handleSheets(item, i , j, k){
-                this.msg = '';
+                let local_msg = '';
                 let total_sheet, input_sheet;
                 if(this.isMM){
                     total_sheet = item.total_sheet;
@@ -145,11 +144,13 @@
                     input_sheet = this.note_sheets[i][j][k];
                 }
                 if(input_sheet>total_sheet){
-                    this.msg = 'Invalid Value!';
+                    local_msg = 'Input sheet cannot exceeds total sheet!';
                 }
+                this.$store.commit('setMsgForStock', local_msg);
+
+
                 this.refreshGroup(this.stock_groups,this.note_sheets,this.group_value,this.isMM);
                 this.total_mmk = this.calculateTotal(this.stock_groups,this.isMM);
-                console.log(this.stock_groups);
 
             },
         },
@@ -174,7 +175,8 @@
 
 
         computed: mapState({
-            stock_groups: 'stock_groups'
+            stock_groups: 'stock_groups',
+            msg: 'msg_for_stock'
         }),
 
 

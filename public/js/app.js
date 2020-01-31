@@ -1986,7 +1986,6 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       groups_length: this.data.groups.length,
       notes_length: 10,
       classes_length: 10,
-      msg: '',
       groups: [],
       total_mmk: 0
     };
@@ -2002,7 +2001,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       this.total_mmk = this.calculateTotal(this.stock_groups, this.isMM);
     },
     handleSheets: function handleSheets(item, i, j, k) {
-      this.msg = '';
+      var local_msg = '';
       var total_sheet, input_sheet;
 
       if (this.isMM) {
@@ -2014,12 +2013,12 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       }
 
       if (input_sheet > total_sheet) {
-        this.msg = 'Invalid Value!';
+        local_msg = 'Input sheet cannot exceeds total sheet!';
       }
 
+      this.$store.commit('setMsgForStock', local_msg);
       this.refreshGroup(this.stock_groups, this.note_sheets, this.group_value, this.isMM);
       this.total_mmk = this.calculateTotal(this.stock_groups, this.isMM);
-      console.log(this.stock_groups);
     }
   },
   mounted: function mounted() {},
@@ -2034,7 +2033,8 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
     this.setSheetsArray(this.note_sheets, lengths, this.isMM);
   },
   computed: Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])({
-    stock_groups: 'stock_groups'
+    stock_groups: 'stock_groups',
+    msg: 'msg_for_stock'
   })
 });
 
@@ -2106,6 +2106,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__["default"]);
@@ -2122,6 +2124,9 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
     };
   },
   methods: {
+    isTransferDisable: function isTransferDisable() {
+      return !!this.msg;
+    },
     isMM: function isMM() {
       return this.stock_currency.status === "MMK";
     },
@@ -2205,7 +2210,8 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
   },
   mounted: function mounted() {},
   computed: Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])({
-    stock_groups: 'stock_groups'
+    stock_groups: 'stock_groups',
+    msg: 'msg_for_stock'
   })
 });
 
@@ -22963,7 +22969,7 @@ var render = function() {
             )
           }),
           _vm._v(" "),
-          _vm._m(0)
+          _c("tfoot")
         ],
         2
       )
@@ -23156,29 +23162,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("tfoot", [
-      _c("tr", [
-        _c("td", {
-          staticClass: "border-top-0 text-nb-mount d-none",
-          staticStyle: { padding: "0px" }
-        }),
-        _vm._v(" "),
-        _c("td", { staticClass: "text-center border-top-0 w-100 pl-5" }, [
-          _c("p", { staticClass: "total-text-mount pl-5 mb-1" }, [
-            _vm._v("Total MMKs :"),
-            _c("span", { staticClass: "total_value" }),
-            _c("i")
-          ])
-        ])
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -23218,7 +23202,7 @@ var render = function() {
               {
                 staticClass:
                   "btn btn-nb-mount-save fontsize-mount px-4 stock_create",
-                attrs: { type: "button" },
+                attrs: { type: "button", disabled: _vm.isTransferDisable() },
                 on: {
                   click: function($event) {
                     return _vm.handleSubmit()
@@ -37938,7 +37922,8 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
     buy_not_enough_msg: '',
     sell_not_enough_msg: '',
     daily_currency_data: '',
-    stock_groups: []
+    stock_groups: [],
+    msg_for_stock: ''
   },
   mutations: {
     setBuyNotEnoughMsg: function setBuyNotEnoughMsg(state, data) {
@@ -38017,6 +38002,9 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
     },
     setDailyCurrencyData: function setDailyCurrencyData(state, data) {
       state.daily_currency_data = data;
+    },
+    setMsgForStock: function setMsgForStock(state, data) {
+      state.msg_for_stock = data;
     }
   }
 });
@@ -38041,8 +38029,8 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/single/PhpstormProjects/NorthernBreeze/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/single/PhpstormProjects/NorthernBreeze/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /home/tinmaungzin/PhpstormProjects/NorthernBreeze-master/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/tinmaungzin/PhpstormProjects/NorthernBreeze-master/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

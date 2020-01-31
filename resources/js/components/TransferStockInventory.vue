@@ -5,7 +5,9 @@
                 <div class="my-auto">
                     <p style="margin-left: 20px"><b>Total values:</b><i> MMKs</i></p>
                 </div>
-                <button type="button" v-on:click="handleSubmit()" class="btn btn-nb-mount-save fontsize-mount px-4 stock_create">Transfer</button>
+                <button type="button"
+                        :disabled="isTransferDisable()"
+                        v-on:click="handleSubmit()" class="btn btn-nb-mount-save fontsize-mount px-4 stock_create">Transfer</button>
             </div>
             <div class="row">
                 <div class="col">
@@ -72,6 +74,10 @@
         },
 
         methods: {
+
+            isTransferDisable() {
+                return !!(this.msg);
+            },
 
             isMM(){
                 return this.stock_currency.status === "MMK";
@@ -156,7 +162,8 @@
 
         },
         computed: mapState({
-            stock_groups: 'stock_groups'
+            stock_groups: 'stock_groups',
+            msg: 'msg_for_stock'
         }),
 
 
