@@ -22266,16 +22266,25 @@ var render = function() {
       _vm._v(" "),
       _c(
         "div",
-        { staticClass: "row" },
+        {
+          staticClass: "row ",
+          staticStyle: {
+            "min-height": "120vh",
+            height: "max-content",
+            display: "block"
+          }
+        },
         [
           _vm.buy_currency_groups
             ? _c("buy-currency-group", {
+                staticStyle: { float: "left" },
                 attrs: { data: _vm.buy_currency_groups, isMM: _vm.isMMForBuy() }
               })
             : _vm._e(),
           _vm._v(" "),
           _vm.sell_currency_groups
             ? _c("sell-currency-group", {
+                staticStyle: { float: "right" },
                 attrs: {
                   data: _vm.sell_currency_groups,
                   isMM: _vm.isMMForSell()
