@@ -1,6 +1,6 @@
 <template>
 
-    <div class="col-6 currency-group-container" id="to-currency-group-container" style="position: absolute;right: -1.2%">
+    <div class="col-6 currency-group-container" id="to-currency-group-container" style="position: relative;right: -1.2%">
         <p class="border-top-radius-mount text-nb-mount mt-3 pl-3 fontsize-mount4 bg-white mb-0 pt-1 pb-2 sell-banner"
            style="width: 27%;">ပြန်လည်ပေးအပ်ငွေ</p>
 
@@ -26,30 +26,34 @@
                 <!--                        <span v-if="group.class_currency_value" class="fontsize-mount3 w-25 float-right" v-for="value in group.class_currency_value">({{value.value}}MMK)</span>-->
                 <!--                    </div>-->
                 <!--                </td>-->
-                <td class="text-nb-mount border-top-0 pl-4 pt-3 fontsize-mount2 justify-content-end pb-0" style="display: flex">
-                    <div style="width: 88.6%;">
+                <td class="text-nb-mount border-top-0 pl-4 pt-3 fontsize-mount2 justify-content-between pb-0" style="display: flex">
+                    <div style="width: 11.4%;"></div>
 <!--                        <input v-if="!data.class && data.currency_value" type="number"-->
 <!--                               v-model="sheet_values[i]"-->
 <!--                               v-on:keyup="calculateTotalAndChangesForCustom(group,i)"-->
 <!--                               v-on:change="calculateTotalAndChangesForCustom(group,i)"-->
 <!--                               class="from_note_class border w-25 float-right rounded-table-mount text-center fontsize-mount3 pt-1 mb-1">-->
-                        <input v-if="!isMM" type="number"
-                               v-for="(item,m) in group.class_currency_value"
-                               v-model="sheet_values[i][m]"
-                               v-on:keyup="calculateTotalAndChangesForCustom(group,i)"
-                               v-on:change="calculateTotalAndChangesForCustom(group,i)"
-                               class="border rounded-table-mount  w-25 float-left text-center font-color fontsize-mount3 pt-1 mb-1">
-                    </div>
+                        <div style="width:88.6%;justify-content: space-between;display: flex">
+                            <div></div>
+                            <input v-if="!isMM" type="number"
+                                   v-for="(item,m) in group.class_currency_value"
+                                   v-model="sheet_values[i][m]"
+                                   v-on:keyup="calculateTotalAndChangesForCustom(group,i)"
+                                   v-on:change="calculateTotalAndChangesForCustom(group,i)"
+                                   class="border rounded-table-mount  w-25 float-left text-center font-color fontsize-mount3 pt-1 mb-1">
+                        </div>
+
                 </td>
                 <td class="text-nb-mount border-top-0 pl-4 pt-2 fontsize-mount2 justify-content-between"
                     style="display: flex"
                     v-for="(note,j) in group.notes">
                     <span class="fontsize-mount22 span-number">{{note.note_name}}</span>
 
-                    <div class="input-group-box">
-                        <div class="w-25 float-right">
+                    <div class="input-group-box justify-content-between d-flex">
+                        <div></div>
+                        <div class="w-25 float-right" v-if="isMM">
 
-                            <input v-if="isMM" type="number" min="0" v-model="sheets[i][j]"
+                            <input type="number" min="0" v-model="sheets[i][j]"
                                    v-on:keyup="calculateTotalAndChanges(note, sheets[i][j])"
                                    v-on:change="calculateTotalAndChanges(note, sheets[i][j])"
                                    class="from_note_class border  rounded-table-mount w-100 text-center fontsize-mount3 pt-1 ">
@@ -57,7 +61,7 @@
 
 
 
-                        <div class="w-25 float-left"
+                        <div class="w-25 text-right"
                              v-for="(item,k) in note.class_sheet">
 
                             <input v-if="!isMM" type="number" min="0" v-model="sheets[i][j][k]"
