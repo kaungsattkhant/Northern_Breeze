@@ -139,8 +139,6 @@
                             this.sell_currency_groups = data;
                         }
                         $('.selectpicker').selectpicker('refresh');
-
-                        console.log(this.buy_currency_groups)
                     });
             }
         },

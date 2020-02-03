@@ -55,8 +55,8 @@
             </div>
 
             <div class="row ">
-                <member-buy-currency-group v-if="buy_currency_groups" :data="buy_currency_groups"></member-buy-currency-group>
-                <member-sell-currency-group v-if="sell_currency_groups" :data="sell_currency_groups"></member-sell-currency-group>
+                <member-buy-currency-group v-if="buy_currency_groups" :data="buy_currency_groups" :isMM="isMMForBuy()"></member-buy-currency-group>
+                <member-sell-currency-group v-if="sell_currency_groups" :data="sell_currency_groups" :isMM="isMMForSell()"></member-sell-currency-group>
 
             </div>
         </form>
@@ -98,6 +98,14 @@
                     })
             },
 
+            isMMForBuy(){
+                return this.buy_currency_groups.status === "MMK";
+            },
+
+            isMMForSell(){
+                return this.sell_currency_groups.status === "MMK";
+            },
+
             fetch_currency_groups(status) {
                 let type;
                 let currency_id;
@@ -133,7 +141,6 @@
                             this.sell_currency_groups = data;
                         }
                         $('.selectpicker').selectpicker('refresh');
-
 
                     });
             }
