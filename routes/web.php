@@ -72,6 +72,7 @@ Route::group(['middleware'=>['adminCheck']],function() {
 //            Route::post('/store','StockController@store');
             Route::get('/stock_add','StockController@stock_add');
             Route::get('{id}/detail','StockController@stock_detail');
+            Route::get('transfer_filter','StockController@transfer_filter');
             Route::post('transfer_datefilter','StockController@transfer_datepicker');
             Route::get('{value}/transfer_status_filter','StockController@transfer_status_filter');
 //            Route::get('{key}/branch','StockController@get_branch');
@@ -120,8 +121,10 @@ Route::group(['middleware'=>['managerCheck']],function() {
 //            Route::post('/store','StockController@store');
             Route::get('/stock_add','StockController@stock_add');
             Route::get('{id}/detail','StockController@stock_detail');
-            Route::post('transfer_datefilter','StockController@transfer_datepicker');
-            Route::get('{value}/transfer_status_filter','StockController@transfer_status_filter');
+            Route::get('transfer_filter','StockController@transfer_filter');
+
+//            Route::post('transfer_datefilter','StockController@transfer_datepicker');
+//            Route::get('{value}/transfer_status_filter','StockController@transfer_status_filter');
 //            Route::get('{key}/branch','StockController@get_branch');
             Route::get('admin/add','StockController@get_branch');
             Route::get('admin/transfer','StockController@get_transfer_branch');

@@ -32,4 +32,19 @@ class Transfer extends Model
     public function transfer_group_note_class(){
         return $this->belongsToMany(GroupNote::class,'transfer_group_note_class','transfer_id','group_note_id')->withPivot('class_id','sheet');
     }
+
+    public function isClassableCurrency(){
+        foreach($this->currency()->get() as $c){
+            if($c->name==="United States dollar"){
+                return true;
+            }
+        }
+    }
+    public function isMyanmarCurrency(){
+        foreach($this->currency()->get() as $c){
+            if($c->name==="Myanmar Kyat"){
+                return true;
+            }
+        }
+    }
 }

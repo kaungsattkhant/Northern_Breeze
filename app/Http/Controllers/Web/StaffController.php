@@ -54,8 +54,9 @@ class StaffController extends Controller
     public function edit($id)
     {
         $staff=Staff::find($id);
-//        dd($staff);
-        return $staff   ;
+
+
+        return $staff ;
     }
     public function update(Request $request)
     {
@@ -97,7 +98,7 @@ class StaffController extends Controller
         if($request->has('name'))
         {
             $staff=Staff::with('role')->where('name','LIKE','%'.$name.'%')->paginate(10);
-            return view('Staff.index',compact('staff','roles'));
+            return view('Staff.index',compact('staff'));
         }
     }
     public function destroy(Request $request)

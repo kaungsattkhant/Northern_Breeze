@@ -7,7 +7,7 @@
             <div  class="my-auto  col-5">
                 @if(\Illuminate\Support\Facades\Auth::user()->isAdmin())
                 <select class="selectpicker " name="Branches" data-style="btn-white" data-width="auto" id="branch">
-                    <option selected disabled>Branches</option>
+                    <option selected disabled >Branches</option>
                     @php
                         $branches=\App\Model\Branch::all();
                     @endphp
@@ -19,27 +19,24 @@
                     <input type="hidden" id="branch" value="{{\Illuminate\Support\Facades\Auth::user()->branch_id}}">
                 @endif
                 <select id="transfer_status_filter" class="selectpicker"  name="In/Out/All" data-style="btn-white" data-width="auto">
-                    <option selected disabled>In/Out/All</option>
-                    <option value="1">In</option>
-                    <option value="2">Out</option>
-                    <option value="3">Add</option>
-                    <option value="4" >All</option>
+{{--                    <option selected disabled>In/Out/All</option>--}}
+                    <option value="in">In</option>
+                    <option value="out">Out</option>
+                    <option value="add" >Add</option>
+                    <option value="all"  selected>All</option>
                 </select>
             </div>
-{{--<<<<<<< HEAD--}}
-{{--            <div  style="margin: 20px 0 0 0" class="input-group h-25 pl-5">--}}
-{{--                <input type="text" id="datepicker" autocomplete="off"  name="transfer_history_filter" class="border-top-0 border-right-0 border-left-0 pl-5 dtpick-input" placeholder="YY-MM-DD">--}}
-{{--=======--}}
             <div  style="margin: 20px 0 0 0" class="input-group h-25  col-4">
-                <input type="text" id="datepicker" autocomplete="off"  name="transfer_history_filter" class="border-top-0 border-right-0 border-left-0 pl-5 dtpick-input2" placeholder="YY-MM-DD">
-{{-->>>>>>> origin/front_end-1.1--}}
-                <div class="input-group-append">
-                    <button class="btn btn-nb-mount-filter" id="transfer_datefilter"><i class="fas fa-filter"></i></button>
-                </div>
+                <input type="text" id="datepicker" autocomplete="off"  name="transfer_history_filter" class=" transfer_date border-top-0 border-right-0 border-left-0 pl-5 dtpick-input2" placeholder="YY-MM-DD">
+{{--                <div class="input-group-append">--}}
+{{--                    <button class="btn btn-nb-mount-filter" id="transfer_datefilter"><i class="fas fa-filter"></i></button>--}}
+{{--                </div>--}}
+                <button type="submit" class="btn btn-nb-mount mr-4 p-0 fontsize-mount"  id="transfer_filter">Filter</button>
             </div>
             <div class="pr-0 mr-0 my-auto col-3">
                 <form class="d-inline" action="{{url('stock/create_stock')}}" method="get">
                     <button type="submit" class="btn btn-nb-mount mr-4 p-0 fontsize-mount"><a class="w-100 h-100 text-white text-decoration-none px-4 py-2" >Add</a></button>
+
 
                 </form>
                 <form class="d-inline" action="{{url('stock/transfer')}}" method="get">

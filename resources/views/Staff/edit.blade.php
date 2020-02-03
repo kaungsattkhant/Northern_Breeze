@@ -46,7 +46,7 @@
                     <span class="text-danger">
                                     <strong id="role-error1"></strong>
                                 </span>
-                    <div class="branch_div mb-3 row fs-select4 {{$errors->has('branch') ? 'has:error':''}}">
+                    <div class=" branch1 branch_div mb-3 row fs-select4 {{$errors->has('branch') ? 'has:error':''}}">
                         <label for="#role" class="w-25" style="padding-left: 16px;">Branch</label>
                         <select name="branch" class="selectpicker show-menu-arrow  margin-left-mount bd-bottom-mount" data-width="300px" id="branch1">
 {{--                            <option selected disabled>--None--</option>--}}
@@ -62,7 +62,7 @@
                                     <strong id="branch-error1"></strong>
                                 </span>
                     <div class="m-button pt-3">
-                        <button type="button" class="btn btn-nb-mount2 px-3 pt-0 pb-0 mr-4 shadow-0 fontsize-mount22" data-dismiss="modal">Cancel</button>
+                        <button type="reset" class="btn btn-nb-mount2 px-3 pt-0 pb-0 mr-4 shadow-0 fontsize-mount22" data-dismiss="modal">Cancel</button>
                         <button type="button" class="btn btn-nb-mount2 fontsize-mount22 px-3" id="submitForm1">Save</button>
                     </div>
             </form>
