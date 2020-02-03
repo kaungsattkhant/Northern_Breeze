@@ -1,9 +1,9 @@
 @php $route= Route::currentRouteName() @endphp
 
-<div class="sidebar-nb-mount shadow mr-0" >
+<div class="sidebar-nb-mount shadow mr-0"  style="height: inherit;min-height: 100vh">
 
 
-    <ul class="nav flex-column mr-0 pt-3" id="myDIV" style="position: relative;height: 100%;min-height: 100vh">
+    <ul class="nav flex-column mr-0 pt-3 sidebar-mount" id="myDIV" style="height: 100%;min-height: 100vh">
         @if(\Illuminate\Support\Facades\Auth::user()->isAdmin())
 {{--            <li class="nav-item dropdown btn-mount mx-auto mb-0" id="pos" data-toggle="collapse" href="#pos1">--}}
 {{--                <a class="nav-link p-0  sidebar-box-mount img-pos text-center" href="#" role="button" aria-haspopup="true" aria-expanded="false">--}}
