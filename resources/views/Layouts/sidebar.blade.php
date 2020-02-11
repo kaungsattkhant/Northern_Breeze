@@ -69,6 +69,10 @@
                 <a class="nav-link p-0  sidebar-box-mount img-daily text-center " href="{{url('daily_currency/manager')}}">
                     <div class=" mt-0 px-auto "><p class="sb-text">Daily Currency</p></div></a>
             </li>
+            <li class="nav-item btn-mount mx-auto" id="logout">
+                <a class="nav-link p-0  sidebar-box-mount img-logout text-center " href="{{url('logout')}}">
+                    <div class=" mt-0 px-auto "><p class="sb-text">Logout</p></div></a>
+            </li>
 
             {{-- ***************************************Staft Front_Man**********************************************--}}
 
@@ -93,6 +97,10 @@
             <li class="nav-item btn-mount mx-auto" id="daily">
                 <a class="nav-link p-0  sidebar-box-mount img-daily text-center " href="{{url('daily_currency')}}">
                     <div class=" mt-0 px-auto "><p class="sb-text">Daily Currency</p></div></a>
+            </li>
+            <li class="nav-item btn-mount mx-auto" id="logout">
+                <a class="nav-link p-0  sidebar-box-mount img-logout text-center " href="{{url('logout')}}">
+                    <div class=" mt-0 px-auto "><p class="sb-text">Logout</p></div></a>
             </li>
 
             @endif
