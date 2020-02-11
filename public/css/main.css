@@ -553,6 +553,27 @@ input:focus{
     background-position: center;
     padding-top: 10px;
 }
+.img-logout{
+
+    /*background-image: url("../image/logout.png") ;*/
+    width: 100%;
+    height: 80%;
+    background-clip: padding-box;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding-top: 10px;
+
+}
+.img-logout:hover,.active-logout{
+    /*background-image: url("../image/logout3.jpg") ;*/
+    width: 150%;
+    height: 80%;
+    color: white;
+    background-clip: padding-box;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding-top: 10px;
+}
 .text-color-mount{
     color: #555 !important;
 }
