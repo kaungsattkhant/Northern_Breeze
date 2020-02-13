@@ -33,7 +33,7 @@ Route::group(['middleware'=>['adminCheck']],function() {
 //
 //        });
         Route::group(['prefix'=>'staff'],function (){
-            Route::get('/','StaffController@index');
+            Route::get('/','StaffController@index')->name('staff.index');
             Route::post('/store','StaffController@store');
             Route::get('{id}/edit','StaffController@edit');
             Route::post('update','StaffController@update');
@@ -82,7 +82,7 @@ Route::group(['middleware'=>['adminCheck']],function() {
             Route::get('{currency}/stock_branch_filter/{branch}/branch','StockController@currency_branch_filter');
         });
         Route::group(['prefix'=>'currency_group'],function(){
-            Route::get('/','CurrencyGroupController@index');
+            Route::get('/','CurrencyGroupController@index')->name('currency_group.index');
             Route::get('/create','CurrencyGroupController@create');
             Route::post('store','CurrencyGroupController@store');
             Route::get('{id}/edit','CurrencyGroupController@edit');
@@ -91,8 +91,8 @@ Route::group(['middleware'=>['adminCheck']],function() {
         });
         Route::group(['prefix'=>'daily_currency'],function(){
             Route::post('/currency_filter','DailyCurrencyController@test');
-            Route::get('/','DailyCurrencyController@index');
-            Route::get('/create','DailyCurrencyController@create');
+            Route::get('/','DailyCurrencyController@index')->name('daily_currency.index.admin');
+            Route::get('/create','DailyCurrencyController@create')->name('daily_currency.create.admin');
             Route::get('store','DailyCurrencyController@store');
 //            Route::post('store','DailyCurrencyController@store');
             Route::post('currency_filter','DailyCurrencyController@daily_currency_filter');
@@ -109,13 +109,13 @@ Route::group(['middleware'=>['managerCheck']],function() {
 //            Route::get('sale_record','SaleController@sale_record');
         });
         Route::group(['prefix'=>'stock'],function(){
-            Route::get('/','StockController@index');
-            Route::get('create_stock','StockController@create');
+            Route::get('/','StockController@index')->name('stock.index');
+            Route::get('create_stock','StockController@create')->name('stock.create');
             Route::post('currency_filter','StockController@currency_filter');
             Route::get('stock_inventory','StockController@stock_inventory');
             Route::post('add_currency','StockController@add_stock');
 
-            Route::get('transfer','StockController@stock_transfer');
+            Route::get('transfer','StockController@stock_transfer')->name('stock.transfer');
             Route::post('transfer_currency','StockController@transfer_currency');
 
 //            Route::post('/store','StockController@store');
@@ -132,7 +132,7 @@ Route::group(['middleware'=>['managerCheck']],function() {
             Route::get('{currency}/stock_branch_filter/{branch}/branch','StockController@currency_branch_filter');
         });
         Route::group(['prefix'=>'member'],function(){
-            Route::get('/','MemberController@index');
+            Route::get('/','MemberController@index')->name('member.index');
             Route::get('/non_member','MemberController@non_member');
             Route::get('/create','MemberController@create');
             Route::post('/store','MemberController@store');
@@ -166,8 +166,8 @@ Route::group(['middleware'=>['managerCheck']],function() {
             Route::get('{currency}/stock_branch_filter/{branch}/branch','StockController@currency_branch_filter');
         });
         Route::group(['prefix'=>'daily_currency'],function(){
-            Route::get('/manager','DailyCurrencyController@index');
-            Route::get('/create','DailyCurrencyController@create');
+            Route::get('/manager','DailyCurrencyController@index')->name('daily_currency.index.manager');
+            Route::get('/create','DailyCurrencyController@create')->name('daily_currency.create.manager');
             Route::post('store','DailyCurrencyController@store');
             Route::get('{id}/filter','DailyCurrencyController@daily_currency_filter');
             Route::post('/datefilter','DailyCurrencyController@daily_currency_datefilter');
@@ -179,8 +179,8 @@ Route::group(['middleware'=>['managerCheck']],function() {
 Route::group(['middleware'=>['frontmanCheck']],function() {
     Route::group(['namespace'=>'Web'],function() {
         Route::group(['prefix'=>'daily_currency'],function(){
-            Route::get('/','DailyCurrencyController@index');
-            Route::get('/create','DailyCurrencyController@create');
+            Route::get('/','DailyCurrencyController@index')->name('daily_currency.index.front');
+            Route::get('/create','DailyCurrencyController@create')->name('daily_currency.create.front');
             Route::post('store','DailyCurrencyController@store');
             Route::get('{id}/filter','DailyCurrencyController@daily_currency_filter');
             Route::post('/datefilter','DailyCurrencyController@daily_currency_datefilter');
@@ -208,7 +208,7 @@ Route::group(['middleware'=>['frontmanCheck']],function() {
 
 
         Route::group(['prefix'=>'sale'],function(){
-            Route::get('/','SaleController@index');
+            Route::get('/','SaleController@index')->name('sale.index');
 //            Route::get('sale_record','SaleController@sale_record');
         });
     });

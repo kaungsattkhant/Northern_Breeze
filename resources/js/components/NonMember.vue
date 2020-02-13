@@ -35,9 +35,9 @@
                     </button>
                 </div>
             </div>
-            <div class="row">
-                <buy-currency-group v-if="buy_currency_groups" :data="buy_currency_groups" :isMM="isMMForBuy()"></buy-currency-group>
-                <sell-currency-group v-if="sell_currency_groups" :data="sell_currency_groups" :isMM="isMMForSell()"></sell-currency-group>
+            <div class="row " style="min-height: 120vh;height: max-content;display: block">
+                <buy-currency-group style="float: left" v-if="buy_currency_groups" :data="buy_currency_groups" :isMM="isMMForBuy()"></buy-currency-group>
+                <sell-currency-group style="float: right" v-if="sell_currency_groups" :data="sell_currency_groups" :isMM="isMMForSell()"></sell-currency-group>
             </div>
         </form>
     </div>
@@ -139,8 +139,6 @@
                             this.sell_currency_groups = data;
                         }
                         $('.selectpicker').selectpicker('refresh');
-
-                        console.log(this.buy_currency_groups)
                     });
             }
         },

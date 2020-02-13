@@ -4,8 +4,8 @@ $(document).ready(function(){
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-    $("#staff a").addClass("active-staff");
-    $("#staff").addClass("active2");
+    // $("#staff a").addClass("active-staff");
+    // $("#staff").addClass("active2");
 
     $('#editMessage').hide();
     $('#createMessage').hide();

@@ -142,7 +142,7 @@
 
                 if(input_sheet>=0 && input_sheet<=total_sheet){
                     this.$store.commit('setSellNotEnoughMsg', '');
-                    this.refreshGroup(this.type,this.getGroups,this.sheets,this.isMM);
+                    this.refreshGroup(this.type,this.getGroups,this.sheets, null , this.isMM);
                     this.total_mmk = parseFloat(this.calculateTotalMMK(this.type,this.getGroups,this.isMM).toFixed(2)) ;
                     this.total = this.calculateTotal(this.type,this.getGroups,this.isMM);
                     this.$store.commit('setOutValues', [this.total, this.total_mmk]);
