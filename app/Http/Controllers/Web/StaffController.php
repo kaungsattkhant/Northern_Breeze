@@ -63,7 +63,7 @@ class StaffController extends Controller
 //        return response()->json($request->all());
         $vData = Validator::make($request->all(), [
             'name' => "required",
-            'email' => "required|unique:staff,email," . $request->id,
+            'email' => "required|unique:staff,email," .$request->id,
             'role' => 'required',
             'branch'=>'nullable',
         ]);
@@ -74,7 +74,7 @@ class StaffController extends Controller
             $staff->email=$request->email;
             $staff->role_id=$request->role;
 //            $staff->branch_id=$request->branch;
-            $request->branch ? $staff->branch_id=$request['branch'] : $staff->branch_id=null;
+            $request->branch ? $staff->branch_id=$request['branch'] :  $staff->branch_id=null;
             $staff->save();
             return response()->json([
                 'success'=>true,
