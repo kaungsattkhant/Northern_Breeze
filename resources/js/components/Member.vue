@@ -5,7 +5,7 @@
                 <thead>
                 <tr>
                     <td>
-                        <input type="text" v-model="member_search" v-on:keyup.enter="searchMember" class="form-control">
+                        <input type="text" v-model="search_member" v-on:keyup="searchMember" class="form-control col-md-4">
                     </td>
                 </tr>
                 <tr>
@@ -15,9 +15,9 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td scope="row" class="table-row-m fontsize-mount2 border-top-0 pl-4 text-color-mount">Khant</td>
-                    <td class="table-row-m fontsize-mount2 border-top-0 text-center text-color-mount">Diamond</td>
+                <tr v-for="m in member">
+                    <td scope="row" class="table-row-m fontsize-mount2 border-top-0 pl-4 text-color-mount">{{m.name}}</td>
+                    <td class="table-row-m fontsize-mount2 border-top-0 text-center text-color-mount">{{m.member_type.name}}</td>
                     <td class="table-row-m fontsize-mount2 border-top-0 text-right pr-5 text-color-mount">10000</td>
 
                 </tr>
@@ -68,6 +68,8 @@
 </template>
 
 <script>
+    import axios from 'axios';
+
     import Vuex, {mapState} from 'vuex'
     import Vue from 'vue';
 
@@ -149,13 +151,18 @@
 
                     });
             },
-            searchName(){
-                vm=this;
+            searchMember(){
+                var vm=this;
+                // console.log(vm.search_member);
                 axios.get('/pos/get_member',{
                     params:{
-
+                        search:vm.search_member,
                     }
-                })
+                }).then(function (response) {
+                    // console.log(response);
+                    vm.member=response.data;
+                    // console.log(response.data);
+                });
             }
         },
 

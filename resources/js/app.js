@@ -5,10 +5,15 @@
  */
 
 require('bootstrap');
+import axios from 'axios';
+
+import VueAxios from 'vue-axios'
 
 import {store} from './store';
 
 window.Vue = require('vue');
+Vue.use(VueAxios, axios);
+
 
 /**
  * The following block of code may be used to automatically register your

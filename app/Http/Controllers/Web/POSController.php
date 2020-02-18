@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Traits\CurrencyFilter;
 use App\Http\Traits\ToExchangeFilter;
+use App\Member;
 use App\Model\OutTransactionGroupNote;
 use App\Model\Branch;
 use App\Model\BuyClassGroupValue;
@@ -43,6 +44,10 @@ class POSController extends Controller
     {
         $currencies  = Currency::all();
         return view('Member.non_member',compact('currencies'));
+    }
+    public function getMember(Request $request){
+        $member=Member::with('member_type')->whereId($request->search)->get();
+        return $member;
     }
     public function currency_group(Request $request){
 //        public function currency_grou(Request $request){
