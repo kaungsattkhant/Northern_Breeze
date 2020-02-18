@@ -135,13 +135,24 @@ class POSController extends Controller
                         $classification_group_id = \Illuminate\Support\Facades\DB::table('classification_group')->where('group_id', $group->id)
                             ->where('classification_id', $class->id)->first();
                         if($classification_group_id!=null){
-                            $buy_class_value= BuyClassGroupValue::where('classification_group_id', $classification_group_id->id)
-                                ->latest()
-                                ->first();
-                            $currency_value[$c]=new \stdClass();
-                            $currency_value[$c]->id=$buy_class_value->id;
-                            $currency_value[$c]->class_id=$class->id;
-                            $currency_value[$c]->value=$buy_class_value->value;
+                            if($request->status==="buy"){
+                                $buy_class_value= BuyClassGroupValue::where('classification_group_id', $classification_group_id->id)
+                                    ->latest()
+                                    ->first();
+                                $currency_value[$c]=new \stdClass();
+                                $currency_value[$c]->id=$buy_class_value->id;
+                                $currency_value[$c]->class_id=$class->id;
+                                $currency_value[$c]->value=$buy_class_value->value;
+                            }elseif($request->status==="sell"){
+                                $sell_class_value= SellClassGroupValue::where('classification_group_id', $classification_group_id->id)
+                                    ->latest()
+                                    ->first();
+                                $currency_value[$c]=new \stdClass();
+                                $currency_value[$c]->id=$sell_class_value->id;
+                                $currency_value[$c]->class_id=$class->id;
+                                $currency_value[$c]->value=$sell_class_value->value;
+                            }
+
                         }
                     }
                 }

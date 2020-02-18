@@ -4,10 +4,14 @@
             <table class="table bg-white border-bottom-radius-mount mb-4">
                 <thead>
                 <tr>
+                    <td>
+                        <input type="text" v-model="member_search" v-on:keyup.enter="searchMember" class="form-control">
+                    </td>
+                </tr>
+                <tr>
                     <th scope="col" class="border-bottom-0 border-top-0 fontsize-mount6 pl-4" >Name</th>
                     <th scope="col" class="border-bottom-0 border-top-0 fontsize-mount6 text-center">Member Role</th>
                     <th scope="col" class="border-bottom-0 border-top-0 fontsize-mount6 text-right pr-5">Point</th>
-
                 </tr>
                 </thead>
                 <tbody>
@@ -76,6 +80,8 @@
                 sell_currency_groups: '',
                 buy_currency_groups: '',
                 current_currency: '',
+                search_member:'',
+                member:[],
             }
         },
 
@@ -97,7 +103,6 @@
                         console.log(data);
                     })
             },
-
             isMMForBuy(){
                 return this.buy_currency_groups.status === "MMK";
             },
@@ -143,8 +148,17 @@
                         $('.selectpicker').selectpicker('refresh');
 
                     });
+            },
+            searchName(){
+                vm=this;
+                axios.get('/pos/get_member',{
+                    params:{
+
+                    }
+                })
             }
         },
+
         mounted() {
 
         },

@@ -6,7 +6,7 @@
         <div class="row mx-0 top-box-mount shadow-sm">
             <div  class="my-auto  col-5">
                 @if(\Illuminate\Support\Facades\Auth::user()->isAdmin())
-                <select class="selectpicker " name="Branches" data-style="btn-white" data-width="auto" id="branch">
+                <select class="selectpicker px-2" name="Branches" data-style="btn-white" data-width="auto" id="branch">
                     <option selected disabled >Branches</option>
                     @php
                         $branches=\App\Model\Branch::all();
@@ -25,13 +25,14 @@
                     <option value="add" >Add</option>
                     <option value="all"  selected>All</option>
                 </select>
+                    <input type="text" id="datepicker" autocomplete="off"  name="transfer_history_filter" class=" transfer_date border-top-0 border-right-0 border-left-0  dtpick-input2" placeholder="YY-MM-DD">
             </div>
-            <div  style="margin: 20px 0 0 0" class="input-group h-25  col-4">
-                <input type="text" id="datepicker" autocomplete="off"  name="transfer_history_filter" class=" transfer_date border-top-0 border-right-0 border-left-0 pl-5 dtpick-input2" placeholder="YY-MM-DD">
+            <div  style="margin: 25px 0 0 0" class="input-group h-25  col-4">
+{{--                <input type="text" id="datepicker" autocomplete="off"  name="transfer_history_filter" class=" transfer_date border-top-0 border-right-0 border-left-0 pl-5 dtpick-input2" placeholder="YY-MM-DD">--}}
 {{--                <div class="input-group-append">--}}
 {{--                    <button class="btn btn-nb-mount-filter" id="transfer_datefilter"><i class="fas fa-filter"></i></button>--}}
 {{--                </div>--}}
-                <button type="submit" class="btn btn-nb-mount mr-4 p-0 fontsize-mount"  id="transfer_filter">Filter</button>
+                <button type="submit" class="btn btn-nb-mount mr-3 py-0 px-2 fontsize-mount"  id="transfer_filter">Filter</button>
             </div>
             <div class="pr-0 mr-0 my-auto col-3">
                 <form class="d-inline" action="{{url('stock/create_stock')}}" method="get">

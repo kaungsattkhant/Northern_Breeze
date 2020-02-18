@@ -829,6 +829,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__["default"]);
@@ -839,7 +843,9 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       items: JSON.parse(this.currencies),
       sell_currency_groups: '',
       buy_currency_groups: '',
-      current_currency: ''
+      current_currency: '',
+      search_member: '',
+      member: []
     };
   },
   methods: {
@@ -904,6 +910,12 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
         }
 
         $('.selectpicker').selectpicker('refresh');
+      });
+    },
+    searchName: function searchName() {
+      vm = this;
+      axios.get('/pos/get_member', {
+        params: {}
       });
     }
   },
@@ -21307,7 +21319,54 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container-nb-mount" }, [
-    _vm._m(0),
+    _c("div", [
+      _c(
+        "table",
+        { staticClass: "table bg-white border-bottom-radius-mount mb-4" },
+        [
+          _c("thead", [
+            _c("tr", [
+              _c("td", [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.member_search,
+                      expression: "member_search"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text" },
+                  domProps: { value: _vm.member_search },
+                  on: {
+                    keyup: function($event) {
+                      if (
+                        !$event.type.indexOf("key") &&
+                        _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                      ) {
+                        return null
+                      }
+                      return _vm.searchMember($event)
+                    },
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.member_search = $event.target.value
+                    }
+                  }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _vm._m(0)
+          ]),
+          _vm._v(" "),
+          _vm._m(1)
+        ]
+      )
+    ]),
     _vm._v(" "),
     _c("form", [
       _c("div", [
@@ -21447,78 +21506,71 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", [
+    return _c("tr", [
       _c(
-        "table",
-        { staticClass: "table bg-white border-bottom-radius-mount mb-4" },
-        [
-          _c("thead", [
-            _c("tr", [
-              _c(
-                "th",
-                {
-                  staticClass:
-                    "border-bottom-0 border-top-0 fontsize-mount6 pl-4",
-                  attrs: { scope: "col" }
-                },
-                [_vm._v("Name")]
-              ),
-              _vm._v(" "),
-              _c(
-                "th",
-                {
-                  staticClass:
-                    "border-bottom-0 border-top-0 fontsize-mount6 text-center",
-                  attrs: { scope: "col" }
-                },
-                [_vm._v("Member Role")]
-              ),
-              _vm._v(" "),
-              _c(
-                "th",
-                {
-                  staticClass:
-                    "border-bottom-0 border-top-0 fontsize-mount6 text-right pr-5",
-                  attrs: { scope: "col" }
-                },
-                [_vm._v("Point")]
-              )
-            ])
-          ]),
-          _vm._v(" "),
-          _c("tbody", [
-            _c("tr", [
-              _c(
-                "td",
-                {
-                  staticClass:
-                    "table-row-m fontsize-mount2 border-top-0 pl-4 text-color-mount",
-                  attrs: { scope: "row" }
-                },
-                [_vm._v("Khant")]
-              ),
-              _vm._v(" "),
-              _c(
-                "td",
-                {
-                  staticClass:
-                    "table-row-m fontsize-mount2 border-top-0 text-center text-color-mount"
-                },
-                [_vm._v("Diamond")]
-              ),
-              _vm._v(" "),
-              _c(
-                "td",
-                {
-                  staticClass:
-                    "table-row-m fontsize-mount2 border-top-0 text-right pr-5 text-color-mount"
-                },
-                [_vm._v("10000")]
-              )
-            ])
-          ])
-        ]
+        "th",
+        {
+          staticClass: "border-bottom-0 border-top-0 fontsize-mount6 pl-4",
+          attrs: { scope: "col" }
+        },
+        [_vm._v("Name")]
+      ),
+      _vm._v(" "),
+      _c(
+        "th",
+        {
+          staticClass:
+            "border-bottom-0 border-top-0 fontsize-mount6 text-center",
+          attrs: { scope: "col" }
+        },
+        [_vm._v("Member Role")]
+      ),
+      _vm._v(" "),
+      _c(
+        "th",
+        {
+          staticClass:
+            "border-bottom-0 border-top-0 fontsize-mount6 text-right pr-5",
+          attrs: { scope: "col" }
+        },
+        [_vm._v("Point")]
       )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tbody", [
+      _c("tr", [
+        _c(
+          "td",
+          {
+            staticClass:
+              "table-row-m fontsize-mount2 border-top-0 pl-4 text-color-mount",
+            attrs: { scope: "row" }
+          },
+          [_vm._v("Khant")]
+        ),
+        _vm._v(" "),
+        _c(
+          "td",
+          {
+            staticClass:
+              "table-row-m fontsize-mount2 border-top-0 text-center text-color-mount"
+          },
+          [_vm._v("Diamond")]
+        ),
+        _vm._v(" "),
+        _c(
+          "td",
+          {
+            staticClass:
+              "table-row-m fontsize-mount2 border-top-0 text-right pr-5 text-color-mount"
+          },
+          [_vm._v("10000")]
+        )
+      ])
     ])
   }
 ]

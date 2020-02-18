@@ -903,12 +903,20 @@ li .dropdown-menu.show{
     box-shadow: -1px 1px 3px #aaa;
 }
 .dtpick-input2{
-    width: 50%;
+    width: 45%;
+    text-align: center;
+    margin-left: 24px;
     background-color: #eeeeee;
     border-top-left-radius: 8px;
     border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border-top-right-radius: 8px;
     /*box-shadow: -2px 2px 6px #111111;*/
     box-shadow: -1px 1px 3px #aaa;
+}
+#transfer_filter{
+    margin-left:-40px;
+    height: 30px;
 }
 .margin-left-mount{
     margin-left: -4px!important;
