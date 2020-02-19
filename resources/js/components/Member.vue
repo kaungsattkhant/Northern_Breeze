@@ -50,7 +50,7 @@
                         </select>
 
                     </div>
-                    <button type="button" v-bind:class="{'disable': isSaveDisable()}"
+                    <button type="button" v-bind:class="{'disable': isSaveDisable()}" id="member-save-btn"
                             :disabled="isSaveDisable()"
                             v-on:click="submitForm()" class="btn btn-nb-mount-save fontsize-mount font-weight-bold">
                         သိမ်းမည်
@@ -92,7 +92,10 @@
                 return !!(this.exceed_msg || this.buy_not_enough_msg || this.sell_not_enough_msg || !this.in_value_MMK || !this.out_value_MMK);
             },
             submitForm() {
-                fetch('/transaction', {
+                $('#member-save-btn').append(`
+                    <i class="fa fa-spinner fa-spin"></i>
+                `).prop('disabled',true);
+                fetch('/pos/member_store', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -102,7 +105,12 @@
                 })
                     .then(response => response.json())
                     .then(data => {
-                        console.log(data);
+                        if(data.is_success){
+                            window.location.replace('/sale');
+                        }else{
+                            $("#member-save-btn").children("i:first").remove();
+                            $('#member-save-btn').prop('disabled',false);
+                        }
                     })
             },
             isMMForBuy(){

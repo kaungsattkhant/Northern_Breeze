@@ -220,7 +220,7 @@ export const helpers = {
             }else{
                 if(helpers.isMember(values)){
                     for(let classItem in targetGroup[groupItem].class_currency_value){
-                        targetGroup[groupItem].class_currency_value[classItem].value = parseInt(values[groupItem][classItem]) ;
+                        targetGroup[groupItem].class_currency_value[classItem].value = parseFloat(values[groupItem][classItem]) ;
                     }
                 }
 
