@@ -200,7 +200,6 @@ export const helpers = {
                 }
             });
             _this.$store.commit('addGroup', group);
-
         });
     },
 
@@ -215,9 +214,9 @@ export const helpers = {
                     targetGroup[groupItem].notes[noteItem].total_sheet = parseInt(sheets[groupItem][noteItem])
                 }
             }else{
-                if(values!==null){
-                    for(let classItem in storeGroup[groupItem].class_currency_value){
-                        storeGroup[groupItem].class_currency_value[classItem].value = values[groupItem][classItem];
+                if(values!==null){              //check if member
+                    for(let classItem in targetGroup[groupItem].class_currency_value){
+                        targetGroup[groupItem].class_currency_value[classItem].value = parseInt(values[groupItem][classItem]) ;
                     }
                 }
 

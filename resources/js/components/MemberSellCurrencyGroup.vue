@@ -38,8 +38,8 @@
                             <input v-if="!isMM" type="number"
                                    v-for="(item,m) in group.class_currency_value"
                                    v-model="sheet_values[i][m]"
-                                   v-on:keyup="calculateTotalAndChangesForCustom(group,i)"
-                                   v-on:change="calculateTotalAndChangesForCustom(group,i)"
+                                   v-on:keyup="calculateTotalAndChangesForCustom()"
+                                   v-on:change="calculateTotalAndChangesForCustom()"
                                    class="border rounded-table-mount  w-25 float-left text-center font-color fontsize-mount3 pt-1 mb-1">
                         </div>
 
@@ -110,7 +110,6 @@
                 current_value_mmk: [],
                 current_value: [],
                 groups: this.data.groups,
-
                 groups_length: this.data.groups.length,
                 notes_length: 10, //maximum possible number of notes in a group
                 classes_length: 10,//maximum possible number of classes in a note
@@ -152,10 +151,13 @@
                 this.$store.commit('setStatus', [this.sell_status, this.buy_status]);
                 this.$store.commit('setTransaction', [this.in_value, this.in_value_MMK, this.out_value, this.out_value_MMK, this.status,this.changes]);
                 this.$store.commit('setResults', [this.transaction, this.getGroups]);
+                console.log(this.getGroups)
 
             },
 
             calculateTotalAndChanges(item , input_sheets) {
+                console.log('before refresh')
+                console.log(this.getGroups)
                 let total_sheet;
                 if(this.isMM){
                     total_sheet = item.total_sheet;
@@ -164,6 +166,8 @@
                 }
                 if (input_sheets >= 0 && input_sheets <= total_sheet) {
                     this.$store.commit('setSellNotEnoughMsg', '');
+
+
                     this.refreshGroup(this.type,this.getGroups,this.sheets, this.sheet_values, this.isMM);
                     this.total_mmk = parseFloat(this.calculateTotalMMK(this.type,this.getGroups,this.isMM).toFixed(2)) ;
                     this.total = this.calculateTotal(this.type,this.getGroups,this.isMM);
@@ -176,10 +180,14 @@
                 } else {
                     this.$store.commit('setSellNotEnoughMsg', 'Not enough sheet in the branch!');
                 }
+                console.log(this.getGroups)
+
             }
         },
         mounted() {
             this.resetStore();
+            console.log(this.getGroups)
+
         },
         created() {
             let lengths = {
@@ -190,6 +198,8 @@
             this.setInitialGroups(this.type, this.data.groups, this.isMM);
             this.setInitialSheets( this.sheets, lengths, this.isMM);
             this.setInitialSheetValues(this.type, this.sheet_values, lengths, this.getGroups, this.isMM);
+            console.log(this.getGroups)
+
         },
         computed: mapState({
             getGroups: 'groups',

@@ -2907,6 +2907,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       this.$store.commit('setStatus', [this.sell_status, this.buy_status]);
       this.$store.commit('setTransaction', [this.in_value, this.in_value_MMK, this.out_value, this.out_value_MMK, this.status, this.changes]);
       this.$store.commit('setResults', [this.transaction, this.getGroups]);
+      console.log(this.getGroups);
     },
     calculateTotalAndChanges: function calculateTotalAndChanges(input_sheet) {
       if (input_sheet >= 0) {
@@ -2923,10 +2924,13 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       } else {
         this.$store.commit('setBuyNotEnoughMsg', 'Invalid Value!');
       }
+
+      console.log(this.getGroups);
     }
   },
   mounted: function mounted() {
     this.resetStore();
+    console.log(this.getGroups);
   },
   created: function created() {
     var lengths = {
@@ -3115,8 +3119,11 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       this.$store.commit('setStatus', [this.sell_status, this.buy_status]);
       this.$store.commit('setTransaction', [this.in_value, this.in_value_MMK, this.out_value, this.out_value_MMK, this.status, this.changes]);
       this.$store.commit('setResults', [this.transaction, this.getGroups]);
+      console.log(this.getGroups);
     },
     calculateTotalAndChanges: function calculateTotalAndChanges(item, input_sheets) {
+      console.log('before refresh');
+      console.log(this.getGroups);
       var total_sheet;
 
       if (this.isMM) {
@@ -3139,10 +3146,13 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       } else {
         this.$store.commit('setSellNotEnoughMsg', 'Not enough sheet in the branch!');
       }
+
+      console.log(this.getGroups);
     }
   },
   mounted: function mounted() {
     this.resetStore();
+    console.log(this.getGroups);
   },
   created: function created() {
     var lengths = {
@@ -3153,6 +3163,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
     this.setInitialGroups(this.type, this.data.groups, this.isMM);
     this.setInitialSheets(this.sheets, lengths, this.isMM);
     this.setInitialSheetValues(this.type, this.sheet_values, lengths, this.getGroups, this.isMM);
+    console.log(this.getGroups);
   },
   computed: Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])({
     getGroups: 'groups',
@@ -23831,16 +23842,10 @@ var render = function() {
                                     domProps: { value: _vm.sheet_values[i][m] },
                                     on: {
                                       keyup: function($event) {
-                                        return _vm.calculateTotalAndChangesForCustom(
-                                          group,
-                                          i
-                                        )
+                                        return _vm.calculateTotalAndChangesForCustom()
                                       },
                                       change: function($event) {
-                                        return _vm.calculateTotalAndChangesForCustom(
-                                          group,
-                                          i
-                                        )
+                                        return _vm.calculateTotalAndChangesForCustom()
                                       },
                                       input: function($event) {
                                         if ($event.target.composing) {
@@ -39295,8 +39300,9 @@ var helpers = {
         }
       } else {
         if (values !== null) {
-          for (var classItem in storeGroup[groupItem].class_currency_value) {
-            storeGroup[groupItem].class_currency_value[classItem].value = values[groupItem][classItem];
+          //check if member
+          for (var classItem in targetGroup[groupItem].class_currency_value) {
+            targetGroup[groupItem].class_currency_value[classItem].value = parseInt(values[groupItem][classItem]);
           }
         }
 
