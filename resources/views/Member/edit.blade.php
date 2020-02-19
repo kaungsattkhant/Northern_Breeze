@@ -91,17 +91,19 @@
                     <div class="mb-1">
                         <label for="#name123" class="w-25 pt-2 fontsize-mount">Name</label>
                         <input type="text" id="name1" name="name" class="pl-2 border-top-0 border-right-0 border-left-0 rounded-0 mount-input2 bd-bottom-mount">
-                        <span class="text-danger">
+
+                    </div>
+                    <span class="text-danger">
                                     <strong id="name_error1"></strong>
                                 </span>
-                    </div>
                     <div class="mb-2">
                         <label for="#c123" class="w-25 pt-2 fontsize-mount">Company</label>
                         <input type="text" id="company1" name="company"  class="pl-2 border-top-0 border-right-0 border-left-0 rounded-0 mount-input2 bd-bottom-mount">
-                        <span class="text-danger">
+
+                    </div>
+                    <span class="text-danger">
                                     <strong id="company_error1"></strong>
                                 </span>
-                    </div>
                     <div class="mb-2 row fs-select4">
                         <label for="exchange_type" class="fontsize-mount d-inline col-4">Exchange Type</label>
                         <select  id="exchange_type1" name="exchange_type"  class=" selectpicker d-inline bd-bottom-mount ml-3" data-width="231px">
@@ -114,10 +116,11 @@
 
                             @endforeach
                         </select>
-                        <span class="text-danger">
+
+                    </div>
+                    <span class="text-danger">
                                     <strong id="exchange_type_error1"></strong>
                                 </span>
-                    </div>
                     <div class="mb-0 row fs-select4">
                         <label for="#member_type" class="col-4 col-4 fontsize-mount">Member Type</label>
                         <select  class=" selectpicker d-inline bd-bottom-mount ml-3" data-width="231px" id="member_type1" name="member_type" >
@@ -130,10 +133,19 @@
 
                             @endforeach
                         </select>
-                        <span class="text-danger">
+
+                    </div>
+                    <span class="text-danger">
                                     <strong id="member_type_error1"></strong>
                                 </span>
+                    <div class="mb-1">
+                        <label class="w-25 pt-2 fontsize-mount">Points</label>
+                        <input type="number" id="points1" name="points" class="border-top-0 border-right-0 border-left-0 rounded-0 mount-input2 bd-bottom-mount">
+
                     </div>
+                    <span class="text-danger">
+                            <strong id="points1_error"></strong>
+                        </span>
                     <div class="mb-2">
                         <label for="#bod" class="w-auto mt-3 fontsize-mount">D.O.B</label>
                         <div class="mount-input2 pt-2">
@@ -146,26 +158,27 @@
                             <select class="form-control d-inline border-top-0 border-right-0 border-left-0 rounded-0" id="Edays" name="years"   style="width: 31%;font-size: 14px;">
                             </select>
                         </div>
-                        <span class="text-danger">
+
+                    </div>
+                    <span class="text-danger">
                                     <strong id="date_error1"></strong>
                                 </span>
-                    </div>
-
                     <div class="mb-1">
                         <label for="#phone_number1" class="w-25 pt-2 fontsize-mount">Phone</label>
                         <input type="text" id="phone_number1" name="phone_number"  class="pl-2 border-top-0 border-right-0 border-left-0 pt-2 rounded-0 mount-input2 bd-bottom-mount">
-                        <span class="text-danger">
+
+                    </div>
+                    <span class="text-danger">
                                     <strong id="phone_number-error1"></strong>
                                 </span>
-                    </div>
                     <div class="mb-1">
                         <label for="#email" class="w-25 pt-2 fontsize-mount">Email</label>
                         <input type="email" id="email1" name="email"  class="pl-2 border-top-0 border-right-0 border-left-0 pt-2 rounded-0 mount-input2 bd-bottom-mount">
-                        <span class="text-danger">
+
+                    </div>
+                    <span class="text-danger">
                                     <strong id="email_error1"></strong>
                                 </span>
-                    </div>
-
                     {{--                    <div class="mb-1">--}}
                     {{--                        <label for="#state" class="w-25 pt-2 fontsize-mount">State</label>--}}
                     {{--                        <input type="text" id="sstat" name="name"  class="border-top-0 border-right-0 border-left-0 rounded-0 mount-input2 bd-bottom-mount">--}}
@@ -173,10 +186,11 @@
                     <div class="mb-4">
                         <label for="#add123" class="w-25 fontsize-mount">Address</label>
                         <textarea type="text" id="address1" name="address"  class="pl-2  border-top-0 border-right-0 border-left-0 rounded-0  d-inline mount-input2 bd-bottom-mount" id="Add123" style="height: 60px;font-size: 15px;"></textarea>
-                        <span class="text-danger">
+
+                    </div>
+                    <span class="text-danger">
                                     <strong id="address_error1"></strong>
                                 </span>
-                    </div>
                     <div class="m-button pt-3">
                         <button type="button" class="btn btn-nb-mount2 px-3 pt-0 pb-0 mr-4 shadow-0 fontsize-mount22" data-dismiss="modal">Cancel</button>
                         <button type="button" class="btn btn-nb-mount2 fontsize-mount22 px-3" id="memberForm1">Save</button>

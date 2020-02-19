@@ -4,17 +4,21 @@
             <table class="table bg-white border-bottom-radius-mount mb-4">
                 <thead>
                 <tr>
+                    <td>
+                        <input type="text" v-model="search_member" v-on:keyup="searchMember" class="form-control col-md-4">
+                    </td>
+                </tr>
+                <tr>
                     <th scope="col" class="border-bottom-0 border-top-0 fontsize-mount6 pl-4" >Name</th>
                     <th scope="col" class="border-bottom-0 border-top-0 fontsize-mount6 text-center">Member Role</th>
                     <th scope="col" class="border-bottom-0 border-top-0 fontsize-mount6 text-right pr-5">Point</th>
-
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td scope="row" class="table-row-m fontsize-mount2 border-top-0 pl-4 text-color-mount">Khant</td>
-                    <td class="table-row-m fontsize-mount2 border-top-0 text-center text-color-mount">Diamond</td>
-                    <td class="table-row-m fontsize-mount2 border-top-0 text-right pr-5 text-color-mount">10000</td>
+                <tr v-for="m in member">
+                    <td scope="row" class="table-row-m fontsize-mount2 border-top-0 pl-4 text-color-mount">{{m.name}}</td>
+                    <td class="table-row-m fontsize-mount2 border-top-0 text-center text-color-mount">{{m.member_type.name}}</td>
+                    <td class="table-row-m fontsize-mount2 border-top-0 text-right pr-5 text-color-mount">{{m.points}}</td>
 
                 </tr>
                 </tbody>
@@ -64,6 +68,8 @@
 </template>
 
 <script>
+    import axios from 'axios';
+
     import Vuex, {mapState} from 'vuex'
     import Vue from 'vue';
 
@@ -76,6 +82,8 @@
                 sell_currency_groups: '',
                 buy_currency_groups: '',
                 current_currency: '',
+                search_member:'',
+                member:[],
             }
         },
 
@@ -97,7 +105,6 @@
                         console.log(data);
                     })
             },
-
             isMMForBuy(){
                 return this.buy_currency_groups.status === "MMK";
             },
@@ -143,8 +150,22 @@
                         $('.selectpicker').selectpicker('refresh');
 
                     });
+            },
+            searchMember(){
+                var vm=this;
+                // console.log(vm.search_member);
+                axios.get('/pos/get_member',{
+                    params:{
+                        search:vm.search_member,
+                    }
+                }).then(function (response) {
+                    // console.log(response);
+                    vm.member=response.data;
+                    // console.log(response.data);
+                });
             }
         },
+
         mounted() {
         },
         computed: mapState({

@@ -3,7 +3,7 @@
 
     <div class="container-nb-mount">
         <div>
-            <form action="{{url('currency_group/store')}}" method="post">
+            <form action="{{url('currency_group/store')}}" method="post" id="currency_group_form">
                 @csrf
 
 
@@ -13,7 +13,7 @@
                         @php
                             $currencies=\App\Model\Currency::all();
                         @endphp
-                        <select class="selectpicker show-menu-arrow"  id="currency" name="currency" title="Choose one..." data-style="btn-white">
+                        <select class="currency_group selectpicker show-menu-arrow "  id="currency" name="currency" title="Choose one..." data-style="btn-white">
 
                             @foreach($currencies as $currency)
                                 <option value="{{$currency->id}}">{{$currency->name}}</option>
@@ -27,7 +27,7 @@
                     <div class="col">
                         <label for="" class="fontsize-mount d-block pl-2 ml-1">Note</label>
                         <div class="d-block fs-select4" style=";position: relative" >
-                            <select class="selectpicker show-menu-arrow" multiple data-selected-text-format="count > 5" title="Select options" name="notes[]">
+                            <select class=" note_group selectpicker show-menu-arrow" multiple data-selected-text-format="count > 5" title="Select options" name="notes[]">
                                 @php
                                     $notes=\App\Model\Note::all();
                                 @endphp
@@ -40,7 +40,7 @@
                         </div>
                     </div>
                     <div class="col my-auto">
-                        <button type="submit" class="btn btn-nb-mount px-4 my-auto  fontsize-mount2"  data-toggle="modal" data-target="#create"  style="margin-left: 120px"> Add </button>
+                        <button type="submit" id="groupSubmit" class="btn btn-nb-mount px-4 my-auto  fontsize-mount2"   style="margin-left: 120px" > Add </button>
 
                     </div>
                 </div>
@@ -117,14 +117,19 @@
 
     </div>
     @include('Currency.destroy')
+
     <script>
         $(function(){
+            // alert('aa');
             $("#group a").addClass("active-group");
 
             $("#group").addClass("active2");
 
-
-
+            $(".groupSubmit").attr("disabled", true);
+            // $("#groupSubmit").click(function () {
+            //            $("#currencySubmit").attr("disabled", true);
+            //            $('#currency_group_form').submit();
+            //        });
         });
         function deleteCurrencyGroup ($id)
         {

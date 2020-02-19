@@ -4,6 +4,7 @@ namespace App;
 
 use App\Model\ExchangeType;
 use App\Model\MemberType;
+use App\Model\Role;
 use Illuminate\Database\Eloquent\Model;
 
 class Member extends Model
@@ -17,4 +18,5 @@ class Member extends Model
     {
         return $this->belongsTo(MemberType::class);
     }
+
 }

@@ -23,10 +23,33 @@ class MemberController extends Controller
         $members=Member::with('member_type','exchange_type')->latest()->paginate(10);
         return view('Member.index',compact('members','member_types'));
     }
-    public function store(MemberStoreRequest $request)
+    public function store(Request $request)
     {
-        $vData=$request->validated();
+        $vData=Validator::make($request->all(),[
+            'name'=>'required',
+            'company'=>'required',
+            'years'=>'required',
+            'months'=>'required',
+            'days'=>'required',
+            'address'=>'required',
+            'phone_number'=>'required',
+            'email'=>'required|unique:members',
+//            'state'=>'required',
+            'exchange_type'=>'required',
+            'member_type'=>'required',
+            'points'=>'required',
 
+        ]);
+//        if($vData->passes()){
+//            dd('a');
+//        }else{
+//            dd('b');
+//        }
+        if($vData->fails()){
+            return response()->json([
+                'errors'=>$vData->errors()
+            ]);
+        }else {
             $member=new Member();
             $member->name=$request->name;
             $member->company=$request->name;
@@ -36,34 +59,58 @@ class MemberController extends Controller
             $member->email=$request->email;
             $member->exchange_type_id=$request->exchange_type;
             $member->member_type_id=$request->member_type;
+            $member->points=$request->points;
             $member->save();
             return response()->json([
                 'success'=>true,
             ]);
+        }
     }
     public function edit($id)
     {
         $member=Member::find($id);
         return $member;
     }
-    public function update(MemberUpdateRequest $request)
+    public function update(Request $request)
     {
-//        dd($request->all());
-        $vData=$request->validated();
-        $member=Member::whereId($request->id)->firstOrfail();
-        $member->name=$request->name;
-        $member->company=$request->name;
-        $member->date_of_birth=Carbon::create($request->years,$request->months,$request->days);
-        $member->address=$request->address;
-        $member->phone_number=$request->phone_number;
-        $member->email=$request->email;
-        $member->exchange_type_id=$request->exchange_type;
-        $member->member_type_id=$request->member_type;
-        $member->save();
-        return response()->json([
-            'success'=>true,
-            'message'=>'Update Successfully',
+        $id=$request->id;
+        $vData=Validator::make($request->all(),[
+            'name'=>'required',
+            'company'=>'required',
+            'years'=>'required',
+            'months'=>'required',
+            'days'=>'required',
+            'address'=>'required',
+            'phone_number'=>'required|unique:members,phone_number,'.$id,
+            'email'=>'required|unique:members,email,'.$id,
+//            'state'=>'required',
+            'exchange_type'=>'required',
+            'member_type'=>'required',
+            'points'=>'required',
+
         ]);
+        if($vData->fails()){
+            return response()->json([
+                'errors'=>$vData->errors()
+            ]);
+        }else{
+            $member=Member::whereId($request->id)->firstOrfail();
+            $member->name=$request->name;
+            $member->company=$request->name;
+            $member->date_of_birth=Carbon::create($request->years,$request->months,$request->days);
+            $member->address=$request->address;
+            $member->phone_number=$request->phone_number;
+            $member->email=$request->email;
+            $member->exchange_type_id=$request->exchange_type;
+            $member->member_type_id=$request->member_type;
+            $member->points=$request->points;
+            $member->save();
+            return response()->json([
+                'success'=>true,
+                'message'=>'Update Successfully',
+            ]);
+        }
+
     }
     public function member_type_filter($member_type_id)
     {

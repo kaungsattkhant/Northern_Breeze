@@ -2,20 +2,20 @@
 @section('content')
 
     <div class="container-nb-mount">
-        <div class="d-flex justify-content-between top-box-mount shadow-sm">
-            <div  class="my-auto ml-4 pl-3">
-                <select class="selectpicker " name="Branches" data-style="btn-white" data-width="auto">
-                    <option selected disabled>Member Roles</option>
-                    <option>1111</option>
-                    <option>22222</option>
-                </select>
-            </div>
-        </div>
+{{--        <div class="d-flex justify-content-between top-box-mount shadow-sm">--}}
+{{--            <div  class="my-auto ml-4 pl-3">--}}
+{{--                <select class="selectpicker " name="Branches" data-style="btn-white" data-width="auto">--}}
+{{--                    <option selected disabled>Member Roles</option>--}}
+{{--                    <option>1111</option>--}}
+{{--                    <option>22222</option>--}}
+{{--                </select>--}}
+{{--            </div>--}}
+{{--        </div>--}}
         <div class="pt-2 mt-1">
-            <div class="mb-1">
-                <p class="mb-3 fontsize-mount17 ml-1 d-inline text-shadow-mount">Total amount exchange :</p>
-                <p class="fontsize-mount17 d-inline text-shadow-mount"> 100,100,00</p>
-            </div>
+{{--            <div class="mb-1">--}}
+{{--                <p class="mb-3 fontsize-mount17 ml-1 d-inline text-shadow-mount">Total amount exchange :</p>--}}
+{{--                <p class="fontsize-mount17 d-inline text-shadow-mount"> 100,100,00</p>--}}
+{{--            </div>  --}}
             <table class="table bg-white box-shadow-mount rounded-table-mount mt-1"  id="myTable" >
                 <thead>
                 <tr>

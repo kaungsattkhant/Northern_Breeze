@@ -36,6 +36,9 @@ class MemberUpdateRequest extends FormRequest
             'email'=>'required|unique:members,email,'.$id,
 //            'state'=>'required',
             'exchange_type'=>'required',
-            'member_type'=>'required',        ];
+            'member_type'=>'required',
+            'points'=>'required',
+
+            ];
     }
 }

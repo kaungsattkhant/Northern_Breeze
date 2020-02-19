@@ -16,8 +16,8 @@
 
 @foreach($transfer_note as $key=>$tn)
     <div class="my-3">
-        <p class="d-inline fontsize-mount text-nb-mount">{{$key}}</p>
-        <p id="branch" class="mount-input2 p-0 fontsize-mount text-nb-mount">: {{$tn}}</p>
+        <p class="d-inline fontsize-mount text-nb-mount">{{$tn->note}}</p>
+        <p id="branch" class="mount-input2 p-0 fontsize-mount text-nb-mount">: {{$tn->total_sheet}}</p>
     </div>
     @endforeach
 

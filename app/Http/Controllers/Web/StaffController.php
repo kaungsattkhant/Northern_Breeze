@@ -54,15 +54,16 @@ class StaffController extends Controller
     public function edit($id)
     {
         $staff=Staff::find($id);
-//        dd($staff);
-        return $staff   ;
+
+
+        return $staff ;
     }
     public function update(Request $request)
     {
 //        return response()->json($request->all());
         $vData = Validator::make($request->all(), [
             'name' => "required",
-            'email' => "required|unique:staff,email," . $request->id,
+            'email' => "required|unique:staff,email," .$request->id,
             'role' => 'required',
             'branch'=>'nullable',
         ]);
@@ -73,7 +74,7 @@ class StaffController extends Controller
             $staff->email=$request->email;
             $staff->role_id=$request->role;
 //            $staff->branch_id=$request->branch;
-            $request->branch ? $staff->branch_id=$request['branch'] : $staff->branch_id=null;
+            $request->branch ? $staff->branch_id=$request['branch'] :  $staff->branch_id=null;
             $staff->save();
             return response()->json([
                 'success'=>true,
@@ -97,7 +98,7 @@ class StaffController extends Controller
         if($request->has('name'))
         {
             $staff=Staff::with('role')->where('name','LIKE','%'.$name.'%')->paginate(10);
-            return view('Staff.index',compact('staff','roles'));
+            return view('Staff.index',compact('staff'));
         }
     }
     public function destroy(Request $request)

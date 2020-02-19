@@ -17,7 +17,7 @@ class SaleController extends Controller
     {
         $userId = Auth::user()->id;
         $checkRole=Auth::user()->role_name(Auth::user()->role_id);
-        if ($checkRole == "Admin")
+        if (Auth::user()->isAdmin())
         {
             $transactions=Transaction::with('staff')->get();
 
@@ -26,14 +26,10 @@ class SaleController extends Controller
                 $transactions=$this->transaction($transactions);
             }
         }
-        elseif($checkRole== "Manager")
+        elseif(Auth::user()->isManager())
         {
-//            $transactions=$this->transaction($userId);
             $branch_id=Auth::user()->branch_id;
-//            dd($branch_id);
             $staff=Staff::where('branch_id',$branch_id)->get();
-//            dd($staff);
-//            $a=new Collection();
             $transaction = new \Illuminate\Database\Eloquent\Collection;
             foreach($staff as $st)
             {
@@ -41,9 +37,8 @@ class SaleController extends Controller
             }
             $transactions=$this->transaction($transaction);
         }
-        elseif($checkRole == "Front Man")
+        elseif(Auth::user()->isFrontman())
         {
-//            dd('Front_Man');
             $transactions=Transaction::whereHas('staff', function  ($q) use ($userId) {
                 $q->whereId($userId);
             })->get();
@@ -53,9 +48,8 @@ class SaleController extends Controller
 
             }
         }
-//        dd($transactions);
+            return view('Sale.sale_record',compact('transactions'));
 
-        return view('Sale.sale_record',compact('transactions'));
     }
     protected function transaction($transactions)
     {
