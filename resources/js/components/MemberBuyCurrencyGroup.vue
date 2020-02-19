@@ -134,6 +134,7 @@
             },
             calculateTotalAndChangesForCustom(){
 
+
                 this.refreshGroup(this.type,this.getGroups,this.sheets, this.sheet_values, this.isMM);
                 this.total_mmk = parseFloat(this.calculateTotalMMK(this.type,this.getGroups,this.isMM).toFixed(2)) ;
                 this.total = this.calculateTotal(this.type,this.getGroups,this.isMM);
@@ -143,6 +144,8 @@
                 this.$store.commit('setStatus', [this.sell_status, this.buy_status]);
                 this.$store.commit('setTransaction', [this.in_value, this.in_value_MMK, this.out_value, this.out_value_MMK, this.status,this.changes]);
                 this.$store.commit('setResults', [this.transaction, this.getGroups]);
+                console.log(this.getGroups)
+
             },
 
             calculateTotalAndChanges(input_sheet) {
@@ -160,10 +163,14 @@
                 } else {
                     this.$store.commit('setBuyNotEnoughMsg', 'Invalid Value!');
                 }
+                console.log(this.getGroups)
+
             }
         },
         mounted() {
             this.resetStore();
+            console.log(this.getGroups)
+
         },
 
         created() {
