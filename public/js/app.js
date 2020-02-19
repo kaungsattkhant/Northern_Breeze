@@ -37404,6 +37404,9 @@ var helpers = {
       _this.$store.commit('addGroup', group);
     });
   },
+  isMember: function isMember(values) {
+    return values !== null;
+  },
   updateInitialGroups: function updateInitialGroups(type, storeGroup, sheets, values, isMM) {
     var targetGroup = storeGroup.filter(function (groupItem) {
       return groupItem.type === type;
@@ -37415,8 +37418,7 @@ var helpers = {
           targetGroup[groupItem].notes[noteItem].total_sheet = parseInt(sheets[groupItem][noteItem]);
         }
       } else {
-        if (values !== null) {
-          //check if member
+        if (helpers.isMember(values)) {
           for (var classItem in targetGroup[groupItem].class_currency_value) {
             targetGroup[groupItem].class_currency_value[classItem].value = parseInt(values[groupItem][classItem]);
           }

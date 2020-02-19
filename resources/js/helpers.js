@@ -203,6 +203,10 @@ export const helpers = {
         });
     },
 
+    isMember: function(values){
+        return values !== null;
+    },
+
 
     updateInitialGroups: function (type,storeGroup,sheets, values, isMM) {
         let targetGroup = storeGroup.filter(function (groupItem) {
@@ -214,7 +218,7 @@ export const helpers = {
                     targetGroup[groupItem].notes[noteItem].total_sheet = parseInt(sheets[groupItem][noteItem])
                 }
             }else{
-                if(values!==null){              //check if member
+                if(helpers.isMember(values)){
                     for(let classItem in targetGroup[groupItem].class_currency_value){
                         targetGroup[groupItem].class_currency_value[classItem].value = parseInt(values[groupItem][classItem]) ;
                     }
