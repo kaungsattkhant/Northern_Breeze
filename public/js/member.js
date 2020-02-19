@@ -20,6 +20,7 @@ $(document).ready(function(){
         // var state=$('#state').val();
         var exchange_type=$('#exchange_type').val();
         var member_type=$('#member_type').val();
+        var points=$('#points').val();
         // $('#company-error').html("");
         // $('#name-error').html("");
         // $('#address-error').html("");
@@ -44,26 +45,42 @@ $(document).ready(function(){
                 phone_number:phone_number,
                 exchange_type:exchange_type,
                 member_type:member_type,
+                points:points,
             },
             success:function(data)
             {
                 console.log(data);
-                // if(data.errors)
-                // {
-                //     if(data.errors.name){
-                //         $( '#name1-error' ).html( data.errors.name[0] );
-                //     }
-                //     if(data.errors.role){
-                //         $( '#role-error' ).html( data.errors.role[0] );
-                //     }
-                //     if(data.errors.password){
-                //         $( '#password-error' ).html( data.errors.password[0] );
-                //     }
-                //     if(data.errors.password_confirmation){
-                //         $( '#password_confirmation-error' ).html( data.errors.password_confirmation[0] );
-                //     }
-                // }
-                if(data.success==true)
+                if(data.errors)
+                {
+                    if(data.errors.name){
+                        $( '#name_error' ).html( data.errors.name[0] );
+                    }
+                    if(data.errors.email){
+                        $( '#email_error' ).html( data.errors.email[0] );
+                    }
+                    if(data.errors.company){
+                        $( '#company_error' ).html( data.errors.company[0] );
+                    }
+                    if(data.errors.phone_number){
+                        $( '#phone_number_error' ).html( data.errors.phone_number[0] );
+                    }
+                    if(data.errors.exchange_type){
+                        $( '#exchange_type_error' ).html( data.errors.exchange_type[0] );
+                    }
+                    if(data.errors.member_type){
+                        $( '#member_type_error' ).html( data.errors.member_type[0] );
+                    }
+                    if(data.errors.points){
+                        $( '#points_error' ).html( data.errors.points[0] );
+                    }
+                    if(data.errors.address){
+                        $( '#address-error' ).html( data.errors.address[0] );
+                    }
+                    if(data.errors.years || data.errors.months || data.errors.days){
+                        $('#date_error').html('Data of birth is required');
+                    }
+                }
+                else if(data.success==true)
                 {
                     $('#createMessage').show();
                     $( "#success").html(data.message);
@@ -87,6 +104,8 @@ $(document).ready(function(){
         var id=$('#id').val();
         var exchange_type=$('#exchange_type1').val();
         var member_type=$('#member_type1').val();
+        var points=$('#points1').val();
+
         // $('#phone_number-error1').html("");
         // $('#show-success').html("");
         // $('#email-error1').html("");
@@ -106,20 +125,39 @@ $(document).ready(function(){
                 phone_number:phone_number,
                 exchange_type:exchange_type,
                 member_type:member_type,
+                points:points,
             },
             success:function(data)
             {
                 if(data.errors)
                 {
-                    // if(data.errors.name){
-                    //     $( '#name-error1' ).html( data.errors.name[0] );
-                    // }
-                    // if(data.errors.email){
-                    //     $( '#email-error1' ).html( data.errors.email[0] );
-                    // }
-                    // if(data.errors.phone_number){
-                    //     $( '#phone_number-error1' ).html( data.errors.phone_number[0] );
-                    // }
+                    if(data.errors.name){
+                        $( '#name_error1' ).html( data.errors.name[0] );
+                    }
+                    if(data.errors.email){
+                        $( '#email_error1' ).html( data.errors.email[0] );
+                    }
+                    if(data.errors.company){
+                        $( '#company_error1' ).html( data.errors.company[0] );
+                    }
+                    if(data.errors.phone_number){
+                        $( '#phone_number_error1' ).html( data.errors.phone_number[0] );
+                    }
+                    if(data.errors.exchange_type){
+                        $( '#exchange_type_error1' ).html( data.errors.exchange_type[0] );
+                    }
+                    if(data.errors.member_type){
+                        $( '#member_type_error1' ).html( data.errors.member_type[0] );
+                    }
+                    if(data.errors.points){
+                        $( '#points_error1' ).html( data.errors.points[0] );
+                    }
+                    if(data.errors.address){
+                        $( '#address-error1' ).html( data.errors.address[0] );
+                    }
+                    if(data.errors.years || data.errors.months || data.errors.days){
+                        $('#date_error1').html('Data of birth is required');
+                    }
                 }
                 if(data.success==true)
                 {
@@ -174,6 +212,31 @@ $(document).ready(function(){
         });
 
     });
+    // $('.member_type_select').on( 'change',function () {
+    //
+    // });
+    // $('select').on('change', function() {
+    //     var value=this.value;
+    //     if(value==1){
+    //         $('.points-number').attr('min','0');
+    //         $('.points-number').attr('max','999');
+    //     }
+    //     else if(value==2){
+    //         $('.points-number').attr('min','1000');
+    //         $('.points-number').attr('max','2999');
+    //     }
+    //     else if(value==3){
+    //         $('.points-number').attr('min','3000');
+    //         $('.points-number').attr('max','4999');
+    //     }
+    //     else if(value==4){
+    //         $('.points-number').attr('min','5000');
+    //         $('.points-number').attr('max','8999');
+    //     }
+    //     else if(value==5){
+    //         $('.points-number').attr('min','9000');
+    //     }
+    // });
 });
 function deleteMember($id)
 {
@@ -201,6 +264,7 @@ function editMember($id)
             $('#address1').val(data.address);
             $('#phone_number1').val(data.phone_number);
             $('#email1').val(data.email);
+            $('#points1').val(data.points);
             $('#member_type1 option').prop('selected',false);
             $('#member_type1 option[value="'+data.member_type_id+'"]').prop('selected',true);
             $('#exchange_type1 option').prop('selected',false);

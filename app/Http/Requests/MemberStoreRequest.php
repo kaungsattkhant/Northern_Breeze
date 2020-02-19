@@ -35,6 +35,7 @@ class MemberStoreRequest extends FormRequest
 //            'state'=>'required',
             'exchange_type'=>'required',
             'member_type'=>'required',
+            'points'=>'required',
         ];
     }
 }

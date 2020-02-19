@@ -23219,7 +23219,7 @@ var render = function() {
                     staticClass:
                       "table-row-m fontsize-mount2 border-top-0 text-right pr-5 text-color-mount"
                   },
-                  [_vm._v("10000")]
+                  [_vm._v(_vm._s(m.points))]
                 )
               ])
             }),

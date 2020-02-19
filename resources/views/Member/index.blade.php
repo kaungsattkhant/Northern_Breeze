@@ -30,7 +30,7 @@
                 <tr>
                     <th scope="col" class="border-bottom-0 border-top-0 fontsize-mount6" >Name</th>
                     <th scope="col" class="border-bottom-0 border-top-0 fontsize-mount6">Member Role</th>
-{{--                    <th scope="col" class="border-bottom-0 border-top-0 fontsize-mount6">Point</th>--}}
+                    <th scope="col" class="border-bottom-0 border-top-0 fontsize-mount6">Point</th>
                     <th scope="col" class="border-bottom-0 border-top-0 fontsize-mount6">Phone Number</th>
                     <th scope="col" class="border-bottom-0 border-top-0 fontsize-mount6">Action</th>
                 </tr>
@@ -40,6 +40,7 @@
                 <tr>
                     <td scope="row" class="table-row-m"><a href="member-data.html" class="text-decoration-none text-dark fontsize-mount2">{{$member->name}}</a></td>
                     <td class="table-row-m fontsize-mount2">{{$member->member_type->name}}</td>
+                    <td class="table-row-m fontsize-mount2">{{$member->points}}</td>
 {{--                    <td class="table-row-m fontsize-mount2">{{$member->}}</td>--}}
                     <td class="table-row-m fontsize-mount2">{{$member->phone_number}}</td>
                     <td class="table-row-m fontsize-mount2">

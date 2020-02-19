@@ -18,7 +18,7 @@
                 <tr v-for="m in member">
                     <td scope="row" class="table-row-m fontsize-mount2 border-top-0 pl-4 text-color-mount">{{m.name}}</td>
                     <td class="table-row-m fontsize-mount2 border-top-0 text-center text-color-mount">{{m.member_type.name}}</td>
-                    <td class="table-row-m fontsize-mount2 border-top-0 text-right pr-5 text-color-mount">10000</td>
+                    <td class="table-row-m fontsize-mount2 border-top-0 text-right pr-5 text-color-mount">{{m.points}}</td>
 
                 </tr>
                 </tbody>
