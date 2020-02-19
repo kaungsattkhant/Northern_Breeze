@@ -119,6 +119,10 @@ export const store = new Vuex.Store({
 
         setMsgForStock(state,data){
             state.msg_for_stock = data;
+        },
+
+        setMemberId(state,data){
+            state.transaction.member_id = data;
         }
     },
 

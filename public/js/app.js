@@ -2669,6 +2669,7 @@ vue__WEBPACK_IMPORTED_MODULE_2___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
       return !!(this.exceed_msg || this.buy_not_enough_msg || this.sell_not_enough_msg || !this.in_value_MMK || !this.out_value_MMK);
     },
     submitForm: function submitForm() {
+      $('#member-save-btn').append("\n                <i class=\"fa fa-spinner fa-spin\"></i>\n            ").prop('disabled', true);
       fetch('/pos/member_store', {
         method: 'POST',
         headers: {
@@ -2679,7 +2680,12 @@ vue__WEBPACK_IMPORTED_MODULE_2___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
       }).then(function (response) {
         return response.json();
       }).then(function (data) {
-        console.log(data);
+        if (data.is_success) {
+          window.location.replace('/sale');
+        } else {
+          $("#member-save-btn").children("i:first").remove();
+          $('#member-save-btn').prop('disabled', false);
+        }
       });
     },
     isMMForBuy: function isMMForBuy() {
@@ -2736,8 +2742,8 @@ vue__WEBPACK_IMPORTED_MODULE_2___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
           search: vm.search_member
         }
       }).then(function (response) {
-        // console.log(response);
-        vm.member = response.data; // console.log(response.data);
+        vm.member = response.data;
+        vm.$store.commit('setMemberId', response.data[0].id);
       });
     }
   },
@@ -2907,7 +2913,6 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       this.$store.commit('setStatus', [this.sell_status, this.buy_status]);
       this.$store.commit('setTransaction', [this.in_value, this.in_value_MMK, this.out_value, this.out_value_MMK, this.status, this.changes]);
       this.$store.commit('setResults', [this.transaction, this.getGroups]);
-      console.log(this.getGroups);
     },
     calculateTotalAndChanges: function calculateTotalAndChanges(input_sheet) {
       if (input_sheet >= 0) {
@@ -2924,13 +2929,10 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       } else {
         this.$store.commit('setBuyNotEnoughMsg', 'Invalid Value!');
       }
-
-      console.log(this.getGroups);
     }
   },
   mounted: function mounted() {
     this.resetStore();
-    console.log(this.getGroups);
   },
   created: function created() {
     var lengths = {
@@ -3119,11 +3121,8 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       this.$store.commit('setStatus', [this.sell_status, this.buy_status]);
       this.$store.commit('setTransaction', [this.in_value, this.in_value_MMK, this.out_value, this.out_value_MMK, this.status, this.changes]);
       this.$store.commit('setResults', [this.transaction, this.getGroups]);
-      console.log(this.getGroups);
     },
     calculateTotalAndChanges: function calculateTotalAndChanges(item, input_sheets) {
-      console.log('before refresh');
-      console.log(this.getGroups);
       var total_sheet;
 
       if (this.isMM) {
@@ -3146,13 +3145,10 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       } else {
         this.$store.commit('setSellNotEnoughMsg', 'Not enough sheet in the branch!');
       }
-
-      console.log(this.getGroups);
     }
   },
   mounted: function mounted() {
     this.resetStore();
-    console.log(this.getGroups);
   },
   created: function created() {
     var lengths = {
@@ -3163,7 +3159,6 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
     this.setInitialGroups(this.type, this.data.groups, this.isMM);
     this.setInitialSheets(this.sheets, lengths, this.isMM);
     this.setInitialSheetValues(this.type, this.sheet_values, lengths, this.getGroups, this.isMM);
-    console.log(this.getGroups);
   },
   computed: Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])({
     getGroups: 'groups',
@@ -3285,7 +3280,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
           window.location.replace('/sale');
         } else {
           $("#save-btn").children("i:first").remove();
-          $('#save-btn').prop('disabled', false); // window.location.replace('/pos/non_member');
+          $('#save-btn').prop('disabled', false);
         }
       });
     },
@@ -19069,7 +19064,7 @@ return jQuery;
 __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function(global) {/**!
  * @fileOverview Kickass library to create and place poppers near their reference elements.
- * @version 1.16.0
+ * @version 1.16.1
  * @license
  * Copyright (c) 2016 Federico Zivolo and contributors
  *
@@ -19415,7 +19410,7 @@ function getBordersSize(styles, axis) {
   var sideA = axis === 'x' ? 'Left' : 'Top';
   var sideB = sideA === 'Left' ? 'Right' : 'Bottom';
 
-  return parseFloat(styles['border' + sideA + 'Width'], 10) + parseFloat(styles['border' + sideB + 'Width'], 10);
+  return parseFloat(styles['border' + sideA + 'Width']) + parseFloat(styles['border' + sideB + 'Width']);
 }
 
 function getSize(axis, body, html, computedStyle) {
@@ -19570,8 +19565,8 @@ function getOffsetRectRelativeToArbitraryNode(children, parent) {
   var scrollParent = getScrollParent(children);
 
   var styles = getStyleComputedProperty(parent);
-  var borderTopWidth = parseFloat(styles.borderTopWidth, 10);
-  var borderLeftWidth = parseFloat(styles.borderLeftWidth, 10);
+  var borderTopWidth = parseFloat(styles.borderTopWidth);
+  var borderLeftWidth = parseFloat(styles.borderLeftWidth);
 
   // In cases where the parent is fixed, we must ignore negative scroll in offset calc
   if (fixedPosition && isHTML) {
@@ -19592,8 +19587,8 @@ function getOffsetRectRelativeToArbitraryNode(children, parent) {
   // differently when margins are applied to it. The margins are included in
   // the box of the documentElement, in the other cases not.
   if (!isIE10 && isHTML) {
-    var marginTop = parseFloat(styles.marginTop, 10);
-    var marginLeft = parseFloat(styles.marginLeft, 10);
+    var marginTop = parseFloat(styles.marginTop);
+    var marginLeft = parseFloat(styles.marginLeft);
 
     offsets.top -= borderTopWidth - marginTop;
     offsets.bottom -= borderTopWidth - marginTop;
@@ -20532,8 +20527,8 @@ function arrow(data, options) {
   // Compute the sideValue using the updated popper offsets
   // take popper margin in account because we don't have this info available
   var css = getStyleComputedProperty(data.instance.popper);
-  var popperMarginSide = parseFloat(css['margin' + sideCapitalized], 10);
-  var popperBorderSide = parseFloat(css['border' + sideCapitalized + 'Width'], 10);
+  var popperMarginSide = parseFloat(css['margin' + sideCapitalized]);
+  var popperBorderSide = parseFloat(css['border' + sideCapitalized + 'Width']);
   var sideValue = center - data.offsets.popper[side] - popperMarginSide - popperBorderSide;
 
   // prevent arrowElement from being placed not contiguously to its popper
@@ -23327,7 +23322,11 @@ var render = function() {
                 staticClass:
                   "btn btn-nb-mount-save fontsize-mount font-weight-bold",
                 class: { disable: _vm.isSaveDisable() },
-                attrs: { type: "button", disabled: _vm.isSaveDisable() },
+                attrs: {
+                  type: "button",
+                  id: "member-save-btn",
+                  disabled: _vm.isSaveDisable()
+                },
                 on: {
                   click: function($event) {
                     return _vm.submitForm()
@@ -39288,6 +39287,9 @@ var helpers = {
       _this.$store.commit('addGroup', group);
     });
   },
+  isMember: function isMember(values) {
+    return values !== null;
+  },
   updateInitialGroups: function updateInitialGroups(type, storeGroup, sheets, values, isMM) {
     var targetGroup = storeGroup.filter(function (groupItem) {
       return groupItem.type === type;
@@ -39299,10 +39301,9 @@ var helpers = {
           targetGroup[groupItem].notes[noteItem].total_sheet = parseInt(sheets[groupItem][noteItem]);
         }
       } else {
-        if (values !== null) {
-          //check if member
+        if (helpers.isMember(values)) {
           for (var classItem in targetGroup[groupItem].class_currency_value) {
-            targetGroup[groupItem].class_currency_value[classItem].value = parseInt(values[groupItem][classItem]);
+            targetGroup[groupItem].class_currency_value[classItem].value = parseFloat(values[groupItem][classItem]);
           }
         }
 
@@ -39655,6 +39656,9 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
     },
     setMsgForStock: function setMsgForStock(state, data) {
       state.msg_for_stock = data;
+    },
+    setMemberId: function setMemberId(state, data) {
+      state.transaction.member_id = data;
     }
   }
 });
@@ -39679,8 +39683,8 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\MountProject\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! D:\MountProject\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /home/tinmaungzin/PhpstormProjects/NorthernBreeze-master/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/tinmaungzin/PhpstormProjects/NorthernBreeze-master/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

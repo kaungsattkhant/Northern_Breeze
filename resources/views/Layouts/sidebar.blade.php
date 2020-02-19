@@ -39,8 +39,20 @@
             </li>
 
 {{--        active-sr--}}
-            <li class="nav-item btn-mount mx-auto {{ in_array($route, ['stock.index','stock.create','stock.transfer']) ? 'active2': ''}}" id="stock">
-                <a class="nav-link p-0  sidebar-box-mount img-stock-inventory text-center {{ in_array($route, ['stock.index','stock.create','stock.transfer']) ? 'active-si': ''}}" href="{{url('stock')}}">
+            <li class="nav-item btn-mount mx-auto
+{{--                {{ in_array($route, [--}}
+{{--                    'stock.index',--}}
+{{--                    'stock.create',--}}
+{{--                    'stock.transfer']) ? 'active2': ''}}--}}
+                    "
+                id="stock">
+                <a class="nav-link p-0  sidebar-box-mount img-stock-inventory text-center
+{{--                {{ in_array($route, [--}}
+{{--                    'stock.index',--}}
+{{--                    'stock.create',--}}
+{{--                    'stock.transfer']) ? 'active-si': ''}}--}}
+                    "
+                   href="{{url('stock')}}">
                     <div class=" mt-0 px-auto "><p class="sb-text">Stock Inventory</p></div></a>
             </li>
 {{--        active-si--}}
