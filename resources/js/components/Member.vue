@@ -92,7 +92,7 @@
                 return !!(this.exceed_msg || this.buy_not_enough_msg || this.sell_not_enough_msg || !this.in_value_MMK || !this.out_value_MMK);
             },
             submitForm() {
-                fetch('/transaction', {
+                fetch('/pos/member_store', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

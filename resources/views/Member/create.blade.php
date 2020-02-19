@@ -65,7 +65,7 @@
                                 </span>
                     <div class="mb-1">
                         <label class="w-25 pt-2 fontsize-mount">Points</label>
-                        <input  type="number" id="points" name="points" class="points-number border-top-0 border-right-0 border-left-0 rounded-0 mount-input2 bd-bottom-mount" min="0">
+                        <input  type="number" id="points" name="points" class=" border-top-0 border-right-0 border-left-0 rounded-0 mount-input2 bd-bottom-mount" min="0">
 
                     </div>
                     <span class="text-danger" id="points_error">

@@ -203,6 +203,7 @@ Route::group(['middleware'=>['frontmanCheck']],function() {
             Route::post('currency_group','POSController@currency_group');
             Route::post('transaction','POSController@transaction_store');
             Route::get('get_member','POSController@getMember');
+            Route::post('member_store','POSController@member_store');
 
         });
 

@@ -444,6 +444,9 @@ class POSController extends Controller
 //        }
 
     }
+    public function member_store(Request $request){
+        dd($request->all());
+    }
     protected function getBranchClassGroupNote($branch,$group_note_id,$class_id){
         $bcgn=DB::table('branch_group_note_class')->where('branch_id',$branch)
             ->where('group_note_id',$group_note_id)
