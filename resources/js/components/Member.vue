@@ -92,27 +92,27 @@
                 return !!(this.exceed_msg || this.buy_not_enough_msg || this.sell_not_enough_msg || !this.in_value_MMK || !this.out_value_MMK);
             },
             submitForm() {
-                console.log(this.getResults)
-                // $('#member-save-btn').append(`
-                //     <i class="fa fa-spinner fa-spin"></i>
-                // `).prop('disabled',true);
-                // fetch('/pos/member_store', {
-                //     method: 'POST',
-                //     headers: {
-                //         'Content-Type': 'application/json',
-                //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                //     },
-                //     body: JSON.stringify(this.getResults)
-                // })
-                //     .then(response => response.json())
-                //     .then(data => {
-                //         if(data.is_success){
-                //             window.location.replace('/sale');
-                //         }else{
-                //             $("#member-save-btn").children("i:first").remove();
-                //             $('#member-save-btn').prop('disabled',false);
-                //         }
-                //     })
+                $('#member-save-btn').append(`
+                    <i class="fa fa-spinner fa-spin"></i>
+                `).prop('disabled',true);
+                fetch('/pos/member_store', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    body: JSON.stringify(this.getResults)
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if(data.is_success){
+                            window.location.replace('/sale');
+                        }else{
+                            $("#member-save-btn").children("i:first").remove();
+                            $('#member-save-btn').prop('disabled',false);
+                        }
+                    })
+
             },
             isMMForBuy(){
                 return this.buy_currency_groups.status === "MMK";
@@ -168,9 +168,10 @@
                         search:vm.search_member,
                     }
                 }).then(function (response) {
-                    // console.log(response);
                     vm.member=response.data;
-                    // console.log(response.data);
+                    vm.$store.commit('setMemberId', response.data[0].id);
+
+
                 });
             }
         },
