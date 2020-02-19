@@ -15,6 +15,10 @@ class CreateSellCustomClassGroupValuesTable extends Migration
     {
         Schema::create('sell_custom_class_group_values', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->double('value');
+            $table->dateTime('date_time');
+            $table->unsignedBigInteger('classification_group_id');
+            $table->foreign('classification_group_id')->references('id')->on('classification_group')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }
