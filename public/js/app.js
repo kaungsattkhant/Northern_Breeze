@@ -2669,24 +2669,26 @@ vue__WEBPACK_IMPORTED_MODULE_2___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
       return !!(this.exceed_msg || this.buy_not_enough_msg || this.sell_not_enough_msg || !this.in_value_MMK || !this.out_value_MMK);
     },
     submitForm: function submitForm() {
-      $('#member-save-btn').append("\n                <i class=\"fa fa-spinner fa-spin\"></i>\n            ").prop('disabled', true);
-      fetch('/pos/member_store', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        body: JSON.stringify(this.getResults)
-      }).then(function (response) {
-        return response.json();
-      }).then(function (data) {
-        if (data.is_success) {
-          window.location.replace('/sale');
-        } else {
-          $("#member-save-btn").children("i:first").remove();
-          $('#member-save-btn').prop('disabled', false);
-        }
-      });
+      console.log(this.getResults); // $('#member-save-btn').append(`
+      //     <i class="fa fa-spinner fa-spin"></i>
+      // `).prop('disabled',true);
+      // fetch('/pos/member_store', {
+      //     method: 'POST',
+      //     headers: {
+      //         'Content-Type': 'application/json',
+      //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      //     },
+      //     body: JSON.stringify(this.getResults)
+      // })
+      //     .then(response => response.json())
+      //     .then(data => {
+      //         if(data.is_success){
+      //             window.location.replace('/sale');
+      //         }else{
+      //             $("#member-save-btn").children("i:first").remove();
+      //             $('#member-save-btn').prop('disabled',false);
+      //         }
+      //     })
     },
     isMMForBuy: function isMMForBuy() {
       return this.buy_currency_groups.status === "MMK";
