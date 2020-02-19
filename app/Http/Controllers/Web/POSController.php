@@ -461,7 +461,9 @@ class POSController extends Controller
         $transaction->out_value_MMK=$t->out_value_MMK;
         $transaction->changes=$t->changes;
         $transaction->status=$t->status;
-//        $transaction->member_id=$t->member_id;
+        if($t->member_id!=null){
+            $transaction->member_id=$t->member_id;
+        }
         $transaction->staff_id=Auth::user()->id;
         $transaction->date_time=now();
         $transaction->save();
