@@ -22,6 +22,7 @@ class CreateMembersTable extends Migration
             $table->char('phone_number',45);
             $table->char('email',45);
             $table->integer('points');
+            $table->date('date_for_point_changes');
             $table->unsignedBigInteger('member_type_id');
             $table->unsignedBigInteger('exchange_type_id');
             $table->foreign('member_type_id')->references('id')->on('member_types')->onDelete('cascade')->onUpdate('cascade');

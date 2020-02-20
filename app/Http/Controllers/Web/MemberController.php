@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MemberStoreRequest;
 use App\Http\Requests\MemberUpdateRequest;
-use App\Member;
+use App\Model\Member;
 use App\Model\ExchangeType;
 use App\Model\MemberType;
 use Carbon\Carbon;
@@ -25,6 +25,7 @@ class MemberController extends Controller
     }
     public function store(Request $request)
     {
+//        dd($request->all());
         $vData=Validator::make($request->all(),[
             'name'=>'required',
             'company'=>'required',
@@ -56,6 +57,7 @@ class MemberController extends Controller
             $member->date_of_birth=Carbon::create($request->years,$request->months,$request->days);
             $member->address=$request->address;
             $member->phone_number=$request->phone_number;
+            $member->date_for_point_changes=now();
             $member->email=$request->email;
             $member->exchange_type_id=$request->exchange_type;
             $member->member_type_id=$request->member_type;
@@ -101,6 +103,7 @@ class MemberController extends Controller
             $member->address=$request->address;
             $member->phone_number=$request->phone_number;
             $member->email=$request->email;
+//            $member->date_for_point_changes=now();
             $member->exchange_type_id=$request->exchange_type;
             $member->member_type_id=$request->member_type;
             $member->points=$request->points;

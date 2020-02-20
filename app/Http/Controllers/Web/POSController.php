@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Traits\CurrencyFilter;
 use App\Http\Traits\ToExchangeFilter;
-use App\Member;
+use App\Model\Member;
 use App\Model\BuyCustomClassGroupValue;
 use App\Model\ClassificationGroup;
+use App\Model\MemberType;
 use App\Model\OutTransactionGroupNote;
 use App\Model\Branch;
 use App\Model\BuyClassGroupValue;
@@ -18,7 +19,7 @@ use App\Model\Group;
 use App\Model\Note;
 use App\Model\SellClassGroupValue;
 use App\Model\SellCustomClassGroupValue;
-use App\Model\SellGroupValue;
+//use App\Model\SellGroupValue;
 use App\Model\Transaction;
 use App\Model\InTransactionGroupNote;
 use Carbon\Carbon;
@@ -28,23 +29,27 @@ use App\Http\Controllers\Controller;
 use DB;
 use Illuminate\Support\Facades\Auth;
 use phpDocumentor\Reflection\Types\Integer;
+use App\Http\Traits\MemberPoint;
+use App\Http\Traits\MemberPointYear;
 
 
 class POSController extends Controller
 {
-    use CurrencyFilter;
-    use ToExchangeFilter;
-
+    use MemberPoint;
+    use MemberPointYear;
 
 
 
     public function pos_member()
     {
+        $this->member_point_year();
         $currencies  = Currency::all();
         return view('Member.pos_member',compact('currencies'));
     }
     public function pos_non_member()
     {
+        $this->member_point_year();
+
         $currencies  = Currency::all();
         return view('Member.non_member',compact('currencies'));
     }
@@ -53,10 +58,8 @@ class POSController extends Controller
         return $member;
     }
     public function currency_group(Request $request){
-//        public function currency_grou(Request $request){
-        $currency_id=$request->currency_id;
-//        dd($request->all());
 
+        $currency_id=$request->currency_id;
         $classification=Classification::orderBy('id','asc')->get('id','name');
         $us_currency_id=Currency::where('name','United States dollar')->first();
         $myanmar_currency=Currency::where('name','Myanmar Kyat')->first();
@@ -467,30 +470,51 @@ class POSController extends Controller
         $transaction->staff_id=Auth::user()->id;
         $transaction->date_time=now();
         $transaction->save();
-
         $groups=$decode_data->groups;
         $myanmar_currency=Currency::where('name','Myanmar Kyat')->first();
         $us_currency=Currency::where('name','United States dollar')->first();
+        $us_group=Group::where('currency_id',$us_currency->id)->get();
+
+        $us_group=Group::where('currency_id',$us_currency->id)->first();
+        if($us_group!=null){
+            $us_classification_gp=ClassificationGroup::where('group_id',$us_group->id)
+                ->where('classification_id',1)->first();
+            $us_buy_price=BuyClassGroupValue::where('classification_group_id',$us_classification_gp->id)->latest()->first();
+//            dd($us_buy_price);
+            $exchange_us_amount=$transaction->in_value_MMK/$us_buy_price->value;
+//            $point=0;
+            $exchanged_point=$exchange_us_amount/100;
+//            dd($exchanged_point);
+            if($exchanged_point>=0){
+                $member=Member::whereId($transaction->member_id)->firstOrfail();
+                $member->update(['points'=>($member->points+(int)$exchanged_point)]);
+                $this->member_point($t->member_id);
+
+//                $point+=(int)$exchanged_point;
+            }
+        }
+
         foreach($groups as $group) {
             $check_currency = Group::find($group->group_id);
-            foreach($group->class_currency_value as $c_currency_value){
-                $classification_group=ClassificationGroup::where('group_id',$group->group_id)
-                    ->where('classification_id',$c_currency_value->class_id)->first();
-                if($group->type=="buy"){
-                    $buy_custom_value=BuyCustomClassGroupValue::create([
-                        'value'=>$c_currency_value->value,
-                        'classification_group_id'=>$classification_group->id,
-                        'date_time'=>now(),
-                ]);
-                }elseif($group->type=="sell"){
-                    $sell_custom_value=SellCustomClassGroupValue::create([
-                        'value'=>$c_currency_value->value,
-                        'classification_group_id'=>$classification_group->id,
-                        'date_time'=>now(),
-                    ]);
+            if($group->class_currency_value!=null){
+                foreach($group->class_currency_value as $c_currency_value){
+                    $classification_group=ClassificationGroup::where('group_id',$group->group_id)
+                        ->where('classification_id',$c_currency_value->class_id)->first();
+                    if($group->type=="buy"){
+                        $buy_custom_value=BuyCustomClassGroupValue::create([
+                            'value'=>$c_currency_value->value,
+                            'classification_group_id'=>$classification_group->id,
+                            'date_time'=>now(),
+                        ]);
+                    }elseif($group->type=="sell"){
+                        $sell_custom_value=SellCustomClassGroupValue::create([
+                            'value'=>$c_currency_value->value,
+                            'classification_group_id'=>$classification_group->id,
+                            'date_time'=>now(),
+                        ]);
+                    }
                 }
             }
-
             foreach ($group->notes as $note) {
                 if ($t->status == "MMK_other") {
                     if ($group->type == "buy") {

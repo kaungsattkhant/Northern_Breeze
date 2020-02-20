@@ -16,6 +16,7 @@ class CreateMemberTypesTable extends Migration
         Schema::create('member_types', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->char('name',45);
+            $table->integer('points');
         });
     }
 
