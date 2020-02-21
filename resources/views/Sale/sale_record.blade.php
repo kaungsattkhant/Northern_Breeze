@@ -43,8 +43,9 @@
                 </tbody>
             </table>
         </div>
-{{--        {{$transactions->links()}}--}}
-{{--        <button id="fk">s</button>--}}
+{{--        @if($transactions)--}}
+            {{$transactions->links()}}
+{{--        @endif--}}
     </div>
 <script>
     $(function(){

@@ -19,7 +19,7 @@ class SaleController extends Controller
         $checkRole=Auth::user()->role_name(Auth::user()->role_id);
         if (Auth::user()->isAdmin())
         {
-            $transactions=Transaction::with('staff')->get();
+            $transactions=Transaction::with('staff')->orderBy('id','desc')->paginate(config('global.pagination_page'));
 
             if($transactions->isNotEmpty())
             {
@@ -33,15 +33,16 @@ class SaleController extends Controller
             $transaction = new \Illuminate\Database\Eloquent\Collection;
             foreach($staff as $st)
             {
-                $transaction=$transaction->merge(Transaction::where('staff_id',$st->id)->get());
+                $transaction=$transaction->merge(Transaction::where('staff_id',$st->id)->orderBy('id','desc')->get());
             }
-            $transactions=$this->transaction($transaction);
+            $res=$this->transaction($transaction);
+            $transactions=(new \App\Support\Collection($res))->paginate(10);
         }
         elseif(Auth::user()->isFrontman())
         {
             $transactions=Transaction::whereHas('staff', function  ($q) use ($userId) {
                 $q->whereId($userId);
-            })->get();
+            })->orderBy('id','desc')->paginate(config('global.pagination_page'));
             if($transactions->isNotEmpty())
             {
                 $transactions=$this->transaction($transactions);
@@ -55,12 +56,11 @@ class SaleController extends Controller
     {
         foreach($transactions as $transaction)
         {
+
             if($transaction->status==="other_other")
             {
                 $get_in_transaction=DB::table('in_transaction_group_note')->where('transaction_id',$transaction->id)->first();
                 $get_out_transaction=DB::table('out_transaction_group_note')->where('transaction_id',$transaction->id)->first();
-//                dd($get_in_transaction);
-//                dd($get_out_transaction);
                 if(isset($get_in_transaction) && isset($get_out_transaction)  )
                 {
                     $get_in_group=DB::table('group_note')->whereId($get_in_transaction->group_note_id)->first();
@@ -124,6 +124,7 @@ class SaleController extends Controller
                         }
                     }
                 }
+
             }
 
 

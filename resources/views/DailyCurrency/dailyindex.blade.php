@@ -3,8 +3,6 @@
 
     <div class="container-nb-mount">
         <div class="d-flex justify-content-between top-box-mount shadow-sm">
-
-
             <div  style="margin: 20px 0 0 0" class="input-group h-25 pl-5">
                 <input type="text" id="datepicker" autocomplete="off"  name="daily_datefilter" class="border-top-0 border-right-0 border-left-0 pl-5 dtpick-input" placeholder="YY-MM-DD">
                 <div class="input-group-append">
@@ -13,12 +11,14 @@
 
             </div>
 
+            @if(\Illuminate\Support\Facades\Auth::user()->isAdmin() || \Illuminate\Support\Facades\Auth::user()->isManager())
+                <div class="mr-5 my-auto">
+                    <form action="{{url('daily_currency/create')}}" method="get">
+                        <button type="submit" class="btn btn-nb-mount mr-4 p-0 fontsize-mount"><a class="w-100 h-100 text-white text-decoration-none px-4 py-2">Create</a></button>
+                    </form>
+                </div>
+            @endif
 
-            <div class="mr-5 my-auto">
-                <form action="{{url('daily_currency/create')}}" method="get">
-                    <button type="submit" class="btn btn-nb-mount mr-4 p-0 fontsize-mount"><a class="w-100 h-100 text-white text-decoration-none px-4 py-2">Create</a></button>
-                </form>
-            </div>
 
         </div>
 
@@ -59,6 +59,7 @@
                     @endforeach
                 </tbody>
             </table>
+            {{$groups->links()}}
         </div>
     </div>
 {{--    <script>--}}

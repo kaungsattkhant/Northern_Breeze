@@ -33,7 +33,7 @@ class DailyCurrencyController extends Controller
     {
         $date = now()->format('Y-m-d');
         $groups=Group::with('currency','classifications','notes')
-            ->orderBy('currency_id','asc')->get();
+            ->orderBy('currency_id','asc')->paginate(config('global.pagination_page'));
         $us_currency_id=Currency::where('name','United States dollar')->first();
 
         foreach ($groups as $group){
@@ -101,54 +101,62 @@ class DailyCurrencyController extends Controller
             $currency_type="other_currency";
         }
         $groups=Group::with('notes','currency')->where('currency_id','=',$id)->get();
-        foreach($groups as $i=>$cg){
-            $currency_group[$i]=new \stdClass();
-            $currency_group[$i]->group_id=$cg->id;
-            $currency_group[$i]->name=$cg->name;
-            $group_note=DB::table('group_note')->where('group_id',$cg->id)->get();
-            foreach($group_note as $n=>$gn){
-                $note=Note::find($gn->note_id);
-                $notes[$n]=new \stdClass();
-                $notes[$n]->id=$gn->note_id;
-                $notes[$n]->name=$note->name;
-            }
-            $currency_group[$i]->notes=$notes;
-        }
-        return response()->json([
-            'currency_type'=>$currency_type,
-            'class'=>Classification::all('id','name'),
-            'groups'=>$currency_group,
-        ]);
+       if($groups->isNotEmpty()){
+           foreach($groups as $i=>$cg){
+               $currency_group[$i]=new \stdClass();
+               $currency_group[$i]->group_id=$cg->id;
+               $currency_group[$i]->name=$cg->name;
+               $group_note=DB::table('group_note')->where('group_id',$cg->id)->get();
+               foreach($group_note as $n=>$gn){
+                   $note=Note::find($gn->note_id);
+                   $notes[$n]=new \stdClass();
+                   $notes[$n]->id=$gn->note_id;
+                   $notes[$n]->name=$note->name;
+               }
+               $currency_group[$i]->notes=$notes;
+           }
+           return response()->json([
+               'currency_type'=>$currency_type,
+               'class'=>Classification::all('id','name'),
+               'groups'=>$currency_group,
+           ]);
+       }else{
+           return response()->json([
+               'is_success'=>false,
+               'message'=>"Doesn't have  group for this currency.First,make a group_note in currency group",
+           ]);
+       }
+
     }
     public function store(Request $request){
 //        $data=file_get_contents(storage_path().'/api/daily_currency_store.json');
         $data=$data=json_encode($request->all());
         $decode_data=$data=json_decode($data);
-//        dd($decode_data);
-        foreach($decode_data->daily_value as $daily_currency){
+        if($decode_data[0]!=null){
+            foreach($decode_data->daily_value as $daily_currency){
 //            dd($daily_currency->class_group_value);
-            foreach($daily_currency->class_group_value as $cgv)
-            {
-                $check_classification_group=DB::table('classification_group')
-                    ->where('group_id',$daily_currency->group_id)
-                    ->where(function ($query) use ($cgv){
-                        $query->where('classification_id',$cgv->class_id);
-                })->exists();
-                if($check_classification_group ){
-//                    dd('done');
-                    $cg=DB::table('classification_group')
+                foreach($daily_currency->class_group_value as $cgv)
+                {
+                    $check_classification_group=DB::table('classification_group')
                         ->where('group_id',$daily_currency->group_id)
                         ->where(function ($query) use ($cgv){
                             $query->where('classification_id',$cgv->class_id);
-                        })->first();
-                }else{
-                    if($cgv->value !=null){
-                        $cg=ClassificationGroup::create([
-                            'classification_id'=>$cgv->class_id,
-                            'group_id'=>$daily_currency->group_id
-                        ]);
+                        })->exists();
+                    if($check_classification_group ){
+//                    dd('done');
+                        $cg=DB::table('classification_group')
+                            ->where('group_id',$daily_currency->group_id)
+                            ->where(function ($query) use ($cgv){
+                                $query->where('classification_id',$cgv->class_id);
+                            })->first();
+                    }else{
+                        if($cgv->value !=null){
+                            $cg=ClassificationGroup::create([
+                                'classification_id'=>$cgv->class_id,
+                                'group_id'=>$daily_currency->group_id
+                            ]);
+                        }
                     }
-                }
                     if($daily_currency->type==="sell" && $cgv->value!=null){
                         $scgv=SellClassGroupValue::create([
                             'value'=>$cgv->value,
@@ -162,12 +170,19 @@ class DailyCurrencyController extends Controller
                             'classification_group_id'=>$cg->id,
                         ]);
                     }
-            }
+                }
 
+            }
+            return response()->json([
+                'is_success'=>true,
+            ]);
+        }else{
+            return response()->json([
+                'is_success'=>false,
+                'message'=>'Something Wrong!Please try again.',
+            ]);
         }
-        return response()->json([
-            'is_success'=>true,
-        ]);
+
     }
     public function create()
     {

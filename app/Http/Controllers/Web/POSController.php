@@ -188,13 +188,13 @@ class POSController extends Controller
                 ]);
             }
         }
-//        else{
-//            return response()->json([
-//                'error'=>'First,you should do notes as a group',
-//            ]);
-//        }
+        else{
+            return response()->json([
+                'is_success'=>false,
+                'message'=>'First,make notes as a group',
+            ]);
+        }
     }
-
     public function transaction_store(Request $request){
 //        if(Auth::user()->isFrontMan()){
             $data=json_encode($request->all());

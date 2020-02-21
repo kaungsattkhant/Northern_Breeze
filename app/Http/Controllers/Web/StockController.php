@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Web;
 use App\Http\Requests\StockInventoryCreateValidation;
-use App\Http\Traits\CurrencyFilter;
 use App\Model\Branch;
 use App\Model\BuyClassGroupValue;
 use App\Model\BuyGroupValue;
@@ -24,7 +23,6 @@ use Illuminate\Support\Facades\Validator;
 
 class StockController extends Controller
 {
-    use CurrencyFilter;
 
 
     public function index()
@@ -260,11 +258,12 @@ class StockController extends Controller
                 ]);
             }
         }
-//        else{
-//            return response()->json([
-//                'error'=>'First,you should do notes as a group',
-//            ]);
-//        }
+        else{
+            return response()->json([
+                'is_success'=>false,
+                'message'=>'First,make notes as a group',
+            ]);
+        }
     }
     public function add_stock(Request $request){
         $data=json_encode($request->all());
@@ -492,6 +491,8 @@ class StockController extends Controller
 //            dd($transfers->currency->name==="Myanmanr Kyat");
             if($transfers->currency->name==="Myanmar Kyat"){
                 $total_transfer_sheet=DB::table('group_note_transfer')->where('transfer_id',$transfer_id)->get();
+                $total_transfer=$total_transfer_sheet->groupBy('group_note_id');
+
             }else{
 //                $transfer_sheet=DB::table('transfer_group_note_class')->where('transfer_id',$transfer_id)->sum('sheet');
                 $total_transfer_sheet=DB::table('transfer_group_note_class')
