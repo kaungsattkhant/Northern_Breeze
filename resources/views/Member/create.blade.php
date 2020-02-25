@@ -11,6 +11,7 @@
                         <p id="success">Created Successfully</p>
                     </li>
                 </ul>
+
                 <form>
                     @csrf
                     <div class="mb-1">
@@ -65,11 +66,10 @@
                                 </span>
                     <div class="mb-1">
                         <label class="w-25 pt-2 fontsize-mount">Points</label>
-                        <input  type="number" id="points" name="points" class=" border-top-0 border-right-0 border-left-0 rounded-0 mount-input2 bd-bottom-mount" min="0">
+                        <input  type="number" id="points" name="points" class="amount_of_point border-top-0 border-right-0 border-left-0 rounded-0 mount-input2 bd-bottom-mount" min="0">
 
                     </div>
                     <span class="text-danger" id="points_error">
-{{--                            <strong ></strong>--}}
                         </span>
                     <div class="mb-2">
                         <label for="#bod" class="w-auto mt-3 fontsize-mount">D.O.B</label>
