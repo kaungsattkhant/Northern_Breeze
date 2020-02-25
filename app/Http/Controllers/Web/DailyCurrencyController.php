@@ -132,7 +132,6 @@ class DailyCurrencyController extends Controller
 //        $data=file_get_contents(storage_path().'/api/daily_currency_store.json');
         $data=$data=json_encode($request->all());
         $decode_data=$data=json_decode($data);
-//        dd($decode_data);
             foreach($decode_data->daily_value as $daily_currency){
                 foreach($daily_currency->class_group_value as $cgv)
                 {

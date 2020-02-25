@@ -481,16 +481,11 @@ class POSController extends Controller
                 ->where('classification_id',1)->first();
             $us_buy_price=BuyClassGroupValue::where('classification_group_id',$us_classification_gp->id)->latest()->first();
 //            dd($us_buy_price);
-            $exchange_us_amount=$transaction->in_value_MMK/$us_buy_price->value;
-//            $point=0;
-            $exchanged_point=$exchange_us_amount/100;
-//            dd($exchanged_point);
+            $exchanged_point=$transaction->in_value_MMK/100000;
             if($exchanged_point>=0){
                 $member=Member::whereId($transaction->member_id)->firstOrfail();
                 $member->update(['points'=>($member->points+(int)$exchanged_point)]);
                 $this->member_point($t->member_id);
-
-//                $point+=(int)$exchanged_point;
             }
         }
 

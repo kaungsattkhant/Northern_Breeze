@@ -144,7 +144,7 @@
 
                     </div>
                     <span class="text-danger">
-                            <strong id="points1_error"></strong>
+                            <strong id="points_error1"></strong>
                         </span>
                     <div class="mb-2">
                         <label for="#bod" class="w-auto mt-3 fontsize-mount">D.O.B</label>
