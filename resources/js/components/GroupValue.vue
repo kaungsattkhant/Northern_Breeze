@@ -51,7 +51,7 @@
                                 v-on:change="handleValue('sell',group,sell_value[i][j],item.id)"
                                 v-on:keyup="handleValue('sell',group,sell_value[i][j],item.id)"
                                 v-model="sell_value[i][j]"
-                                type="number" min="0"
+                                type="number" :min="1"
                                :placeholder="item.name"
                                class="pl-3 text-center" style="width: 100%;border: none;background-color: transparent">
                     </div>
@@ -62,6 +62,7 @@
                             v-on:change="handleValue('sell',group,sell_value[i],1)"
                             v-on:keyup="handleValue('sell',group,sell_value[i],1)"
                             v-model="sell_value[i]"
+                            :min="1"
                             type="number" min="0" :placeholder="group.name" class="text-center text-box-mount">
                     </div>
                 </div>
@@ -168,7 +169,6 @@
                 });
                 targetClass.value = value;
                 this.$store.commit('setDailyCurrencyData', this.final_data);
-                console.log(this.final_data)
             }
         },
 

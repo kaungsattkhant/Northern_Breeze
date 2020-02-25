@@ -1952,7 +1952,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__["default"]);
@@ -2273,7 +2272,8 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
     return {
       items: JSON.parse(this.currencies),
       groups: '',
-      currency_id: ''
+      currency_id: '',
+      required: false
     };
   },
   methods: {
@@ -2298,24 +2298,48 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       }).then(function (response) {
         return response.json();
       }).then(function (data) {
-        _this.groups = data;
+        if (data.is_success === false) {
+          alert(data.message);
+          window.location.replace('/daily_currency/create');
+        } else {
+          _this.groups = data;
+        }
       });
     },
     submitForm: function submitForm() {
-      fetch('/daily_currency/store', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        body: JSON.stringify(this.daily_currency_data)
-      }).then(function (response) {
-        return response.json();
-      }).then(function (data) {
-        if (data.is_success) {
-          window.location.replace('/daily_currency');
-        } else {}
-      });
+      this.required = false;
+
+      for (var groupItem in this.daily_currency_data.daily_value) {
+        for (var classItem in this.daily_currency_data.daily_value[groupItem].class_group_value) {
+          if (this.daily_currency_data.daily_value[groupItem].class_group_value[classItem].value === "") {
+            this.required = true;
+          }
+        }
+      }
+
+      if (this.required) {
+        alert('All fields are required!');
+      } else {
+        $('#daily-currency-save-btn').append("\n                <i class=\"fa fa-spinner fa-spin\"></i>\n            ").prop('disabled', true);
+        fetch('/daily_currency/store', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+          body: JSON.stringify(this.daily_currency_data)
+        }).then(function (response) {
+          return response.json();
+        }).then(function (data) {
+          if (data.is_success) {
+            window.location.replace('/daily_currency');
+          } else {
+            $("#daily-currency-save-btn").children("i:first").remove();
+            $('#daily-currency-save-btn').prop('disabled', false);
+            alert(data.message);
+          }
+        });
+      }
     }
   },
   mounted: function mounted() {},
@@ -2479,6 +2503,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__["default"]);
@@ -2533,7 +2558,6 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       });
       targetClass.value = value;
       this.$store.commit('setDailyCurrencyData', this.final_data);
-      console.log(this.final_data);
     }
   },
   mounted: function mounted() {
@@ -22282,14 +22306,9 @@ var render = function() {
                     ),
                     _vm._v(" "),
                     _vm._l(_vm.branch_items, function(item) {
-                      return _c(
-                        "option",
-                        {
-                          attrs: { disabled: _vm.isSupplierDisabled(item) },
-                          domProps: { value: item.id }
-                        },
-                        [_vm._v(_vm._s(item.name) + "\n                    ")]
-                      )
+                      return _c("option", { domProps: { value: item.id } }, [
+                        _vm._v(_vm._s(item.name) + "\n                    ")
+                      ])
                     })
                   ],
                   2
@@ -22651,6 +22670,7 @@ var render = function() {
               {
                 staticClass:
                   "btn btn-nb-mount px-4 my-auto mr-5 fontsize-mount2",
+                attrs: { id: "daily-currency-save-btn" },
                 on: {
                   click: function($event) {
                     return _vm.submitForm()
@@ -22846,7 +22866,7 @@ var render = function() {
                           },
                           attrs: {
                             type: "number",
-                            min: "0",
+                            min: 1,
                             placeholder: item.name
                           },
                           domProps: { value: _vm.sell_value[i][j] },
@@ -22906,6 +22926,7 @@ var render = function() {
                         ],
                         staticClass: "text-center text-box-mount",
                         attrs: {
+                          min: 1,
                           type: "number",
                           min: "0",
                           placeholder: group.name
@@ -39683,8 +39704,8 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\MountProject\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! D:\MountProject\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /home/tinmaungzin/PhpstormProjects/NorthernBreeze-master/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /home/tinmaungzin/PhpstormProjects/NorthernBreeze-master/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

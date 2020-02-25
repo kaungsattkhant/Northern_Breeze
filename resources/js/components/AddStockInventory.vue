@@ -27,7 +27,6 @@
                             id="stock_branch">
                         <option :value="null" disabled selected>Choose Branch</option>
                         <option :value="item.id"
-                                :disabled="isSupplierDisabled(item)"
                                 v-for="item in branch_items">{{item.name}}
                         </option>
                     </select>
