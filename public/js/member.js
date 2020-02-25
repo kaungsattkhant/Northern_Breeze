@@ -71,7 +71,7 @@ $(document).ready(function(){
                         $( '#member_type_error' ).html( data.errors.member_type[0] );
                     }
                     if(data.errors.points){
-                        $( '#points_error' ).html( data.errors.points[0] );
+                        $( '#points_error' ).html( data.errors.points[0]);
                     }
                     if(data.errors.address){
                         $( '#address-error' ).html( data.errors.address[0] );
@@ -210,43 +210,80 @@ $(document).ready(function(){
 
             },
         });
+    });
+    $('.amount_of_point').keyup(function() {
+        // alert($('.member_type_select').val());
+        $( '#points_error' ).html(' Point is invalid');
+        var points=this.value;
+        var value=$('#member_type').val();
+        if(value!=null){
+            $('#member_type_error').hide();
+            if(value==1){
+                $('.amount_of_point').attr('min','0');
+                $('.amount_of_point').attr('max','999');
+                if(points>=0 && points<= 999){
+                    $('#points_error').hide();
+
+                }else{
+                    $('#points_error').show();
+
+                }
+            }
+            else if(value==2){
+                $('.amount_of_point').attr('min','1000');
+                $('.amount_of_point').attr('max','2999');
+                if(points>=1000 && points<= 2999){
+                    $('#points_error').hide();
+
+                }else{
+                    $('#points_error').show();
+
+                }
+            }
+            else if(value==3){
+                $('.amount_of_point').attr('min','3000');
+                $('.amount_of_point').attr('max','4999');
+                if(points>=3000 && points<= 4999){
+                    $('#points_error').hide();
+
+                }else{
+                    $('#points_error').show();
+
+                }
+            }
+            else if(value==4){
+                $('.amount_of_point').attr('min','5000');
+                $('.amount_of_point').attr('max','8999');
+                if(points>=5000 && points<= 8999){
+                    $('#points_error').hide();
+
+                }else{
+                    $('#points_error').show();
+
+                }
+            }
+            else if(value==5){
+                // alert(value);
+                $('.amount_of_point').attr('min','9000');
+                if(points<9000){
+                    $('#points_error').show();
+                }else{
+                    $('#points_error').hide();
+
+                }
+            }
+        }else{
+            $('#member_type_error').html('Please choose member_type');
+        }
 
     });
-    // $('.member_type_select').on( 'change',function () {
-    //
-    // });
-    // $('select').on('change', function() {
-    //     var value=this.value;
-    //     if(value==1){
-    //         $('.points-number').attr('min','0');
-    //         $('.points-number').attr('max','999');
-    //     }
-    //     else if(value==2){
-    //         $('.points-number').attr('min','1000');
-    //         $('.points-number').attr('max','2999');
-    //     }
-    //     else if(value==3){
-    //         $('.points-number').attr('min','3000');
-    //         $('.points-number').attr('max','4999');
-    //     }
-    //     else if(value==4){
-    //         $('.points-number').attr('min','5000');
-    //         $('.points-number').attr('max','8999');
-    //     }
-    //     else if(value==5){
-    //         $('.points-number').attr('min','9000');
-    //     }
-    // });
 });
 function deleteMember($id)
 {
     // alert($id);
     $('#delete_id').val($id);
     $('#destroy').modal('show');
-
 }
-
-
 function editMember($id)
 {
     $.ajax({

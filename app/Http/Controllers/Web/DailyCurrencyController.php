@@ -132,56 +132,63 @@ class DailyCurrencyController extends Controller
 //        $data=file_get_contents(storage_path().'/api/daily_currency_store.json');
         $data=$data=json_encode($request->all());
         $decode_data=$data=json_decode($data);
-        if($decode_data[0]!=null){
+//        dd($decode_data);
             foreach($decode_data->daily_value as $daily_currency){
-//            dd($daily_currency->class_group_value);
                 foreach($daily_currency->class_group_value as $cgv)
                 {
-                    $check_classification_group=DB::table('classification_group')
-                        ->where('group_id',$daily_currency->group_id)
-                        ->where(function ($query) use ($cgv){
-                            $query->where('classification_id',$cgv->class_id);
-                        })->exists();
-                    if($check_classification_group ){
-//                    dd('done');
-                        $cg=DB::table('classification_group')
+                    if($cgv->value !=null && $cgv->value != 0){
+                        $check_classification_group=DB::table('classification_group')
                             ->where('group_id',$daily_currency->group_id)
                             ->where(function ($query) use ($cgv){
                                 $query->where('classification_id',$cgv->class_id);
-                            })->first();
-                    }else{
-                        if($cgv->value !=null){
-                            $cg=ClassificationGroup::create([
-                                'classification_id'=>$cgv->class_id,
-                                'group_id'=>$daily_currency->group_id
+                            })->exists();
+                        if($check_classification_group ){
+//                    dd('done');
+                            $cg=DB::table('classification_group')
+                                ->where('group_id',$daily_currency->group_id)
+                                ->where(function ($query) use ($cgv){
+                                    $query->where('classification_id',$cgv->class_id);
+                                })->first();
+                        }else{
+                            if($cgv->value !=null){
+                                $cg=ClassificationGroup::create([
+                                    'classification_id'=>$cgv->class_id,
+                                    'group_id'=>$daily_currency->group_id
+                                ]);
+                            }
+                        }
+                        if($daily_currency->type==="sell" && $cgv->value!=null){
+                            $scgv=SellClassGroupValue::create([
+                                'value'=>$cgv->value,
+                                'date_time'=>Carbon::now()->format('Y-m-d H:i'),
+                                'classification_group_id'=>$cg->id,
+                            ]);
+                        }elseif($daily_currency->type==="buy" && $cgv->value!=null){
+                            $bcgv=BuyClassGroupValue::create([
+                                'value'=>$cgv->value,
+                                'date_time'=>Carbon::now()->format('Y-m-d H:i'),
+                                'classification_group_id'=>$cg->id,
                             ]);
                         }
-                    }
-                    if($daily_currency->type==="sell" && $cgv->value!=null){
-                        $scgv=SellClassGroupValue::create([
-                            'value'=>$cgv->value,
-                            'date_time'=>Carbon::now()->format('Y-m-d H:i'),
-                            'classification_group_id'=>$cg->id,
-                        ]);
-                    }elseif($daily_currency->type==="buy" && $cgv->value!=null){
-                        $bcgv=BuyClassGroupValue::create([
-                            'value'=>$cgv->value,
-                            'date_time'=>Carbon::now()->format('Y-m-d H:i'),
-                            'classification_group_id'=>$cg->id,
+                    }else{
+                        return response()->json([
+                            'is_success'=>false,
+                            'message'=>'Something wrong in daily value',
                         ]);
                     }
+
                 }
 
             }
             return response()->json([
                 'is_success'=>true,
             ]);
-        }else{
-            return response()->json([
-                'is_success'=>false,
-                'message'=>'Something Wrong!Please try again.',
-            ]);
-        }
+//        }else{
+//            return response()->json([
+//                'is_success'=>false,
+//                'message'=>'Something Wrong!Please try again.',
+//            ]);
+//        }
 
     }
     public function create()
