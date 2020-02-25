@@ -13,7 +13,7 @@
                                 v-for="item in items">{{item.name}}
                         </option>
                     </select>
-                    <button v-on:click="submitForm()" class="btn btn-nb-mount px-4 my-auto mr-5 fontsize-mount2">Add
+                    <button v-on:click="submitForm()" class="btn btn-nb-mount px-4 my-auto mr-5 fontsize-mount2" id="daily-currency-save-btn">Add
                     </button>
                 </div>
                 <div class="container bg-white rounded-table-mount box-shadow-mount pr-4" id="daily"
@@ -36,7 +36,8 @@
             return {
                 items: JSON.parse(this.currencies),
                 groups: '',
-                currency_id: ''
+                currency_id: '',
+                required: false
             }
         },
 
@@ -62,27 +63,50 @@
                 })
                     .then(response => response.json())
                     .then(data => {
-                        this.groups = data;
+                        if(data.is_success===false){
+                            alert(data.message);
+                            window.location.replace('/daily_currency/create');
+                        }else{
+                            this.groups = data;
+                        }
                     });
             },
 
             submitForm() {
-                fetch('/daily_currency/store', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    body: JSON.stringify(this.daily_currency_data)
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        if(data.is_success){
-                            window.location.replace('/daily_currency');
-                        }else{
-
+                this.required = false;
+                for(let groupItem in this.daily_currency_data.daily_value){
+                    for(let classItem in this.daily_currency_data.daily_value[groupItem].class_group_value){
+                        if(this.daily_currency_data.daily_value[groupItem].class_group_value[classItem].value === ""){
+                            this.required = true;
                         }
-                    });
+                    }
+                }
+                if(this.required){
+                    alert('All fields are required!')
+                }else{
+                    $('#daily-currency-save-btn').append(`
+                    <i class="fa fa-spinner fa-spin"></i>
+                `).prop('disabled',true);
+                    fetch('/daily_currency/store', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        body: JSON.stringify(this.daily_currency_data)
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if(data.is_success){
+                                window.location.replace('/daily_currency');
+                            }else{
+                                $("#daily-currency-save-btn").children("i:first").remove();
+                                $('#daily-currency-save-btn').prop('disabled',false);
+                                alert(data.message)
+                            }
+                        });
+                }
+
             },
         },
         mounted() {
