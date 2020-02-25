@@ -71,6 +71,7 @@
                 from_branch: '',
                 stock_currency: '',
                 current_branch: '',
+                required: false
             }
         },
 
@@ -100,7 +101,6 @@
                     this.current_branch = parseInt($('#' + type + '_stock_branch option:selected').val());
                 }
 
-                console.log(this.current_branch)
 
 
                 if(this.is_admin){
@@ -135,17 +135,22 @@
                     })
                         .then(response => response.json())
                         .then(data => {
-                            this.stock_currency=data;
 
+                            if(data.is_success===false){
+                                alert(data.message);
+                                window.location.replace('/stock/transfer');
+
+                            }else{
+                                this.stock_currency=data;
+                            }
 
                         });
                 }
             },
 
             handleSubmit() {
-                $('#trans-btn').append(`
-                    <i class="fa fa-spinner fa-spin"></i>
-                `).prop('disabled',true);
+                this.required = false;
+
                 let transfer_type;
                 if(this.isSupplier()){
                     transfer_type = 'branch_to_supplier'
@@ -160,24 +165,49 @@
                     status: this.stock_currency.status,
                     transfer_type: transfer_type,
                 };
-
-                fetch('/stock/transfer_currency', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    body: JSON.stringify(data)
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        if(data.is_success){
-                            window.location.replace('/stock')
-                        }else{
-                            $("#trans-btn").children("i:first").remove();
-                            $('#trans-btn').prop('disabled',false);
+                for(let groupItem in data.groups){
+                    for(let classItem in data.groups[groupItem].class_currency_value){
+                        if(isNaN(data.groups[groupItem].class_currency_value[classItem].value)){
+                            this.required = true;
                         }
+                    }
+                    for(let noteItem in data.groups[groupItem].notes){
+                        for(let classSheet in data.groups[groupItem].notes[noteItem].class_sheet){
+                            if(isNaN(data.groups[groupItem].notes[noteItem].class_sheet[classSheet].sheet)){
+                                this.required = true;
+                            }
+                        }
+
+                    }
+
+                }
+
+                if(this.required){
+                    alert('All fileds are required');
+                }else{
+                    $('#trans-btn').append(`
+                    <i class="fa fa-spinner fa-spin"></i>
+                `).prop('disabled',true);
+                    fetch('/stock/transfer_currency', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        body: JSON.stringify(data)
                     })
+                        .then(response => response.json())
+                        .then(data => {
+                            if(data.is_success){
+                                window.location.replace('/stock')
+                            }else{
+                                $("#trans-btn").children("i:first").remove();
+                                $('#trans-btn').prop('disabled',false);
+                            }
+                        })
+                }
+
+
             },
         },
         mounted() {

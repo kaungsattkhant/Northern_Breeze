@@ -53,7 +53,8 @@
                 branch_items: JSON.parse(this.branches),
                 currency_id: '',
                 branch: '',
-                stock_currency: ''
+                stock_currency: '',
+                required: false
             }
         },
 
@@ -98,43 +99,71 @@
                     })
                         .then(response => response.json())
                         .then(data => {
-                            this.stock_currency=data;
+                            if(data.is_success===false){
+                                alert(data.message);
+                                window.location.replace('/stock/create_stock');
+
+                            }else{
+                                this.stock_currency=data;
+
+                            }
                         });
                 }
             },
 
             handleSubmit() {
-                $('#add-btn').append(`
-                    <i class="fa fa-spinner fa-spin"></i>
-                `).prop('disabled',true);
+                this.required = false;
                 let data = {
                     branch: this.branch,
                     currency_id: this.currency_id,
                     groups: this.stock_groups,
                     status: this.stock_currency.status
                 };
-                fetch('/stock/add_currency', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    body: JSON.stringify(data)
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        if(data.is_success){
-                            window.location.replace('/stock')
-                        }else{
-                            $("#add-btn").children("i:first").remove();
-                            $('#add-btn').prop('disabled',false);
-
+                for(let groupItem in data.groups){
+                    for(let classItem in data.groups[groupItem].class_currency_value){
+                        if(isNaN(data.groups[groupItem].class_currency_value[classItem].value)){
+                            this.required = true;
                         }
+                    }
+                    for(let noteItem in data.groups[groupItem].notes){
+                        for(let classSheet in data.groups[groupItem].notes[noteItem].class_sheet){
+                            if(isNaN(data.groups[groupItem].notes[noteItem].class_sheet[classSheet].sheet)){
+                                this.required = true;
+                            }
+                        }
+
+                    }
+
+                }
+                if(this.required){
+                    alert('All fileds are required');
+                }else{
+                    $('#add-btn').append(`
+                    <i class="fa fa-spinner fa-spin"></i>
+                `).prop('disabled',true);
+                    fetch('/stock/add_currency', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        body: JSON.stringify(data)
                     })
+                        .then(response => response.json())
+                        .then(data => {
+                            if(data.is_success){
+                                window.location.replace('/stock')
+                            }else{
+                                $("#add-btn").children("i:first").remove();
+                                $('#add-btn').prop('disabled',false);
+
+                            }
+                        })
+                }
+
             },
         },
         mounted() {
-            console.log(this.branch_items)
         },
         computed: mapState({
             stock_groups: 'stock_groups'
