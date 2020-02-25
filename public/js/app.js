@@ -1963,7 +1963,8 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       branch_items: JSON.parse(this.branches),
       currency_id: '',
       branch: '',
-      stock_currency: ''
+      stock_currency: '',
+      required: false
     };
   },
   methods: {
@@ -2008,40 +2009,65 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
         }).then(function (response) {
           return response.json();
         }).then(function (data) {
-          _this.stock_currency = data;
+          if (data.is_success === false) {
+            alert(data.message);
+            window.location.replace('/stock/create_stock');
+          } else {
+            _this.stock_currency = data;
+          }
         });
       }
     },
     handleSubmit: function handleSubmit() {
-      $('#add-btn').append("\n                <i class=\"fa fa-spinner fa-spin\"></i>\n            ").prop('disabled', true);
+      this.required = false;
       var data = {
         branch: this.branch,
         currency_id: this.currency_id,
         groups: this.stock_groups,
         status: this.stock_currency.status
       };
-      fetch('/stock/add_currency', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        body: JSON.stringify(data)
-      }).then(function (response) {
-        return response.json();
-      }).then(function (data) {
-        if (data.is_success) {
-          window.location.replace('/stock');
-        } else {
-          $("#add-btn").children("i:first").remove();
-          $('#add-btn').prop('disabled', false);
+
+      for (var groupItem in data.groups) {
+        for (var classItem in data.groups[groupItem].class_currency_value) {
+          if (isNaN(data.groups[groupItem].class_currency_value[classItem].value)) {
+            this.required = true;
+          }
         }
-      });
+
+        for (var noteItem in data.groups[groupItem].notes) {
+          for (var classSheet in data.groups[groupItem].notes[noteItem].class_sheet) {
+            if (isNaN(data.groups[groupItem].notes[noteItem].class_sheet[classSheet].sheet)) {
+              this.required = true;
+            }
+          }
+        }
+      }
+
+      if (this.required) {
+        alert('All fileds are required');
+      } else {
+        $('#add-btn').append("\n                <i class=\"fa fa-spinner fa-spin\"></i>\n            ").prop('disabled', true);
+        fetch('/stock/add_currency', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+          body: JSON.stringify(data)
+        }).then(function (response) {
+          return response.json();
+        }).then(function (data) {
+          if (data.is_success) {
+            window.location.replace('/stock');
+          } else {
+            $("#add-btn").children("i:first").remove();
+            $('#add-btn').prop('disabled', false);
+          }
+        });
+      }
     }
   },
-  mounted: function mounted() {
-    console.log(this.branch_items);
-  },
+  mounted: function mounted() {},
   computed: Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])({
     stock_groups: 'stock_groups'
   })
@@ -3823,7 +3849,8 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       to_branch: '',
       from_branch: '',
       stock_currency: '',
-      current_branch: ''
+      current_branch: '',
+      required: false
     };
   },
   methods: {
@@ -3850,8 +3877,6 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
       if (type !== null) {
         this.current_branch = parseInt($('#' + type + '_stock_branch option:selected').val());
       }
-
-      console.log(this.current_branch);
 
       if (this.is_admin) {
         if (currency_type !== '' && to_branch !== '' && from_branch !== '') {
@@ -3883,12 +3908,17 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
         }).then(function (response) {
           return response.json();
         }).then(function (data) {
-          _this.stock_currency = data;
+          if (data.is_success === false) {
+            alert(data.message);
+            window.location.replace('/stock/transfer');
+          } else {
+            _this.stock_currency = data;
+          }
         });
       }
     },
     handleSubmit: function handleSubmit() {
-      $('#trans-btn').append("\n                <i class=\"fa fa-spinner fa-spin\"></i>\n            ").prop('disabled', true);
+      this.required = false;
       var transfer_type;
 
       if (this.isSupplier()) {
@@ -3905,23 +3935,45 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_0__
         status: this.stock_currency.status,
         transfer_type: transfer_type
       };
-      fetch('/stock/transfer_currency', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        body: JSON.stringify(data)
-      }).then(function (response) {
-        return response.json();
-      }).then(function (data) {
-        if (data.is_success) {
-          window.location.replace('/stock');
-        } else {
-          $("#trans-btn").children("i:first").remove();
-          $('#trans-btn').prop('disabled', false);
+
+      for (var groupItem in data.groups) {
+        for (var classItem in data.groups[groupItem].class_currency_value) {
+          if (isNaN(data.groups[groupItem].class_currency_value[classItem].value)) {
+            this.required = true;
+          }
         }
-      });
+
+        for (var noteItem in data.groups[groupItem].notes) {
+          for (var classSheet in data.groups[groupItem].notes[noteItem].class_sheet) {
+            if (isNaN(data.groups[groupItem].notes[noteItem].class_sheet[classSheet].sheet)) {
+              this.required = true;
+            }
+          }
+        }
+      }
+
+      if (this.required) {
+        alert('All fileds are required');
+      } else {
+        $('#trans-btn').append("\n                <i class=\"fa fa-spinner fa-spin\"></i>\n            ").prop('disabled', true);
+        fetch('/stock/transfer_currency', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+          body: JSON.stringify(data)
+        }).then(function (response) {
+          return response.json();
+        }).then(function (data) {
+          if (data.is_success) {
+            window.location.replace('/stock');
+          } else {
+            $("#trans-btn").children("i:first").remove();
+            $('#trans-btn').prop('disabled', false);
+          }
+        });
+      }
     }
   },
   mounted: function mounted() {},
