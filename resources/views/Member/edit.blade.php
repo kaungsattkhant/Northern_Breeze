@@ -77,6 +77,7 @@
         <div class="modal-content border-0 btr-mount">
             <div class="modal-header modal-title-bg text-center pb-1 border-0 btr-mount bs-mount">
                 <h5 class="text-center mx-auto" id="exampleModalLongTitle">Edit Member</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>        
             </div>
             <div class="modal-body mx-5 px-0">
                 <ul id="editMessage">

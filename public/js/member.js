@@ -6,7 +6,6 @@ $(document).ready(function(){
     });
     $('#editMessage').hide();
     $('#createMessage').hide();
-
     $('#memberForm').click( function(event) {
         var name = $("#name").val();
         var company=$('#company').val();
@@ -172,7 +171,6 @@ $(document).ready(function(){
             },
         });
     });
-
     $('#admin_changePass').click(function(event){
         var id=$('#changePasswordId').val();
         var password=$('#password2').val();
@@ -211,163 +209,164 @@ $(document).ready(function(){
             },
         });
     });
-    // $('#memberForm').prop('disabled',true);
+    $('#points').bind({
+        change:function () {
+             var points=this.value;
+            var value=$('#member_type').val();
+            return createPoint(points,value);
 
-    $('#points').keyup(function() {
-        // alert($('.member_type_select').val());
-        $( '#points_error' ).html(' Point is invalid');
-        var points=this.value;
-        var value=$('#member_type').val();
-        if(value!=null){
-            $('#member_type_error').hide();
-            if(value==1){
-                $('.amount_of_point').attr('min','0');
-                $('.amount_of_point').attr('max','999');
-                if(points>=0 && points<= 999){
-                    $('#points_error').hide();
-                    $('#memberForm').prop('disabled',false);
-
-
-                }else{
-                    $('#points_error').show();
-                    $('#memberForm').prop('disabled',true);
-
-
-                }
-            }
-            else if(value==2){
-                $('.amount_of_point').attr('min','1000');
-                $('.amount_of_point').attr('max','2999');
-                if(points>=1000 && points<= 2999){
-                    $('#points_error').hide();
-                    $('#memberForm').prop('disabled',false);
-                }else{
-                    $('#points_error').show();
-                    $('#memberForm').prop('disabled',true);
-
-                }
-            }
-            else if(value==3){
-                $('.amount_of_point').attr('min','3000');
-                $('.amount_of_point').attr('max','4999');
-                if(points>=3000 && points<= 4999){
-                    $('#points_error').hide();
-                    $('#memberForm').prop('disabled',false);
-                }else{
-                    $('#points_error').show();
-                    $('#memberForm').prop('disabled',true);
-
-                }
-            }
-            else if(value==4){
-                $('.amount_of_point').attr('min','5000');
-                $('.amount_of_point').attr('max','8999');
-                if(points>=5000 && points<= 8999){
-                    $('#points_error').hide();
-                    $('#memberForm').prop('disabled',false);
-                }else{
-                    $('#points_error').show();
-                    $('#memberForm').prop('disabled',true);
-
-                }
-            }
-            else if(value==5){
-                // alert(value);
-                $('.amount_of_point').attr('min','9000');
-                if(points<9000){
-                    $('#points_error').show();
-                    $('#memberForm').prop('disabled',false);
-                }else{
-                    $('#points_error').hide();
-                    $('#memberForm').prop('disabled',true);
-
-                }
-            }
-        }else{
-            $('#member_type_error').html('Please choose member_type');
+        },
+        keyup:function(){
+            var points=this.value;
+            var value=$('#member_type').val();
+            return createPoint(points,value);
         }
-
     });
-    $('#points1').keyup(function() {
-        // alert($('.member_type_select').val());
-        $( '#points_error1' ).html(' Point is invalid');
-        var points=this.value;
-        // alert(points);
-        var value=$('#member_type1').val();
-        if(value!=null){
-            $('#member_type_error1').hide();
-            if(value==1){
-                $('#points1').attr('min','0');
-                $('#points1').attr('max','999');
-                if(points>=0 && points<= 999){
-                    $('#points_error1').hide();
-                    $('#memberForm1').attr('disabled',false);
-
-                }else{
-                    $('#points_error1').show();
-                    $('#memberForm1').attr('disabled',true);
-
-                }
-            }
-            else if(value==2){
-                $('#points1').attr('min','1000');
-                $('#points1').attr('max','2999');
-                if(points>=1000 && points<= 2999){
-                    $('#points_error1').hide();
-                    $('#memberForm1').attr('disabled',false);
-
-                }else{
-                    $('#points_error1').show();
-                    $('#memberForm1').attr('disabled',true);
-
-                }
-            }
-            else if(value==3){
-                $('#points1').attr('min','3000');
-                $('#points1').attr('max','4999');
-                if(points>=3000 && points<= 4999){
-                    $('#points_error1').hide();
-                    $('#memberForm1').attr('disabled',false);
-
-                }else{
-                    $('#points_error1').show();
-                    $('#memberForm1').attr('disabled',true);
-
-                }
-            }
-            else if(value==4){
-                $('#points1').attr('min','5000');
-                $('#points1').attr('max','8999');
-                if(points>=5000 && points<= 8999){
-                    $('#points_error1').hide();
-                    $('#memberForm1').attr('disabled',false);
-
-                }else{
-                    $('#points_error1').show();
-                    $('#memberForm1').attr('disabled',true);
-
-                }
-            }
-            else if(value==5){
-                // alert(value);
-                $('#points1').attr('min','9000');
-                if(points<9000){
-                    $('#points_error1').show();
-                    $('#memberForm1').attr('disabled',true);
-
-                }else{
-                    $('#points_error1').hide();
-                    $('#memberForm1').attr('disabled',false);
-
-
-                }
-            }
-        }else{
-            $('#member_type_error').html('Please choose member_type');
+    $('#points1').bind({
+        change:function () {
+            var points=this.value;
+            var value=$('#member_type1').val();
+            return editPoint(points,value);
+        },
+        keyup:function () {
+            var points=this.value;
+            var value=$('#member_type1').val();
+            return editPoint(points,value);
         }
-
     });
 });
+function createPoint(points,value) {
+    $( '#points_error' ).html(' Point is invalid');
+    if(value!=null){
+        $('#member_type_error').hide();
+        if(value==1){
+            if(points>=0 && points<= 999){
+                $('#points_error').hide();
+                $('#memberForm').prop('disabled',false);
+
+
+            }else{
+                $('#points_error').show();
+                $('#memberForm').prop('disabled',true);
+
+
+            }
+        }
+        else if(value==2){
+            if(points>=1000 && points<= 2999){
+                $('#points_error').hide();
+                $('#memberForm').prop('disabled',false);
+            }else{
+                $('#points_error').show();
+                $('#memberForm').prop('disabled',true);
+
+            }
+        }
+        else if(value==3){
+            if(points>=3000 && points<= 4999){
+                $('#points_error').hide();
+                $('#memberForm').prop('disabled',false);
+            }else{
+                $('#points_error').show();
+                $('#memberForm').prop('disabled',true);
+
+            }
+        }
+        else if(value==4){
+            if(points>=5000 && points<= 8999){
+                $('#points_error').hide();
+                $('#memberForm').prop('disabled',false);
+            }else{
+                $('#points_error').show();
+                $('#memberForm').prop('disabled',true);
+
+            }
+        }
+        else if(value==5){
+            if(points<9000){
+                $('#points_error').show();
+                $('#memberForm').prop('disabled',false);
+            }else{
+                $('#points_error').hide();
+                $('#memberForm').prop('disabled',true);
+
+            }
+        }
+    }else{
+        $('#member_type_error').html('Please choose member_type');
+        $('#points_error').hide();
+        $('#memberForm').attr('disabled',true);
+
+    }
+}
+function editPoint(points,value){
+    $( '#points_error1' ).html(' Point is invalid');
+    if(value!=null){
+        $('#member_type_error1').hide();
+        if(value==1){
+            if(points>=0 && points<= 999){
+                $('#points_error1').hide();
+                $('#memberForm1').attr('disabled',false);
+
+            }else{
+                $('#points_error1').show();
+                $('#memberForm1').attr('disabled',true);
+
+            }
+        }
+        else if(value==2){
+            if(points>=1000 && points<= 2999){
+                $('#points_error1').hide();
+                $('#memberForm1').attr('disabled',false);
+
+            }else{
+                $('#points_error1').show();
+                $('#memberForm1').attr('disabled',true);
+
+            }
+        }
+        else if(value==3){
+            if(points>=3000 && points<= 4999){
+                $('#points_error1').hide();
+                $('#memberForm1').attr('disabled',false);
+
+            }else{
+                $('#points_error1').show();
+                $('#memberForm1').attr('disabled',true);
+
+            }
+        }
+        else if(value==4){
+            if(points>=5000 && points<= 8999){
+                $('#points_error1').hide();
+                $('#memberForm1').attr('disabled',false);
+
+            }else{
+                $('#points_error1').show();
+                $('#memberForm1').attr('disabled',true);
+
+            }
+        }
+        else if(value==5){
+            // alert(value);
+            if(points<9000){
+                $('#points_error1').show();
+                $('#memberForm1').attr('disabled',true);
+
+            }else{
+                $('#points_error1').hide();
+                $('#memberForm1').attr('disabled',false);
+
+
+            }
+        }
+    }else{
+        $('#member_type_error').html('Please choose member_type');
+        $('#points_error1').hide();
+        $('#memberForm1').attr('disabled',true);
+
+    }
+}
 function deleteMember($id)
 {
     // alert($id);
