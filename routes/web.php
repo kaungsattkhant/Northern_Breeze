@@ -20,6 +20,12 @@ Route::group(['middleware'=>['adminCheck']],function() {
             Route::get('/','AdminController@index');
             Route::post('/store','AdminController@store');
         });
+        Route::group(['prefix'=>'branch'],function (){
+            Route::get('/','BranchController@index');
+            Route::post('/store','BranchController@store');
+            Route::get('/edit','BranchController@edit');
+            Route::post('/update','BranchController@update');
+        });
         Route::group(['prefix'=>'staff'],function (){
             Route::get('/','StaffController@index')->name('staff.index');
             Route::post('/store','StaffController@store');

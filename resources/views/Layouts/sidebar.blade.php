@@ -2,8 +2,6 @@
 {{--@php dd($route); @endphp--}}
 
 <div class="sidebar-nb-mount shadow mr-0"  style="height: inherit;min-height: 100vh">
-
-
     <ul class="nav flex-column mr-0 pt-3 sidebar-mount" id="myDIV" style="height: 100%;min-height: 100vh">
         @if(\Illuminate\Support\Facades\Auth::user()->isAdmin())
 {{--            <li class="nav-item dropdown btn-mount mx-auto mb-0" id="pos" data-toggle="collapse" href="#pos1">--}}
@@ -12,7 +10,6 @@
 
 {{--                </a>--}}
 {{--            </li>--}}
-
 {{--            <div class="rounded-0 collapse border-0 mt-1" id="pos1" style="width: 100%">--}}
 
 {{--                <div class="rounded-0 border-0 collap-menu-mount">--}}
@@ -89,10 +86,10 @@
                 <a class="nav-link p-0  sidebar-box-mount img-logout text-center " href="{{url('logout')}}">
                     <div class=" mt-0 px-auto "><p class="sb-text">Logout</p></div></a>
             </li>
-{{--            <li class="nav-item btn-mount mx-auto" id="branch">--}}
-{{--                <a class="nav-link p-0  sidebar-box-mount img-branch text-center " href="{{url('branch')}}">--}}
-{{--                    <div class=" mt-0 px-auto "><p class="sb-text">Branch</p></div></a>--}}
-{{--            </li>--}}
+            <li class="nav-item btn-mount mx-auto" id="branch">
+                <a class="nav-link p-0  sidebar-box-mount img-branch text-center " href="{{url('branch')}}">
+                    <div class=" mt-0 px-auto "><p class="sb-text">Branch</p></div></a>
+            </li>
 
 
 {{--            *********************************************Start Manager************************************************--}}

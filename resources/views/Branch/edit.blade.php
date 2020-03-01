@@ -1,4 +1,4 @@
-<div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+<div class="modal fade" id="branch_edit" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document" style="width: 480px;">
         <div class="modal-content border-0 btr-mount">
 

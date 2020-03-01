@@ -32,17 +32,15 @@
 
                         <select class="selectpicker ml-4 show-menu-arrow buy_currency_option" name="from_currency"
                                 v-on:change="fetch_currency_groups('buy')" data-style="btn-white" data-width="auto">
-                            <option selected disabled>လဲလှယ်မည့်ငွေ</option>
+                            <option selected disabled>We Buy</option>
                             <option :value="item.id"
                                     v-bind:disabled="item.id === current_currency"
                                     v-for="item in items">{{item.name}}
                             </option>
-
                         </select>
-
                         <select class="selectpicker pl-4 show-menu-arrow sell_currency_option" name="to_currency"
                                 v-on:change="fetch_currency_groups('sell')" data-style="btn-white" data-width="auto">
-                            <option selected disabled>ပြန်လည်ထုတ်ပေးမည့်ငွေ</option>
+                            <option selected disabled>We Sell</option>
                             <option :value="item.id"
                                     v-bind:disabled="item.id === current_currency"
                                     v-for="item in items">{{item.name}}

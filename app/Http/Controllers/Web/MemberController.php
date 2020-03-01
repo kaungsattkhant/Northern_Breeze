@@ -25,7 +25,6 @@ class MemberController extends Controller
     }
     public function store(Request $request)
     {
-//        dd($request->all());
         $vData=Validator::make($request->all(),[
             'name'=>'required',
             'company'=>'required',

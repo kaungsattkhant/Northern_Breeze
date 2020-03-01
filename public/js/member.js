@@ -20,15 +20,7 @@ $(document).ready(function(){
         var exchange_type=$('#exchange_type').val();
         var member_type=$('#member_type').val();
         var points=$('#points').val();
-        // $('#company-error').html("");
-        // $('#name-error').html("");
-        // $('#address-error').html("");
-        // $('#phone_number-error').html("");
-        // $('#email-error').html("");
-        // $('#dob-error').html("");
-        // $('#dob-error').html("");
-        // $('#dob-error').html("");
-        // $('#dob-error').html("");
+
         event.preventDefault();
         $.ajax({
             url:'/member/store',

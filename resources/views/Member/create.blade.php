@@ -20,15 +20,17 @@
 
                     </div>
                     <span class="text-danger" id="name_error">
-{{--                            <strong ></strong>--}}
                         </span>
+                    <div class="mb-1">
+                        <label for="#name123" class="w-25 pt-2 fontsize-mount">Name</label>
+                        <input type="text" id="name" name="name" class="border-top-0 border-right-0 border-left-0 rounded-0 mount-input2 bd-bottom-mount">
+                    </div>
                     <div class="mb-2">
                         <label for="#c123" class="w-25 pt-2 fontsize-mount">Company</label>
                         <input type="text" id="company" name="company"  class="border-top-0 border-right-0 border-left-0 rounded-0 mount-input2 bd-bottom-mount">
 
                     </div>
                     <span class="text-danger" id="company_error">
-{{--                                    <strong ></strong>--}}
                                 </span>
                     <div class="mb-2 row fs-select4">
                         <label for="exchange_type" class="fontsize-mount d-inline col-4">Exchange Type</label>
@@ -59,10 +61,8 @@
                                 <option value="{{$mt->id}}">{{$mt->name}}</option>
                             @endforeach
                         </select>
-
                     </div>
                     <span class="text-danger"  id="member_type_error">
-{{--                                    <strong></strong>--}}
                                 </span>
                     <div class="mb-1">
                         <label class="w-25 pt-2 fontsize-mount">Points</label>

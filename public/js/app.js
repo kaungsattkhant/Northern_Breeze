@@ -2696,8 +2696,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 
 
@@ -23336,7 +23334,7 @@ var render = function() {
                 },
                 [
                   _c("option", { attrs: { selected: "", disabled: "" } }, [
-                    _vm._v("လဲလှယ်မည့်ငွေ")
+                    _vm._v("We Buy")
                   ]),
                   _vm._v(" "),
                   _vm._l(_vm.items, function(item) {
@@ -23371,7 +23369,7 @@ var render = function() {
                 },
                 [
                   _c("option", { attrs: { selected: "", disabled: "" } }, [
-                    _vm._v("ပြန်လည်ထုတ်ပေးမည့်ငွေ")
+                    _vm._v("We Sell")
                   ]),
                   _vm._v(" "),
                   _vm._l(_vm.items, function(item) {
@@ -24141,7 +24139,7 @@ var render = function() {
               },
               [
                 _c("option", { attrs: { selected: "", disabled: "" } }, [
-                  _vm._v("လဲလှယ်မည့်ငွေ")
+                  _vm._v("We Buy")
                 ]),
                 _vm._v(" "),
                 _vm._l(_vm.items, function(item) {
@@ -24176,7 +24174,7 @@ var render = function() {
               },
               [
                 _c("option", { attrs: { selected: "", disabled: "" } }, [
-                  _vm._v("ပြန်လည်ထုတ်ပေးမည့်ငွေ")
+                  _vm._v("We Sell")
                 ]),
                 _vm._v(" "),
                 _vm._l(_vm.items, function(item) {
