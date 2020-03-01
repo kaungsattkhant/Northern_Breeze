@@ -34,8 +34,8 @@
                         <td class="table-row-m fontsize-mount border-top-0">{{$b->phone_number}}</td>
                         <td class="table-row-m fontsize-mount border-top-0">{{$b->address}}</td>
                         <td class="table-row-m text-center border-top-0">
-                            <a data-toggle="modal" href="#" data-target="#edit">
-                                <i class="far fa-edit mr-3 text-info"></i>
+                            <a>
+                                <i class="far fa-edit mr-3 text-info"  onclick="editBranch({{$b->id}})"></i>
                             </a>
                             <a data-toggle="modal" href="#" data-target="#delete">
                                 <i class="far fa-trash-alt text-danger"></i>

@@ -48,6 +48,7 @@ $(function () {
     });
     $('#branchForm1').click(function (event) {
         var name=$('#name1').val();
+        var id=$('#id').val();
         var phone_number=$('#phone_number1').val();
         var address=$('#address1').val();
         var branch_type=$('#branch_type1').val();
@@ -56,6 +57,7 @@ $(function () {
             'url':'/branch/update',
             'type':'POST',
             data:{
+                id:id,
                 name:name,
                 phone_number:phone_number,
                 address:address,
@@ -87,3 +89,21 @@ $(function () {
         });
     });
 });
+
+function editBranch(branch_id){
+    $.ajax({
+        url:'branch/'+branch_id+'/edit',
+        type:'get',
+        dataType:'json',
+        success:function (data) {
+            $('#id').val(data.id);
+            $('#name1').val(data.name);
+            $('#address1').val(data.address);
+            $('#phone_number1').val(data.phone_number);
+            $('#branch_type1 option').prop('selected',false);
+            $('#branch_type1 option[value="'+data.branch_type_id+'"]').prop('selected',true);
+            $('#branch_type1').selectpicker('refresh');
+            $('#branch_edit').modal('show');
+        }
+    })
+}

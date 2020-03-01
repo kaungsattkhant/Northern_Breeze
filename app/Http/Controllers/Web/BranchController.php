@@ -39,13 +39,35 @@ class BranchController extends Controller
 
     }
     public function edit($id){
-
+        $branch=Branch::find($id);
+        return $branch;
     }
     public function update(Request $request){
-
+        $id=$request->id;
+        $vd=Validator::make($request->all(),[
+            'name'=>'required',
+            'phone_number'=>'required|unique:branches,phone_number,'.$id,
+            'address'=>'required',
+            'branch_type'=>'required',
+        ]);
+        if($vd->passes()){
+            Branch::whereId($request->id)->update([
+                'name'=>$request->name,
+                'address'=>$request->address,
+                'phone_number'=>$request->phone_number,
+                'branch_type_id'=>$request->branch_type,
+            ]);
+            return response()->json([
+                'is_success'=>true,
+            ]);
+        }else{
+            return response()->json([
+                'is_success'=>false,
+                'errors'=>$vd->errors(),
+            ]);
+        }
     }
     public function destroy(){
-
     }
 
 }

@@ -23,7 +23,7 @@ Route::group(['middleware'=>['adminCheck']],function() {
         Route::group(['prefix'=>'branch'],function (){
             Route::get('/','BranchController@index');
             Route::post('/store','BranchController@store');
-            Route::get('/edit','BranchController@edit');
+            Route::get('{id}/edit','BranchController@edit');
             Route::post('/update','BranchController@update');
         });
         Route::group(['prefix'=>'staff'],function (){
