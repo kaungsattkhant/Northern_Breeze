@@ -22,14 +22,21 @@ class PosController extends Controller
     public function get_currency_exchange($c_name="Australian dollar"){
         $currency=Currency::where('name',$c_name)->first();
         $group=Group::where('currency_id',$currency->id)->first();
-        $cg=ClassificationGroup::where('group_id',$group->id)
-            ->where('classification_id',1)->first();
-        $scg=SellClassGroupValue::where('classification_group_id',$cg->id)->latest()->first();
-        $bcg=BuyClassGroupValue::where('classification_group_id',$cg->id)->latest()->first();
-        return response()->json([
-            'sell_value'=>$scg->value,
-            'buy_value'=>$bcg->value,
-        ]);
+        if($group!=null){
+            $cg=ClassificationGroup::where('group_id',$group->id)
+                ->where('classification_id',1)->first();
+            $scg=SellClassGroupValue::where('classification_group_id',$cg->id)->latest()->first();
+            $bcg=BuyClassGroupValue::where('classification_group_id',$cg->id)->latest()->first();
+            return response()->json([
+                'sell_value'=>$scg->value,
+                'buy_value'=>$bcg->value,
+            ]);
+        }else{
+            return response()->json([
+                'error'=>"Doesn't not have currency group",
+            ]);
+        }
+
 
     }
 }
