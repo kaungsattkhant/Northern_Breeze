@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Login</title>
+    <title>Currency Converter</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=yes">
     {{--    <link rel="stylesheet" type="text/css" href="/home/single/Desktop/design/fontawesome/css/all.css">--}}
@@ -19,7 +19,7 @@
 <div class="container-mount mount-bg">
     {{--    <img src="img/123asdf.jpg" class="img-bg-login">--}}
     <div class="mount-login-box shadow-lg p-3 mb-5">
-        <form action="{{url('login')}}" method="post">
+        <form action="{{url('currency_converter/convert_amount')}}" method="post">
             @csrf
             <div>
                 <img src="../image/nb.jpg" style="border-radius: 50%;width: 65px;height: 65px;" class="d-flex mx-auto">
@@ -53,7 +53,7 @@
                 <input type="number" class="form-control " name="amount"  placeholder="Enter amount">
             </div>
             <div class="d-flex  pt-4 mt-1">
-                <button type="submit" class="mount-login-button" >Check</button>
+                <button type="submit" class="mount-login-button" >Calculate</button>
             </div>
         </form>
     </div>
