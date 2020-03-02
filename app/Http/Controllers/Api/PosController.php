@@ -28,7 +28,7 @@ class PosController extends Controller
         $bcg=BuyClassGroupValue::where('classification_group_id',$cg->id)->latest()->first();
         return response()->json([
             'sell_value'=>$scg->value,
-            'buy_value'=>$bcg->valuej,
+            'buy_value'=>$bcg->value,
         ]);
 
     }
