@@ -11,9 +11,6 @@
 |
 */
 use Illuminate\Support\Facades\Route;
-
-
-
 Route::group(['middleware'=>['adminCheck']],function() {
     Route::group(['namespace'=>'Web'],function(){
         Route::group(['prefix'=>'admin'],function(){
@@ -208,6 +205,11 @@ Route::group(['namespace'=>'Web'],function(){
     Route::get('login',"LoginController@login");
     Route::post('login','LoginController@makeLogin');
     Route::match(['get','post'],'logout',"LoginController@logout");
+
+    Route::group(['prefix'=>'currency_converter'],function(){
+        Route::get('/','CurrencyConverterController@index');
+        Route::post('/convert_amount','CurrencyConverterController@convert_amount');
+    });
 });
 
 

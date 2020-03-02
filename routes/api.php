@@ -14,10 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Route::middleware('auth:api')->get('/user', function (Request $request) {
-//    return $request->user();
-//});
 
-//Route::post('admin/store','Web\AdminController@store');
+Route::group(['namespace'=>'Api'],function(){
+    Route::get('/currency_value','PosController@get_currency_exchange');
+});
 
-//Route::get('api/transaction','Api\PosController@transaction');

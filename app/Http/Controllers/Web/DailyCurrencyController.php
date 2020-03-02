@@ -169,12 +169,13 @@ class DailyCurrencyController extends Controller
                                 'classification_group_id'=>$cg->id,
                             ]);
                         }
-                    }else{
-                        return response()->json([
-                            'is_success'=>false,
-                            'message'=>'Something wrong in daily value',
-                        ]);
                     }
+//                    else{
+//                        return response()->json([
+//                            'is_success'=>false,
+//                            'message'=>'Something wrong in daily value',
+//                        ]);
+//                    }
 
                 }
 

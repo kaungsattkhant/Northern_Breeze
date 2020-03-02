@@ -2,6 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Model\BuyClassGroupValue;
+use App\Model\ClassificationGroup;
+use App\Model\Currency;
+use App\Model\Group;
+use App\Model\SellClassGroupValue;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -13,5 +18,18 @@ class PosController extends Controller
         $decode_data=json_decode($data);
 //        dd($decode_data);
         return response()->json($decode_data);
+    }
+    public function get_currency_exchange($c_name="Australian dollar"){
+        $currency=Currency::where('name',$c_name)->first();
+        $group=Group::where('currency_id',$currency->id)->first();
+        $cg=ClassificationGroup::where('group_id',$group->id)
+            ->where('classification_id',1)->first();
+        $scg=SellClassGroupValue::where('classification_group_id',$cg->id)->latest()->first();
+        $bcg=BuyClassGroupValue::where('classification_group_id',$cg->id)->latest()->first();
+        return response()->json([
+            'sell_value'=>$scg->value,
+            'buy_value'=>$bcg->valuej,
+        ]);
+
     }
 }

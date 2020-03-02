@@ -704,4 +704,5 @@ class POSController extends Controller
         return $branch_group_note;
     }
 
+
 }
