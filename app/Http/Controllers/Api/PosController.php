@@ -36,7 +36,5 @@ class PosController extends Controller
                 'error'=>"Doesn't not have currency group",
             ]);
         }
-
-
     }
 }

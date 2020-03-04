@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers\Web;
 
-use App\Http\Traits\CurrencyFilter;
-use App\Http\Traits\ToExchangeFilter;
 use App\Model\Member;
 use App\Model\BuyCustomClassGroupValue;
 use App\Model\ClassificationGroup;
@@ -37,8 +35,6 @@ class POSController extends Controller
 {
     use MemberPoint;
     use MemberPointYear;
-
-
 
     public function pos_member()
     {
@@ -199,7 +195,6 @@ class POSController extends Controller
 //        if(Auth::user()->isFrontMan()){
             $data=json_encode($request->all());
             $decode_data=json_decode($data);
-//            dd($decode_data);
             $branch=Branch::whereId(Auth::user()->branch_id)->firstOrfail();
             $t=$decode_data->transaction;
             $transaction=new Transaction();

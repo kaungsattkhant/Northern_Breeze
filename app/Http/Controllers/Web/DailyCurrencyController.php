@@ -27,7 +27,6 @@ class DailyCurrencyController extends Controller
             'results'=> $results
         ]);
     }
-
     public function index()
     {
         $date = now()->format('Y-m-d');

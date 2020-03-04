@@ -61,7 +61,7 @@ class SaleController extends Controller
             {
                 $get_in_transaction=DB::table('in_transaction_group_note')->where('transaction_id',$transaction->id)->first();
                 $get_out_transaction=DB::table('out_transaction_group_note')->where('transaction_id',$transaction->id)->first();
-                if(isset($get_in_transaction) && isset($get_out_transaction)  )
+                if(isset($get_in_transaction) && isset($get_out_transaction))
                 {
                     $get_in_group=DB::table('group_note')->whereId($get_in_transaction->group_note_id)->first();
                     $get_out_group=DB::table('group_note')->whereId($get_out_transaction->group_note_id)->first();

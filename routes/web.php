@@ -23,6 +23,9 @@ Route::group(['middleware'=>['adminCheck']],function() {
             Route::get('{id}/edit','BranchController@edit');
             Route::post('/update','BranchController@update');
         });
+        Route::group(['prefix'=>'report'],function (){
+            Route::get('/','ReportController@index');
+        });
         Route::group(['prefix'=>'staff'],function (){
             Route::get('/','StaffController@index')->name('staff.index');
             Route::post('/store','StaffController@store');
